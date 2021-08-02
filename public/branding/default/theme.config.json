@@ -1,0 +1,85 @@
+{
+  "palette": {
+    "primary": {
+      "hover": "#5AABD6",
+      "main": "#1E94D3",
+      "light": "#8CC6E6",
+      "inverse": "#fff"
+    },
+    "secondary": {
+      "main": "#828282",
+      "light": "#C0C0C0",
+      "orange": "#FF8800"
+    },
+    "link": {
+      "main": "#1E94D3",
+      "light": "#8CC6E6"
+    },
+    "userLevelIcon": {
+      "main": "#1E94D3",
+      "border": "#E6EDF1",
+      "active": "#1E94D3",
+      "background": "#F9F9F9",
+      "nameLabel": "#333333",
+      "levelLabel": "#B4BDC2"
+    },
+    "mobileUserLevelIcon": {
+      "main": "#1E94D3",
+      "border": "#E6EDF1",
+      "active": "#1E94D3",
+      "background": "#F9F9F9",
+      "nameLabel": "#333333",
+      "levelLabel": "#B4BDC2"
+    },
+    "sidebarTitle": "#1E94D3",
+    "sidebarBG": "#fff",
+    "sidebarText": "#333",
+    "sidebarIcon": "#828282",
+    "sidebarActiveText": "#1E94D3",
+    "sidebarActiveBG": "none",
+    "sidebarDividerColor": "#E6EDF1",
+    "sidebarToggleBtnColor": "#1E94D3",
+    "mobileFooterMenuBG": "#fff",
+    "mobileFooterMenuText": "#333",
+    "mobileFooterMenuIcon": "#828282",
+    "mobileFooterMenuActiveText": "#1E94D3",
+    "mobileFooterMenuActiveBG": "none",
+    "mobileMenuBG": "#CBDE89",
+    "mobileMenuWidgetBG": "#1E94D3",
+    "mobileMenuWidgetIconColor": "#fff",
+    "mobileMenuWidgetLabelColor": "#333333",
+    "textBasic": "#333333",
+    "bg": "#F9F9F9",
+    "kpiTable": {
+      "column1": "#D1E4D3",
+      "column2": "#D1D8E4",
+      "column3": "#FDF6DE"
+    },
+    "charts": {
+      "vertibalBars": {
+        "bar1": "#395CCA",
+        "bar2": "#F4B15D"
+      },
+      "area": {
+        "area1": "#395CCA",
+        "area2": "#F4B15D",
+        "area3": "#CFA9A8",
+        "area4": "#52A2A5"
+      },
+      "line": {
+        "line1": "#395CCA",
+        "line2": "#F4B15D",
+        "line3": "#CFA9A8",
+        "line4": "#52A2A5"
+      },
+      "doughnut": {
+        "cell1": "#F4B15D",
+        "cell2": "#395CCA",
+        "cell3": "#52A2A5",
+        "cell4": "#B4BDC2",
+        "cell5": "#8BB439"
+      }
+    },
+    "borders": "#E6EDF1"
+  }
+}
