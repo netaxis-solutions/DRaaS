@@ -1,0 +1,21 @@
+{
+  "admin": {
+    "adminCatalogue": {
+      "enabled": true,
+      "sidebar": {
+        "products": { "enabled": true },
+        "rates": {
+          "enabled": true,
+          "subRoutes": {
+            "outboundRates": true
+          }
+        }
+      }
+    },
+    "adminBilling": { "enabled": true }
+  },
+  "distributor": {
+    "distributorCatalogue": { "enabled": true },
+    "distributorBilling": { "enabled": true }
+  }
+}
