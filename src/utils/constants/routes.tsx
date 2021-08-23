@@ -1,5 +1,4 @@
 import { AnyKeyStringValueObjectType as PrivateRoutesType } from "utils/types/common";
-
 import { UrlStartStringType } from "utils/types/routingConfig";
 
 export const publicRoutes = {
