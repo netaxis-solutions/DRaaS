@@ -1,8 +1,8 @@
 import { makeAutoObservable, action, observable } from "mobx";
 
 class PendingQueries {
-  byFetchType: Map<any, any> = new Map();
-  i = 0;
+  byFetchType: Map<string, any> = new Map();
+  i: number = 0;
 
   constructor() {
     makeAutoObservable(this, {
@@ -36,12 +36,13 @@ class PendingQueries {
       queries = observable(new Map(), { deep: false });
       this.byFetchType.set(fetchType, queries);
     }
+    console.log(this.byFetchType);
     const queryId = this.i++;
     queries.set(queryId, queryParams);
     return queryId;
   }
 
-  remove(fetchType: string, queryId: any) {
+  remove(fetchType: string, queryId: number) {
     const queries = this.byFetchType.get(fetchType);
     if (queries) {
       queries.delete(queryId);
