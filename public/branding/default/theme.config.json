@@ -1,15 +1,20 @@
 {
   "palette": {
     "primary": {
-      "hover": "#5AABD6",
-      "main": "#1E94D3",
-      "light": "#8CC6E6",
-      "inverse": "#fff"
+      "main": "#484CBA",
+      "text": "#333333",
+      "background": "#F9F9F9"
     },
     "secondary": {
-      "main": "#828282",
-      "light": "#C0C0C0",
-      "orange": "#FF8800"
+      "main": "#CCE3D8",
+      "light": "#EBEBF7",
+      "text": "#828282",
+      "icon": "#828282"
+    },
+    "status": {
+      "alert": "#FF8800",
+      "error": "#EC4436",
+      "success": "#8BB439"
     }
   }
 }
