@@ -3,19 +3,20 @@ import { ThemeDefaultOptionsType } from "utils/types/themeConfig";
 const backupTheme: ThemeDefaultOptionsType = {
   palette: {
     primary: {
-      main: "#5AABD6",
+      main: "#484CBA",
+      text: "#333333",
+      background: "#F9F9F9",
     },
     secondary: {
-      main: "#828282",
+      main: "#CCE3D8",
+      light: "#EBEBF7",
+      text: "#828282",
+      icon: "#828282",
     },
-    link: {
-      main: "#1E94D3",
-    },
-    userLevelIcon: {
-      main: "#1E94D3",
-    },
-    mobileUserLevelIcon: {
-      main: "#1E94D3",
+    status: {
+      alert: "#FF8800",
+      error: "#EC4436",
+      success: "#8BB439",
     },
   },
 };
