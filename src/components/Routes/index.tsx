@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { observer } from "mobx-react-lite";
 import { Route, Redirect, useHistory } from "react-router-dom";
 
 import RoutingStore from "storage/singletons/RoutingConfig";
@@ -13,7 +12,7 @@ const Routes: React.FC = () => {
   useEffect(() => {
     setHistory(history);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history]);
+  }, []);
 
   return (
     <>
@@ -28,4 +27,4 @@ const Routes: React.FC = () => {
   );
 };
 
-export default observer(Routes);
+export default Routes;

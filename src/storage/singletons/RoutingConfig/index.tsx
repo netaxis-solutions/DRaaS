@@ -15,22 +15,17 @@ class Routing {
 
   //Get routes with paths for current level from privateRoutes utils/constants/routes
   get levelRoutes() {
-    const levelRoutes = getLevelRoutes(
-      this.loggedInUserLevel,
-      this.currentLevel
-    );
-    return levelRoutes;
+    return getLevelRoutes(this.loggedInUserLevel, this.currentLevel);
   }
 
   // Get all routing for the level you are currently on based on public/configs/default/app.routes.json
   get allRouting() {
-    const availableRoutes = !!this.levelRoutes.size
+    return !!this.levelRoutes.size
       ? getAvailableRoutes(
           this.publicConfigRoutes[this.currentLevel as keyof object],
           this.levelRoutes
         )
       : new Map(Object.entries(publicRoutes));
-    return availableRoutes;
   }
 
   //Filter allRouting from the routes that aren't enabled or all sidebar routes aren't enabled
@@ -81,7 +76,6 @@ class Routing {
     return await fetch("/configs/default/app.routes.json")
       .then((data) => data.json())
       .then((data: object) => data)
-      .catch(() => {})
       .then((routesConfig: any) => {
         runInAction(() => {
           this.publicConfigRoutes = routesConfig;

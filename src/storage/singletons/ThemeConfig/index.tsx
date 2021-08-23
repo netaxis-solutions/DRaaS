@@ -11,11 +11,11 @@ class Theme {
   theme = {};
 
   get formattedTheme() {
-    const obj = {
+    const paletteObj = {
       palette: deepClone(backupTheme.palette, get(this.theme, "palette", {})),
     };
 
-    return createTheme(obj);
+    return createTheme(paletteObj);
   }
 
   constructor() {
