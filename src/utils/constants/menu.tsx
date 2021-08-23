@@ -22,4 +22,10 @@ export const sidebarLevelMenus = {
       { key: "distributorBilling", name: "Billing" },
     ],
   },
+  distributor: {
+    distributor: [
+      { key: "distributorCatalogue", name: "Catalogue" },
+      { key: "distributorBilling", name: "Billing" },
+    ],
+  },
 };

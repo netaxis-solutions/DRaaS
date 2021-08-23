@@ -45,7 +45,7 @@ class Route {
           this.publicSidebar?.[cur as keyof object][
             "enabled" as keyof object
           ] &&
-            (prev["cur" as keyof object] =
+            (prev[cur as keyof object] =
               this.publicSidebar[cur as keyof object]);
 
           return prev;
