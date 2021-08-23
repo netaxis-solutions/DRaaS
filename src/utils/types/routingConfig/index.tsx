@@ -1,7 +1,7 @@
 export type GetRoutesType = (
   access: string,
   currentLevel: string
-) => Map<any, any>;
+) => Map<string, string>;
 
 export type UrlStartStringType = {
   admin: {
