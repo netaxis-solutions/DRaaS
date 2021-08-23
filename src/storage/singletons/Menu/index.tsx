@@ -37,14 +37,14 @@ class Menu {
     let menuBar: null | object[] = null;
     if (RoutingStore.loggedInUserLevel) {
       menuBar = [...menu[RoutingStore.loggedInUserLevel as keyof MenuType]];
-
-      menuBar.forEach((el: object, index: number) => {
+      const filteredMenu = menuBar.filter((el: object) => {
         const route: object | undefined = this.availableRoutes.get(
           el["key" as keyof object]
         )?.["enabled" as keyof object];
 
-        !route && menuBar && menuBar.splice(index, 1);
+        return route;
       });
+      menuBar = filteredMenu;
     }
     return menuBar;
   }
