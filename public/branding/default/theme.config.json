@@ -1,0 +1,15 @@
+{
+  "palette": {
+    "primary": {
+      "hover": "#5AABD6",
+      "main": "#1E94D3",
+      "light": "#8CC6E6",
+      "inverse": "#fff"
+    },
+    "secondary": {
+      "main": "#828282",
+      "light": "#C0C0C0",
+      "orange": "#FF8800"
+    }
+  }
+}
