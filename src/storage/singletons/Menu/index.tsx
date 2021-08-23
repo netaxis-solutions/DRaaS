@@ -34,7 +34,7 @@ class Menu {
   // - filter from disabled routes and the ones that all sidebar routes are disabled
 
   get topMenu() {
-    let menuBar: any = null;
+    let menuBar: null | object[] = null;
     if (RoutingStore.loggedInUserLevel) {
       menuBar = [...menu[RoutingStore.loggedInUserLevel as keyof MenuType]];
 
@@ -43,7 +43,7 @@ class Menu {
           el["key" as keyof object]
         )?.["enabled" as keyof object];
 
-        !route && menuBar.splice(index, 1);
+        !route && menuBar && menuBar.splice(index, 1);
       });
     }
     return menuBar;
@@ -62,7 +62,7 @@ class Menu {
           RoutingStore.currentLevel as keyof object
         ]
       ) {
-        let menuBar: any = [
+        let menuBar: object[] = [
           ...sidebarLevelMenus[RoutingStore.loggedInUserLevel as keyof object][
             RoutingStore.currentLevel as keyof object
           ],
@@ -73,10 +73,9 @@ class Menu {
           )
         ) {
           menuBar.forEach((el: object, index: number) => {
-            const sidebar: any = RoutingStore.allRouting.get(
+            const sidebar: undefined | object[] = RoutingStore.allRouting.get(
               el["key" as keyof object]
             )?.["sidebar" as keyof object];
-
             sidebar &&
             RoutingStore.allRouting.get(el["key" as keyof object])?.[
               "enabled" as keyof object

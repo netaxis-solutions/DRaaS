@@ -35,7 +35,7 @@ class Routing {
 
   //Filter allRouting from the routes that aren't enabled or all sidebar routes aren't enabled
   get availableRouting() {
-    const currentLevelRoutingArray: any = [];
+    const currentLevelRoutingArray: object[] = [];
     for (const [routeName, routeValue] of this.allRouting) {
       if (typeof routeValue === "string") {
         currentLevelRoutingArray.push({
@@ -59,7 +59,7 @@ class Routing {
     this.currentLevel = currentLevel;
   };
 
-  setHistory = (history: any) => {
+  setHistory = (history: object) => {
     this.history = history;
   };
 
