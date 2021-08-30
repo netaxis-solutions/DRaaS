@@ -5,6 +5,8 @@ import RoutingStore from "storage/singletons/RoutingConfig";
 import { publicRoutes } from "utils/constants/routes";
 import PrivateRoute from "components/PrivateRoute";
 
+import Page from "./Page";
+
 const Routes: React.FC = () => {
   const { setHistory } = RoutingStore;
   const history = useHistory();
@@ -21,7 +23,7 @@ const Routes: React.FC = () => {
         exact
         component={() => <div> LOG IN</div>}
       />
-      <PrivateRoute path="/" component={() => <div>Logged user</div>} />
+      <PrivateRoute path="/" component={Page} />
       <Redirect to={publicRoutes.login} />
     </>
   );
