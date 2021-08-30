@@ -10,11 +10,14 @@ import MenuStore from "storage/singletons/Menu";
 import Loader from "components/Loader";
 
 import Routes from "components/Routes";
+import i18n, { getSpecificLanguageTranslation } from "services/Translation";
+import "services/Translation";
 
 const App: React.FC = () => {
   const { getThemeConfig, formattedTheme } = ThemeStore;
-  const { getRoutingConfig, setLoggedUser, availableRouting } = RoutingStore;
-  const { topMenu, setActiveMenu, sidebar } = MenuStore;
+  const { getRoutingConfig, setLoggedUser } = RoutingStore;
+
+  const { setActiveMenu } = MenuStore;
 
   useEffect(() => {
     getThemeConfig();
@@ -24,14 +27,15 @@ const App: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(
-    "availableRouting",
-    availableRouting,
-    "topMenu",
-    topMenu,
-    "sidebar",
-    sidebar
-  );
+  useEffect(() => {
+    i18n.changeLanguage("en", () =>
+      getSpecificLanguageTranslation({
+        name: "clieng",
+        lng: "en",
+        customTranslations: false,
+      })
+    );
+  }, []);
 
   return (
     <ThemeProvider theme={formattedTheme}>
