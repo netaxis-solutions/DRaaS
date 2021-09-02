@@ -8,7 +8,7 @@ const pairs = Object.entries(Icons);
 
 export const Collection = ({
   size = 14,
-  color,
+  color = "green",
 }: {
   size: number;
   color: string;
@@ -22,11 +22,8 @@ export const Collection = ({
     }}
   >
     {pairs.map(([name, Icon]) => (
-      <div
-        key={name}
-        style={{ margin: "1em", textAlign: "center", color: "red" }}
-      >
-        <Icon style={{ height: "3em", fill: "red", color: "red" }} />
+      <div key={name} style={{ margin: "1em", textAlign: "center", color }}>
+        <Icon style={{ height: "3em", fill: color }} />
         <h4>{name}</h4>
       </div>
     ))}
