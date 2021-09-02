@@ -24,20 +24,25 @@ class Theme {
     });
   }
 
-  getThemeConfig = async (): Promise<object> => {
+  getThemeConfig = async (): Promise<void> => {
     const queryId = PendingQueries.add("@themeLoader", null);
 
-    return await fetch("/branding/default/theme.config.json")
-      .then((data) => data.json())
-      .then((data: object) => data)
-      .catch(() => backupTheme)
-      .then((theme: ThemeDefaultOptionsType | object) => {
-        runInAction(() => {
-          this.theme = theme;
-          PendingQueries.remove("@themeLoader", queryId);
-        });
-        return this.theme;
+    try {
+      const data = await fetch("/branding/default/theme.config.json");
+      const jsonResult: ThemeDefaultOptionsType = await data.json();
+
+      runInAction(() => {
+        this.theme = jsonResult;
       });
+    } catch {
+      runInAction(() => {
+        this.theme = backupTheme;
+      });
+    } finally {
+      runInAction(() => {
+        PendingQueries.remove("@themeLoader", queryId);
+      });
+    }
   };
 }
 
