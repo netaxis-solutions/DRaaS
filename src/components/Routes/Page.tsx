@@ -1,7 +1,7 @@
 import Buttons from "./Buttons";
 
 const Page = () => {
-  return <Buttons test={"afaefea"} color={"white"} />;
+  return <Buttons />;
 };
 
 export default Page;

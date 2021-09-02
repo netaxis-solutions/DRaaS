@@ -1,27 +1,22 @@
-// import { useTranslation } from "react-i18next";
-// import { getSpecificLanguageTranslation } from "services/Translation";
-import Text from "./Text";
+import { useTranslation } from "react-i18next";
+import { getSpecificLanguageTranslation } from "services/Translation";
 
-const Buttons = ({ test, color }: { test: string; color: string }) => {
-  // const { i18n } = useTranslation();
-  console.log(color);
+const Buttons = () => {
+  const { i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
-    console.log(lng);
-    // i18n.changeLanguage(lng, () => {
-    //   getSpecificLanguageTranslation({
-    //     name: "client",
-    //     lng,
-    //     customTranslations: false,
-    //   });
-    // });
+    i18n.changeLanguage(lng, () => {
+      getSpecificLanguageTranslation({
+        name: "client",
+        lng,
+        customTranslations: false,
+      });
+    });
   };
 
   return (
-    <div style={{ color }}>
-      <span>{test}</span>
+    <div>
       <button onClick={() => changeLanguage("de")}>de</button>
       <button onClick={() => changeLanguage("en")}>en</button>
-      <Text text={test} color={"green"} />
     </div>
   );
 };
