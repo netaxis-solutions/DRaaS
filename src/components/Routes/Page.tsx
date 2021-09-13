@@ -27,9 +27,9 @@ const Page = () => {
           control={control}
           defaultValue="adaa"
           rules={{ required: true }}
-          render={({ field, ...props }) => {
-            return <FormInput label="First name" {...field} {...props} />;
-          }}
+          render={({ field, ...props }) => (
+            <FormInput label="First name" {...field} {...props} />
+          )}
         />
         <input type="submit" />
       </form>
