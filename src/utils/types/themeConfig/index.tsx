@@ -4,6 +4,7 @@ export type PaletteDefaultOptionsType = {
   primary: ColorType;
   secondary: ColorType;
   status: ColorType;
+  input: ColorType;
 };
 
 export type ThemeDefaultOptionsType = {
@@ -13,4 +14,4 @@ export type ThemeDefaultOptionsType = {
 export type DeepCloneThemeType = (
   defaultPalette: PaletteDefaultOptionsType,
   palette: ThemeDefaultOptionsType
-) => object;
+) => any;

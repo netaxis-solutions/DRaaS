@@ -1,26 +1,23 @@
 import { makeObservable, observable, runInAction } from "mobx";
-import get from "lodash/get";
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme as createMuiTheme } from "@material-ui/core/styles";
 
 import PendingQueries from "storage/singletons/PendingQueries";
-import backupTheme from "utils/constants/theme.assets";
-import { deepClone } from "utils/functions/themeConfig";
+import { defaultPalette } from "utils/constants/theme.assets";
+import { createTheme } from "utils/functions/themeConfig";
 import { ThemeDefaultOptionsType } from "utils/types/themeConfig";
 
 class Theme {
   theme = {};
+  defaultTheme = createMuiTheme();
 
   get formattedTheme() {
-    const paletteObj = {
-      palette: deepClone(backupTheme.palette, get(this.theme, "palette", {})),
-    };
-
-    return createTheme(paletteObj);
+    return createTheme(this.theme, this.defaultTheme);
   }
 
   constructor() {
     makeObservable(this, {
       theme: observable.ref,
+      defaultTheme: observable.ref,
     });
   }
 
@@ -36,7 +33,7 @@ class Theme {
       });
     } catch {
       runInAction(() => {
-        this.theme = backupTheme;
+        this.theme = { palette: defaultPalette };
       });
     } finally {
       runInAction(() => {
