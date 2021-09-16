@@ -1,6 +1,6 @@
 export type MenuType = {
-  admin: any;
-  distributor: object;
+  admin: { key: string, name: string }[];
+  distributor: { key: string, name: string }[];
 };
 
 export const menu: MenuType = {

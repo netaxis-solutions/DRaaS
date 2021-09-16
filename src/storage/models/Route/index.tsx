@@ -1,18 +1,18 @@
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable } from 'mobx';
 
 class Route {
   enabledOnServer: boolean = false;
   enabledOnClient: boolean = false;
 
-  path: string = "";
-  name: string = "";
+  path: string | undefined = '';
+  name: string = '';
 
   publicSidebar: object | null = null;
 
   constructor(
     enabledOnClient: boolean,
     sidebar: object | null,
-    path: string,
+    path: string | undefined,
     name: string
   ) {
     makeObservable(this, {
@@ -43,10 +43,11 @@ class Route {
     return this.publicSidebar
       ? Object.keys(this.publicSidebar).reduce((prev: object, cur: string) => {
           this.publicSidebar?.[cur as keyof object][
-            "enabled" as keyof object
+            'enabled' as keyof object
           ] &&
-            (prev[cur as keyof object] =
-              this.publicSidebar[cur as keyof object]);
+            (prev[cur as keyof object] = this.publicSidebar[
+              cur as keyof object
+            ]);
 
           return prev;
         }, {})
