@@ -1,6 +1,7 @@
+import { TFunction } from "i18next";
 import { string, object } from "yup";
 
-export const nameSchema = (t: any) =>
+export const nameSchema = (t: TFunction) =>
   object().shape({
     firstName: string()
       .label(t("First name"))

@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, Ref } from "react";
 
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core";
@@ -19,7 +19,7 @@ export const Input = ({
 }) => {
   const helperStyles = useFormHelperStyles();
 
-  const handleChange = (e: object) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(e);
   };
 
@@ -35,7 +35,7 @@ export const Input = ({
 };
 
 const FormInput = forwardRef(
-  ({ fieldState, formState, ...props }: any, ref: any) => {
+  ({ fieldState, formState, ...props }: any, ref: Ref<HTMLInputElement>) => {
     const { error } = fieldState;
 
     return (
