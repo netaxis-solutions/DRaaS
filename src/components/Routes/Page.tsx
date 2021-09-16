@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import FormInput from "components/common/Form/FormInput";
 import { nameSchema } from "utils/schemas/nameSchema";
+import { Account } from "components/Icons";
 
 type Inputs = {
   firstName: string;
@@ -28,7 +29,12 @@ const Page = () => {
           defaultValue="adaa"
           rules={{ required: true }}
           render={({ field, ...props }) => (
-            <FormInput label="First name" {...field} {...props} />
+            <FormInput
+              label="First name"
+              icon={Account}
+              {...field}
+              {...props}
+            />
           )}
         />
         <input type="submit" />

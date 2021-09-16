@@ -77,14 +77,10 @@ export const overrides = {
   },
   MuiOutlinedInput: {
     root: {
-      borderRadius: 2,
+      borderRadius: 6,
       "&$focused": {
         "& fieldset": { borderWidth: "1px !important" },
       },
-    },
-    input: {
-      padding: "14px 20px 10px",
-      fontSize: "1.4rem",
     },
     notchedOutline: {
       borderColor: defaultPalette.input.border,
