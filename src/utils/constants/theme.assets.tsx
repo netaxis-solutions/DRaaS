@@ -63,11 +63,6 @@ export const overrides = {
     },
   },
   MuiInputLabel: {
-    root: {
-      "&$disabled": {
-        color: `${defaultPalette.secondary.text} !important`,
-      },
-    },
     outlined: {
       transform: "translate(20px, 15px) scale(1)",
     },
@@ -81,9 +76,6 @@ export const overrides = {
       "&$focused": {
         "& fieldset": { borderWidth: "1px !important" },
       },
-    },
-    notchedOutline: {
-      borderColor: defaultPalette.input.border,
     },
   },
   PrivateNotchedOutline: {
