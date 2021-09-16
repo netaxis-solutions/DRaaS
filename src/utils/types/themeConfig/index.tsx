@@ -1,16 +1,15 @@
-import { AnyKeyStringValueObjectType as ColorType } from "utils/types/common";
+import { PaletteOptions } from '@material-ui/core/styles/createPalette';
 
-export type PaletteDefaultOptionsType = {
+import { AnyKeyStringValueObjectType as ColorType } from 'utils/types/common';
+
+export type PaletteDefaultOptionsType = PaletteOptions & {
   primary: ColorType;
   secondary: ColorType;
   status: ColorType;
-};
-
-export type ThemeDefaultOptionsType = {
-  palette: PaletteDefaultOptionsType;
+  input: ColorType;
 };
 
 export type DeepCloneThemeType = (
   defaultPalette: PaletteDefaultOptionsType,
-  palette: ThemeDefaultOptionsType
-) => object;
+  palette: PaletteOptions
+) => PaletteOptions;
