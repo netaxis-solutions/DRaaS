@@ -1,4 +1,4 @@
-export const customizer = (objVal: any, srcVal: any) => {
+export const customizer = (objVal: unknown, srcVal: unknown) => {
   if (Array.isArray(objVal) && Array.isArray(srcVal)) {
     return srcVal;
   }

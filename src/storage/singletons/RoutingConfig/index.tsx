@@ -75,8 +75,7 @@ class Routing {
 
     return await fetch("/configs/default/app.routes.json")
       .then((data) => data.json())
-      .then((data: object) => data)
-      .then((routesConfig: any) => {
+      .then((routesConfig: object) => {
         runInAction(() => {
           this.publicConfigRoutes = routesConfig;
           PendingQueries.remove("@configLoader", queryId);

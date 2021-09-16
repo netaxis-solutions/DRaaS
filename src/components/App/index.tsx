@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-import { ThemeProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import ThemeStore from "storage/singletons/ThemeConfig";
@@ -21,9 +21,9 @@ const App: React.FC = () => {
   const { setActiveMenu } = MenuStore;
 
   useEffect(() => {
-    getThemeConfig();
     getRoutingConfig();
     getConfig();
+    getThemeConfig();
 
     setLoggedUser("admin", "admin");
     setActiveMenu("adminCatalogue");
@@ -44,7 +44,7 @@ const App: React.FC = () => {
   }, [formattedConfig]);
 
   return (
-    <ThemeProvider theme={formattedTheme}>
+    <MuiThemeProvider theme={formattedTheme}>
       <CssBaseline />
       <Loader />
       <Router>
@@ -52,7 +52,7 @@ const App: React.FC = () => {
           <Routes />
         </Switch>
       </Router>
-    </ThemeProvider>
+    </MuiThemeProvider>
   );
 };
 

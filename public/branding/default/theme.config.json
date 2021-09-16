@@ -15,6 +15,9 @@
       "alert": "#FF8800",
       "error": "#EC4436",
       "success": "#8BB439"
+    },
+    "input": {
+      "border": "#B4BDC2"
     }
   }
 }

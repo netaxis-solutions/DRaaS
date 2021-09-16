@@ -1,8 +1,8 @@
-import get from "lodash/get";
+import get from 'lodash/get';
 
-import Route from "storage/models/Route";
-import { privateRoutes, urlStartString } from "utils/constants/routes";
-import { GetRoutesType } from "utils/types/routingConfig";
+import Route from 'storage/models/Route';
+import { privateRoutes, urlStartString } from 'utils/constants/routes';
+import { GetRoutesType } from 'utils/types/routingConfig';
 
 export const getLevelRoutes: GetRoutesType = (access, currentLevel) =>
   Object.keys(privateRoutes).reduce(
@@ -23,7 +23,7 @@ export const getLevelRoutes: GetRoutesType = (access, currentLevel) =>
 
 export const getAvailableRoutes: (
   publicConfigRoutes: { [key: string]: { enabled: true; sidebar?: object } },
-  levelRoutes: Map<string, any>
+  levelRoutes: Map<string, string>
 ) => Map<string, object> = (publicConfigRoutes, levelRoutes) => {
   const availableRouting = new Map();
 

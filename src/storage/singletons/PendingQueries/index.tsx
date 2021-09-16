@@ -36,7 +36,6 @@ class PendingQueries {
       queries = observable(new Map(), { deep: false });
       this.byFetchType.set(fetchType, queries);
     }
-    console.log(this.byFetchType);
     const queryId = this.i++;
     queries.set(queryId, queryParams);
     return queryId;
