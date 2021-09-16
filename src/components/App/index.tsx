@@ -6,7 +6,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import ThemeStore from "storage/singletons/ThemeConfig";
 import RoutingStore from "storage/singletons/RoutingConfig";
-import MenuStore from "storage/singletons/Menu";
 import ConfigStore from "storage/singletons/Config";
 import Loader from "components/Loader";
 
@@ -16,17 +15,13 @@ import "services/Translation";
 
 const App: React.FC = () => {
   const { getThemeConfig, formattedTheme } = ThemeStore;
-  const { getRoutingConfig, setLoggedUser } = RoutingStore;
+  const { getRoutingConfig } = RoutingStore;
   const { getConfig, formattedConfig } = ConfigStore;
-  const { setActiveMenu } = MenuStore;
 
   useEffect(() => {
     getRoutingConfig();
     getConfig();
     getThemeConfig();
-
-    setLoggedUser("admin", "admin");
-    setActiveMenu("adminCatalogue");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
