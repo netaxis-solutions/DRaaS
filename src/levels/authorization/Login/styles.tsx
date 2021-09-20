@@ -17,7 +17,7 @@ const styles = makeStyles((theme: ThemeDefaultOptions) => ({
     position: "absolute",
     background:
       "linear-gradient(135.1deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);",
-    backdropFilter: "blur(10px)",
+    backdropFilter: "blur(42px)",
     borderRadius: 20,
     ...props,
   }),
