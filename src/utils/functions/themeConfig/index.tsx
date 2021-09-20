@@ -1,16 +1,15 @@
-import get from 'lodash/get';
-import merge from 'lodash/merge';
-import {
-  createTheme as createMuiTheme,
-  ThemeOptions,
-} from '@material-ui/core/styles';
-import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+import get from "lodash/get";
+import merge from "lodash/merge";
+import { createTheme as createMuiTheme } from "@material-ui/core/styles";
+import { PaletteOptions } from "@material-ui/core/styles/createPalette";
+import { Theme } from "@material-ui/core";
 
 import {
   PaletteDefaultOptionsType,
   DeepCloneThemeType,
-} from 'utils/types/themeConfig';
-import { defaultPalette, overrides } from 'utils/constants/theme.assets';
+  ThemeDefaultOptions,
+} from "utils/types/themeConfig";
+import { defaultPalette, overrides } from "utils/constants/theme.assets";
 
 export const deepClone: DeepCloneThemeType = (
   defaultPalette: PaletteDefaultOptionsType,
@@ -18,7 +17,7 @@ export const deepClone: DeepCloneThemeType = (
 ) =>
   Object.keys(defaultPalette).reduce((prev: object, key: string) => {
     if (
-      typeof defaultPalette[key as keyof PaletteDefaultOptionsType] === 'object'
+      typeof defaultPalette[key as keyof PaletteDefaultOptionsType] === "object"
     ) {
       return {
         ...prev,
@@ -37,11 +36,15 @@ export const deepClone: DeepCloneThemeType = (
   }, {});
 
 export const createTheme = (
-  options: ThemeOptions | undefined,
-  defaultTheme: ThemeOptions | undefined
+  options: ThemeDefaultOptions | {},
+  defaultTheme: ThemeDefaultOptions | Theme
 ) => {
-  const direction = document.body.dir || 'ltr';
-  const palette: PaletteOptions = get(options, 'palette', defaultPalette);
+  const direction = document.body.dir || "ltr";
+  const palette: PaletteDefaultOptionsType = get(
+    options,
+    "palette",
+    defaultPalette
+  );
   const themeObj = merge({}, options, defaultTheme, {
     direction,
     breakpoints: {
@@ -54,7 +57,7 @@ export const createTheme = (
       },
     },
     palette: deepClone(defaultPalette, palette),
-    overrides,
+    overrides: overrides(palette),
   });
   return createMuiTheme(palette ? themeObj : defaultTheme);
 };

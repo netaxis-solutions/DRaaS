@@ -6,13 +6,6 @@ import { makeStyles } from "@material-ui/core";
 
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
-const useFormHelperStyles = makeStyles((theme) => ({
-  contained: {
-    margin: `${theme.spacing(0.5)}px ${theme.spacing(2.5)}px !important`,
-    fontSize: "1.2rem",
-  },
-}));
-
 const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
     "& svg": {
@@ -38,23 +31,24 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
 }));
 
-const useLabelStyles = makeStyles((theme: ThemeDefaultOptions) => ({
-  root: {
-    "&$disabled": {
-      color: `${theme.palette.secondary.text} !important`,
-    },
+const useLabelStyles = makeStyles(() => ({
+  outlined: {
+    fontSize: "1.4rem",
+  },
+  shrink: {
+    fontSize: "1rem",
   },
 }));
 
 export const Input = ({
   onChange,
   icon: Icon,
+  helperText,
   ...rest
 }: {
   onChange?: (value: object) => void;
   [key: string]: any;
 }) => {
-  const helperClasses = useFormHelperStyles();
   const inputClasses = useTextFieldStyles();
   const labelClasses = useLabelStyles();
   const iconRender = Icon
@@ -70,17 +64,14 @@ export const Input = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(e);
   };
+  const dataError = helperText ? { "data-error": helperText } : {};
 
   return (
     <TextField
       variant="outlined"
       onChange={handleChange}
       fullWidth={true}
-      FormHelperTextProps={{ classes: helperClasses }}
-      InputProps={{
-        ...iconRender,
-        classes: inputClasses,
-      }}
+      InputProps={{ ...dataError, ...iconRender, classes: inputClasses }}
       InputLabelProps={{ classes: labelClasses }}
       {...rest}
     />
