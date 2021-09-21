@@ -59,7 +59,7 @@ export const Input = ({
           </InputAdornment>
         ),
       }
-    : undefined;
+    : null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(e);

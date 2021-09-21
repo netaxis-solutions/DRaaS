@@ -2,11 +2,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-import FormInput from "components/common/Form/FormInput";
 import { loginSchema } from "utils/schemas/loginSchema";
-import ButtonComponent from "components/common/Form/Button";
-
 import { LoginFormTypes } from "utils/types/authentication";
+import ButtonComponent from "components/common/Form/Button";
+import FormInput from "components/common/Form/FormInput";
+
 import { useFormStyles } from "./styles";
 
 const defaultValues = {
