@@ -5,6 +5,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core";
 
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
+import { InputPropsType } from "utils/types/form";
 
 const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
@@ -40,14 +41,11 @@ const useLabelStyles = makeStyles(() => ({
   },
 }));
 
-export const Input = ({
+export const Input: React.FC<InputPropsType> = ({
   onChange,
   icon: Icon,
   helperText,
   ...rest
-}: {
-  onChange?: (value: object) => void;
-  [key: string]: any;
 }) => {
   const inputClasses = useTextFieldStyles();
   const labelClasses = useLabelStyles();
@@ -70,7 +68,7 @@ export const Input = ({
     <TextField
       variant="outlined"
       onChange={handleChange}
-      fullWidth={true}
+      fullWidth
       InputProps={{ ...dataError, ...iconRender, classes: inputClasses }}
       InputLabelProps={{ classes: labelClasses }}
       {...rest}
