@@ -4,8 +4,7 @@ import { Route, Redirect, useHistory } from "react-router-dom";
 import RoutingStore from "storage/singletons/RoutingConfig";
 import { publicRoutes } from "utils/constants/routes";
 import PrivateRoute from "components/PrivateRoute";
-
-import Page from "./Page";
+import Login from "levels/authorization/Login";
 
 const Routes: React.FC = () => {
   const { setHistory } = RoutingStore;
@@ -18,12 +17,8 @@ const Routes: React.FC = () => {
 
   return (
     <>
-      <Route
-        path={publicRoutes.login}
-        exact
-        component={() => <div> LOG IN</div>}
-      />
-      <PrivateRoute path="/" component={Page} />
+      <Route path={publicRoutes.login} exact component={Login} />
+      <PrivateRoute path="/" component={() => <div>Page</div>} />
       <Redirect to={publicRoutes.login} />
     </>
   );

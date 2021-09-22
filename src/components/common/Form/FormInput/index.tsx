@@ -5,13 +5,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core";
 
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
-
-const useFormHelperStyles = makeStyles((theme) => ({
-  contained: {
-    margin: `${theme.spacing(0.5)}px ${theme.spacing(2.5)}px !important`,
-    fontSize: "1.2rem",
-  },
-}));
+import { InputPropsType } from "utils/types/form";
 
 const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
@@ -38,23 +32,21 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
 }));
 
-const useLabelStyles = makeStyles((theme: ThemeDefaultOptions) => ({
-  root: {
-    "&$disabled": {
-      color: `${theme.palette.secondary.text} !important`,
-    },
+const useLabelStyles = makeStyles(() => ({
+  outlined: {
+    fontSize: "1.4rem",
+  },
+  shrink: {
+    fontSize: "1rem",
   },
 }));
 
-export const Input = ({
+export const Input: React.FC<InputPropsType> = ({
   onChange,
   icon: Icon,
+  helperText,
   ...rest
-}: {
-  onChange?: (value: object) => void;
-  [key: string]: any;
 }) => {
-  const helperClasses = useFormHelperStyles();
   const inputClasses = useTextFieldStyles();
   const labelClasses = useLabelStyles();
   const iconRender = Icon
@@ -65,22 +57,19 @@ export const Input = ({
           </InputAdornment>
         ),
       }
-    : undefined;
+    : null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(e);
   };
+  const dataError = helperText ? { "data-error": helperText } : {};
 
   return (
     <TextField
       variant="outlined"
       onChange={handleChange}
-      fullWidth={true}
-      FormHelperTextProps={{ classes: helperClasses }}
-      InputProps={{
-        ...iconRender,
-        classes: inputClasses,
-      }}
+      fullWidth
+      InputProps={{ ...dataError, ...iconRender, classes: inputClasses }}
       InputLabelProps={{ classes: labelClasses }}
       {...rest}
     />
