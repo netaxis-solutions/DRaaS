@@ -46,12 +46,12 @@ export const defaultPalette: PaletteDefaultOptionsType = {
   },
 };
 
-export const overrides = {
+export const overrides = (palette: PaletteDefaultOptionsType) => ({
   MuiCssBaseline: {
     "@global": {
       html: {
         fontSize: 10,
-        color: defaultPalette.primary.text,
+        color: palette?.primary?.text,
         fontWeight: 400,
         ...scroll,
       },
@@ -63,11 +63,29 @@ export const overrides = {
     },
   },
   MuiInputLabel: {
+    root: {
+      "&$disabled": {
+        color: `${palette.secondary.text} !important`,
+      },
+    },
     outlined: {
       transform: "translate(20px, 15px) scale(1)",
     },
     shrink: {
       transform: "translate(20px, -4px) scale(0.75) !important",
+    },
+  },
+  MuiFormControl: {
+    root: {
+      "& [data-error]:after": {
+        margin: "4px 20px",
+        content: "attr(data-error)",
+        display: "block",
+        position: "absolute",
+        top: "100%",
+        fontSize: "1.2rem",
+        color: `${palette.status.error} !important`,
+      },
     },
   },
   MuiOutlinedInput: {
@@ -87,4 +105,4 @@ export const overrides = {
       },
     },
   },
-};
+});
