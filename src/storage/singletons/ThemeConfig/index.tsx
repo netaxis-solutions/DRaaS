@@ -1,10 +1,10 @@
-import { makeObservable, observable, runInAction } from 'mobx';
-import { createTheme as createMuiTheme } from '@material-ui/core/styles';
+import { makeObservable, observable, runInAction } from "mobx";
+import { createTheme as createMuiTheme } from "@material-ui/core/styles";
 
-import PendingQueries from 'storage/singletons/PendingQueries';
-import { defaultPalette } from 'utils/constants/theme.assets';
-import { createTheme } from 'utils/functions/themeConfig';
-import { PaletteDefaultOptionsType } from 'utils/types/themeConfig';
+import PendingQueries from "storage/singletons/PendingQueries";
+import { defaultPalette } from "utils/constants/theme.assets";
+import { createTheme } from "utils/functions/themeConfig";
+import { PaletteDefaultOptionsType } from "utils/types/themeConfig";
 
 class Theme {
   theme = {};
@@ -22,10 +22,10 @@ class Theme {
   }
 
   getThemeConfig = async (): Promise<void> => {
-    const queryId = PendingQueries.add('@themeLoader', null);
+    const queryId = PendingQueries.add("@themeLoader", null);
 
     try {
-      const data = await fetch('/branding/default/theme.config.json');
+      const data = await fetch("/branding/default/theme.config.json");
       const jsonResult: PaletteDefaultOptionsType = await data.json();
 
       runInAction(() => {
@@ -37,7 +37,7 @@ class Theme {
       });
     } finally {
       runInAction(() => {
-        PendingQueries.remove('@themeLoader', queryId);
+        PendingQueries.remove("@themeLoader", queryId);
       });
     }
   };
