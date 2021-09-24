@@ -13,12 +13,7 @@ const ButtonWithIcon: React.FC<IconButtonPropsType> = ({
   const classes = useStyles();
 
   return (
-    <Button
-      startIcon={Icon ? <Icon /> : () => <></>}
-      {...props}
-      variant={variant}
-      classes={classes}
-    >
+    <Button startIcon={<Icon />} {...props} variant={variant} classes={classes}>
       {title}
     </Button>
   );
