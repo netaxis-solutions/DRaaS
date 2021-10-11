@@ -1,8 +1,10 @@
-import { FocusEvent, Ref } from 'react';
+import { FocusEvent, Ref } from "react";
 
-export type ButtonPropsType = {
+export type IconButtonPropsType = {
   title: string;
-  type: 'button' | 'reset' | 'submit' | undefined;
+  type: "button" | "reset" | "submit" | undefined;
+  icon: React.FC;
+  variant?: "contained" | "outlined";
 };
 
 export type InputPropsType = {

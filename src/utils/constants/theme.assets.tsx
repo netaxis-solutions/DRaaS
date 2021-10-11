@@ -75,6 +75,41 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       transform: "translate(20px, -4px) scale(0.75) !important",
     },
   },
+  MuiButton: {
+    root: {
+      height: 36,
+      fontSize: "1.4rem",
+      width: "fit-content",
+      boxShadow: "none !important",
+      "&:hover": {
+        backgroundColor: "#F5F7FF !important",
+        color: palette.secondary.text,
+        "& svg": {
+          fill: `${palette.secondary.icon} !important`,
+        },
+      },
+    },
+    contained: {
+      backgroundColor: palette.primary.main,
+      color: "#FFFFFF",
+      borderRadius: 6,
+    },
+    startIcon: {
+      "& svg": {
+        fill: "#FFFFFF",
+      },
+    },
+    label: {
+      textTransform: "capitalize",
+    },
+    outlined: {
+      borderColor: palette.secondary.icon,
+      color: palette.secondary.text,
+      "& svg": {
+        fill: `${palette.secondary.icon} !important`,
+      },
+    },
+  },
   MuiFormControl: {
     root: {
       "& [data-error]:after": {
