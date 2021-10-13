@@ -1,5 +1,5 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-
+import { History } from "history";
 import { publicRoutes } from "utils/constants/routes";
 import {
   getLevelRoutes,
@@ -9,7 +9,7 @@ import PendingQueries from "../PendingQueries";
 
 class Routing {
   publicConfigRoutes: object = {};
-  history: object = {};
+  history = {} as History;
   currentLevel: string = "";
   loggedInUserLevel: string = "";
 
@@ -54,7 +54,7 @@ class Routing {
     this.currentLevel = currentLevel;
   };
 
-  setHistory = (history: object) => {
+  setHistory = (history: History) => {
     this.history = history;
   };
 

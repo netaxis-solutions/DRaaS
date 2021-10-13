@@ -3,8 +3,8 @@ import { string, object } from "yup";
 
 export const loginSchema = (t: TFunction) =>
   object().shape({
-    email: string()
-      .label(t("Email"))
-      .trim(t("Email should have no leading or trailing spaces"))
+    username: string()
+      .label(t("Username"))
+      .trim(t("Username should have no leading or trailing spaces"))
       .required(),
   });

@@ -23,7 +23,7 @@ const styles = makeStyles((theme: ThemeDefaultOptions) => ({
   }),
   loginFormContainer: {
     borderRadius: 20,
-    border: "3.5px solid #FFFFFF",
+    border: "1px solid #FFFFFF",
     maxWidth: 600,
     maxHeight: 600,
     width: "100%",

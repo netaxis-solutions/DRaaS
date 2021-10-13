@@ -5,6 +5,13 @@ export const publicRoutes = {
   login: "/login",
 };
 
+type HomeUrl = {
+  admin: string;
+};
+
+export const homeUrl: HomeUrl & PrivateRoutesType = {
+  admin: "adminCatalogue",
+};
 export const privateRoutes: PrivateRoutesType = {
   adminCatalogue: "/catalogue",
   distributorCatalogue: "/catalogue",
