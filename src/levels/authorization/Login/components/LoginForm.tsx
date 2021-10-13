@@ -1,16 +1,16 @@
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Button } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 import { loginSchema } from "utils/schemas/loginSchema";
 import { LoginFormTypes } from "utils/types/authentication";
+import loginStore from "storage/singletons/Login";
 import FormInput from "components/common/Form/FormInput";
-
 import { useFormStyles } from "./styles";
 
 const defaultValues = {
-  email: "",
+  username: "",
   password: "",
 };
 
@@ -20,11 +20,11 @@ const LoginForm = () => {
     resolver: yupResolver(loginSchema(t)),
     defaultValues,
   });
-
+  const { login } = loginStore;
   const classes = useFormStyles();
 
-  const handleChange: SubmitHandler<LoginFormTypes> = (data) => {
-    console.log(data);
+  const handleChange: SubmitHandler<LoginFormTypes> = (payload) => {
+    login(payload);
   };
 
   return (
@@ -33,7 +33,7 @@ const LoginForm = () => {
       className={classes.loginFormWrapper}
     >
       <Controller
-        name="email"
+        name="username"
         control={control}
         render={({ field, ...props }) => (
           <FormInput label={t("Email or ID")} {...field} {...props} />

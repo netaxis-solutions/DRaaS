@@ -1,11 +1,10 @@
-import { makeObservable, observable, reaction, action } from "mobx";
+import { makeObservable, observable, action } from "mobx";
 
 import { menu, MenuType, sidebarLevelMenus } from "utils/constants/menu";
 import {
   getLevelRoutes,
   getAvailableRoutes,
 } from "utils/functions/routingConfig";
-import { historyPush } from "utils/functions/routingConfig/historyPush";
 
 import RoutingStore from "../RoutingConfig";
 
@@ -108,13 +107,6 @@ class Menu {
       activeMenu: observable,
       setActiveMenu: action,
     });
-
-    reaction(
-      () => this.availableRoutes.size,
-      () => {
-        historyPush(RoutingStore, this.activeMenu);
-      }
-    );
   }
 }
 
