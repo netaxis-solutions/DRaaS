@@ -6,6 +6,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import ThemeStore from "storage/singletons/ThemeConfig";
 import RoutingStore from "storage/singletons/RoutingConfig";
+import MenuStore from "storage/singletons/Menu";
 import ConfigStore from "storage/singletons/Config";
 import Loader from "components/Loader";
 
@@ -17,6 +18,7 @@ const App: React.FC = () => {
   const { getThemeConfig, formattedTheme } = ThemeStore;
   const { getRoutingConfig } = RoutingStore;
   const { getConfig, formattedConfig } = ConfigStore;
+  const { availableRoutes } = MenuStore;
 
   useEffect(() => {
     getRoutingConfig();
@@ -37,6 +39,7 @@ const App: React.FC = () => {
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedConfig]);
+  console.log(availableRoutes);
 
   return (
     <MuiThemeProvider theme={formattedTheme}>

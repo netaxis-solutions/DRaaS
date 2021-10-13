@@ -7,7 +7,7 @@ import { ConfigType } from "utils/types/config";
 import { customizer } from "utils/functions/config";
 
 class Config {
-  config = {};
+  config = {} as ConfigType;
 
   get formattedConfig() {
     return mergeWith({}, backupConfig, this.config, customizer);
