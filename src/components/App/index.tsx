@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import { BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
 import ThemeStore from "storage/singletons/ThemeConfig";
 import RoutingStore from "storage/singletons/RoutingConfig";
 import ConfigStore from "storage/singletons/Config";
@@ -41,9 +40,7 @@ const App: React.FC = () => {
     <MuiThemeProvider theme={formattedTheme}>
       <CssBaseline />
       <Router>
-        <Switch>
-          <Routes />
-        </Switch>
+        <Routes />
       </Router>
     </MuiThemeProvider>
   );

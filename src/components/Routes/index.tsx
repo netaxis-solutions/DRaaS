@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { Route, useHistory } from "react-router-dom";
+import { Route, useHistory, Switch, Redirect } from "react-router-dom";
 
 import RoutingStore from "storage/singletons/RoutingConfig";
-import { publicRoutes } from "utils/constants/routes";
 import PrivateRoute from "components/PrivateRoute";
 import Login from "levels/authorization/Login";
 import Content from "levels";
+
+const publicRoutes = ["/login"];
+
 const Routes: React.FC = () => {
   const { setHistory } = RoutingStore;
   const history = useHistory();
@@ -16,11 +18,11 @@ const Routes: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <Route path={publicRoutes.login} exact component={Login} />
+    <Switch>
+      <Route path={publicRoutes} exact component={Login} />
       <PrivateRoute path="/" component={Content} />
-      {/* <Redirect to={publicRoutes.login} /> */}
-    </>
+      <Redirect to="/login" />
+    </Switch>
   );
 };
 
