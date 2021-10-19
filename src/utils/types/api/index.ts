@@ -1,6 +1,6 @@
 import { ResponseType } from "axios";
 
-export type PublicLoginRequestArgsType = {
+export type RequestArgsType = {
   method?:
     | "get"
     | "delete"
@@ -17,11 +17,21 @@ export type PublicLoginRequestArgsType = {
   responseType?: ResponseType;
 };
 
-export type PublicLoginRequestType = (
-  object: PublicLoginRequestArgsType
-) => Promise<void | object>;
+export type SendRequestType = (
+  object: RequestArgsType
+) => Promise<void | object> | void;
 
 export type RequestType = (object: {
   obj: object;
   key: string;
 }) => (route: string, changeObject: object | undefined) => Promise<object>;
+
+export type AccessTokenResponse = {
+  data: { access_token: string };
+};
+
+export type HeadersType = {
+  Accept: string;
+  "Content-Type": string;
+  Authorization?: string;
+};

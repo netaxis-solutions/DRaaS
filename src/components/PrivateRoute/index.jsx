@@ -1,16 +1,20 @@
 import { observer } from "mobx-react-lite";
 import { Route, Redirect } from "react-router";
 
-import RoutingConfig from "storage/singletons/RoutingConfig";
+import configStore from "storage/singletons/Config";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { loggedInUserLevel } = RoutingConfig;
+  const { config } = configStore;
 
-  return (
-    <Route {...rest}>
-      {loggedInUserLevel ? <Component {...rest} /> : <Redirect to="/login" />}
-    </Route>
-  );
+  return config.name ? (
+    localStorage.getItem(`${config.name}_refreshToken`) ? (
+      <Route {...rest}>
+        <Component {...rest} />
+      </Route>
+    ) : (
+      <Redirect to="/login" />
+    )
+  ) : null;
 };
 
 export default observer(PrivateRoute);

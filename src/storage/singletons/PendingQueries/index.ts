@@ -31,6 +31,7 @@ class PendingQueries {
   }
 
   add(fetchType: string, queryParams: object | null) {
+    console.log(fetchType);
     let queries = this.byFetchType.get(fetchType);
     if (!queries) {
       queries = observable(new Map(), { deep: false });

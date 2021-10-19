@@ -71,14 +71,14 @@ class Routing {
   }
 
   getRoutingConfig = async (): Promise<object> => {
-    const queryId = PendingQueries.add("@configLoader", null);
+    const queryId = PendingQueries.add("@routingLoader", null);
 
     return await fetch("/configs/default/app.routes.json")
       .then((data) => data.json())
       .then((routesConfig: object) => {
         runInAction(() => {
           this.publicConfigRoutes = routesConfig;
-          PendingQueries.remove("@configLoader", queryId);
+          PendingQueries.remove("@routingLoader", queryId);
         });
         return this.publicConfigRoutes;
       });
