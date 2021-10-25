@@ -12,29 +12,33 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "& svg": {
       width: 14,
       height: 14,
-      fill: theme.palette.secondary.icon,
-    },
+      fill: theme.palette.secondary.icon
+    }
   },
   adornedEnd:
     theme.direction === "ltr"
       ? {
-          paddingRight: `${theme.spacing(2.5)}px`,
+          paddingRight: `${theme.spacing(2.5)}px`
         }
       : { paddingLeft: `${theme.spacing(2.5)}px` },
   input: {
     padding: `${theme.spacing(1.75)}px ${theme.spacing(2.5)}px ${theme.spacing(
       1.25
     )}px`,
+    fontSize: "1.4rem"
   },
   notchedOutline: {
-    borderColor: theme.palette.input.border,
-  },
+    borderColor: theme.palette.input.border
+  }
 }));
 
 const useLabelStyles = makeStyles(() => ({
-  shrink: {
-    fontSize: "1rem",
+  outlined: {
+    fontSize: "1.4rem"
   },
+  shrink: {
+    fontSize: "1rem"
+  }
 }));
 
 export const Input: React.FC<InputPropsType> = ({
@@ -51,7 +55,7 @@ export const Input: React.FC<InputPropsType> = ({
           <InputAdornment position="end">
             <Icon />
           </InputAdornment>
-        ),
+        )
       }
     : null;
 
