@@ -11,14 +11,14 @@ import { useFormStyles } from "./styles";
 
 const defaultValues = {
   username: "",
-  password: "",
+  password: ""
 };
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const { control, handleSubmit } = useForm<LoginFormTypes>({
     resolver: yupResolver(loginSchema(t)),
-    defaultValues,
+    defaultValues
   });
   const { login } = loginStore;
   const classes = useFormStyles();

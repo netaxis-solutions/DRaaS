@@ -9,6 +9,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   secondary: ColorType;
   status: ColorType;
   input: ColorType;
+  link: ColorType;
 };
 
 export type ThemeDefaultOptions = Theme & {

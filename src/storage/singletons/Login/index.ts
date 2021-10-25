@@ -4,6 +4,7 @@ import get from "lodash/get";
 import { publicLoginRequest, request } from "services/api";
 import { homeUrl } from "utils/constants/routes";
 import { LoginFormTypes } from "utils/types/authentication";
+import { LoggedInUserType } from "utils/types/routingConfig";
 import { ResponseData } from "utils/types/login";
 import PendingQueries from "../PendingQueries";
 import RoutingConfig from "../RoutingConfig";
@@ -11,7 +12,7 @@ import configStore from "../Config";
 
 class Login {
   user = {} as object;
-  level = "";
+  level = "" as LoggedInUserType;
 
   constructor() {
     makeObservable(this, {
@@ -23,10 +24,11 @@ class Login {
       () => this.level,
       () => {
         if (this.level) {
-          const route =
-            RoutingConfig.availableRouting.find(
-              (el) => el["key" as keyof object] === homeUrl[this.level]
-            )?.["value" as keyof object]?.["path" as keyof object] || "/";
+          const routeVal = RoutingConfig.availableRouting.find(
+            (el) => el.key === homeUrl[RoutingConfig.currentLevel]
+          );
+
+          const route = routeVal?.value?.path || "/";
           RoutingConfig.history.push(route);
         }
       }
@@ -42,11 +44,9 @@ class Login {
         method: "post",
         route: "auth/login",
       });
-      const level = get(data, "data.ids", "admin");
 
       const accessToken = get(data, "data.access_token", false);
       const refreshToken = get(data, "data.refresh_token", false);
-      level && RoutingConfig.setLoggedUser(level, level);
 
       accessToken &&
         localStorage.setItem(
@@ -60,7 +60,6 @@ class Login {
           refreshToken
         );
       this.getUserData();
-      this.level = level;
     } catch (e) {
     } finally {
       runInAction(() => {
@@ -72,17 +71,21 @@ class Login {
   getUserData: () => Promise<void> = async () => {
     const queryId = PendingQueries.add("@getUserDataLoader", null);
 
+    type RoutingConfigType = {
+      data: { ui_profile: LoggedInUserType; [key: string]: string };
+    };
+
     try {
-      const data = await request({
+      const data: RoutingConfigType = await request({
         route: "/system/users/local",
       });
-      RoutingConfig.setLoggedUser(
-        data["data" as keyof object]["ui_profile" as keyof object],
-        data["data" as keyof object]["ui_profile" as keyof object]
-      );
+      const level = data.data.ui_profile;
+
+      RoutingConfig.setLoggedUser(level, level);
+
       runInAction(() => {
-        this.user = data["data" as keyof object];
-        this.level = data["data" as keyof object]["ui_profile" as keyof object];
+        this.user = data.data;
+        this.level = level;
       });
     } catch {
     } finally {

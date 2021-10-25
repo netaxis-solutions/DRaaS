@@ -37,11 +37,10 @@ export const publicLoginRequest: SendRequestType = ({
 
   const requestToSend = getMethod({ obj: publicInstance, key: requestMethod });
 
-  return requestToSend(route, changeObject).catch(
-    (error = {} as Error | AxiosError) => {
-      Promise.reject(error?.response?.data);
-    }
-  );
+  return requestToSend(
+    route,
+    changeObject
+  ).catch((error = {} as Error | AxiosError) => Promise.reject(error));
 };
 
 const onResponse = (config: AxiosRequestConfig): AxiosRequestConfig => {
@@ -108,9 +107,9 @@ export const request: SendRequestType = ({
   });
   const { config } = configStore;
 
-  privateInstance.interceptors.response.use(onResponse, onResponseError);
-
   if (config.backendUrl) {
+    privateInstance.interceptors.response.use(onResponse, onResponseError);
+
     privateInstance.defaults.baseURL = `${config.backendUrl}/${config.apiVersion}`;
     privateInstance.defaults.responseType = responseType;
     const requestMethod = method.toLowerCase();
@@ -129,5 +128,5 @@ export const request: SendRequestType = ({
       route,
       changeObject
     ).catch((error = {} as Error | AxiosError) => Promise.reject(error));
-  }
+  } else throw new Error("no request sent");
 };
