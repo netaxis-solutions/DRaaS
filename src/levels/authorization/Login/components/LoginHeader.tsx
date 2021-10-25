@@ -10,7 +10,7 @@ const LoginHeader = () => {
     <div className={classes.loginFormHeader}>
       <img
         className={classes.loginLogoImage}
-        src="branding/default/img/logo.png"
+        src="/branding/default/img/signLogo.png"
         alt="logo"
       />
       <p className={classes.loginWelcomeText}>{t("Welcome to CC")}</p>

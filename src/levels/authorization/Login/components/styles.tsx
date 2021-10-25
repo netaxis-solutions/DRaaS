@@ -44,7 +44,6 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   loginForgetPasswordLink: {
     alignSelf: "flex-end",
-    fontSize: "1.4rem",
     margin: `${theme.spacing(1.25)}px 0`,
     textDecoration: "underline",
   },

@@ -25,7 +25,6 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     padding: `${theme.spacing(1.75)}px ${theme.spacing(2.5)}px ${theme.spacing(
       1.25
     )}px`,
-    fontSize: "1.4rem",
   },
   notchedOutline: {
     borderColor: theme.palette.input.border,
@@ -33,9 +32,6 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 }));
 
 const useLabelStyles = makeStyles(() => ({
-  outlined: {
-    fontSize: "1.4rem",
-  },
   shrink: {
     fontSize: "1rem",
   },
