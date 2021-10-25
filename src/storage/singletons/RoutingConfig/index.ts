@@ -4,25 +4,39 @@ import { publicRoutes } from "utils/constants/routes";
 import {
   getLevelRoutes,
   getAvailableRoutes,
+  getALlPossibleUrls,
 } from "utils/functions/routingConfig";
+import {
+  CurRoute,
+  LoggedInUserType,
+  RoutingConfigType,
+} from "utils/types/routingConfig";
 import PendingQueries from "../PendingQueries";
 
 class Routing {
-  publicConfigRoutes: object = {};
+  publicConfigRoutes = {} as RoutingConfigType;
   history = {} as History;
-  currentLevel: string = "";
-  loggedInUserLevel: string = "";
+  currentLevel = "" as LoggedInUserType;
+  loggedInUserLevel = "" as LoggedInUserType;
 
   //Get routes with paths for current level from privateRoutes utils/constants/routes
   get levelRoutes() {
     return getLevelRoutes(this.loggedInUserLevel, this.currentLevel);
   }
 
+  get allAvailvableRouting() {
+    if (this.loggedInUserLevel) {
+      return getALlPossibleUrls({
+        publicConfigRoutes: this.publicConfigRoutes,
+        loggedInUserLevel: this.loggedInUserLevel,
+      });
+    } else return null;
+  }
   // Get all routing for the level you are currently on based on public/configs/default/app.routes.json
   get allRouting() {
     return !!this.levelRoutes.size
       ? getAvailableRoutes(
-          this.publicConfigRoutes[this.currentLevel as keyof object],
+          this.publicConfigRoutes[this.currentLevel],
           this.levelRoutes
         )
       : new Map(Object.entries(publicRoutes));
@@ -30,7 +44,7 @@ class Routing {
 
   //Filter allRouting from the routes that aren't enabled or all sidebar routes aren't enabled
   get availableRouting() {
-    const currentLevelRoutingArray: object[] = [];
+    const currentLevelRoutingArray: CurRoute[] = [];
     for (const [routeName, routeValue] of this.allRouting) {
       if (typeof routeValue === "string") {
         currentLevelRoutingArray.push({
@@ -38,19 +52,22 @@ class Routing {
           value: { path: routeValue },
         });
       } else {
-        routeValue["enabled" as keyof object] &&
+        routeValue.enabled &&
           currentLevelRoutingArray.push({ key: routeName, value: routeValue });
       }
     }
     return currentLevelRoutingArray;
   }
 
-  setLoggedUser = (currentLevel: string, loggedInUserLevel: string) => {
+  setLoggedUser = (
+    currentLevel: LoggedInUserType,
+    loggedInUserLevel: LoggedInUserType
+  ) => {
     this.currentLevel = currentLevel;
     this.loggedInUserLevel = loggedInUserLevel;
   };
 
-  setCurrentLevel = (currentLevel: string) => {
+  setCurrentLevel = (currentLevel: LoggedInUserType) => {
     this.currentLevel = currentLevel;
   };
 
@@ -70,12 +87,12 @@ class Routing {
     });
   }
 
-  getRoutingConfig = async (): Promise<object> => {
+  getRoutingConfig = async (): Promise<RoutingConfigType> => {
     const queryId = PendingQueries.add("@routingLoader", null);
 
     return await fetch("/configs/default/app.routes.json")
       .then((data) => data.json())
-      .then((routesConfig: object) => {
+      .then((routesConfig: RoutingConfigType) => {
         runInAction(() => {
           this.publicConfigRoutes = routesConfig;
           PendingQueries.remove("@routingLoader", queryId);

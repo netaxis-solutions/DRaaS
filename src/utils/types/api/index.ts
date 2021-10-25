@@ -1,4 +1,4 @@
-import { ResponseType } from "axios";
+import { AxiosResponse, ResponseType } from "axios";
 
 export type RequestArgsType = {
   method?:
@@ -19,12 +19,15 @@ export type RequestArgsType = {
 
 export type SendRequestType = (
   object: RequestArgsType
-) => Promise<void | object> | void;
+) => Promise<AxiosResponse>;
 
 export type RequestType = (object: {
   obj: object;
   key: string;
-}) => (route: string, changeObject: object | undefined) => Promise<object>;
+}) => (
+  route: string,
+  changeObject: object | undefined
+) => Promise<AxiosResponse>;
 
 export type AccessTokenResponse = {
   data: { access_token: string };

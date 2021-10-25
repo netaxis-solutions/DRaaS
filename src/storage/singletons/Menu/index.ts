@@ -1,31 +1,29 @@
-import { makeObservable, observable, action } from "mobx";
-
-import { menu, MenuType, sidebarLevelMenus } from "utils/constants/menu";
+import get from "lodash/get";
+import { menu, sidebarLevelMenus } from "utils/constants/menu";
 import {
   getLevelRoutes,
   getAvailableRoutes,
 } from "utils/functions/routingConfig";
+import {
+  CurRoute,
+  MenuElement,
+  RouteValueType,
+  SidebarUnitType,
+} from "utils/types/routingConfig";
 
 import RoutingStore from "../RoutingConfig";
 
 class Menu {
-  activeMenu: string = "";
-
-  setActiveMenu = (menuKey: string) => {
-    this.activeMenu = menuKey;
-  };
-
   //GET available routing(filtered from disabled routes and the ones that all sidebar routes are)
   get availableRoutes() {
-    return getAvailableRoutes(
-      RoutingStore.publicConfigRoutes[
-        RoutingStore.loggedInUserLevel as keyof object
-      ],
+    const routes: Map<string, RouteValueType> = getAvailableRoutes(
+      RoutingStore.publicConfigRoutes[RoutingStore.loggedInUserLevel],
       getLevelRoutes(
         RoutingStore.loggedInUserLevel,
         RoutingStore.loggedInUserLevel
       )
     );
+    return routes;
   }
 
   // Get Top Menu:
@@ -33,16 +31,24 @@ class Menu {
   // - filter from disabled routes and the ones that all sidebar routes are disabled
 
   get topMenu() {
-    let menuBar: null | object[] = null;
+    let menuBar: Array<MenuElement> = [];
     if (RoutingStore.loggedInUserLevel) {
-      menuBar = [...menu[RoutingStore.loggedInUserLevel as keyof MenuType]];
-      const filteredMenu = menuBar.filter((el: object) => {
-        const route: object | undefined = this.availableRoutes.get(
-          el["key" as keyof object]
-        )?.["enabled" as keyof object];
+      menuBar = [...menu[RoutingStore.loggedInUserLevel]];
 
-        return route;
-      });
+      const filteredMenu = menuBar?.reduce(
+        (prev: Array<MenuElement>, el: MenuElement) => {
+          const menuEl: RouteValueType | undefined = this.availableRoutes.get(
+            el.key
+          );
+
+          if (menuEl?.enabled) {
+            prev.push({ ...el, path: menuEl.path });
+          }
+
+          return prev;
+        },
+        []
+      );
       menuBar = filteredMenu;
     }
     return menuBar;
@@ -54,59 +60,45 @@ class Menu {
   // - filter from disabled routes and the ones that all sidebar routes are disabled
 
   get sidebar() {
-    let sideMenu: object[] = [];
-    if (RoutingStore.loggedInUserLevel) {
-      if (
-        sidebarLevelMenus[RoutingStore.loggedInUserLevel as keyof object][
-          RoutingStore.currentLevel as keyof object
-        ]
-      ) {
-        let menuBar: object[] = [
-          ...sidebarLevelMenus[RoutingStore.loggedInUserLevel as keyof object][
-            RoutingStore.currentLevel as keyof object
-          ],
-        ];
-        if (
-          menuBar.find(
-            (el: object) => el["key" as keyof object] === this.activeMenu
-          )
-        ) {
-          menuBar.forEach((el: object, index: number) => {
-            const sidebar: undefined | object[] = RoutingStore.allRouting.get(
-              el["key" as keyof object]
-            )?.["sidebar" as keyof object];
-            sidebar &&
-            RoutingStore.allRouting.get(el["key" as keyof object])?.[
-              "enabled" as keyof object
-            ]
-              ? (menuBar[index] = sidebar)
-              : menuBar.splice(index, 1);
-          });
+    let sideMenu: SidebarUnitType[] = [];
+    if (
+      RoutingStore.loggedInUserLevel &&
+      RoutingStore.loggedInUserLevel !== "customer" &&
+      sidebarLevelMenus[RoutingStore.loggedInUserLevel]
+    ) {
+      const menuArr = get(
+        sidebarLevelMenus[RoutingStore.loggedInUserLevel],
+        RoutingStore.currentLevel,
+        null
+      );
+      if (menuArr) {
+        let menuBar: SidebarUnitType[] = [...menuArr];
 
-          sideMenu =
-            RoutingStore.loggedInUserLevel !== RoutingStore.currentLevel
-              ? [
-                  ...sidebarLevelMenus[
-                    RoutingStore.loggedInUserLevel as keyof object
-                  ][RoutingStore.currentLevel as keyof object],
-                ].filter((el) =>
-                  RoutingStore.availableRouting.find(
-                    (route: object) =>
-                      route["key" as keyof object] === el["key" as keyof object]
-                  )
+        //TO DO LOGIC FOR TABS!!
+        // menuBar.forEach((el: object, index: number) => {
+        //   const sidebar: undefined | object[] = RoutingStore.allRouting.get(
+        //     el["key" as keyof object]
+        //   )?.["sidebar" as keyof object];
+        //   sidebar &&
+        //   RoutingStore.allRouting.get(el["key" as keyof object])?.[
+        //     "enabled" as keyof object
+        //   ]
+        //     ? (menuBar[index] = sidebar)
+        //     : menuBar.splice(index, 1);
+        // });
+
+        sideMenu =
+          RoutingStore.loggedInUserLevel !== RoutingStore.currentLevel
+            ? [...menuArr].filter((el: CurRoute) =>
+                RoutingStore.availableRouting.find(
+                  (route: CurRoute) => route.key === el.key
                 )
-              : menuBar;
-        }
+              )
+            : menuBar;
       }
     }
-    return sideMenu.length ? sideMenu : null;
-  }
 
-  constructor() {
-    makeObservable(this, {
-      activeMenu: observable,
-      setActiveMenu: action,
-    });
+    return sideMenu.length ? sideMenu : null;
   }
 }
 

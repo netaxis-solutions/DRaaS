@@ -29,6 +29,7 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     main: "#484CBA",
     text: "#333333",
     background: "#F9F9F9",
+    light: "#EBEBF7",
   },
   secondary: {
     main: "#CCE3D8",
@@ -44,6 +45,10 @@ export const defaultPalette: PaletteDefaultOptionsType = {
   input: {
     border: "#B4BDC2",
   },
+  link: {
+    main: "#212356",
+    active: "#484CBA",
+  },
 };
 
 export const overrides = (palette: PaletteDefaultOptionsType) => ({
@@ -55,6 +60,13 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
         fontWeight: 400,
         ...scroll,
       },
+    },
+  },
+  MuiContainer: {
+    root: {
+      padding: "0 !important",
+      maxWidth: "100vw !important",
+      fontSize: "1.4rem",
     },
   },
   MuiInputBase: {
