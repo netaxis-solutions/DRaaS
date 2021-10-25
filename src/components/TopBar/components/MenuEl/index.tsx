@@ -3,28 +3,35 @@ import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import clsx from "clsx";
 
-import useStyles from "./styles";
+// import { MenuELType } from "utils/types/components/menu";
 
-const MenuEl = ({ menuEl }: { menuEl: any }) => {
+import useStyles from "./styles";
+import { MenuElement } from "utils/types/routingConfig";
+
+type MenuELType = {
+  menuEl: MenuElement;
+};
+
+const MenuEl: React.FC<MenuELType> = ({ menuEl }) => {
   const classes = useStyles();
   const location = useLocation();
   const isActive = location.pathname === menuEl.path;
 
-  return (
+  return menuEl?.path ? (
     <div
       className={clsx(classes.menuElLinkWrapper, {
-        [classes.menuElLinkWrapperActive]: isActive,
+        [classes.menuElLinkWrapperActive]: isActive
       })}
     >
       <NavLink
-        to={menuEl.path}
+        to={menuEl?.path}
         className={classes.menuElLink}
         activeClassName={isActive ? classes.menuElLinkActive : ""}
       >
         {menuEl.name}
       </NavLink>
     </div>
-  );
+  ) : null;
 };
 
 export default observer(MenuEl);

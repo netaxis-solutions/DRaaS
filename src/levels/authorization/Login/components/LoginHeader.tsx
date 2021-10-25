@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import useStyles from "./styles";
 
-const LoginHeader = () => {
+const LoginHeader: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
 

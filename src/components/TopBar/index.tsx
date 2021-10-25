@@ -3,7 +3,7 @@ import MenuBlock from "./components/MenuBlock";
 
 import useStyles from "./styles";
 
-const TopBar = () => {
+const TopBar: React.FC = () => {
   const classes = useStyles();
 
   return (

@@ -7,7 +7,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import Loader from "components/Loader";
 import MainLayout from "components/MainLayout";
 
-const Content = () => {
+const Content: React.FC = () => {
   const { getUserData } = loginStore;
   const { allAvailvableRouting } = RoutingConfig;
 

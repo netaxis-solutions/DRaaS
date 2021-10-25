@@ -117,7 +117,7 @@ export type CurRoute = {
 
 export type GetALlPossibleUrlsType = ({
   publicConfigRoutes,
-  loggedInUserLevel,
+  loggedInUserLevel
 }: {
   publicConfigRoutes: RoutingConfigType;
   loggedInUserLevel: LoggedInUserType;

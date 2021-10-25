@@ -2,7 +2,7 @@ import { Login, Search, World } from "components/Icons";
 
 import useStyles from "./styles";
 
-const IconsBar = () => {
+const IconsBar: React.FC = () => {
   const classes = useStyles();
 
   return (
