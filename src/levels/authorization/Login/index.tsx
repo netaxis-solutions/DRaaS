@@ -4,11 +4,11 @@ import LoginForm from "./components/LoginForm";
 import LoginHeader from "./components/LoginHeader";
 import useStyles from "./styles";
 
-const Login = () => {
+const Login: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const classes = useStyles({
     width: ref?.current?.clientWidth || 600,
-    height: ref?.current?.clientHeight || 600,
+    height: ref?.current?.clientHeight || 600
   });
 
   return (

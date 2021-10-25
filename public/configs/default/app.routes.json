@@ -1,21 +1,32 @@
 {
   "admin": {
-    "adminCatalogue": {
-      "enabled": true,
-      "sidebar": {
-        "products": { "enabled": true },
-        "rates": {
-          "enabled": true,
-          "subRoutes": {
-            "outboundRates": true
-          }
-        }
-      }
+    "adminDistributors": {
+      "enabled": true
     },
-    "adminBilling": { "enabled": true }
+    "adminResellers": { "enabled": true },
+    "adminCustomers": { "enabled": true },
+    "adminRatePlan": { "enabled": true }
   },
   "distributor": {
-    "distributorCatalogue": { "enabled": true },
-    "distributorBilling": { "enabled": true }
+    "distributorResellers": { "enabled": true },
+    "distributorCustomers": { "enabled": true },
+    "distributorLicenseConsumption": { "enabled": true },
+    "distributorRatePlan": { "enabled": true },
+    "distributorAdmins": { "enabled": true },
+    "distributorProfile": { "enabled": true }
+  },
+  "reseller": {
+    "resellerCustomers": { "enabled": true },
+    "resellerLicenseConsumption": { "enabled": true },
+    "resellerRatePlan": { "enabled": true },
+    "resellerAdmins": { "enabled": true },
+    "resellerProfile": { "enabled": true }
+  },
+  "customer": {
+    "customerSubscriptions": { "enabled": true },
+    "customerLocations": { "enabled": true },
+    "customerRatePlan": { "enabled": true },
+    "customerAdmins": { "enabled": true },
+    "customerProfile": { "enabled": true }
   }
 }

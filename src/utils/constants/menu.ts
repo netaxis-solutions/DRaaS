@@ -1,31 +1,55 @@
-export type MenuType = {
-  admin: { key: string, name: string }[];
-  distributor: { key: string, name: string }[];
-};
+import { MenuType, SidebarMenuType } from "utils/types/routingConfig";
+
+const adminMenu = [
+  { key: "adminDistributors", name: "Distributors" },
+  { key: "adminResellers", name: "Resellers" },
+  { key: "adminCustomers", name: "Customers" },
+  { key: "adminRatePlan", name: "Rate plan" },
+];
+
+const distributorMenu = [
+  { key: "distributorResellers", name: "Resellers" },
+  { key: "distributorCustomers", name: "Customers" },
+  { key: "distributorLicenseConsumption", name: "License Consumption" },
+  { key: "distributorRatePlan", name: "Rate Plan" },
+  { key: "distributorAdmins", name: "Admins" },
+  { key: "distributorProfile", name: "Profile" },
+];
+
+const resellerMenu = [
+  { key: "resellerCustomers", name: "Customers" },
+  { key: "resellerLicenseConsumption", name: "License Consumption" },
+  { key: "resellerRatePlan", name: "Rate Plan" },
+  { key: "resellerAdmins", name: "Admins" },
+  { key: "resellerProfile", name: "Profile" },
+];
+
+const customerMenu = [
+  { key: "customerSubscriptions", name: "Subscription" },
+  { key: "customerLocations", name: "Locations" },
+  { key: "customerRatePlan", name: "Rate Plan" },
+  { key: "customerAdmins", name: "Admins" },
+  { key: "customerProfile", name: "Profile" },
+];
 
 export const menu: MenuType = {
-  admin: [
-    { key: "adminCatalogue", name: "Catalogue" },
-    { key: "adminBilling", name: "Billing" },
-  ],
-  distributor: [
-    { key: "distributorCatalogue", name: "Catalogue" },
-    { key: "distributorBilling", name: "Billing" },
-  ],
+  admin: adminMenu,
+  distributor: distributorMenu,
+  reseller: resellerMenu,
+  customer: customerMenu,
 };
 
-export const sidebarLevelMenus = {
+export const sidebarLevelMenus: SidebarMenuType = {
   admin: {
-    admin: [{ key: "adminCatalogue", name: "Catalogue" }],
-    distributor: [
-      { key: "distributorCatalogue", name: "Catalogue" },
-      { key: "distributorBilling", name: "Billing" },
-    ],
+    distributor: distributorMenu,
+    reseller: resellerMenu,
+    customer: customerMenu,
   },
   distributor: {
-    distributor: [
-      { key: "distributorCatalogue", name: "Catalogue" },
-      { key: "distributorBilling", name: "Billing" },
-    ],
+    reseller: resellerMenu,
+    customer: customerMenu,
+  },
+  reseller: {
+    customer: customerMenu,
   },
 };

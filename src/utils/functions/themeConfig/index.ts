@@ -15,7 +15,7 @@ export const deepClone: DeepCloneThemeType = (
   defaultPalette: PaletteDefaultOptionsType,
   palette: PaletteOptions
 ) =>
-  Object.keys(defaultPalette).reduce((prev: object, key: string) => {
+  Object.keys(defaultPalette).reduce((prev, key: string) => {
     if (
       typeof defaultPalette[key as keyof PaletteDefaultOptionsType] === "object"
     ) {
@@ -33,7 +33,7 @@ export const deepClone: DeepCloneThemeType = (
           ...prev,
           [key]: defaultPalette[key as keyof PaletteDefaultOptionsType],
         };
-  }, {});
+  }, {} as PaletteOptions);
 
 export const createTheme = (
   options: ThemeDefaultOptions | {},

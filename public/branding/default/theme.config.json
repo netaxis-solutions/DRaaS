@@ -3,7 +3,8 @@
     "primary": {
       "main": "#484CBA",
       "text": "#333333",
-      "background": "#F9F9F9"
+      "background": "#F9F9F9",
+      "light": "#EBEBF7"
     },
     "secondary": {
       "main": "#CCE3D8",
@@ -18,6 +19,10 @@
     },
     "input": {
       "border": "#B4BDC2"
+    },
+    "link": {
+      "main": "#212356",
+      "active": "#484CBA"
     }
   }
 }
