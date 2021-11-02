@@ -152,4 +152,37 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       },
     },
   },
+  MuiTableRow: {
+    root: {
+      '&$selected': {
+        background: 'transparent'
+      },
+      '& .link': {
+        '&:hover': {
+          color: palette.link.main
+        },
+      },
+    },
+  },
+  MuiTableCell: {
+    root: {
+      fontSize: "1.4rem",
+      '&:last-child': {
+        padding: '16px 90px 16px 16px'
+      },
+    },
+    head: {
+      color: palette.secondary.text
+    }
+  },
+  MuiCheckbox: {
+    root: {
+      color: palette.input.border,
+    },
+    colorSecondary: {
+      '&$checked': {
+        color: `${palette.primary.main}`
+      }
+    }
+  },
 });
