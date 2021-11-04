@@ -10,7 +10,8 @@
       "main": "#CCE3D8",
       "light": "#EBEBF7",
       "text": "#828282",
-      "icon": "#828282"
+      "icon": "#828282",
+      "hover": "#F5F7FF"
     },
     "status": {
       "alert": "#FF8800",
@@ -23,6 +24,10 @@
     "link": {
       "main": "#212356",
       "active": "#484CBA"
+    },
+    "button": {
+      "hover": "#EBEBF7",
+      "active": "#C2C3E8"
     }
   }
 }

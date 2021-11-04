@@ -1,3 +1,6 @@
+export { default as Edit } from './Edit'
 export { default as Login } from './Login'
 export { default as Search } from './Search'
+export { default as Sort } from './Sort'
+export { default as Trash } from './Trash'
 export { default as World } from './World'

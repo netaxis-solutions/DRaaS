@@ -5,4 +5,5 @@ export const backupConfig: ConfigType = {
   backendUrl: "https://apio1-uat.bxl.netaxis.be",
   customTranslations: false,
   apiVersion: "api/v01",
+  draasInstance: "custom/draas_v1",
 };

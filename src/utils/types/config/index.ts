@@ -4,4 +4,5 @@ export type ConfigType = {
   backendUrl: string;
   lng?: string;
   apiVersion: string;
+  draasInstance: string;
 };
