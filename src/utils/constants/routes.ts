@@ -2,14 +2,14 @@ import { AnyKeyStringValueObjectType as PrivateRoutesType } from "utils/types/co
 import { HomeUrl, UrlStartStringType } from "utils/types/routingConfig";
 
 export const publicRoutes = {
-  login: "/login",
+  login: "/login"
 };
 
 export const homeUrl: HomeUrl = {
   admin: "adminDistributors",
   distributor: "distributorResellers",
   reseller: "resellerCustomers",
-  customer: "customerSubscriptions",
+  customer: "customerSubscriptions"
 };
 export const privateRoutes: PrivateRoutesType = {
   adminDistributors: "/distributors",
@@ -31,27 +31,27 @@ export const privateRoutes: PrivateRoutesType = {
   customerLocations: "/locations",
   customerRatePlan: "/ratePlan",
   customerAdmins: "/admins",
-  customerProfile: "/profile",
+  customerProfile: "/profile"
 };
 
 export const urlStartString: UrlStartStringType = {
   admin: {
-    admin: "/:adminId",
-    distributor: "/:adminId/distributors/:distributorID",
-    reseller: "/:adminId/distributors/:distributorID/resellers/:resellerID",
+    admin: "",
+    distributor: "/distributors/:distributorID",
+    reseller: "/distributors/:distributorID/resellers/:resellerID",
     customer:
-      "/:adminId/distributors/:distributorID/resellers/:resellerID/customers/:customerID",
+      "/distributors/:distributorID/resellers/:resellerID/customers/:customerID"
   },
   distributor: {
     distributor: "/:distributorID",
     reseller: "/:distributorID/resellers/:resellerID",
-    customer: "/:distributorID/resellers/:resellerID/customers/:customerID",
+    customer: "/:distributorID/resellers/:resellerID/customers/:customerID"
   },
   reseller: {
     reseller: "/:resellerID",
-    customer: "/:resellerID/customers/:customerID",
+    customer: "/:resellerID/customers/:customerID"
   },
   customer: {
-    customer: "/:customerID",
-  },
+    customer: "/:customerID"
+  }
 };

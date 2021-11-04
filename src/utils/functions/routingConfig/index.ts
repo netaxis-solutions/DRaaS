@@ -18,10 +18,8 @@ export const getLevelRoutes: GetRoutesType = (access, currentLevel) =>
         `${access}.${currentLevel}`,
         null
       );
-      if (curUrlStart) {
-        cur.includes(currentLevel) &&
-          prev.set(cur, `${curUrlStart}${privateRoutes[cur]}`);
-      }
+      cur.includes(currentLevel) &&
+        prev.set(cur, `${curUrlStart}${privateRoutes[cur]}`);
       return prev;
     },
     new Map()
