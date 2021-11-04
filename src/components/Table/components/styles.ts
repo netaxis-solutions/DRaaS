@@ -58,10 +58,10 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   }
 }));
 
-export const useTableBodyStyles = makeStyles(() => ({
+export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   hover: {
     "&:hover": {
-      backgroundColor: "#F5F7FF"
+      backgroundColor: theme.palette.secondary.hover
     }
   }
 }));
