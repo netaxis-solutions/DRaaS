@@ -12,6 +12,7 @@ export type RequestArgsType = {
     | "purge"
     | "link"
     | "unlink";
+  loaderName?: string;
   route?: string;
   payload?: object;
   responseType?: ResponseType;

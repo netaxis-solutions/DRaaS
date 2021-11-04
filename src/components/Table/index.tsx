@@ -3,29 +3,17 @@ import {
   useTable,
   useSortBy,
   usePagination,
-  Column,
   useRowSelect,
   CellProps
 } from "react-table";
-import {
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Checkbox
-} from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
 import MaUTable from "@material-ui/core/Table";
-import clsx from "clsx";
 
-import { TableData } from "utils/types/tableConfig/react-table-config";
+import { TableProps } from "utils/types/tableConfig";
+import TableBody from "./components/TableBody";
+import TableHead from "./components/TableHead";
 
 import { useStyles } from "./styles";
-
-interface TableProps {
-  columns: Column<TableData>[];
-  data: TableData[];
-  checkbox: boolean;
-}
 
 const Table: FC<TableProps> = ({ columns, data, checkbox }) => {
   const classes = useStyles();
@@ -64,41 +52,14 @@ const Table: FC<TableProps> = ({ columns, data, checkbox }) => {
   );
 
   return (
-    <div className={classes.wrapper}>
-      <MaUTable {...getTableProps()} className={classes.root}>
-        <TableHead>
-          {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <TableCell
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className={clsx({
-                    [classes.actionRow]: column.id === "actions"
-                  })}
-                >
-                  {column.render("Header")}
-                  <span>
-                    {column.isSorted ? (column.isSortedDesc ? "<" : ">") : ""}
-                  </span>
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody {...getTableBodyProps()}>
-          {page.map((row) => {
-            prepareRow(row);
-            return (
-              <TableRow {...row.getRowProps()} className={classes.hover}>
-                {row.cells.map((cell) => (
-                  <TableCell {...cell.getCellProps()}>
-                    {cell.render("Cell")}
-                  </TableCell>
-                ))}
-              </TableRow>
-            );
-          })}
-        </TableBody>
+    <div className={classes.tableWrapper}>
+      <MaUTable {...getTableProps()} className={classes.tableRoot}>
+        <TableHead headerGroups={headerGroups} />
+        <TableBody
+          getTableBodyProps={getTableBodyProps}
+          prepareRow={prepareRow}
+          page={page}
+        />
       </MaUTable>
     </div>
   );

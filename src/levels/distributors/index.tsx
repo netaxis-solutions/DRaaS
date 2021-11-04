@@ -1,10 +1,9 @@
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 
-import { TableData } from "utils/types/tableConfig/react-table-config";
+import { TableData } from "utils/types/tableConfig";
+import DistributorsStore from "storage/singletons/Distributors";
 import Table from "components/Table";
-
-// import DistributorsStore from "storage/singletons/Distributors";
 import TableActions from "components/Table/components/TableActions";
 
 const dataS: TableData[] = [
@@ -60,12 +59,18 @@ const columnsData = [
   {
     Header: "Actions",
     accessor: "actions",
+    disableSortBy: true,
     Cell: () => <TableActions edit del />
   }
 ];
 
 const Distributors: FC = () => {
-  // const { distributors } = DistributorsStore;
+  const { getDistributorsData } = DistributorsStore;
+
+  useEffect(() => {
+    getDistributorsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const columns = useMemo(() => columnsData, []);
   const data = useMemo(() => dataS, []);

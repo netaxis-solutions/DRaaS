@@ -6,7 +6,6 @@ import { homeUrl } from "utils/constants/routes";
 import { LoginFormTypes } from "utils/types/authentication";
 import { LoggedInUserType } from "utils/types/routingConfig";
 import { ResponseData } from "utils/types/login";
-import PendingQueries from "../PendingQueries";
 import RoutingConfig from "../RoutingConfig";
 import configStore from "../Config";
 
@@ -17,7 +16,7 @@ class Login {
   constructor() {
     makeObservable(this, {
       user: observable.ref,
-      level: observable,
+      level: observable
     });
 
     reaction(
@@ -36,13 +35,12 @@ class Login {
   }
 
   login = async (payload: LoginFormTypes): Promise<void> => {
-    const queryId = PendingQueries.add("@loginLoader", null);
-
     try {
       const data: ResponseData | void = await publicLoginRequest({
+        loaderName: "@loginLoader",
         payload,
         method: "post",
-        route: "auth/login",
+        route: "auth/login"
       });
 
       const accessToken = get(data, "data.access_token", false);
@@ -60,24 +58,18 @@ class Login {
           refreshToken
         );
       this.getUserData();
-    } catch (e) {
-    } finally {
-      runInAction(() => {
-        PendingQueries.remove("@loginLoader", queryId);
-      });
-    }
+    } catch (e) {}
   };
 
   getUserData: () => Promise<void> = async () => {
-    const queryId = PendingQueries.add("@getUserDataLoader", null);
-
     type RoutingConfigType = {
       data: { ui_profile: LoggedInUserType; [key: string]: string };
     };
 
     try {
       const data: RoutingConfigType = await request({
-        route: "/system/users/local",
+        loaderName: "@getUserDataLoader",
+        route: "/system/users/local"
       });
       const level = data.data.ui_profile;
 
@@ -87,12 +79,7 @@ class Login {
         this.user = data.data;
         this.level = level;
       });
-    } catch {
-    } finally {
-      runInAction(() => {
-        PendingQueries.remove("@getUserDataLoader", queryId);
-      });
-    }
+    } catch {}
   };
 }
 

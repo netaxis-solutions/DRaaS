@@ -2,48 +2,34 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
-import PendingQueries from "../PendingQueries";
 import configStore from "../Config";
-
-type TDistributorItem = {
-  [key: string]: string | number;
-};
-
-type TDistributorsData = {
-  distributors: Array<TDistributorItem>;
-  page: number;
-  pages: number;
-  results: number;
-};
+import {
+  DistributorItemType,
+  DistributorsDataType
+} from "utils/types/distributors";
 
 class DistributorsStore {
-  distributors: Array<TDistributorItem> = [];
+  distributors: Array<DistributorItemType> = [];
 
   constructor() {
     makeObservable(this, {
-      distributors: observable.ref,
+      distributors: observable.ref
     });
   }
 
   getDistributorsData = async () => {
-    const queryId = PendingQueries.add('@getDistributorsData', null);
-
     try {
-      const data: AxiosResponse<TDistributorsData> = await request({
-        route: `${configStore.config.draasInstance}/distributors`
+      const data: AxiosResponse<DistributorsDataType> = await request({
+        route: `${configStore.config.draasInstance}/distributors`,
+        loaderName: "@getDistributorsData"
       });
       const distributors = data.data.distributors;
-      console.log(distributors, 'distributors');
 
       runInAction(() => {
         this.distributors = distributors;
       });
     } catch (e) {
-      console.log(e, 'e');
-    } finally {
-      runInAction(() => {
-        PendingQueries.remove('@getDistributorsData', queryId);
-      });
+      console.log(e, "e");
     }
   };
 }

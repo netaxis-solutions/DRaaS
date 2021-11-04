@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import PendingQueries from "storage/singletons/PendingQueries";
-
+import LoaderComponent from "./Loader";
 const LOG_QUANTITY = false;
 
 const Loader = ({ children }: { children: any }) => {
@@ -8,18 +8,28 @@ const Loader = ({ children }: { children: any }) => {
     console.log("Running queries quantity: ", PendingQueries.length);
   }
 
-  return PendingQueries.empty ? (
-    children
-  ) : (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        position: "absolute",
-        background: "white",
-      }}
-    >
-      <p>...is loading</p>
+  return (
+    <div style={{ position: "relative", height: "calc(100% - 40px)" }}>
+      <div
+        style={
+          PendingQueries.empty
+            ? {
+                position: "absolute",
+                zIndex: 999,
+                width: "100%",
+                height: "100%"
+              }
+            : {
+                opacity: 0,
+                position: "absolute",
+                width: "100%",
+                height: "100%"
+              }
+        }
+      >
+        {children}
+      </div>
+      <LoaderComponent />
     </div>
   );
 };

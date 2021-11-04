@@ -6,7 +6,6 @@ import loginStore from "storage/singletons/Login";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import Loader from "components/Loader";
 import MainLayout from "components/MainLayout";
-import DistributorsStore from "storage/singletons/Distributors";
 
 const DistributorsList = lazy(() => import("levels/distributors"));
 
@@ -14,11 +13,8 @@ const Content: React.FC = () => {
   const { getUserData } = loginStore;
   const { allAvailvableRouting } = RoutingConfig;
 
-  const { getDistributorsData } = DistributorsStore;
-
   useEffect(() => {
     getUserData();
-    getDistributorsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,29 +1,22 @@
 import { FC } from "react";
 
-import { EditIcon, DeleteIcon } from "components/Icons";
+import { Edit, Trash } from "components/Icons";
+import { TableActionsType } from "utils/types/tableConfig";
 
 import { useStyles } from "./styles";
 
-interface ITableActions {
-  [key: string]: boolean;
-}
-
-const TableActions: FC<ITableActions> = ({ edit, del }) => {
+const TableActions: FC<TableActionsType> = ({
+  edit,
+  del,
+  onEdit,
+  onDelete
+}) => {
   const classes = useStyles();
+
   return (
-    <div className={classes.actionsWrapper}>
-      {edit && (
-        <EditIcon
-          onClick={() => console.log("onEdit click")}
-          className={classes.wrapper}
-        />
-      )}
-      {del && (
-        <DeleteIcon
-          onClick={() => console.log("onDelete click")}
-          className={classes.wrapper}
-        />
-      )}
+    <div className={classes.tableActionsWrapper}>
+      {edit && <Edit onClick={onEdit} />}
+      {del && <Trash onClick={onDelete} />}
     </div>
   );
 };
