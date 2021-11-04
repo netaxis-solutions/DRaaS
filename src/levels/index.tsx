@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, lazy } from "react";
 import { observer } from "mobx-react-lite";
 import { Switch, Route } from "react-router-dom";
 
@@ -6,6 +6,8 @@ import loginStore from "storage/singletons/Login";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import Loader from "components/Loader";
 import MainLayout from "components/MainLayout";
+
+const DistributorsList = lazy(() => import("levels/distributors"));
 
 const Content: React.FC = () => {
   const { getUserData } = loginStore;
@@ -104,7 +106,7 @@ const Content: React.FC = () => {
             <Route
               exact
               path={allAvailvableRouting.adminDistributors}
-              component={() => <div>Catalogue</div>}
+              component={DistributorsList}
             />
             <Route
               exact

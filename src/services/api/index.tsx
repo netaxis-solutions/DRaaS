@@ -2,26 +2,33 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from "axios";
 import get from "lodash/get";
 
 import configStore from "storage/singletons/Config";
+import PendingQueries from "storage/singletons/PendingQueries";
 import { getMethod } from "utils/functions/api";
 import {
   AccessTokenResponse,
   HeadersType,
-  SendRequestType,
+  SendRequestType
 } from "utils/types/api";
 
 const headers: HeadersType = {
   Accept: "application/json",
-  "Content-Type": "application/json",
+  "Content-Type": "application/json"
 };
 
 export const publicLoginRequest: SendRequestType = ({
+  loaderName,
   method = "get",
   route = "",
   payload,
-  responseType = "json",
+  responseType = "json"
 }) => {
+  let queryID = 0;
+  if (loaderName) {
+    queryID = PendingQueries.add(loaderName, null);
+  }
+
   const publicInstance: AxiosInstance = axios.create({
-    headers,
+    headers
   });
 
   const { config } = configStore;
@@ -37,10 +44,11 @@ export const publicLoginRequest: SendRequestType = ({
 
   const requestToSend = getMethod({ obj: publicInstance, key: requestMethod });
 
-  return requestToSend(
-    route,
-    changeObject
-  ).catch((error = {} as Error | AxiosError) => Promise.reject(error));
+  return requestToSend(route, changeObject)
+    .catch((error = {} as Error | AxiosError) => Promise.reject(error))
+    .finally(
+      () => queryID && loaderName && PendingQueries.remove(loaderName, queryID)
+    );
 };
 
 const onResponse = (config: AxiosRequestConfig): AxiosRequestConfig => {
@@ -73,8 +81,8 @@ const onResponseError = async (
         `${configStore.config.backendUrl}/api/v01/auth/access_token`,
         {
           headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
+            Authorization: `Bearer ${refreshToken}`
+          }
         }
       );
 
@@ -101,12 +109,16 @@ export const request: SendRequestType = ({
   route = "",
   payload,
   responseType = "json",
+  loaderName
 }) => {
   const privateInstance: AxiosInstance = axios.create({
-    headers,
+    headers
   });
   const { config } = configStore;
-
+  let queryID = 0;
+  if (loaderName) {
+    queryID = PendingQueries.add(loaderName, null);
+  }
   if (config.backendUrl) {
     privateInstance.interceptors.response.use(onResponse, onResponseError);
 
@@ -121,12 +133,13 @@ export const request: SendRequestType = ({
 
     const requestToSend = getMethod({
       obj: privateInstance,
-      key: requestMethod,
+      key: requestMethod
     });
 
-    return requestToSend(
-      route,
-      changeObject
-    ).catch((error = {} as Error | AxiosError) => Promise.reject(error));
+    return requestToSend(route, changeObject)
+      .catch((error = {} as Error | AxiosError) => Promise.reject(error))
+      .finally(() => {
+        queryID && loaderName && PendingQueries.remove(loaderName, queryID);
+      });
   } else throw new Error("no request sent");
 };
