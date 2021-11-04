@@ -10,6 +10,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   status: ColorType;
   input: ColorType;
   link: ColorType;
+  button: ColorType;
 };
 
 export type ThemeDefaultOptions = Theme & {

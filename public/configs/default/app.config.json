@@ -2,5 +2,6 @@
   "name": "DRaaS",
   "customTranslations": false,
   "backendUrl": "https://apioaas-prov.netaxis.cloud",
-  "apiVersion": "api/v01"
+  "apiVersion": "api/v01",
+  "draasInstance": "custom/draas_v1"
 }
