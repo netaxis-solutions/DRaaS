@@ -1,29 +1,39 @@
-import { FC } from "react";
+import { FC } from 'react'
 import {
   useTable,
   useSortBy,
   usePagination,
   useRowSelect,
-  CellProps
-} from "react-table";
-import Checkbox from "@material-ui/core/Checkbox";
-import MaUTable from "@material-ui/core/Table";
+  CellProps,
+  useFilters,
+  useGlobalFilter
+} from 'react-table'
+import Checkbox from '@material-ui/core/Checkbox'
+import MaUTable from '@material-ui/core/Table'
 
-import { TableProps } from "utils/types/tableConfig";
-import TableBody from "./components/TableBody";
-import TableHead from "./components/TableHead";
+import { TableProps } from 'utils/types/tableConfig'
+import TableBody from './components/TableBody'
+import TableHead from './components/TableHead'
+import Toolbar from './components/Toolbar'
+import { useStyles } from './styles'
 
-import { useStyles } from "./styles";
-
-const Table: FC<TableProps> = ({ columns, data, checkbox }) => {
-  const classes = useStyles();
+const Table: FC<TableProps> = ({
+  title,
+  columns,
+  data,
+  checkbox,
+  toolbarActions
+}) => {
+  const classes = useStyles()
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page
+    setGlobalFilter,
+    page,
+    state
   } = useTable(
     {
       columns,
@@ -31,14 +41,16 @@ const Table: FC<TableProps> = ({ columns, data, checkbox }) => {
       initialState: { pageIndex: 0 },
       manualPagination: true
     },
+    useFilters,
+    useGlobalFilter,
     useSortBy,
     usePagination,
     useRowSelect,
-    (hooks) =>
+    hooks =>
       checkbox
-        ? hooks.visibleColumns.push((columns) => [
+        ? hooks.visibleColumns.push(columns => [
             {
-              id: "selection",
+              id: 'selection',
               Header: ({ getToggleAllPageRowsSelectedProps }) => (
                 <Checkbox {...getToggleAllPageRowsSelectedProps()} />
               ),
@@ -48,11 +60,17 @@ const Table: FC<TableProps> = ({ columns, data, checkbox }) => {
             },
             ...columns
           ])
-        : hooks.visibleColumns.push((columns) => [...columns])
-  );
+        : hooks.visibleColumns.push(columns => [...columns])
+  )
 
   return (
     <div className={classes.tableWrapper}>
+      <Toolbar
+        title={title}
+        toolbarActions={toolbarActions}
+        setGlobalFilter={setGlobalFilter}
+        value={state.globalFilter}
+      />
       <MaUTable {...getTableProps()} className={classes.tableRoot}>
         <TableHead headerGroups={headerGroups} />
         <TableBody
@@ -62,7 +80,7 @@ const Table: FC<TableProps> = ({ columns, data, checkbox }) => {
         />
       </MaUTable>
     </div>
-  );
-};
+  )
+}
 
-export default Table;
+export default Table
