@@ -1,16 +1,16 @@
-import { ToolbarType } from 'utils/types/tableConfig'
-import ButtonWithIcon from 'components/common/Form/ButtonWithIcon'
-import SearchInput from 'components/common/SearchInput'
+import { ToolbarType } from "utils/types/tableConfig";
+import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
+import SearchInput from "components/common/SearchInput";
 
-import { useToolbarStyles } from './styles'
+import { useToolbarStyles } from "./styles";
 
 const Toolbar: React.FC<ToolbarType> = ({
   toolbarActions,
   setGlobalFilter,
-  value = '',
+  value = "",
   title
 }) => {
-  const classes = useToolbarStyles()
+  const classes = useToolbarStyles();
 
   return (
     <div className={classes.tableToolbarWrapper}>
@@ -19,7 +19,7 @@ const Toolbar: React.FC<ToolbarType> = ({
       <div className={classes.tableToolbarSearchActionWrappper}>
         <SearchInput
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setGlobalFilter(e.target.value)
+            setGlobalFilter(e.target.value);
           }}
           value={value}
         />
@@ -35,7 +35,7 @@ const Toolbar: React.FC<ToolbarType> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Toolbar
+export default Toolbar;
