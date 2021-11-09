@@ -3,7 +3,10 @@ import get from "lodash/get";
 
 import { publicLoginRequest, request } from "services/api";
 import { homeUrl } from "utils/constants/routes";
-import { LoginFormTypes } from "utils/types/authentication";
+import {
+  LoginFormTypes,
+  ForgotPasswordTypes,
+} from "utils/types/authentication";
 import { LoggedInUserType } from "utils/types/routingConfig";
 import { ResponseData } from "utils/types/login";
 import RoutingConfig from "../RoutingConfig";
@@ -12,11 +15,13 @@ import configStore from "../Config";
 class Login {
   user = {} as object;
   level = "" as LoggedInUserType;
+  isForgotPasswordNotificationShown: boolean = false;
 
   constructor() {
     makeObservable(this, {
       user: observable.ref,
-      level: observable
+      level: observable,
+      isForgotPasswordNotificationShown: observable,
     });
 
     reaction(
@@ -24,13 +29,13 @@ class Login {
       () => {
         if (this.level) {
           const routeVal = RoutingConfig.availableRouting.find(
-            (el) => el.key === homeUrl[RoutingConfig.currentLevel]
+            el => el.key === homeUrl[RoutingConfig.currentLevel],
           );
 
           const route = routeVal?.value?.path || "/";
           RoutingConfig.history.push(route);
         }
-      }
+      },
     );
   }
 
@@ -40,7 +45,7 @@ class Login {
         loaderName: "@loginLoader",
         payload,
         method: "post",
-        route: "auth/login"
+        route: "auth/login",
       });
 
       const accessToken = get(data, "data.access_token", false);
@@ -49,13 +54,13 @@ class Login {
       accessToken &&
         localStorage.setItem(
           `${configStore.config.name}_accessToken`,
-          accessToken
+          accessToken,
         );
 
       refreshToken &&
         localStorage.setItem(
           `${configStore.config.name}_refreshToken`,
-          refreshToken
+          refreshToken,
         );
       this.getUserData();
     } catch (e) {}
@@ -69,7 +74,7 @@ class Login {
     try {
       const data: RoutingConfigType = await request({
         loaderName: "@getUserDataLoader",
-        route: "/system/users/local"
+        route: "/system/users/local",
       });
       const level = data.data.ui_profile;
 
@@ -80,6 +85,27 @@ class Login {
         this.level = level;
       });
     } catch {}
+  };
+
+  forgotPassword = async (payload: ForgotPasswordTypes): Promise<void> => {
+    runInAction(() => {
+      this.isForgotPasswordNotificationShown = false;
+    });
+    try {
+      await publicLoginRequest({
+        loaderName: "@forgotPasswordLoader",
+        payload,
+        method: "post",
+        route: "auth/reset-password",
+      });
+      runInAction(() => {
+        this.isForgotPasswordNotificationShown = true;
+      });
+    } catch (e) {
+      runInAction(() => {
+        this.isForgotPasswordNotificationShown = false;
+      });
+    }
   };
 }
 

@@ -13,7 +13,7 @@ const styles = makeStyles((theme: ThemeDefaultOptions) => ({
     backgroundImage: "url(/branding/default/img/bck.png)",
     backgroundSize: "cover",
   },
-  loginBorderForm: (props) => ({
+  loginBorderForm: props => ({
     position: "absolute",
     background:
       "linear-gradient(135.1deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);",
@@ -24,7 +24,7 @@ const styles = makeStyles((theme: ThemeDefaultOptions) => ({
   loginFormContainer: {
     borderRadius: 20,
     border: "1px solid #FFFFFF",
-    maxWidth: 600,
+    maxWidth: 602,
     maxHeight: 600,
     width: "100%",
     height: "100%",
@@ -32,7 +32,7 @@ const styles = makeStyles((theme: ThemeDefaultOptions) => ({
     flexDirection: "column",
     color: "#FFFFFF",
     padding: `${theme.spacing(12.5)}px ${theme.spacing(12.5)}px ${theme.spacing(
-      15
+      15,
     )}px`,
     zIndex: 1,
   },
