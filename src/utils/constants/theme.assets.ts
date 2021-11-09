@@ -53,6 +53,12 @@ export const defaultPalette: PaletteDefaultOptionsType = {
   button: {
     hover: "#EBEBF7",
     active: "#C2C3E8"
+  },
+  table: {
+    hover: "#F5F7FF",
+    border: "#EBEBF7",
+    iconActive: "#484CBA",
+    iconDisabled: "#B4BDC2"
   }
 };
 

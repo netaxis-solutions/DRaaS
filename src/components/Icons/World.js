@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 
 function SvgWorld(props, svgRef) {
   return (
@@ -18,8 +18,8 @@ function SvgWorld(props, svgRef) {
         </clipPath>
       </defs>
     </svg>
-  )
+  );
 }
 
-const ForwardRef = React.forwardRef(SvgWorld)
-export default ForwardRef
+const ForwardRef = React.forwardRef(SvgWorld);
+export default ForwardRef;

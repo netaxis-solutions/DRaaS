@@ -11,6 +11,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   input: ColorType;
   link: ColorType;
   button: ColorType;
+  table: ColorType;
 };
 
 export type ThemeDefaultOptions = Theme & {
