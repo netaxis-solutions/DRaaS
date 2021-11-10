@@ -15,7 +15,7 @@ import configStore from "../Config";
 class Login {
   user = {} as object;
   level = "" as LoggedInUserType;
-  isForgotPasswordNotificationShown: boolean = false;
+  isForgotPasswordNotificationShown: string = "";
 
   constructor() {
     makeObservable(this, {
@@ -89,7 +89,7 @@ class Login {
 
   forgotPassword = async (payload: ForgotPasswordTypes): Promise<void> => {
     runInAction(() => {
-      this.isForgotPasswordNotificationShown = false;
+      this.isForgotPasswordNotificationShown = "";
     });
     try {
       await publicLoginRequest({
@@ -99,11 +99,11 @@ class Login {
         route: "auth/reset-password",
       });
       runInAction(() => {
-        this.isForgotPasswordNotificationShown = true;
+        this.isForgotPasswordNotificationShown = "success";
       });
     } catch (e) {
       runInAction(() => {
-        this.isForgotPasswordNotificationShown = false;
+        this.isForgotPasswordNotificationShown = "fail";
       });
     }
   };

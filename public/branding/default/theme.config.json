@@ -37,7 +37,8 @@
       "iconDisabled": "#B4BDC2"
     },
     "notification": {
-      "success": "#BDDA84"
+      "success": "#BDDA84",
+      "error": "#FB8D84"
     }
   }
 }

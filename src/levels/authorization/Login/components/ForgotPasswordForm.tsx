@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import { observer } from "mobx-react-lite";
+import clsx from "clsx";
 
 import { loginSchema } from "utils/schemas/loginSchema";
 import { ForgotPasswordTypes } from "utils/types/authentication";
@@ -36,10 +37,22 @@ const ForgotPasswordForm: React.FC = () => {
           "Submit your username and we’ll send you a link to reset your password",
         )}
       </p>
-      {isForgotPasswordNotificationShown && (
+      {isForgotPasswordNotificationShown === "success" && (
         <div className={classes.forgotPasswordNotificationContainer}>
           <span className={classes.forgotPasswordNotificationText}>
             {t("Link was successfully send to your email!")}
+          </span>
+        </div>
+      )}
+      {isForgotPasswordNotificationShown === "fail" && (
+        <div
+          className={clsx(
+            classes.forgotPasswordNotificationContainer,
+            classes.forgotPasswordErrorNotificationContainer,
+          )}
+        >
+          <span className={classes.forgotPasswordNotificationText}>
+            {t("Something went wrong, try again!")}
           </span>
         </div>
       )}

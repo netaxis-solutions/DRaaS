@@ -32,6 +32,9 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       "& label": {
         color: "#FFFFFF !important",
       },
+      "& label.Mui-error.Mui-focused": {
+        color: "#EC4436 !important",
+      },
       "& div": {
         color: "#FFFFFF",
       },
@@ -65,6 +68,9 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     borderRadius: 6,
     marginTop: -theme.spacing(3.75),
     marginBottom: theme.spacing(2.5),
+  },
+  forgotPasswordErrorNotificationContainer: {
+    backgroundColor: theme.palette.notification.error,
   },
   forgotPasswordNotificationText: {
     color: theme.palette.primary.text,
