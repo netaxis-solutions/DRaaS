@@ -110,6 +110,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       transform: "translate(20px, -4px) scale(0.75) !important",
     },
   },
+  MuiTouchRipple: { root: { display: "none" } },
   MuiButton: {
     root: {
       height: 36,

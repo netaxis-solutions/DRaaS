@@ -27,7 +27,7 @@ export type TableProps = {
   title: string;
   columns: Column<TableData>[];
   data: TableData[];
-  checkbox: boolean;
+  checkbox?: boolean;
   toolbarActions: Array<ToolbarActionType>;
 };
 

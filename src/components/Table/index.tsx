@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ChangeEvent, FC } from "react";
 import {
   useTable,
   useSortBy,
@@ -8,10 +8,10 @@ import {
   useFilters,
   useGlobalFilter
 } from "react-table";
-import Checkbox from "@material-ui/core/Checkbox";
 import MaUTable from "@material-ui/core/Table";
 
 import { TableProps } from "utils/types/tableConfig";
+import { Checkbox } from "components/common/Form/FormCheckbox";
 import TableBody from "./components/TableBody";
 import TableHead from "./components/TableHead";
 import Toolbar from "./components/Toolbar";
@@ -22,7 +22,7 @@ const Table: FC<TableProps> = ({
   title,
   columns,
   data,
-  checkbox,
+  checkbox = false,
   toolbarActions
 }) => {
   const classes = useStyles();
@@ -56,12 +56,28 @@ const Table: FC<TableProps> = ({
         ? hooks.visibleColumns.push(columns => [
             {
               id: "selection",
-              Header: ({ getToggleAllPageRowsSelectedProps }) => (
-                <Checkbox {...getToggleAllPageRowsSelectedProps()} />
-              ),
-              Cell: ({ row }: CellProps<TableProps>) => (
-                <Checkbox {...row.getToggleRowSelectedProps()} />
-              )
+              Header: ({ getToggleAllPageRowsSelectedProps }) => {
+                const {
+                  checked = false,
+                  onChange
+                } = getToggleAllPageRowsSelectedProps();
+                const handleChange = (e: ChangeEvent<Element>, _: boolean) => {
+                  onChange && onChange(e);
+                };
+
+                return <Checkbox checked={checked} onChange={handleChange} />;
+              },
+              Cell: ({ row }: CellProps<TableProps>) => {
+                const {
+                  checked = false,
+                  onChange
+                } = row.getToggleRowSelectedProps();
+                const handleChange = (e: ChangeEvent<Element>, _: boolean) => {
+                  onChange && onChange(e);
+                };
+
+                return <Checkbox checked={checked} onChange={handleChange} />;
+              }
             },
             ...columns
           ])
@@ -69,7 +85,7 @@ const Table: FC<TableProps> = ({
   );
 
   return (
-    <div className={classes.tableWrapper}>
+    <>
       <Toolbar
         title={title}
         toolbarActions={toolbarActions}
@@ -95,7 +111,7 @@ const Table: FC<TableProps> = ({
         canNextPage={canNextPage}
         canPreviousPage={canPreviousPage}
       />
-    </div>
+    </>
   );
 };
 

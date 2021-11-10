@@ -19,9 +19,16 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   }
 }));
 
-export const useTableHeadStyles = makeStyles(() => ({
+export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableHeadActionRow: {
-    textAlign: "end"
+    textAlign: "end",
+    paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
+    paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`
+  },
+  tableHeadCheckboxRow: {
+    paddingLeft: theme.direction === "ltr" ? 30 : 0,
+    paddingRight: theme.direction === "ltr" ? 0 : 30,
+    width: 60
   }
 }));
 
@@ -63,6 +70,16 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "&:hover": {
       backgroundColor: theme.palette.table.hover
     }
+  },
+  tableCellWithSelection: {
+    paddingLeft: theme.direction === "ltr" ? 30 : 0,
+    paddingRight: theme.direction === "ltr" ? 0 : 30,
+    width: 60
+  },
+  tableCellWithAction: {
+    textAlign: "end",
+    paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
+    paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`
   }
 }));
 
