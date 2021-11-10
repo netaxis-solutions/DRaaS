@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC } from "react";
 import {
   useTable,
   useSortBy,
@@ -7,15 +7,16 @@ import {
   CellProps,
   useFilters,
   useGlobalFilter
-} from 'react-table'
-import Checkbox from '@material-ui/core/Checkbox'
-import MaUTable from '@material-ui/core/Table'
+} from "react-table";
+import Checkbox from "@material-ui/core/Checkbox";
+import MaUTable from "@material-ui/core/Table";
 
-import { TableProps } from 'utils/types/tableConfig'
-import TableBody from './components/TableBody'
-import TableHead from './components/TableHead'
-import Toolbar from './components/Toolbar'
-import { useStyles } from './styles'
+import { TableProps } from "utils/types/tableConfig";
+import TableBody from "./components/TableBody";
+import TableHead from "./components/TableHead";
+import Toolbar from "./components/Toolbar";
+import Pagination from "./components/Pagination";
+import { useStyles } from "./styles";
 
 const Table: FC<TableProps> = ({
   title,
@@ -24,7 +25,7 @@ const Table: FC<TableProps> = ({
   checkbox,
   toolbarActions
 }) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   const {
     getTableProps,
@@ -33,13 +34,17 @@ const Table: FC<TableProps> = ({
     prepareRow,
     setGlobalFilter,
     page,
-    state
+    state,
+    setPageSize,
+    pageCount,
+    previousPage,
+    nextPage,
+    canNextPage,
+    canPreviousPage
   } = useTable(
     {
       columns,
-      data,
-      initialState: { pageIndex: 0 },
-      manualPagination: true
+      data
     },
     useFilters,
     useGlobalFilter,
@@ -50,7 +55,7 @@ const Table: FC<TableProps> = ({
       checkbox
         ? hooks.visibleColumns.push(columns => [
             {
-              id: 'selection',
+              id: "selection",
               Header: ({ getToggleAllPageRowsSelectedProps }) => (
                 <Checkbox {...getToggleAllPageRowsSelectedProps()} />
               ),
@@ -61,7 +66,7 @@ const Table: FC<TableProps> = ({
             ...columns
           ])
         : hooks.visibleColumns.push(columns => [...columns])
-  )
+  );
 
   return (
     <div className={classes.tableWrapper}>
@@ -79,8 +84,19 @@ const Table: FC<TableProps> = ({
           page={page}
         />
       </MaUTable>
+      <Pagination
+        selectedRows={Object.keys(state.selectedRowIds).length}
+        pageSize={state.pageSize}
+        setPageSize={setPageSize}
+        pageCount={pageCount}
+        pageNumber={state.pageIndex + 1}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        canNextPage={canNextPage}
+        canPreviousPage={canPreviousPage}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Table
+export default Table;
