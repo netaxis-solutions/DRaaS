@@ -1,3 +1,5 @@
+export { default as ArrowLeft } from './ArrowLeft'
+export { default as ArrowRight } from './ArrowRight'
 export { default as Edit } from './Edit'
 export { default as Login } from './Login'
 export { default as Plus } from './Plus'
