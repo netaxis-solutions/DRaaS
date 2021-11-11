@@ -66,11 +66,6 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 }));
 
 export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
-  hover: {
-    "&:hover": {
-      backgroundColor: theme.palette.table.hover
-    }
-  },
   tableCellWithSelection: {
     paddingLeft: theme.direction === "ltr" ? 30 : 0,
     paddingRight: theme.direction === "ltr" ? 0 : 30,

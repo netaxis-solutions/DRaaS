@@ -18,7 +18,7 @@ const TableBody: React.FC<TableBodyType> = ({
       {page.map(row => {
         prepareRow(row);
         return (
-          <TableRow {...row.getRowProps()} className={classes.hover}>
+          <TableRow {...row.getRowProps()}>
             {row.cells.map(cell => {
               return (
                 <TableCell
