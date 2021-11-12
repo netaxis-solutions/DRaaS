@@ -1,6 +1,9 @@
 import * as React from "react";
 
-function SvgSearch(props, svgRef) {
+function SvgSearch(
+  props: React.SVGProps<SVGSVGElement>,
+  svgRef?: React.Ref<SVGSVGElement>
+) {
   return (
     <svg
       viewBox="0 0 16 16"
