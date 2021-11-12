@@ -1,8 +1,8 @@
+import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Button from "@material-ui/core/Button";
-import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import { loginSchema } from "utils/schemas/loginSchema";

@@ -33,7 +33,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
         color: "#FFFFFF !important",
       },
       "& label.Mui-error.Mui-focused": {
-        color: "#EC4436 !important",
+        color: `${theme.palette.notification.error} !important`,
       },
       "& div": {
         color: "#FFFFFF",

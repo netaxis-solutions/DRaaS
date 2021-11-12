@@ -62,6 +62,7 @@ export const defaultPalette: PaletteDefaultOptionsType = {
   },
   notification: {
     success: "#BDDA84",
+    error: "#EC4436",
   },
 };
 
