@@ -1,29 +1,31 @@
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { NavLink } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 import { loginSchema } from "utils/schemas/loginSchema";
 import { LoginFormTypes } from "utils/types/authentication";
+import { publicRoutes } from "utils/constants/routes";
 import loginStore from "storage/singletons/Login";
 import FormInput from "components/common/Form/FormInput";
 import { useFormStyles } from "./styles";
 
 const defaultValues = {
   username: "",
-  password: ""
+  password: "",
 };
 
 const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const { control, handleSubmit } = useForm<LoginFormTypes>({
     resolver: yupResolver(loginSchema(t)),
-    defaultValues
+    defaultValues,
   });
   const { login } = loginStore;
   const classes = useFormStyles();
 
-  const handleChange: SubmitHandler<LoginFormTypes> = (payload) => {
+  const handleChange: SubmitHandler<LoginFormTypes> = payload => {
     login(payload);
   };
 
@@ -46,7 +48,12 @@ const LoginForm: React.FC = () => {
           <FormInput label={t("Password")} {...field} {...props} />
         )}
       />
-      <p className={classes.loginForgetPasswordLink}>{t("Forgot password")}?</p>
+      <NavLink
+        to={publicRoutes.forgotPassword}
+        className={classes.loginForgetPasswordLink}
+      >
+        {t("Forgot password")}?
+      </NavLink>
       <Button type="submit" variant="contained">
         {t("Login")}
       </Button>
