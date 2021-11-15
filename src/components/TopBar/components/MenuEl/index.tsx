@@ -3,16 +3,15 @@ import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import clsx from "clsx";
 
-// import { MenuELType } from "utils/types/components/menu";
-
 import useStyles from "./styles";
 import { MenuElement } from "utils/types/routingConfig";
 
 type MenuELType = {
   menuEl: MenuElement;
+  onClick: () => void;
 };
 
-const MenuEl: React.FC<MenuELType> = ({ menuEl }) => {
+const MenuEl: React.FC<MenuELType> = ({ menuEl, onClick }) => {
   const classes = useStyles();
   const location = useLocation();
   const isActive = location.pathname === menuEl.path;
@@ -24,6 +23,7 @@ const MenuEl: React.FC<MenuELType> = ({ menuEl }) => {
       })}
     >
       <NavLink
+        onClick={onClick}
         to={menuEl?.path}
         className={classes.menuElLink}
         activeClassName={isActive ? classes.menuElLinkActive : ""}
