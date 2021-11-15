@@ -64,6 +64,12 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     success: "#BDDA84",
     error: "#EC4436",
   },
+
+  icon: {
+    hover: "#C2C3E8",
+    active: "#484CBA",
+    main: "#828282",
+  },
 };
 
 export const overrides = (palette: PaletteDefaultOptionsType) => ({
@@ -121,7 +127,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
         backgroundColor: "#F5F7FF !important",
         color: palette.secondary.text,
         "& svg": {
-          fill: `${palette.secondary.icon} !important`,
+          fill: `${palette.icon.main} !important`,
         },
       },
     },
@@ -139,10 +145,10 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       textTransform: "capitalize",
     },
     outlined: {
-      borderColor: palette.secondary.icon,
+      borderColor: palette.icon.main,
       color: palette.secondary.text,
       "& svg": {
-        fill: `${palette.secondary.icon} !important`,
+        fill: `${palette.icon.main} !important`,
       },
     },
   },

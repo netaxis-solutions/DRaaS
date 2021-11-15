@@ -11,7 +11,6 @@
       "main": "#CCE3D8",
       "light": "#EBEBF7",
       "text": "#828282",
-      "icon": "#828282",
       "hover": "#F5F7FF"
     },
     "status": {
@@ -39,6 +38,11 @@
     "notification": {
       "success": "#BDDA84",
       "error": "#FB8D84"
+    },
+    "icon": {
+      "hover": "#C2C3E8",
+      "active": "#484CBA",
+      "main": "#828282"
     }
   }
 }
