@@ -9,14 +9,15 @@ export type IconButtonPropsType = {
 
 export type InputPropsType = {
   onChange: (value: object) => void;
-  onBlur: (event?: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onBlur?: (event?: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   icon?: React.FC;
   helperText?: string;
-  label: string;
-  name: string;
+  label?: string;
+  name?: string;
   value: string;
-  error: boolean;
-  inputRef: Ref<HTMLInputElement>;
+  error?: boolean;
+  inputRef?: Ref<HTMLInputElement>;
+  type?: string;
 };
 
 export type SearchInputType = {

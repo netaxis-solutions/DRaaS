@@ -7,7 +7,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     justifyContent: "flex-end",
     "& svg": {
-      fill: theme.palette.secondary.icon,
+      fill: theme.palette.icon.main,
       width: 16,
       height: 16,
       cursor: "pointer"
@@ -48,7 +48,7 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       }
     },
     "& svg": {
-      fill: theme.palette.secondary.icon,
+      fill: theme.palette.icon.main,
       margin: "0 auto",
       height: 14,
       width: 10

@@ -1,6 +1,8 @@
 export { default as ArrowLeft } from './ArrowLeft'
 export { default as ArrowRight } from './ArrowRight'
 export { default as Edit } from './Edit'
+export { default as EyeClosed } from './EyeClosed'
+export { default as EyeOpened } from './EyeOpened'
 export { default as Login } from './Login'
 export { default as Plus } from './Plus'
 export { default as Search } from './Search'
