@@ -12,6 +12,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   link: ColorType;
   button: ColorType;
   table: ColorType;
+  notification: ColorType;
 };
 
 export type ThemeDefaultOptions = Theme & {
@@ -21,5 +22,5 @@ export type ThemeDefaultOptions = Theme & {
 
 export type DeepCloneThemeType = (
   defaultPalette: PaletteDefaultOptionsType,
-  palette: PaletteOptions
+  palette: PaletteOptions,
 ) => PaletteOptions;

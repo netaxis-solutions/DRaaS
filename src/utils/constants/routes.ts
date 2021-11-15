@@ -2,7 +2,8 @@ import { AnyKeyStringValueObjectType as PrivateRoutesType } from "utils/types/co
 import { HomeUrl, UrlStartStringType } from "utils/types/routingConfig";
 
 export const publicRoutes = {
-  login: "/login"
+  login: "/login",
+  forgotPassword: "/forgotPassword"
 };
 
 export const homeUrl: HomeUrl = {

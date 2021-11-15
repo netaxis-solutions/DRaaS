@@ -4,7 +4,8 @@
       "main": "#484CBA",
       "text": "#333333",
       "background": "#F9F9F9",
-      "light": "#EBEBF7"
+      "light": "#EBEBF7",
+      "white": "#FFFFFF"
     },
     "secondary": {
       "main": "#CCE3D8",
@@ -34,6 +35,10 @@
       "border": "#EBEBF7",
       "iconActive": "#484CBA",
       "iconDisabled": "#B4BDC2"
+    },
+    "notification": {
+      "success": "#BDDA84",
+      "error": "#FB8D84"
     }
   }
 }
