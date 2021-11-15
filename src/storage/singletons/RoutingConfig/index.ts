@@ -4,12 +4,12 @@ import { publicRoutes } from "utils/constants/routes";
 import {
   getLevelRoutes,
   getAvailableRoutes,
-  getALlPossibleUrls,
+  getALlPossibleUrls
 } from "utils/functions/routingConfig";
 import {
   CurRoute,
   LoggedInUserType,
-  RoutingConfigType,
+  RoutingConfigType
 } from "utils/types/routingConfig";
 import PendingQueries from "../PendingQueries";
 
@@ -28,9 +28,9 @@ class Routing {
     if (this.loggedInUserLevel) {
       return getALlPossibleUrls({
         publicConfigRoutes: this.publicConfigRoutes,
-        loggedInUserLevel: this.loggedInUserLevel,
+        loggedInUserLevel: this.loggedInUserLevel
       });
-    } else return null;
+    } else return {};
   }
   // Get all routing for the level you are currently on based on public/configs/default/app.routes.json
   get allRouting() {
@@ -49,7 +49,7 @@ class Routing {
       if (typeof routeValue === "string") {
         currentLevelRoutingArray.push({
           key: routeName,
-          value: { path: routeValue },
+          value: { path: routeValue }
         });
       } else {
         routeValue.enabled &&
@@ -83,7 +83,7 @@ class Routing {
       currentLevel: observable,
       setLoggedUser: action,
       setHistory: action,
-      setCurrentLevel: action,
+      setCurrentLevel: action
     });
   }
 
@@ -91,7 +91,7 @@ class Routing {
     const queryId = PendingQueries.add("@routingLoader", null);
 
     return await fetch("/configs/default/app.routes.json")
-      .then((data) => data.json())
+      .then(data => data.json())
       .then((routesConfig: RoutingConfigType) => {
         runInAction(() => {
           this.publicConfigRoutes = routesConfig;
