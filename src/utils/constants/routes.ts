@@ -3,36 +3,36 @@ import { HomeUrl, UrlStartStringType } from "utils/types/routingConfig";
 
 export const publicRoutes = {
   login: "/login",
-  forgotPassword: "/forgotPassword"
+  forgotPassword: "/forgot-password",
 };
 
 export const homeUrl: HomeUrl = {
   admin: "adminDistributors",
   distributor: "distributorResellers",
   reseller: "resellerCustomers",
-  customer: "customerSubscriptions"
+  customer: "customerSubscriptions",
 };
 export const privateRoutes: PrivateRoutesType = {
   adminDistributors: "/distributors",
   adminResellers: "/resellers",
   adminCustomers: "/customers",
-  adminRatePlan: "/ratePlan",
+  adminRatePlan: "/rate-plan",
   distributorResellers: "/resellers",
   distributorCustomers: "/customers",
-  distributorLicenseConsumption: "/licenseConsumption",
-  distributorRatePlan: "/ratePlan",
+  distributorLicenseConsumption: "/license-consumption",
+  distributorRatePlan: "/rate-lan",
   distributorAdmins: "/admins",
   distributorProfile: "/profile",
   resellerCustomers: "/customers",
-  resellerLicenseConsumption: "/licenseConsumption",
-  resellerRatePlan: "/ratePlan",
+  resellerLicenseConsumption: "/license-consumption",
+  resellerRatePlan: "/rate-plan",
   resellerAdmins: "/admins",
   resellerProfile: "/profile",
   customerSubscriptions: "/subscriptions",
   customerLocations: "/locations",
-  customerRatePlan: "/ratePlan",
+  customerRatePlan: "/rate-plan",
   customerAdmins: "/admins",
-  customerProfile: "/profile"
+  customerProfile: "/profile",
 };
 
 export const urlStartString: UrlStartStringType = {
@@ -41,18 +41,18 @@ export const urlStartString: UrlStartStringType = {
     distributor: "/distributors/:distributorID",
     reseller: "/distributors/:distributorID/resellers/:resellerID",
     customer:
-      "/distributors/:distributorID/resellers/:resellerID/customers/:customerID"
+      "/distributors/:distributorID/resellers/:resellerID/customers/:customerID",
   },
   distributor: {
     distributor: "/:distributorID",
     reseller: "/:distributorID/resellers/:resellerID",
-    customer: "/:distributorID/resellers/:resellerID/customers/:customerID"
+    customer: "/:distributorID/resellers/:resellerID/customers/:customerID",
   },
   reseller: {
     reseller: "/:resellerID",
-    customer: "/:resellerID/customers/:customerID"
+    customer: "/:resellerID/customers/:customerID",
   },
   customer: {
-    customer: "/:customerID"
-  }
+    customer: "/:customerID",
+  },
 };
