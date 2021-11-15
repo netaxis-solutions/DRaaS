@@ -6,7 +6,7 @@ import {
   useRowSelect,
   CellProps,
   useFilters,
-  useGlobalFilter
+  useGlobalFilter,
 } from "react-table";
 import MaUTable from "@material-ui/core/Table";
 
@@ -23,7 +23,7 @@ const Table: FC<TableProps> = ({
   columns,
   data,
   checkbox = false,
-  toolbarActions
+  toolbarActions,
 }) => {
   const classes = useStyles();
 
@@ -40,11 +40,11 @@ const Table: FC<TableProps> = ({
     previousPage,
     nextPage,
     canNextPage,
-    canPreviousPage
+    canPreviousPage,
   } = useTable(
     {
       columns,
-      data
+      data,
     },
     useFilters,
     useGlobalFilter,
@@ -59,7 +59,7 @@ const Table: FC<TableProps> = ({
               Header: ({ getToggleAllPageRowsSelectedProps }) => {
                 const {
                   checked = false,
-                  onChange
+                  onChange,
                 } = getToggleAllPageRowsSelectedProps();
                 const handleChange = (e: ChangeEvent<Element>, _: boolean) => {
                   onChange && onChange(e);
@@ -70,18 +70,18 @@ const Table: FC<TableProps> = ({
               Cell: ({ row }: CellProps<TableProps>) => {
                 const {
                   checked = false,
-                  onChange
+                  onChange,
                 } = row.getToggleRowSelectedProps();
                 const handleChange = (e: ChangeEvent<Element>, _: boolean) => {
                   onChange && onChange(e);
                 };
 
                 return <Checkbox checked={checked} onChange={handleChange} />;
-              }
+              },
             },
-            ...columns
+            ...columns,
           ])
-        : hooks.visibleColumns.push(columns => [...columns])
+        : hooks.visibleColumns.push(columns => [...columns]),
   );
 
   return (

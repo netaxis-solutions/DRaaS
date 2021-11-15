@@ -30,5 +30,5 @@ export type CheckboxType = {
   label?: string;
   labelPlacement?: "end" | "bottom" | "top" | "start";
   checkboxRef?: Ref<HTMLInputElement>;
-  disabled: boolean;
+  disabled?: boolean;
 };
