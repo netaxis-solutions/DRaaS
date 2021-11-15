@@ -77,7 +77,6 @@ class Login {
         route: "/system/users/local",
       });
       const level = data.data.ui_profile;
-
       RoutingConfig.setLoggedUser(level, level);
 
       runInAction(() => {
