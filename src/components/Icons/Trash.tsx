@@ -1,6 +1,9 @@
 import * as React from "react";
 
-function SvgTrash(props, svgRef) {
+function SvgTrash(
+  props: React.SVGProps<SVGSVGElement>,
+  svgRef?: React.Ref<SVGSVGElement>
+) {
   return (
     <svg
       viewBox="0 0 12 16"

@@ -1,6 +1,9 @@
 import * as React from "react";
 
-function SvgPlus(props, svgRef) {
+function SvgPlus(
+  props: React.SVGProps<SVGSVGElement>,
+  svgRef?: React.Ref<SVGSVGElement>
+) {
   return (
     <svg
       viewBox="0 0 14 14"
