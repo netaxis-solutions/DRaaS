@@ -45,7 +45,12 @@ const LoginForm: React.FC = () => {
         name="password"
         control={control}
         render={({ field, ...props }) => (
-          <FormInput label={t("Password")} {...field} {...props} />
+          <FormInput
+            label={t("Password")}
+            type="password"
+            {...field}
+            {...props}
+          />
         )}
       />
       <NavLink
