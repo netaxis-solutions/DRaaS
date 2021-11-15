@@ -1,6 +1,9 @@
 import * as React from "react";
 
-function SvgLogin(props, svgRef) {
+function SvgLogin(
+  props: React.SVGProps<SVGSVGElement>,
+  svgRef?: React.Ref<SVGSVGElement>
+) {
   return (
     <svg
       viewBox="0 0 20 20"
