@@ -13,6 +13,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   button: ColorType;
   table: ColorType;
   notification: ColorType;
+  icon: ColorType;
 };
 
 export type ThemeDefaultOptions = Theme & {

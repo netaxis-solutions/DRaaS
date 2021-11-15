@@ -40,6 +40,11 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
     "& button": {
+      "& svg": {
+        fill: "white",
+      },
+    },
+    "& > button": {
       background: "linear-gradient(270.95deg, #9A9DF1 0%, #484CBA 100%)",
       height: 46,
       width: "100%",
