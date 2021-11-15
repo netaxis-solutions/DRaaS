@@ -4,7 +4,7 @@ import {
   HeaderGroup,
   Row,
   TableBodyPropGetter,
-  TableBodyProps
+  TableBodyProps,
 } from "react-table";
 
 export type TableActionsType = {
@@ -27,7 +27,7 @@ export type TableProps = {
   title: string;
   columns: Column<TableData>[];
   data: TableData[];
-  checkbox: boolean;
+  checkbox?: boolean;
   toolbarActions: Array<ToolbarActionType>;
 };
 
@@ -40,7 +40,7 @@ export type ToolbarType = {
 
 export type TableBodyType = {
   getTableBodyProps: (
-    propGetter?: TableBodyPropGetter<TableData> | undefined
+    propGetter?: TableBodyPropGetter<TableData> | undefined,
   ) => TableBodyProps;
   page: Row[];
   prepareRow: (row: Row<TableData>) => void;
