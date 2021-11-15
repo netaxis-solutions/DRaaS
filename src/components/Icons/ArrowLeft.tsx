@@ -1,6 +1,9 @@
 import * as React from "react";
 
-function SvgArrowLeft(props, svgRef) {
+function SvgArrowLeft(
+  props: React.SVGProps<SVGSVGElement>,
+  svgRef?: React.Ref<SVGSVGElement>
+) {
   return (
     <svg
       viewBox="0 0 8 12"
