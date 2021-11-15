@@ -1,17 +1,21 @@
-import { useEffect, lazy } from "react";
+import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Switch, Route } from "react-router-dom";
 
 import loginStore from "storage/singletons/Login";
 import RoutingConfig from "storage/singletons/RoutingConfig";
+import { urlStartString } from "utils/constants/routes";
 import Loader from "components/Loader";
 import MainLayout from "components/MainLayout";
 
-const DistributorsList = lazy(() => import("levels/distributors"));
+import Admin from "./admin";
+import Distributor from "./distributor";
+import Reseller from "./reseller";
+import Customer from "./customer";
 
 const Content: React.FC = () => {
   const { getUserData } = loginStore;
-  const { allAvailvableRouting } = RoutingConfig;
+  const { loggedInUserLevel } = RoutingConfig;
 
   useEffect(() => {
     getUserData();
@@ -19,110 +23,28 @@ const Content: React.FC = () => {
   }, []);
 
   return (
-    allAvailvableRouting && (
+    loggedInUserLevel && (
       <MainLayout>
         <Loader>
           <Switch>
             <Route
-              exact
-              path={allAvailvableRouting.customerSubscriptions}
-              component={() => <div>customerSubscriptions</div>}
+              path={urlStartString[loggedInUserLevel].customer}
+              component={Customer}
             />
-            <Route
-              exact
-              path={allAvailvableRouting.customerLocations}
-              component={() => <div>customerLocations</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.customerRatePlan}
-              component={() => <div>customerRatePlan</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.customerAdmins}
-              component={() => <div>customerAdmins</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.customerProfile}
-              component={() => <div>customerProfile</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.resellerCustomers}
-              component={() => <div>resellerCustomers</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.resellerLicenseConsumption}
-              component={() => <div>resellerLicenseConsumption</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.resellerRatePlan}
-              component={() => <div>resellerRatePlan</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.resellerAdmins}
-              component={() => <div>resellerAdmins</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.resellerProfile}
-              component={() => <div>resellerProfile</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.distributorResellers}
-              component={() => <div>distributorResellers</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.distributorCustomers}
-              component={() => <div>distributorCustomers</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.distributorLicenseConsumption}
-              component={() => <div>distributorLicenseConsumption</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.distributorRatePlan}
-              component={() => <div>distributorRatePlan</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.distributorAdmins}
-              component={() => <div>distributorAdmins</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.distributorProfile}
-              component={() => <div>distributorProfile</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.adminDistributors}
-              component={DistributorsList}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.adminResellers}
-              component={() => <div>adminResellers</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.adminCustomers}
-              component={() => <div>Billing</div>}
-            />
-            <Route
-              exact
-              path={allAvailvableRouting.adminRatePlan}
-              component={() => <div>Billing</div>}
-            />
+            {loggedInUserLevel !== "customer" && (
+              <Route
+                path={urlStartString[loggedInUserLevel].reseller}
+                component={Reseller}
+              />
+            )}
+            {(loggedInUserLevel === "distributor" ||
+              loggedInUserLevel === "admin") && (
+              <Route
+                path={urlStartString[loggedInUserLevel].distributor}
+                component={Distributor}
+              />
+            )}
+            <Route path={""} component={Admin} />
           </Switch>
         </Loader>
       </MainLayout>
