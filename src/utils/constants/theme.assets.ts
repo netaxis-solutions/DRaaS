@@ -110,6 +110,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       transform: "translate(20px, -4px) scale(0.75) !important",
     },
   },
+  MuiTouchRipple: { root: { display: "none" } },
   MuiButton: {
     root: {
       height: 36,
@@ -177,6 +178,9 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
   },
   MuiTableRow: {
     root: {
+      "&:hover": {
+        backgroundColor: palette.table.hover,
+      },
       "&$selected": {
         background: "transparent",
       },
@@ -193,9 +197,15 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       "&:last-child": {
         padding: "16px 90px 16px 16px",
       },
+      padding: 3,
     },
     head: {
       color: palette.secondary.text,
+    },
+  },
+  MuiTableHead: {
+    root: {
+      borderBottom: `1px solid ${palette.table.border}`,
     },
   },
   MuiCheckbox: {

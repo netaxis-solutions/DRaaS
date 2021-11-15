@@ -17,7 +17,8 @@ const Loader = ({ children }: { children: any }) => {
                 position: "absolute",
                 zIndex: 999,
                 width: "100%",
-                height: "100%"
+                height: "100%",
+                padding: 30
               }
             : {
                 opacity: 0,

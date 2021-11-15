@@ -9,14 +9,16 @@ import { useTableHeadStyles } from "./styles";
 
 const TableHead: React.FC<TableHeadType> = ({ headerGroups }) => {
   const classes = useTableHeadStyles();
+
   return (
     <MTableHead>
-      {headerGroups.map((headerGroup) => (
+      {headerGroups.map(headerGroup => (
         <TableRow {...headerGroup.getHeaderGroupProps()}>
-          {headerGroup.headers.map((column) => (
+          {headerGroup.headers.map(column => (
             <TableCell
               {...column.getHeaderProps(column.getSortByToggleProps())}
               className={clsx({
+                [classes.tableHeadCheckboxRow]: column.id === "selection",
                 [classes.tableHeadActionRow]: column.id === "actions"
               })}
             >
