@@ -6,3 +6,8 @@ export type LoginFormTypes = {
 export type ForgotPasswordTypes = {
   username: string;
 };
+
+export type ResetPasswordTypes = {
+  password: string;
+  confirmPassword: string;
+};

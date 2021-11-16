@@ -6,6 +6,7 @@ import { homeUrl } from "utils/constants/routes";
 import {
   LoginFormTypes,
   ForgotPasswordTypes,
+  ResetPasswordTypes,
 } from "utils/types/authentication";
 import { LoggedInUserType } from "utils/types/routingConfig";
 import { ResponseData } from "utils/types/login";
@@ -104,6 +105,26 @@ class Login {
       runInAction(() => {
         this.isForgotPasswordNotificationShown = "fail";
       });
+    }
+  };
+
+  resetPassword = async (
+    payload: ResetPasswordTypes,
+    oneTimeToken: string,
+    callback?: () => void,
+  ): Promise<void> => {
+    try {
+      await publicLoginRequest({
+        loaderName: "@resetPasswordLoader",
+        payload: {
+          password: payload.password,
+        },
+        method: "put",
+        route: `auth/reset-password/${oneTimeToken}`,
+      });
+    } catch (e) {
+    } finally {
+      callback && callback();
     }
   };
 }

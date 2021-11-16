@@ -82,6 +82,9 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.6rem",
     lineHeight: "20px",
   },
+  resetButton: {
+    marginTop: "2em",
+  },
 }));
 
 export default styles;
