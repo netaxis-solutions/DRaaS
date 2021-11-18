@@ -110,8 +110,9 @@ class Login {
 
   resetPassword = async (
     payload: ResetPasswordTypes,
-    oneTimeToken: string,
+    oneTimeToken: string | null,
     callback?: () => void,
+    successCallback?: () => void,
   ): Promise<void> => {
     try {
       await publicLoginRequest({
@@ -122,6 +123,7 @@ class Login {
         method: "put",
         route: `auth/reset-password/${oneTimeToken}`,
       });
+      successCallback && successCallback();
     } catch (e) {
     } finally {
       callback && callback();

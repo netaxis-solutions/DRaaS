@@ -27,7 +27,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     flexDirection: "column",
     "& > div": {
       "&:first-child": {
-        marginBottom: `${theme.spacing(2.5)}px`,
+        marginBottom: `${theme.spacing(3.75)}px`,
       },
       "& label": {
         color: "#FFFFFF !important",
@@ -71,8 +71,8 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     padding: theme.spacing(2.5),
     backgroundColor: theme.palette.notification.success,
     borderRadius: 6,
-    marginTop: -theme.spacing(3.75),
-    marginBottom: theme.spacing(2.5),
+    marginTop: -theme.spacing(5.25),
+    marginBottom: theme.spacing(1),
   },
   forgotPasswordErrorNotificationContainer: {
     backgroundColor: theme.palette.notification.error,
@@ -83,7 +83,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     lineHeight: "20px",
   },
   resetButton: {
-    marginTop: "2em",
+    marginTop: theme.spacing(7),
   },
 }));
 
