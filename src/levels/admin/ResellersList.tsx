@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import Resellers from "storage/singletons/Resellers";
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
-import { Plus } from "components/Icons";
+import { Plus, Trash } from "components/Icons";
 
 const columns = [
   {
@@ -42,6 +42,14 @@ const ResellersList: FC = () => {
   }, []);
 
   const toolbarActions = [
+    {
+      id: "delete",
+      title: "Delete",
+      icon: Trash,
+      onClick: () => {
+        console.log("delete reseller");
+      },
+    },
     {
       id: "add",
       title: "Add",
