@@ -5,6 +5,7 @@ import { publicRoutes } from "utils/constants/routes";
 import LoginForm from "./components/LoginForm";
 import LoginHeader from "./components/LoginHeader";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
+import ResetPasswordForm from "./components/ResetPasswordForm";
 import useStyles from "./styles";
 
 const Login: React.FC = () => {
@@ -25,6 +26,11 @@ const Login: React.FC = () => {
             exact
             path={publicRoutes.forgotPassword}
             component={ForgotPasswordForm}
+          />
+          <Route
+            exact
+            path={publicRoutes.resetPassword}
+            component={ResetPasswordForm}
           />
         </Switch>
       </div>

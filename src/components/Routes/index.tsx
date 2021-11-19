@@ -6,7 +6,11 @@ import PrivateRoute from "components/PrivateRoute";
 import Login from "levels/authorization/Login";
 import Content from "levels";
 
-const publicRoutes = ["/login", "/forgot-password"];
+const publicRoutes = [
+  "/login",
+  "/forgot-password",
+  "/reset-password/:oneTimeToken",
+];
 
 const Routes: React.FC = () => {
   const { setHistory } = RoutingStore;

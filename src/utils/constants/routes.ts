@@ -4,6 +4,7 @@ import { HomeUrl, UrlStartStringType } from "utils/types/routingConfig";
 export const publicRoutes = {
   login: "/login",
   forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password/:oneTimeToken",
 };
 
 export const homeUrl: HomeUrl = {
