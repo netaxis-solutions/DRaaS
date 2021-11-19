@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
 const DistributorsList = lazy(() => import("./DistributorsList"));
+const ResellersList = lazy(() => import("./ResellersList"));
 
 const Admin = () => {
   const { allAvailvableRouting } = RoutingConfig;
@@ -18,7 +19,7 @@ const Admin = () => {
       <Route
         exact
         path={allAvailvableRouting.adminResellers}
-        component={() => <div>adminResellers</div>}
+        component={ResellersList}
       />
       <Route
         exact
