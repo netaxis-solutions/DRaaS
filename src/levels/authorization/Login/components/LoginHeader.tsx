@@ -10,7 +10,8 @@ const LoginHeader: React.FC = () => {
 
   const title =
     (location.pathname === "/login" && t("Welcome to CC")) ||
-    (location.pathname === "/forgot-password" && t("Forgot password?"));
+    (location.pathname === "/forgot-password" && t("Forgot password?")) ||
+    (location.pathname.includes("/reset-password") && t("Reset password"));
 
   return (
     <div className={classes.loginFormHeader}>
