@@ -57,7 +57,9 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
       <ModalButtonsWrapper
         handleCancel={onCancel}
         cancelButton
-        submitButtonTitle={t("Next")}
+        //TODO: Uncomment when multistep form will be impelemented
+        // submitButtonTitle={t("Next")}
+        submitButtonTitle={t("Add")}
       />
       <Controller
         name="name"

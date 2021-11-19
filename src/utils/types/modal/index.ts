@@ -27,4 +27,6 @@ export type TModalButtonsWrapperProps = {
   cancelButtonTitle?: string;
   handleCancel?: () => void;
   submitButtonTitle?: string;
+  submitIcon?: React.FC;
+  cancelIcon?: React.FC;
 };

@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import { TModalButtonsWrapperProps } from "utils/types/modal";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Back, Cross, Plus, Next } from "components/Icons";
+import { Cross, Plus } from "components/Icons";
 import { modalButtonsWrapperUseStyles } from "./styles";
 
 const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
@@ -10,24 +10,28 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
   cancelButtonTitle,
   handleCancel,
   submitButtonTitle,
+  submitIcon,
+  cancelIcon,
 }) => {
   const { t } = useTranslation();
   const classes = modalButtonsWrapperUseStyles();
+  const IconSubmit = submitIcon ? submitIcon : Plus;
+  const IconCancel = cancelIcon ? cancelIcon : Cross;
 
   return (
     <div className={classes.modalButtonsWrapper}>
       {cancelButton && (
         <ButtonWithIcon
           onClick={handleCancel}
-          icon={cancelButtonTitle ? Back : Cross}
+          icon={IconCancel}
           title={cancelButtonTitle ? cancelButtonTitle : t("Cancel")}
         ></ButtonWithIcon>
       )}
       <ButtonWithIcon
         type="submit"
         variant="contained"
-        icon={submitButtonTitle ? Next : Plus}
-        title={submitButtonTitle ? submitButtonTitle : t("Save")}
+        icon={IconSubmit}
+        title={submitButtonTitle ? submitButtonTitle : t("Add")}
       ></ButtonWithIcon>
     </div>
   );
