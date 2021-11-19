@@ -2,7 +2,7 @@ import * as React from "react";
 
 function SvgSort(
   props: React.SVGProps<SVGSVGElement>,
-  svgRef?: React.Ref<SVGSVGElement>
+  svgRef?: React.Ref<SVGSVGElement>,
 ) {
   return (
     <svg

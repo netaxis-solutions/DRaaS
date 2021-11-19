@@ -7,6 +7,7 @@ import useStyles from "./styles";
 const ButtonWithIcon: React.FC<IconButtonPropsType> = ({
   icon: Icon,
   title,
+  type = "button",
   variant = "outlined",
   ...props
 }) => {
