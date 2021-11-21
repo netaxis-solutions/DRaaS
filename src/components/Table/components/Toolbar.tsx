@@ -8,7 +8,7 @@ const Toolbar: React.FC<ToolbarType> = ({
   toolbarActions,
   setGlobalFilter,
   value = "",
-  title
+  title,
 }) => {
   const classes = useToolbarStyles();
 
@@ -30,6 +30,7 @@ const Toolbar: React.FC<ToolbarType> = ({
               type="button"
               icon={el.icon}
               title={el.title}
+              onClick={el.onClick}
             />
           ))}
         </div>

@@ -3,8 +3,8 @@ import { lazy } from "react";
 import { Route, Switch } from "react-router";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
-const DistributorsList = lazy(() => import("./DistributorsList"));
 const ResellersList = lazy(() => import("./ResellersList"));
+const DistributorsList = lazy(() => import("./components/DistributorsList"));
 
 const Admin = () => {
   const { allAvailvableRouting } = RoutingConfig;
