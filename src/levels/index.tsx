@@ -11,7 +11,7 @@ import MainLayout from "components/MainLayout";
 import Admin from "./admin";
 import Distributor from "./distributor";
 import Reseller from "./reseller";
-import Customer from "./customer";
+import Tenant from "./tenant";
 
 const Content: React.FC = () => {
   const { getUserData } = loginStore;
@@ -28,10 +28,10 @@ const Content: React.FC = () => {
         <Loader>
           <Switch>
             <Route
-              path={urlStartString[loggedInUserLevel].customer}
-              component={Customer}
+              path={urlStartString[loggedInUserLevel].tenant}
+              component={Tenant}
             />
-            {loggedInUserLevel !== "customer" && (
+            {loggedInUserLevel !== "tenant" && (
               <Route
                 path={urlStartString[loggedInUserLevel].reseller}
                 component={Reseller}

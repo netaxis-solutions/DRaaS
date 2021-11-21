@@ -15,8 +15,8 @@ const Distributor = () => {
       />
       <Route
         exact
-        path={allAvailvableRouting.distributorCustomers}
-        component={() => <div>distributorCustomers</div>}
+        path={allAvailvableRouting.distributorTenants}
+        component={() => <div>distributorTenants</div>}
       />
       <Route
         exact

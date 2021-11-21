@@ -4,29 +4,29 @@
       "enabled": true
     },
     "adminResellers": { "enabled": true },
-    "adminCustomers": { "enabled": true },
+    "adminTenants": { "enabled": true },
     "adminRatePlan": { "enabled": true }
   },
   "distributor": {
     "distributorResellers": { "enabled": true },
-    "distributorCustomers": { "enabled": true },
+    "distributorTenants": { "enabled": true },
     "distributorLicenseConsumption": { "enabled": true },
     "distributorRatePlan": { "enabled": true },
     "distributorAdmins": { "enabled": true },
     "distributorProfile": { "enabled": true }
   },
   "reseller": {
-    "resellerCustomers": { "enabled": true },
+    "resellerTenants": { "enabled": true },
     "resellerLicenseConsumption": { "enabled": true },
     "resellerRatePlan": { "enabled": true },
     "resellerAdmins": { "enabled": true },
     "resellerProfile": { "enabled": true }
   },
-  "customer": {
-    "customerSubscriptions": { "enabled": true },
-    "customerLocations": { "enabled": true },
-    "customerRatePlan": { "enabled": true },
-    "customerAdmins": { "enabled": true },
-    "customerProfile": { "enabled": true }
+  "tenant": {
+    "tenantSubscriptions": { "enabled": true },
+    "tenantLocations": { "enabled": true },
+    "tenantRatePlan": { "enabled": true },
+    "tenantAdmins": { "enabled": true },
+    "tenantProfile": { "enabled": true }
   }
 }
