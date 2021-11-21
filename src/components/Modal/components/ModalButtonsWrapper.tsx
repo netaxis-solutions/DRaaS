@@ -25,14 +25,15 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
           onClick={handleCancel}
           icon={IconCancel}
           title={cancelButtonTitle ? cancelButtonTitle : t("Cancel")}
-        ></ButtonWithIcon>
+          className={classes.cancelButton}
+        />
       )}
       <ButtonWithIcon
         type="submit"
         variant="contained"
         icon={IconSubmit}
         title={submitButtonTitle ? submitButtonTitle : t("Add")}
-      ></ButtonWithIcon>
+      />
     </div>
   );
 };

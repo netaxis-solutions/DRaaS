@@ -9,7 +9,6 @@ export const createDistributorStyles = makeStyles(
       flexDirection: "column",
     },
     createDistributorInput: {
-      margin: `${theme.spacing(2.5)}px 0`,
       maxWidth: 400,
       "& svg": {
         fill: theme.palette.icon.main,

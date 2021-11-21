@@ -79,6 +79,9 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
         render={({ field, ...props }) => (
           <FormInput
             label={t("Billing ID")}
+            helper={t(
+              "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
+            )}
             {...field}
             {...props}
             className={clsx(
@@ -88,17 +91,15 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
           />
         )}
       />
-      <span className={classes.createDistributorBillingHelper}>
-        {t(
-          "Use only letters and digits, don’t use special charaters (e.g. *,%,#)",
-        )}
-      </span>
       <Controller
         name="markup"
         control={control}
         render={({ field, ...props }) => (
           <FormInput
             label={t("Markup")}
+            helper={t(
+              "Set the markup for rates plan costs for this distributor",
+            )}
             {...field}
             {...props}
             icon={Percent}
@@ -109,9 +110,6 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
           />
         )}
       />
-      <span className={classes.createDistributorBillingHelper}>
-        {t("Set the markup for rates plan costs for this distributor")}
-      </span>
     </form>
   );
 };

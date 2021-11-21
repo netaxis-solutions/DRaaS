@@ -18,8 +18,8 @@ const columns = [
     accessor: "billingId",
   },
   {
-    Header: "Customers",
-    accessor: "customers",
+    Header: "Tenants",
+    accessor: "nbOfTenants",
   },
   {
     Header: "Markup, %",

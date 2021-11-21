@@ -45,5 +45,11 @@ export const modalButtonsWrapperUseStyles = makeStyles(
         margin: `${theme.spacing(1)}px`,
       },
     },
+    cancelButton: {
+      "& svg": {
+        width: 10,
+        height: 10,
+      },
+    },
   }),
 );
