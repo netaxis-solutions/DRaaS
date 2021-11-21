@@ -64,7 +64,6 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     success: "#BDDA84",
     error: "#EC4436",
   },
-
   icon: {
     hover: "#C2C3E8",
     active: "#484CBA",
@@ -137,6 +136,8 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       borderRadius: 6,
     },
     startIcon: {
+      marginLeft: 0,
+      marginRight: 4,
       "& svg": {
         fill: "#FFFFFF",
       },
@@ -155,7 +156,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
   MuiFormControl: {
     root: {
       "& [data-error]:after": {
-        margin: "4px 20px",
+        margin: "4px 0 0 20px",
         content: "attr(data-error)",
         display: "block",
         position: "absolute",

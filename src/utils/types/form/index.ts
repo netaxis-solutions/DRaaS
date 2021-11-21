@@ -1,10 +1,18 @@
 import { ChangeEvent, FocusEvent, Ref } from "react";
 
-export type IconButtonPropsType = {
+export type IconWithButtonPropsType = {
   title: string;
-  type: "button" | "reset" | "submit" | undefined;
+  type?: "button" | "reset" | "submit" | undefined;
   icon: React.FC;
   variant?: "contained" | "outlined";
+  onClick?: () => void;
+  className?: string | undefined;
+};
+
+export type IconButtonPropsType = {
+  disableRipple: boolean;
+  icon: React.FC;
+  onClick?: () => void;
 };
 
 export type InputPropsType = {
@@ -18,6 +26,7 @@ export type InputPropsType = {
   error?: boolean;
   inputRef?: Ref<HTMLInputElement>;
   type?: string;
+  helper?: string;
 };
 
 export type SearchInputType = {

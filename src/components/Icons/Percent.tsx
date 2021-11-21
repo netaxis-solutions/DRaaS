@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function SvgLogin(
+function SvgPercent(
   props: React.SVGProps<SVGSVGElement>,
   svgRef?: React.Ref<SVGSVGElement>,
 ) {
@@ -12,10 +12,10 @@ function SvgLogin(
       ref={svgRef}
       {...props}
     >
-      <path d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 01-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 01-6 3.22z" />
+      <path d="M16.125 3.875l-12.25 12.25M5.188 7.375a2.188 2.188 0 100-4.375 2.188 2.188 0 000 4.375zM14.813 17a2.188 2.188 0 100-4.375 2.188 2.188 0 000 4.375z" />
     </svg>
   );
 }
 
-const ForwardRef = React.forwardRef(SvgLogin);
+const ForwardRef = React.forwardRef(SvgPercent);
 export default ForwardRef;
