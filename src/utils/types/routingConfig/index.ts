@@ -2,7 +2,7 @@ import { AnyKeyStringValueObjectType } from "../common";
 
 export type GetRoutesType = (
   access: string,
-  currentLevel: string
+  currentLevel: string,
 ) => Map<string, string>;
 
 export type UrlStartStringType = {
@@ -10,19 +10,19 @@ export type UrlStartStringType = {
     admin: string;
     distributor: string;
     reseller: string;
-    customer: string;
+    tenant: string;
   };
   distributor: {
     distributor: string;
     reseller: string;
-    customer: string;
+    tenant: string;
   };
   reseller: {
     reseller: string;
-    customer: string;
+    tenant: string;
   };
-  customer: {
-    customer: string;
+  tenant: {
+    tenant: string;
   };
 };
 
@@ -51,13 +51,13 @@ export type MenuType = {
   admin: { key: string; name: string }[];
   distributor: { key: string; name: string }[];
   reseller: { key: string; name: string }[];
-  customer: { key: string; name: string }[];
+  tenant: { key: string; name: string }[];
 };
 
 export type InnerSidebarMenu = {
   distributor?: { key: string; name: string }[];
   reseller?: { key: string; name: string }[];
-  customer?: { key: string; name: string }[];
+  tenant?: { key: string; name: string }[];
 };
 
 export type SidebarMenuType = {
@@ -70,25 +70,21 @@ export type HomeUrl = {
   admin: string;
   distributor: string;
   reseller: string;
-  customer: string;
+  tenant: string;
 };
 
-export type LoggedInUserType =
-  | "admin"
-  | "distributor"
-  | "reseller"
-  | "customer";
+export type LoggedInUserType = "admin" | "distributor" | "reseller" | "tenant";
 
 export type RoutingConfigType = {
   admin: {
-    adminCustomers: { enabled: boolean };
+    adminTenants: { enabled: boolean };
     adminDistributors: { enabled: boolean };
     adminRatePlan: { enabled: boolean };
     adminResellers: { enabled: boolean };
   };
   distributor: {
     distributorAdmins: { enabled: boolean };
-    distributorCustomers: { enabled: boolean };
+    distributorTenants: { enabled: boolean };
     distributorLicenseConsumption: { enabled: boolean };
     distributorProfile: { enabled: boolean };
     distributorRatePlan: { enabled: boolean };
@@ -96,17 +92,17 @@ export type RoutingConfigType = {
   };
   reseller: {
     resellerAdmins: { enabled: boolean };
-    resellerCustomers: { enabled: boolean };
+    resellerTenants: { enabled: boolean };
     resellerLicenseConsumption: { enabled: boolean };
     resellerProfile: { enabled: boolean };
     resellerRatePlan: { enabled: boolean };
   };
-  customer: {
-    customerAdmins: { enabled: boolean };
-    customerLocations: { enabled: boolean };
-    customerProfile: { enabled: boolean };
-    customerRatePlan: { enabled: boolean };
-    customerSubscriptions: { enabled: boolean };
+  tenant: {
+    tenantAdmins: { enabled: boolean };
+    tenantLocations: { enabled: boolean };
+    tenantProfile: { enabled: boolean };
+    tenantRatePlan: { enabled: boolean };
+    tenantSubscriptions: { enabled: boolean };
   };
 };
 
@@ -117,7 +113,7 @@ export type CurRoute = {
 
 export type GetALlPossibleUrlsType = ({
   publicConfigRoutes,
-  loggedInUserLevel
+  loggedInUserLevel,
 }: {
   publicConfigRoutes: RoutingConfigType;
   loggedInUserLevel: LoggedInUserType;
