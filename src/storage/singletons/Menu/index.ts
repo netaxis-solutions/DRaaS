@@ -20,8 +20,8 @@ class Menu {
       RoutingStore.publicConfigRoutes[RoutingStore.loggedInUserLevel],
       getLevelRoutes(
         RoutingStore.loggedInUserLevel,
-        RoutingStore.loggedInUserLevel
-      )
+        RoutingStore.loggedInUserLevel,
+      ),
     );
     return routes;
   }
@@ -38,7 +38,7 @@ class Menu {
       const filteredMenu = menuBar?.reduce(
         (prev: Array<MenuElement>, el: MenuElement) => {
           const menuEl: RouteValueType | undefined = this.availableRoutes.get(
-            el.key
+            el.key,
           );
 
           if (menuEl?.enabled) {
@@ -47,7 +47,7 @@ class Menu {
 
           return prev;
         },
-        []
+        [],
       );
       menuBar = filteredMenu;
     }
@@ -63,13 +63,13 @@ class Menu {
     let sideMenu: SidebarUnitType[] = [];
     if (
       RoutingStore.loggedInUserLevel &&
-      RoutingStore.loggedInUserLevel !== "customer" &&
+      RoutingStore.loggedInUserLevel !== "tenant" &&
       sidebarLevelMenus[RoutingStore.loggedInUserLevel]
     ) {
       const menuArr = get(
         sidebarLevelMenus[RoutingStore.loggedInUserLevel],
         RoutingStore.currentLevel,
-        null
+        null,
       );
       if (menuArr) {
         let menuBar: SidebarUnitType[] = [...menuArr];
@@ -91,8 +91,8 @@ class Menu {
           RoutingStore.loggedInUserLevel !== RoutingStore.currentLevel
             ? [...menuArr].filter((el: CurRoute) =>
                 RoutingStore.availableRouting.find(
-                  (route: CurRoute) => route.key === el.key
-                )
+                  (route: CurRoute) => route.key === el.key,
+                ),
               )
             : menuBar;
       }

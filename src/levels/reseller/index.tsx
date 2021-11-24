@@ -10,8 +10,8 @@ const Reseller = () => {
     <Switch>
       <Route
         exact
-        path={allAvailvableRouting.resellerCustomers}
-        component={() => <div>resellerCustomers</div>}
+        path={allAvailvableRouting.resellerTenants}
+        component={() => <div>resellerTenants</div>}
       />
       <Route
         exact
