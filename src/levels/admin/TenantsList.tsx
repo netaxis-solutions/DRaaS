@@ -24,7 +24,7 @@ const columns = [
     Header: "Direct tenant",
     accessor: "owner.type",
     Cell: (rows: { row: { original: { owner: { type: string } } } }) =>
-      rows.row.original.owner.type === "distributor" ? "yes" : "no",
+      rows.row.original.owner?.type === "distributor" ? "yes" : "no",
   },
   {
     Header: "Markup, %",
