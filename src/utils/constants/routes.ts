@@ -10,30 +10,30 @@ export const publicRoutes = {
 export const homeUrl: HomeUrl = {
   admin: "adminDistributors",
   distributor: "distributorResellers",
-  reseller: "resellerCustomers",
-  customer: "customerSubscriptions",
+  reseller: "resellerTenants",
+  tenant: "tenantSubscriptions",
 };
 export const privateRoutes: PrivateRoutesType = {
   adminDistributors: "/distributors",
   adminResellers: "/resellers",
-  adminCustomers: "/customers",
+  adminTenants: "/tenants",
   adminRatePlan: "/rate-plan",
   distributorResellers: "/resellers",
-  distributorCustomers: "/customers",
+  distributorTenants: "/tenants",
   distributorLicenseConsumption: "/license-consumption",
   distributorRatePlan: "/rate-lan",
   distributorAdmins: "/admins",
   distributorProfile: "/profile",
-  resellerCustomers: "/customers",
+  resellerTenants: "/tenants",
   resellerLicenseConsumption: "/license-consumption",
   resellerRatePlan: "/rate-plan",
   resellerAdmins: "/admins",
   resellerProfile: "/profile",
-  customerSubscriptions: "/subscriptions",
-  customerLocations: "/locations",
-  customerRatePlan: "/rate-plan",
-  customerAdmins: "/admins",
-  customerProfile: "/profile",
+  tenantSubscriptions: "/subscriptions",
+  tenantLocations: "/locations",
+  tenantRatePlan: "/rate-plan",
+  tenantAdmins: "/admins",
+  tenantProfile: "/profile",
 };
 
 export const urlStartString: UrlStartStringType = {
@@ -41,19 +41,19 @@ export const urlStartString: UrlStartStringType = {
     admin: "",
     distributor: "/distributors/:distributorID",
     reseller: "/distributors/:distributorID/resellers/:resellerID",
-    customer:
-      "/distributors/:distributorID/resellers/:resellerID/customers/:customerID",
+    tenant:
+      "/distributors/:distributorID/resellers/:resellerID/tenants/:tenantID",
   },
   distributor: {
     distributor: "/:distributorID",
     reseller: "/:distributorID/resellers/:resellerID",
-    customer: "/:distributorID/resellers/:resellerID/customers/:customerID",
+    tenant: "/:distributorID/resellers/:resellerID/tenants/:tenantID",
   },
   reseller: {
     reseller: "/:resellerID",
-    customer: "/:resellerID/customers/:customerID",
+    tenant: "/:resellerID/tenants/:tenantID",
   },
-  customer: {
-    customer: "/:customerID",
+  tenant: {
+    tenant: "/:tenantID",
   },
 };

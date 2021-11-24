@@ -5,6 +5,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 
 const ResellersList = lazy(() => import("./ResellersList"));
 const DistributorsList = lazy(() => import("./components/DistributorsList"));
+const TenantsList = lazy(() => import("./TenantsList"));
 
 const Admin = () => {
   const { allAvailvableRouting } = RoutingConfig;
@@ -23,8 +24,8 @@ const Admin = () => {
       />
       <Route
         exact
-        path={allAvailvableRouting.adminCustomers}
-        component={() => <div>Billing</div>}
+        path={allAvailvableRouting.adminTenants}
+        component={TenantsList}
       />
       <Route
         exact

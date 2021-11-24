@@ -15,7 +15,7 @@ export type TableActionsType = {
 };
 
 export type TableData = {
-  readonly [key: string]: string | number;
+  readonly [key: string]: string | number | ((obect: object) => string);
 };
 export type ToolbarActionType = {
   id: string;

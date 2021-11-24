@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
-const Customer = () => {
+const Tenant = () => {
   const { allAvailvableRouting } = RoutingConfig;
 
   return (
@@ -37,4 +37,4 @@ const Customer = () => {
   );
 };
 
-export default observer(Customer);
+export default observer(Tenant);
