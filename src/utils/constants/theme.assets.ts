@@ -179,7 +179,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       marginLeft: 9,
       "& span": {
         paddingLeft: 0,
-        paddingRight: 5,
+        paddingRight: 3,
       },
     },
   },
