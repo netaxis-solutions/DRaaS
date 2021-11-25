@@ -32,6 +32,9 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   notchedOutline: {
     borderColor: theme.palette.input.border,
+    "& legend > span": {
+      fontSize: "1.25rem !important",
+    },
   },
   error: {
     marginBottom: theme.spacing(4.125),
@@ -41,10 +44,12 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 
 const useLabelStyles = makeStyles(() => ({
   outlined: {
+    marginTop: -2,
     fontSize: "1.4rem",
   },
   shrink: {
-    fontSize: "1rem",
+    marginTop: -1,
+    fontSize: "1.6rem",
   },
 }));
 

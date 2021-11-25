@@ -41,12 +41,15 @@ export const modalButtonsWrapperUseStyles = makeStyles(
         theme.direction === "ltr"
           ? `-${theme.spacing(9.5)}px 0 ${theme.spacing(5)}px auto`
           : `-${theme.spacing(9.5)}px auto ${theme.spacing(5)}px 0`,
-      "& button": {
-        margin: `${theme.spacing(1)}px`,
+      "& button:last-of-type": {
+        marginLeft: theme.spacing(1.25),
+      },
+      "& .MuiButton-label": {
+        marginTop: theme.spacing(0.25),
       },
     },
     cancelButton: {
-      "& svg": {
+      "&& svg": {
         width: 10,
         height: 10,
       },

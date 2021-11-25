@@ -5,7 +5,7 @@ import { request } from "services/api";
 import configStore from "../Config";
 import {
   DistributorItemType,
-  DistributorsDataType
+  DistributorsDataType,
 } from "utils/types/distributors";
 
 class DistributorsStore {
@@ -13,7 +13,7 @@ class DistributorsStore {
 
   constructor() {
     makeObservable(this, {
-      distributors: observable.ref
+      distributors: observable.ref,
     });
   }
 
@@ -21,7 +21,7 @@ class DistributorsStore {
     try {
       const data: AxiosResponse<DistributorsDataType> = await request({
         route: `${configStore.config.draasInstance}/distributors`,
-        loaderName: "@getDistributorsData"
+        loaderName: "@getDistributorsData",
       });
       const distributors = data.data.distributors;
 
@@ -32,6 +32,13 @@ class DistributorsStore {
       console.log(e, "e");
     }
   };
+
+  get distributorsForResellerCreation() {
+    return this.distributors.map((el: DistributorItemType) => ({
+      label: el.name,
+      value: el.name,
+    }));
+  }
 }
 
 export default new DistributorsStore();

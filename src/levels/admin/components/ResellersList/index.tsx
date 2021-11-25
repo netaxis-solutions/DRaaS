@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 
@@ -6,6 +6,8 @@ import Resellers from "storage/singletons/Resellers";
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
 import { Plus, Trash } from "components/Icons";
+
+import AddReseller from "./components/AddReseller";
 
 const columns = [
   {
@@ -34,6 +36,8 @@ const columns = [
 
 const ResellersList: FC = () => {
   const { t } = useTranslation();
+  const [modalToOpen, setModalToOpen] = useState("");
+
   const { getResellersData, resellers } = Resellers;
 
   useEffect(() => {
@@ -55,19 +59,26 @@ const ResellersList: FC = () => {
       title: "Add",
       icon: Plus,
       onClick: () => {
-        console.log("add all");
+        setModalToOpen("add");
       },
     },
   ];
 
+  const handleCloseModal = () => {
+    setModalToOpen("");
+  };
+
   return (
-    <Table
-      title={t("Resellers")}
-      columns={columns}
-      data={resellers}
-      toolbarActions={toolbarActions}
-      checkbox
-    />
+    <>
+      <Table
+        title={t("Resellers")}
+        columns={columns}
+        data={resellers}
+        toolbarActions={toolbarActions}
+        checkbox
+      />
+      {modalToOpen === "add" && <AddReseller handleCancel={handleCloseModal} />}
+    </>
   );
 };
 

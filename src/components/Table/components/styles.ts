@@ -10,26 +10,26 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       fill: theme.palette.icon.main,
       width: 16,
       height: 16,
-      cursor: "pointer"
+      cursor: "pointer",
     },
     "& svg:last-child": {
       marginLeft: theme.direction === "ltr" ? `${theme.spacing(2)}px` : 0,
-      marginRight: theme.direction === "ltr" ? 0 : `${theme.spacing(2)}px`
-    }
-  }
+      marginRight: theme.direction === "ltr" ? 0 : `${theme.spacing(2)}px`,
+    },
+  },
 }));
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableHeadActionRow: {
     textAlign: "end",
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
-    paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`
+    paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
   },
   tableHeadCheckboxRow: {
     paddingLeft: theme.direction === "ltr" ? 30 : 0,
     paddingRight: theme.direction === "ltr" ? 0 : 30,
-    width: 60
-  }
+    width: 60,
+  },
 }));
 
 export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
@@ -39,43 +39,43 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     margin: `0 ${theme.spacing(0.25)}px`,
     borderRadius: 6,
     "&:hover": {
-      backgroundColor: theme.palette.table.hover
+      backgroundColor: theme.palette.table.hover,
     },
     "&:active": {
       backgroundColor: theme.palette.primary.main,
       "& svg": {
-        fill: "#FFFFFF"
-      }
+        fill: "#FFFFFF",
+      },
     },
     "& svg": {
       fill: theme.palette.icon.main,
       margin: "0 auto",
       height: 14,
-      width: 10
-    }
+      width: 10,
+    },
   },
   tableSortWrapperIsSorted: {
     "&:hover": {
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: theme.palette.primary.main,
     },
     backgroundColor: theme.palette.primary.main,
     "& svg": {
-      fill: "#FFFFFF"
-    }
-  }
+      fill: "#FFFFFF",
+    },
+  },
 }));
 
 export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableCellWithSelection: {
     paddingLeft: theme.direction === "ltr" ? 30 : 0,
     paddingRight: theme.direction === "ltr" ? 0 : 30,
-    width: 60
+    width: 60,
   },
   tableCellWithAction: {
     textAlign: "end",
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
-    paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`
-  }
+    paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
+  },
 }));
 
 export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
@@ -88,30 +88,30 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     borderStyle: "solid",
     borderWidth: "1px 1px 0 1px",
     "& button": {
-      borderColor: "transparent"
-    }
+      borderColor: "transparent",
+    },
   },
   tableToolbarTitle: {
     fontSize: "2rem",
     margin: `0 ${theme.spacing(3.75)}px`,
-    flex: 1
+    flex: 1,
   },
   tableToolbarSearchActionWrappper: {
     display: "flex",
     alignItems: "center",
     "& >div:first-child": {
-      height: "100%"
+      height: "100%",
     },
-    height: "calc(100% + 2px)"
+    height: "calc(100% + 2px)",
   },
   tableToolbarButtonsWrapper: {
     margin: `0 ${theme.spacing(0.25)}px`,
     display: "flex",
     alignItems: "center",
     "& button": {
-      margin: `${theme.spacing(0.25)}px`
-    }
-  }
+      margin: `${theme.spacing(0.25)}px`,
+    },
+  },
 }));
 
 export const tablePaginationStyles = makeStyles(
@@ -126,23 +126,23 @@ export const tablePaginationStyles = makeStyles(
       borderStyle: "solid",
       borderWidth: "0 1px 1px 1px",
       padding: `0 ${theme.spacing(3.75)}px`,
-      color: theme.palette.secondary.text
+      color: theme.palette.secondary.text,
     },
     tablePaginationActionsWrapper: {
       display: "flex",
-      alignItems: "center"
+      alignItems: "center",
     },
 
     tablePaginationLinesPerPageTitle: {
-      padding: `0 ${theme.spacing(1)}px`
+      padding: `0 ${theme.spacing(1)}px`,
     },
     tablePaginationPageNumber: {
       padding:
         theme.direction === "ltr"
           ? `0 ${theme.spacing(1.75)}px 0 ${theme.spacing(2.5)}px`
-          : `0 ${theme.spacing(2.5)}px 0 ${theme.spacing(1.75)}px`
-    }
-  })
+          : `0 ${theme.spacing(2.5)}px 0 ${theme.spacing(1.75)}px`,
+    },
+  }),
 );
 
 export const paginationDropdownStyles = makeStyles(
@@ -150,21 +150,21 @@ export const paginationDropdownStyles = makeStyles(
     autocompleteRoot: {
       height: 28,
       "& > div": {
-        marginTop: "0 !important"
-      }
+        marginTop: "0 !important",
+      },
     },
     automcompleteInputRoot: {
       height: 28,
       padding: `${theme.spacing(1)}px ${theme.spacing(1.75)}px !important`,
-      fontSize: "1.2rem"
+      fontSize: "1.2rem",
     },
     autocompleteInput: {
-      padding: "0 !important"
+      padding: "0 !important",
     },
     autocompleteEndAdornment: {
-      top: "inherit !important"
-    }
-  })
+      top: "inherit !important",
+    },
+  }),
 );
 
 export const paginationNavigationStyles = makeStyles(
@@ -179,14 +179,14 @@ export const paginationNavigationStyles = makeStyles(
       "& svg": {
         height: 12,
         width: 7,
-        fill: theme.palette.table.iconActive
-      }
+        fill: theme.palette.table.iconActive,
+      },
     },
     tablePaginationNavigateDisabled: {
       cursor: "default",
       "& svg": {
-        fill: theme.palette.table.iconDisabled
-      }
-    }
-  })
+        fill: theme.palette.table.iconDisabled,
+      },
+    },
+  }),
 );

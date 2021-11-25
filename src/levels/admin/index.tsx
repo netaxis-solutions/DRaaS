@@ -3,7 +3,7 @@ import { lazy } from "react";
 import { Route, Switch } from "react-router";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
-const ResellersList = lazy(() => import("./ResellersList"));
+const ResellersList = lazy(() => import("./components/ResellersList"));
 const DistributorsList = lazy(() => import("./components/DistributorsList"));
 const TenantsList = lazy(() => import("./TenantsList"));
 
