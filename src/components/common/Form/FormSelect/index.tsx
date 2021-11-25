@@ -52,7 +52,6 @@ export const Select: React.FC<TSelectProps> = ({
             label={label}
             InputProps={{
               error: !!helperText,
-              // classes: inputClasses,
               ...params.InputProps,
             }}
             InputLabelProps={{
