@@ -1,0 +1,35 @@
+import { makeObservable } from "mobx";
+
+import { request } from "services/api";
+import { TCreateResellerPayload } from "utils/types/resellers";
+import configStore from "../Config";
+import ResellersStore from "../Resellers";
+
+class ResellerStore {
+  constructor() {
+    makeObservable(this, {});
+  }
+
+  createReseller = async ({
+    payload,
+    callback,
+  }: {
+    payload: TCreateResellerPayload;
+    callback?: () => void;
+  }) => {
+    try {
+      await request({
+        route: `${configStore.config.draasInstance}/resellers`,
+        loaderName: "@createReseller",
+        method: "post",
+        payload,
+      });
+      ResellersStore.getResellersData();
+      callback && callback();
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+}
+
+export default new ResellerStore();

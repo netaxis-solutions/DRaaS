@@ -3,11 +3,7 @@ import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
 import configStore from "../Config";
-import {
-  ResellerItemType,
-  ResellersDataType,
-  TCreateResellerPayload,
-} from "utils/types/resellers";
+import { ResellerItemType, ResellersDataType } from "utils/types/resellers";
 
 class ResellersStore {
   resellers: Array<ResellerItemType> = [];
@@ -29,27 +25,6 @@ class ResellersStore {
       runInAction(() => {
         this.resellers = resellers;
       });
-    } catch (e) {
-      console.log(e, "e");
-    }
-  };
-
-  createReseller = async ({
-    payload,
-    callback,
-  }: {
-    payload: TCreateResellerPayload;
-    callback?: () => void;
-  }) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/resellers`,
-        loaderName: "@createReseller",
-        method: "post",
-        payload,
-      });
-      this.getResellersData();
-      callback && callback();
     } catch (e) {
       console.log(e, "e");
     }

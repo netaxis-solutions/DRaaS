@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
 
-import ResellersStore from "storage/singletons/Resellers";
+import ResellerStore from "storage/singletons/Reseller";
 //TODO: Uncomment when multistep form will be impelemented
 // import MultiStepForm from "storage/singletons/MultiStepForm";
 import DistributorsStore from "storage/singletons/Distributors";
@@ -39,7 +39,7 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
 
   //TODO: Uncomment when multistep form will be impelemented
   // const { goNext, goBack } = MultiStepForm;
-  const { createReseller } = ResellersStore;
+  const { createReseller } = ResellerStore;
   const {
     distributors,
     distributorsForResellerCreation,
