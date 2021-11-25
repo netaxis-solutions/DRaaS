@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       height: 14,
     },
   },
+  startIcon: {
+    marginTop: -theme.spacing(0.2),
+  },
 }));
 
 export default useStyles;
