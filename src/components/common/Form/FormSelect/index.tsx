@@ -1,6 +1,7 @@
 import { forwardRef, Ref, SyntheticEvent } from "react";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@mui/material/Autocomplete";
+import clsx from "clsx";
 
 import useStyles from "./styles";
 
@@ -19,6 +20,7 @@ export const Select: React.FC<TSelectProps> = ({
   label,
   disabled,
   className,
+  helperText,
 }) => {
   const classes = useStyles();
 
@@ -28,7 +30,6 @@ export const Select: React.FC<TSelectProps> = ({
   ) => {
     onChange(value);
   };
-
   return (
     <Autocomplete
       options={options}
@@ -44,21 +45,41 @@ export const Select: React.FC<TSelectProps> = ({
       }}
       className={className}
       renderInput={params => (
-        <TextField
-          variant="outlined"
-          {...params}
-          label={label}
-          InputLabelProps={{
-            classes: { outlined: classes.outlined, shrink: classes.shrink },
-          }}
-        />
+        <>
+          <TextField
+            variant="outlined"
+            {...params}
+            label={label}
+            InputProps={{
+              error: !!helperText,
+              // classes: inputClasses,
+              ...params.InputProps,
+            }}
+            InputLabelProps={{
+              classes: {
+                outlined: clsx(classes.outlined, {
+                  [classes.error]: !!helperText,
+                }),
+                shrink: clsx(classes.shrink, {
+                  [classes.error]: !!helperText,
+                }),
+              },
+            }}
+          />
+          {helperText && (
+            <span className={classes.errorHelperText}>{helperText}</span>
+          )}
+        </>
       )}
     />
   );
 };
 const FormSelect = forwardRef(
   ({ fieldState, formState, ...props }: any, ref: Ref<HTMLSelectElement>) => {
-    return <Select checkboxRef={ref} {...props} />;
+    const { error } = fieldState;
+    const errorMessage = error?.value?.message;
+
+    return <Select inputRef={ref} helperText={errorMessage} {...props} />;
   },
 );
 

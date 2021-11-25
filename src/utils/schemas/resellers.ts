@@ -10,8 +10,8 @@ export const addResellerSchema = (t: TFunction) =>
       excludeEmptyString: true,
     }),
     distributor: object().shape({
-      label: string().required("Please choose a distributor"),
-      value: string().required(),
+      label: string(),
+      value: string().required("Please choose a distributor"),
     }),
     markup: string().matches(/^[0-9\s]+$/, {
       message: "Only numbers and white space allowed",

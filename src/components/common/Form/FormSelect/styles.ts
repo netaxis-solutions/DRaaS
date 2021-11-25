@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   outlined: {
     fontSize: "1.4rem",
   },
+  error: { color: `${theme.palette.status.error} !important` },
   shrink: {
     fontSize: "1.6rem",
     marginTop: -1,
@@ -58,6 +59,11 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       fill: theme.palette.icon.active,
       stroke: theme.palette.icon.active,
     },
+  },
+  errorHelperText: {
+    fontSize: "1.2rem",
+    margin: "4px 0 0 20px",
+    color: theme.palette.status.error,
   },
 }));
 
