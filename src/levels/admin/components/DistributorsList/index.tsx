@@ -6,8 +6,7 @@ import DistributorsStore from "storage/singletons/Distributors";
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
 import { Plus } from "components/Icons";
-// import AddDistributor from "./components/AddDistributor";
-import AddTenant from "../TenantsList/components/AddTenant";
+import AddDistributor from "./components/AddDistributor";
 
 const columns = [
   {
@@ -51,7 +50,6 @@ const Distributors: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
-        console.log("onClick");
       },
     },
   ];
@@ -70,8 +68,8 @@ const Distributors: FC = () => {
         checkbox
       />
       {modalToOpen === "add" && (
-        <AddTenant handleCancel={handleCloseModal} />
-        // <AddDistributor handleCancel={handleCloseModal} />
+        // <AddTenant handleCancel={handleCloseModal} />
+        <AddDistributor handleCancel={handleCloseModal} />
       )}
     </>
   );

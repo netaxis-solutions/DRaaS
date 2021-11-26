@@ -13,9 +13,9 @@ export type TCreateTenant = {
   payload: {
     name: string;
     billingId?: string;
-    owner?: {
+    owner: {
       type: string;
-      id: string;
+      uuid: string;
     };
     markup?: number;
   };

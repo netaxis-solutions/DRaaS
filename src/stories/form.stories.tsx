@@ -1,9 +1,16 @@
 import { Checkbox } from "components/common/Form/FormCheckbox";
 import { Input } from "components/common/Form/FormInput";
-import { CheckboxType, InputPropsType } from "utils/types/form";
+import { Select } from "components/common/Form/FormSelect";
+import SearchInput from "components/common/SearchInput";
+import {
+  CheckboxType,
+  InputPropsType,
+  TSelectProps,
+  SearchInputType,
+} from "utils/types/form";
 
 export default {
-  title: "Form components"
+  title: "Form components",
 };
 
 const defaultStyles = { margin: 20, maxWidth: 400 };
@@ -21,7 +28,20 @@ SimpleInput.args = {
   disabled: false,
   defaultValue: "Karina",
   error: false,
-  helperText: ""
+  helperText: "",
+};
+
+export const SimpleSearch = (props: SearchInputType) => {
+  return (
+    <div style={defaultStyles}>
+      <SearchInput {...props} />
+    </div>
+  );
+};
+
+SimpleSearch.args = {
+  value: "",
+  onChange: () => {},
 };
 
 export const SimpleCheckbox = (props: CheckboxType) => {
@@ -36,5 +56,23 @@ SimpleCheckbox.args = {
   label: "First Name",
   disabled: false,
   defaultChecked: true,
-  onChange: () => {}
+  onChange: () => {},
+};
+
+export const SimpleSelect = (props: TSelectProps) => {
+  return (
+    <div style={defaultStyles}>
+      <Select {...props} />
+    </div>
+  );
+};
+
+SimpleSelect.args = {
+  label: "First Name",
+  disabled: false,
+  options: [
+    { label: "James", value: "James" },
+    { label: "Ann", value: "Ann" },
+  ],
+  onChange: () => {},
 };

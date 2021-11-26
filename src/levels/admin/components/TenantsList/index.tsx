@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 
@@ -6,6 +6,7 @@ import TenantsStore from "storage/singletons/Tenants";
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
 import { Plus } from "components/Icons";
+import AddTenant from "./components/AddTenant";
 
 const columns = [
   {
@@ -39,6 +40,7 @@ const columns = [
 ];
 
 const TenantsList: FC = () => {
+  const [modalToOpen, setModalToOpen] = useState("");
   const { t } = useTranslation();
   const { getTenantsData, tenants } = TenantsStore;
 
@@ -53,19 +55,26 @@ const TenantsList: FC = () => {
       title: "Add",
       icon: Plus,
       onClick: () => {
-        console.log("add all");
+        setModalToOpen("add");
       },
     },
   ];
 
+  const handleCloseModal = () => {
+    setModalToOpen("");
+  };
+
   return (
-    <Table
-      title={t("Tenants")}
-      columns={columns}
-      data={tenants}
-      toolbarActions={toolbarActions}
-      checkbox
-    />
+    <>
+      <Table
+        title={t("Tenants")}
+        columns={columns}
+        data={tenants}
+        toolbarActions={toolbarActions}
+        checkbox
+      />
+      {modalToOpen === "add" && <AddTenant handleCancel={handleCloseModal} />}
+    </>
   );
 };
 

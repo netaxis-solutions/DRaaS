@@ -1,21 +1,30 @@
+import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTranslation } from "react-i18next";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
-import { addDistributorSchema as addTenantSchema } from "utils/schemas/distributors";
+import DistributorsStore from "storage/singletons/Distributors";
+import ResellersStore from "storage/singletons/Resellers";
+import TenantStore from "storage/singletons/Tenant";
+
 import FormInput from "components/common/Form/FormInput";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
-import { Percent } from "components/Icons";
-import { createTenantStyles } from "./styles";
-import { TAddTenantFormProps, TAddTenantValues } from "utils/types/tenant";
 import FormSelect from "components/common/Form/FormSelect";
-import TenantStore from "storage/singletons/Tenant";
+import { Percent } from "components/Icons";
+import { TAddTenantFormProps, TAddTenantValues } from "utils/types/tenant";
+import { addTenantSchema } from "utils/schemas/tenant";
+
+import { createTenantStyles } from "./styles";
+
 const defaultValues = {
   name: "",
   billingId: "",
+  owner: {
+    label: "",
+    value: "",
+  },
   markup: "",
-  owner: { value: "", label: "" },
 };
 
 const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
@@ -25,30 +34,42 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
     resolver: yupResolver(addTenantSchema(t)),
     defaultValues,
   });
-  const { createTenant } = TenantStore;
+
+  const { getDistributorsData } = DistributorsStore;
+  const { getResellersData } = ResellersStore;
+  const { createTenant, ownerOptions } = TenantStore;
+
+  useEffect(() => {
+    getDistributorsData();
+    getResellersData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onSubmit: SubmitHandler<TAddTenantValues> = ({
     markup,
     owner,
     ...values
   }) => {
-    const payload = markup
-      ? {
-          markup: +markup,
-          ...values,
-        }
-      : {
-          ...values,
-        };
+    const payload: any = markup
+      ? { markup: +markup, ...values }
+      : { ...values };
+    const splittedVal = owner.value.split("*");
+    payload.owner = { uuid: splittedVal[0], type: splittedVal[1] };
+
     createTenant({ payload, callback: handleCancel });
+  };
+
+  const onCancel = () => {
+    handleCancel();
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={classes.createTenantForm}
+      className={classes.createDistributorForm}
     >
       <ModalButtonsWrapper
-        handleCancel={handleCancel}
+        handleCancel={onCancel}
         cancelButton
         submitButtonTitle={t("Add")}
       />
@@ -57,10 +78,10 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         control={control}
         render={({ field, ...props }) => (
           <FormInput
-            label={t("Email or ID")}
+            label={t("Name")}
             {...field}
             {...props}
-            className={classes.createTenantInput}
+            className={classes.createResellerInput}
           />
         )}
       />
@@ -76,8 +97,8 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
             {...field}
             {...props}
             className={clsx(
-              classes.createTenantInput,
-              classes.createTenantBillingInput,
+              classes.createResellerInput,
+              classes.createDistributorBillingInput,
             )}
           />
         )}
@@ -87,10 +108,11 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         control={control}
         render={({ field, ...props }) => (
           <FormSelect
-            label={t("Billing ID")}
-            options={[{ value: "a", label: "asd" }]}
+            label={t("Owner")}
+            options={ownerOptions}
             {...field}
             {...props}
+            className={classes.createResellerInput}
           />
         )}
       />
@@ -100,13 +122,13 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         render={({ field, ...props }) => (
           <FormInput
             label={t("Markup")}
-            helper={t("Set the markup for rates plan costs for this Tenant")}
+            helper={t("Set the markup for rates plan costs for this tenant")}
             {...field}
             {...props}
             icon={Percent}
             className={clsx(
-              classes.createTenantInput,
-              classes.createTenantBillingInput,
+              classes.createResellerInput,
+              classes.createDistributorBillingInput,
             )}
           />
         )}
