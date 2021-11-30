@@ -1,4 +1,6 @@
 export type ResellerItemType = {
+  uuid: string;
+  name: string;
   [key: string]: string | number;
 };
 

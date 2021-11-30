@@ -1,30 +1,69 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
 
 import Resellers from "storage/singletons/Resellers";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
-import DeleteModal from "components/common/DeleteModal";
-import DeleteOneItemModal from "components/common/DeleteOneItemModal";
 import { Plus, Trash } from "components/Icons";
 import AddReseller from "./components/AddReseller";
+import DeleteResellerModal from "./components/AddReseller/DeleteResellerModal";
 
-import useStyles from "./styles";
-
+const getTranslatedColumns = (t: TFunction) => [
+  {
+    Header: t("Name"),
+    accessor: "name",
+  },
+  {
+    Header: t("Billing ID"),
+    accessor: "billingId",
+  },
+  {
+    Header: t("Owner"),
+    accessor: "owner.name",
+  },
+  {
+    Header: t("Tenants"),
+    accessor: "nbOfTenants",
+  },
+];
 const ResellersList: FC = () => {
   const { t } = useTranslation();
-  const classes = useStyles();
   const [modalToOpen, setModalToOpen] = useState("");
 
   const { getResellersData, resellers, deleteResellers } = Resellers;
   const {
     selectedRows,
     selectedRowsLength,
-    singleSelectedRow,
-    setSingleSelectedRow,
+    setSelectedRows,
   } = TableSelectedRowsStore;
+
+  const columns = useMemo(
+    () => [
+      ...getTranslatedColumns(t),
+
+      {
+        Header: "Actions",
+        accessor: "actions",
+        disableSortBy: true,
+        Cell: (props: any) => {
+          return (
+            <TableActions
+              edit
+              del
+              onDelete={() => {
+                setModalToOpen("delete");
+                setSelectedRows({ [props.row.index]: true });
+              }}
+            />
+          );
+        },
+      },
+    ],
+    [t, setSelectedRows],
+  );
 
   useEffect(() => {
     getResellersData();
@@ -54,58 +93,19 @@ const ResellersList: FC = () => {
     setModalToOpen("");
   };
 
+  const callback = () => {
+    getResellersData();
+    handleCloseModal();
+  };
+
   const handleDelete = () => {
-    const selectedResellerIds = resellers
-      .filter((_, i) => Object.keys(selectedRows).includes(String(i)))
-      .map(el => String(el.uuid));
-    const callback = () => {
-      getResellersData();
-      handleCloseModal();
-    };
+    const selectedResellerIds = resellers.reduce((prev, cur, i) => {
+      selectedRows[i] && prev.push(cur.uuid);
+      return prev;
+    }, [] as Array<string>);
+
     deleteResellers(selectedResellerIds, callback);
   };
-
-  const handleDeleteOne = () => {
-    const callback = () => {
-      getResellersData();
-      handleCloseModal();
-    };
-    singleSelectedRow && deleteResellers([singleSelectedRow.uuid], callback);
-  };
-
-  const columns = [
-    {
-      Header: "Name",
-      accessor: "name",
-    },
-    {
-      Header: "Billing ID",
-      accessor: "billingId",
-    },
-    {
-      Header: "Owner",
-      accessor: "owner.name",
-    },
-    {
-      Header: "Tenants",
-      accessor: "nbOfTenants",
-    },
-    {
-      Header: "Actions",
-      accessor: "actions",
-      disableSortBy: true,
-      Cell: (props: any) => (
-        <TableActions
-          edit
-          del
-          onDelete={() => {
-            setModalToOpen("deleteOne");
-            setSingleSelectedRow(props.row.original);
-          }}
-        />
-      ),
-    },
-  ];
 
   return (
     <>
@@ -117,74 +117,14 @@ const ResellersList: FC = () => {
         checkbox
       />
       {modalToOpen === "add" && <AddReseller handleCancel={handleCloseModal} />}
-      {modalToOpen === "delete" ? (
-        selectedRowsLength === 1 ? (
-          <DeleteOneItemModal
-            handleCancel={handleCloseModal}
-            handleDelete={handleDelete}
-            selectedElementName={String(
-              resellers.filter((_, i) =>
-                Object.keys(selectedRows).includes(String(i)),
-              )[0].name,
-            )}
-          >
-            <div className={classes.text}>
-              <div>
-                {t(`Are you sure you want to delete`)}{" "}
-                <span className={classes.boldText}>
-                  {
-                    resellers.filter((_, i) =>
-                      Object.keys(selectedRows).includes(String(i)),
-                    )[0].name
-                  }
-                </span>
-                ?
-              </div>
-              <div>
-                {t("All the information under this reseller will be deleted")}.
-              </div>
-              <div>
-                {t("Please, type the name of the reseller to delete it")}:
-              </div>
-            </div>
-          </DeleteOneItemModal>
-        ) : (
-          <DeleteModal
-            handleCancel={handleCloseModal}
-            handleDelete={handleDelete}
-          >
-            <div className={classes.text}>
-              <div>
-                {t(`Are you sure you want to delete`)}{" "}
-                <span className={classes.boldText}>
-                  {selectedRowsLength} {t("resellers.")}
-                </span>
-              </div>
-              {t("All the information under this resellers will be deleted.")}
-            </div>
-          </DeleteModal>
-        )
-      ) : null}
-      {modalToOpen === "deleteOne" && singleSelectedRow && (
-        <DeleteOneItemModal
-          handleCancel={handleCloseModal}
-          handleDelete={handleDeleteOne}
-          selectedElementName={String(singleSelectedRow.name)}
-        >
-          <div className={classes.text}>
-            <div>
-              {t(`Are you sure you want to delete`)}{" "}
-              <span className={classes.boldText}>{singleSelectedRow.name}</span>
-              ?
-            </div>
-            <div>
-              {t("All the information under this reseller will be deleted")}.
-            </div>
-            <div>
-              {t("Please, type the name of the reseller to delete it")}:
-            </div>
-          </div>
-        </DeleteOneItemModal>
+      {modalToOpen === "delete" && (
+        <DeleteResellerModal
+          handleCloseModal={handleCloseModal}
+          handleDelete={handleDelete}
+          selectedRows={selectedRows}
+          resellers={resellers}
+          selectedRowsLength={selectedRowsLength}
+        />
       )}
     </>
   );
