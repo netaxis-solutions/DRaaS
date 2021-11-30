@@ -10,15 +10,15 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
   },
   menuElLinkWrapperActive: {
-    borderBottom: `2px solid  ${theme.palette.link.active}`,
+    borderBottom: `2px solid  ${theme.palette.menuLink.active}`,
   },
   menuElLink: {
     margin: `0 ${theme.spacing(2.25)}px`,
-    color: theme.palette.link.main,
+    color: theme.palette.menuLink.main,
     textDecoration: "none",
   },
   menuElLinkActive: {
-    color: theme.palette.link.active,
+    color: theme.palette.menuLink.active,
   },
 }));
 

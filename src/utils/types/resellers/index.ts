@@ -43,3 +43,7 @@ export type TEditResellerPayload = {
   billingId: string;
   uuid: string;
 };
+
+export type TGetResellersList = {
+  id?: string;
+};
