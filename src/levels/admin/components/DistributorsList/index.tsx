@@ -68,7 +68,6 @@ const Distributors: FC = () => {
         checkbox
       />
       {modalToOpen === "add" && (
-        // <AddTenant handleCancel={handleCloseModal} />
         <AddDistributor handleCancel={handleCloseModal} />
       )}
     </>
