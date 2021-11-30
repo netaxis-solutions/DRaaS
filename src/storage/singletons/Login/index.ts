@@ -1,4 +1,4 @@
-import { makeObservable, observable, reaction, runInAction } from "mobx";
+import { makeObservable, observable, runInAction } from "mobx";
 import get from "lodash/get";
 
 import { publicLoginRequest, request } from "services/api";
@@ -24,20 +24,6 @@ class Login {
       level: observable,
       isForgotPasswordNotificationShown: observable,
     });
-
-    reaction(
-      () => this.level,
-      () => {
-        if (this.level) {
-          const routeVal = RoutingConfig.availableRouting.find(
-            el => el.key === homeUrl[RoutingConfig.currentLevel],
-          );
-
-          const route = routeVal?.value?.path || "/";
-          RoutingConfig.history.push(route);
-        }
-      },
-    );
   }
 
   login = async (payload: LoginFormTypes): Promise<void> => {
@@ -63,7 +49,14 @@ class Login {
           `${configStore.config.name}_refreshToken`,
           refreshToken,
         );
-      this.getUserData();
+
+      await this.getUserData();
+      const routeVal = RoutingConfig.availableRouting.find(
+        el => el.key === homeUrl[RoutingConfig.currentLevel],
+      );
+
+      const route = routeVal?.value?.path || "/";
+      RoutingConfig.history.push(route);
     } catch (e) {}
   };
 
