@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useEffect } from "react";
 import {
   useTable,
   useSortBy,
@@ -9,7 +9,9 @@ import {
   useGlobalFilter,
 } from "react-table";
 import MaUTable from "@material-ui/core/Table";
+import { observer } from "mobx-react-lite";
 
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import { TableProps } from "utils/types/tableConfig";
 import { Checkbox } from "components/common/Form/FormCheckbox";
 import TableBody from "./components/TableBody";
@@ -26,6 +28,8 @@ const Table: FC<TableProps> = ({
   toolbarActions,
 }) => {
   const classes = useStyles();
+
+  const { setSelectedRows, clearSelectedRows } = TableSelectedRowsStore;
 
   const {
     getTableProps,
@@ -84,11 +88,25 @@ const Table: FC<TableProps> = ({
         : hooks.visibleColumns.push(columns => [...columns]),
   );
 
+  useEffect(() => {
+    setSelectedRows(state.selectedRowIds);
+    return () => {
+      clearSelectedRows();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.selectedRowIds]);
+
+  const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
+
   return (
     <>
       <Toolbar
         title={title}
-        toolbarActions={toolbarActions}
+        toolbarActions={
+          deleteAvailable
+            ? toolbarActions
+            : toolbarActions.filter(el => el.id !== "delete")
+        }
         setGlobalFilter={setGlobalFilter}
         value={state.globalFilter}
       />
@@ -115,4 +133,4 @@ const Table: FC<TableProps> = ({
   );
 };
 
-export default Table;
+export default observer(Table);
