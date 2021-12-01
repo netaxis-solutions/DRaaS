@@ -5,7 +5,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 
 const ResellersList = lazy(() => import("./components/ResellersList"));
 const DistributorsList = lazy(() => import("./components/DistributorsList"));
-const TenantsList = lazy(() => import("./TenantsList"));
+const TenantsList = lazy(() => import("./components/TenantsList"));
 
 const Admin = () => {
   const { allAvailvableRouting } = RoutingConfig;
