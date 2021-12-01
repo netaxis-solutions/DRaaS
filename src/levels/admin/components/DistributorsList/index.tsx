@@ -50,7 +50,6 @@ const Distributors: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
-        console.log("onClick");
       },
     },
   ];

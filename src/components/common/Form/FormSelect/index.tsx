@@ -3,16 +3,8 @@ import { TextField } from "@material-ui/core";
 import Autocomplete from "@mui/material/Autocomplete";
 import clsx from "clsx";
 
+import { TSelectProps } from "utils/types/form";
 import useStyles from "./styles";
-
-type TSelectProps = {
-  options: Array<{ value: string; label: string }>;
-  onChange: (value: { value: string; label: string } | null) => void;
-  label: string;
-  disabled?: boolean;
-  helperText: string;
-  className: string | undefined;
-};
 
 export const Select: React.FC<TSelectProps> = ({
   options,
@@ -52,7 +44,6 @@ export const Select: React.FC<TSelectProps> = ({
             label={label}
             InputProps={{
               error: !!helperText,
-              // classes: inputClasses,
               ...params.InputProps,
             }}
             InputLabelProps={{

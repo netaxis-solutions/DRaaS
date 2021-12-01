@@ -42,3 +42,12 @@ export type CheckboxType = {
   checkboxRef?: Ref<HTMLInputElement>;
   disabled?: boolean;
 };
+
+export type TSelectProps = {
+  options: Array<{ value: string; label: string }>;
+  onChange: (value: { value: string; label: string } | null) => void;
+  label: string;
+  disabled?: boolean;
+  helperText: string;
+  className: string | undefined;
+};
