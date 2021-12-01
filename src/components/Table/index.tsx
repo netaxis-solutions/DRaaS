@@ -29,7 +29,11 @@ const Table: FC<TableProps> = ({
 }) => {
   const classes = useStyles();
 
-  const { setSelectedRows, clearSelectedRows } = TableSelectedRowsStore;
+  const {
+    selectedRows,
+    setSelectedRows,
+    clearSelectedRows,
+  } = TableSelectedRowsStore;
 
   const {
     getTableProps,
@@ -95,6 +99,15 @@ const Table: FC<TableProps> = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.selectedRowIds]);
+
+  useEffect(() => {
+    return () => {
+      if (Object.values(state.selectedRowIds).length) {
+        state.selectedRowIds = {};
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRows]);
 
   const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
 

@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginTop: 2,
     },
   },
+  input: {
+    marginBottom: theme.spacing(1.25),
+  },
 }));
 
 export default useStyles;

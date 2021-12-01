@@ -1,6 +1,7 @@
 import { useState, useEffect, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
+import IconButton from "@material-ui/core/IconButton";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Cross, Trash } from "components/Icons";
@@ -57,6 +58,9 @@ const DeleteModal: React.FC<Props> = ({
             />
           </div>
         )}
+        <IconButton className={classes.closeIcon} onClick={handleCancel}>
+          <Cross fontSize="small" />
+        </IconButton>
       </div>
       <div className={classes.backdrop} onClick={handleCancel} />
     </>,

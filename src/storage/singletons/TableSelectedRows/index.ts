@@ -10,7 +10,6 @@ class TableSelectedRows {
   }
 
   setSelectedRows = (selectedRows: Record<string, boolean>) => {
-    console.log(selectedRows);
     this.selectedRows = selectedRows;
   };
 

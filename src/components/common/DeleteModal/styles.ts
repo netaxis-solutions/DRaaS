@@ -36,6 +36,18 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginTop: 2,
     },
   },
+  closeIcon: {
+    position: "absolute",
+    zIndex: 1500,
+    top: theme.spacing(2.25),
+    right: theme.spacing(1.5),
+    padding: 0,
+    "& svg": {
+      width: 14,
+      height: 14,
+      fill: theme.palette.icon.main,
+    },
+  },
 }));
 
 export default useStyles;

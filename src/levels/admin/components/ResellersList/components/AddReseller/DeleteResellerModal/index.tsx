@@ -1,6 +1,8 @@
 import { FC } from "react";
-import DeleteModal from "components/common/DeleteModal";
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
+
+import DeleteModal from "components/common/DeleteModal";
 import { ResellerItemType } from "utils/types/resellers";
 import useStyles from "./styles";
 
@@ -34,7 +36,11 @@ const DeleteResellerModal: FC<TDeleteResellerModalProps> = ({
         }, "")
       }
     >
-      <div className={classes.text}>
+      <div
+        className={clsx(classes.text, {
+          [classes.textWithInput]: selectedRowsLength === 1,
+        })}
+      >
         <div>
           {t(`Are you sure you want to delete`)}{" "}
           <span className={classes.boldText}>

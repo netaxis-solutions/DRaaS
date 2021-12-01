@@ -36,7 +36,12 @@ const SingleDeleteForm: React.FC<Props> = ({
         name="name"
         control={control}
         render={({ field, ...props }) => (
-          <FormInput label={t("Name")} {...field} {...props} />
+          <FormInput
+            label={t("Name")}
+            {...field}
+            {...props}
+            className={classes.input}
+          />
         )}
       />
       <div>

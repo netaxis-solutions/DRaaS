@@ -6,10 +6,13 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   text: {
     fontSize: "1.4rem",
     fontWeight: 300,
-    marginBottom: theme.spacing(1.875),
+    marginBottom: theme.spacing(3.75),
   },
   boldText: {
     fontWeight: 400,
+  },
+  textWithInput: {
+    marginBottom: theme.spacing(1.875),
   },
 }));
 
