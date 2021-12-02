@@ -1,44 +1,69 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
 
 import Resellers from "storage/singletons/Resellers";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
 import { Plus, Trash } from "components/Icons";
-
 import AddReseller from "./components/AddReseller";
+import DeleteResellerModal from "./components/AddReseller/DeleteResellerModal";
 
-const columns = [
+const getTranslatedColumns = (t: TFunction) => [
   {
-    Header: "Name",
+    Header: t("Name"),
     accessor: "name",
   },
   {
-    Header: "Billing ID",
+    Header: t("Billing ID"),
     accessor: "billingId",
   },
   {
-    Header: "Owner",
+    Header: t("Owner"),
     accessor: "owner.name",
   },
   {
-    Header: "Tenants",
+    Header: t("Tenants"),
     accessor: "nbOfTenants",
   },
-  {
-    Header: "Actions",
-    accessor: "actions",
-    disableSortBy: true,
-    Cell: () => <TableActions edit del />,
-  },
 ];
-
 const ResellersList: FC = () => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
 
-  const { getResellersData, resellers } = Resellers;
+  const { getResellersData, resellers, deleteResellers } = Resellers;
+  const {
+    selectedRows,
+    selectedRowsLength,
+    setSelectedRows,
+  } = TableSelectedRowsStore;
+
+  const columns = useMemo(
+    () => [
+      ...getTranslatedColumns(t),
+
+      {
+        Header: "Actions",
+        accessor: "actions",
+        disableSortBy: true,
+        Cell: (props: any) => {
+          return (
+            <TableActions
+              edit
+              del
+              onDelete={() => {
+                setModalToOpen("delete");
+                setSelectedRows({ [props.row.index]: true });
+              }}
+            />
+          );
+        },
+      },
+    ],
+    [t, setSelectedRows],
+  );
 
   useEffect(() => {
     getResellersData();
@@ -51,7 +76,7 @@ const ResellersList: FC = () => {
       title: "Delete",
       icon: Trash,
       onClick: () => {
-        console.log("delete reseller");
+        setModalToOpen("delete");
       },
     },
     {
@@ -68,6 +93,20 @@ const ResellersList: FC = () => {
     setModalToOpen("");
   };
 
+  const callback = () => {
+    getResellersData();
+    handleCloseModal();
+  };
+
+  const handleDelete = () => {
+    const selectedResellerIds = resellers.reduce((prev, cur, i) => {
+      selectedRows[i] && prev.push(cur.uuid);
+      return prev;
+    }, [] as Array<string>);
+
+    deleteResellers(selectedResellerIds, callback);
+  };
+
   return (
     <>
       <Table
@@ -78,6 +117,15 @@ const ResellersList: FC = () => {
         checkbox
       />
       {modalToOpen === "add" && <AddReseller handleCancel={handleCloseModal} />}
+      {modalToOpen === "delete" && (
+        <DeleteResellerModal
+          handleCloseModal={handleCloseModal}
+          handleDelete={handleDelete}
+          selectedRows={selectedRows}
+          resellers={resellers}
+          selectedRowsLength={selectedRowsLength}
+        />
+      )}
     </>
   );
 };
