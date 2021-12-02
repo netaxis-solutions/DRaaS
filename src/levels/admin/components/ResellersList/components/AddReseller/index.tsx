@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { AddDistributorFormPropsType } from "utils/types/distributor";
 import Modal from "components/Modal";
-import CreateDistributor from "./Steps/CreateReseller";
+import CreateReseller from "./Steps/CreateReseller";
 
 const AddDistributor: React.FC<AddDistributorFormPropsType> = ({
   handleCancel,
@@ -12,7 +12,7 @@ const AddDistributor: React.FC<AddDistributorFormPropsType> = ({
 
   return (
     <Modal title={t("Add reseller")} handleCancel={handleCancel}>
-      <CreateDistributor handleCancel={handleCancel} />
+      <CreateReseller handleCancel={handleCancel} />
     </Modal>
   );
 };

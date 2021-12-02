@@ -29,6 +29,27 @@ class ResellersStore {
       console.log(e, "e");
     }
   };
+
+  deleteResellers = async (
+    selectedResellerIds: string[],
+    callback?: () => void,
+  ) => {
+    try {
+      await Promise.all(
+        selectedResellerIds.map(uuid =>
+          request({
+            route: `${configStore.config.draasInstance}/resellers/${uuid}`,
+            loaderName: "@deleteResellers",
+            method: "delete",
+          }),
+        ),
+      );
+    } catch (e) {
+      console.log("e", e);
+    } finally {
+      callback && callback();
+    }
+  };
 }
 
 export default new ResellersStore();
