@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslation } from "react-i18next";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -27,7 +28,7 @@ const defaultValues = {
   markup: "",
 };
 
-const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
+const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
@@ -47,7 +48,7 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
   } = DistributorsStore;
 
   useEffect(() => {
-    !distributorsForResellerCreation && getDistributorsData();
+    getDistributorsData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -154,4 +155,4 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
   );
 };
 
-export default CreateDistributor;
+export default observer(CreateReseller);

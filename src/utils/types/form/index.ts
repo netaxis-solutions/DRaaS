@@ -16,7 +16,7 @@ export type IconButtonPropsType = {
 };
 
 export type InputPropsType = {
-  onChange: (value: object) => void;
+  onChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event?: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   icon?: React.FC;
   helperText?: string;
