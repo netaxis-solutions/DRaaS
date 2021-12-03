@@ -9,7 +9,7 @@ import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
 import { Plus, Trash } from "components/Icons";
 import AddReseller from "./components/AddReseller";
-import DeleteResellerModal from "./components/AddReseller/DeleteResellerModal";
+import DeleteResellerModal from "./components/DeleteResellerModal";
 
 const getTranslatedColumns = (t: TFunction) => [
   {
@@ -29,6 +29,7 @@ const getTranslatedColumns = (t: TFunction) => [
     accessor: "nbOfTenants",
   },
 ];
+
 const ResellersList: FC = () => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
@@ -43,9 +44,8 @@ const ResellersList: FC = () => {
   const columns = useMemo(
     () => [
       ...getTranslatedColumns(t),
-
       {
-        Header: "Actions",
+        Header: t("Actions"),
         accessor: "actions",
         disableSortBy: true,
         Cell: (props: any) => {

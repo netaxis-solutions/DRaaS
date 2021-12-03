@@ -1,12 +1,17 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { CellProps } from "react-table";
 
 import DistributorsStore from "storage/singletons/Distributors";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import { DistributorItemType } from "utils/types/distributors";
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
-import { Plus } from "components/Icons";
+import { Plus, Trash } from "components/Icons";
+
 import AddDistributor from "./components/AddDistributor";
+import DeleteDistributorModal from "./components/DeleteDistributorModal";
 
 const columns = [
   {
@@ -25,25 +30,57 @@ const columns = [
     Header: "Markup, %",
     accessor: "markup",
   },
-  {
-    Header: "Actions",
-    accessor: "actions",
-    disableSortBy: true,
-    Cell: () => <TableActions edit del />,
-  },
 ];
 
 const Distributors: FC = () => {
-  const { t } = useTranslation();
-  const { getDistributorsData, distributors } = DistributorsStore;
   const [modalToOpen, setModalToOpen] = useState("");
+  const { t } = useTranslation();
+  const {
+    getDistributorsData,
+    distributors,
+    deleteDistributors,
+  } = DistributorsStore;
+  const {
+    selectedRows,
+    selectedRowsLength,
+    setSelectedRows,
+  } = TableSelectedRowsStore;
 
   useEffect(() => {
     getDistributorsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getDistributorsData]);
+
+  const columnsWithActions = useMemo(
+    () => [
+      ...columns,
+      {
+        Header: t("Actions"),
+        accessor: "actions",
+        disableSortBy: true,
+        Cell: ({ row: { index } }: CellProps<DistributorItemType>) => (
+          <TableActions
+            edit
+            del
+            onDelete={() => {
+              setModalToOpen("delete");
+              setSelectedRows({ [index]: true });
+            }}
+          />
+        ),
+      },
+    ],
+    [setSelectedRows, t],
+  );
 
   const toolbarActions = [
+    {
+      id: "delete",
+      title: "Delete",
+      icon: Trash,
+      onClick: () => {
+        setModalToOpen("delete");
+      },
+    },
     {
       id: "add",
       title: "Add",
@@ -57,18 +94,38 @@ const Distributors: FC = () => {
   const handleCloseModal = () => {
     setModalToOpen("");
   };
+  const callback = () => {
+    getDistributorsData();
+    handleCloseModal();
+  };
+  const handleDelete = () => {
+    const selectedDistributorIds = distributors.reduce((prev, cur, i) => {
+      selectedRows[i] && prev.push(cur.uuid);
+      return prev;
+    }, [] as Array<string>);
+    deleteDistributors(selectedDistributorIds, callback);
+  };
 
   return (
     <>
       <Table
         title={t("Distributors")}
-        columns={columns}
+        columns={columnsWithActions}
         data={distributors}
         toolbarActions={toolbarActions}
         checkbox
       />
       {modalToOpen === "add" && (
         <AddDistributor handleCancel={handleCloseModal} />
+      )}
+      {modalToOpen === "delete" && (
+        <DeleteDistributorModal
+          handleCloseModal={handleCloseModal}
+          handleDelete={handleDelete}
+          selectedRows={selectedRows}
+          distributors={distributors}
+          selectedRowsLength={selectedRowsLength}
+        />
       )}
     </>
   );
