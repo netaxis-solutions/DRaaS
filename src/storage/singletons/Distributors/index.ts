@@ -2,11 +2,12 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
-import configStore from "../Config";
 import {
   DistributorItemType,
   DistributorsDataType,
 } from "utils/types/distributors";
+import configStore from "../Config";
+import DistributorStore from "../Distributor";
 
 class DistributorsStore {
   distributors: Array<DistributorItemType> = [];
@@ -30,6 +31,23 @@ class DistributorsStore {
       });
     } catch (e) {
       console.log(e, "e");
+    }
+  };
+
+  deleteDistributors = async (
+    selectedDistributorsIds: string[],
+    callback?: () => void,
+  ) => {
+    try {
+      await Promise.all(
+        selectedDistributorsIds.map(uuid =>
+          DistributorStore.deleteDistributor({ uuid }),
+        ),
+      );
+    } catch (e) {
+      console.log("e", e);
+    } finally {
+      callback && callback();
     }
   };
 
