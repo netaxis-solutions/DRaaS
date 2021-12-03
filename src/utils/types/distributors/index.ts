@@ -1,4 +1,8 @@
+import { TDeleteModalProps } from "../modal";
+
 export type DistributorItemType = {
+  uuid: string;
+  name: string;
   [key: string]: string | number;
 };
 
@@ -25,4 +29,8 @@ export type TAddAdminValues = {
   password: string;
   confirmPassword: string;
   sendWelcomeEmail: boolean;
+};
+
+export type TDeleteDistributorModalProps = TDeleteModalProps & {
+  distributors: Array<DistributorItemType>;
 };

@@ -3,16 +3,8 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
 import DeleteModal from "components/common/DeleteModal";
-import { ResellerItemType } from "utils/types/resellers";
+import { TDeleteResellerModalProps } from "utils/types/resellers";
 import useStyles from "./styles";
-
-type TDeleteResellerModalProps = {
-  handleCloseModal: () => void;
-  handleDelete: () => void;
-  selectedRowsLength: number;
-  resellers: Array<ResellerItemType>;
-  selectedRows: { [key: number]: boolean };
-};
 
 const DeleteResellerModal: FC<TDeleteResellerModalProps> = ({
   handleCloseModal,

@@ -1,7 +1,10 @@
 import { makeObservable } from "mobx";
 
 import { request } from "services/api";
-import { TCreateDistributor } from "utils/types/distributor";
+import {
+  TCreateDistributor,
+  TDeleteDistributor,
+} from "utils/types/distributor";
 import configStore from "../Config";
 import DistributorsStore from "../Distributors";
 
@@ -19,6 +22,19 @@ class DistributorStore {
         payload,
       });
       DistributorsStore.getDistributorsData();
+      callback && callback();
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+
+  deleteDistributor = async ({ uuid, callback }: TDeleteDistributor) => {
+    try {
+      await request({
+        route: `${configStore.config.draasInstance}/distributors/${uuid}`,
+        loaderName: "@deleteDistributor",
+        method: "delete",
+      });
       callback && callback();
     } catch (e) {
       console.log(e, "e");

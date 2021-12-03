@@ -30,3 +30,10 @@ export type TModalButtonsWrapperProps = {
   submitIcon?: React.FC;
   cancelIcon?: React.FC;
 };
+
+export type TDeleteModalProps = {
+  handleCloseModal: () => void;
+  handleDelete: () => void;
+  selectedRowsLength: number;
+  selectedRows: { [key: number]: boolean };
+};

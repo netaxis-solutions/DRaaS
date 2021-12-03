@@ -7,6 +7,11 @@ export type TCreateDistributor = {
   callback?: () => void;
 };
 
+export type TDeleteDistributor = {
+  uuid: string;
+  callback?: () => void;
+};
+
 export type AddDistributorFormPropsType = {
   handleCancel: () => void;
 };
