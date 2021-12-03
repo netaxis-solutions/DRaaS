@@ -1,12 +1,18 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { CellProps } from "react-table";
 
 import TenantsStore from "storage/singletons/Tenants";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import { TenantItemType } from "utils/types/tenant";
+
 import Table from "components/Table";
 import TableActions from "components/Table/components/TableActions";
-import { Plus } from "components/Icons";
+import { Plus, Trash } from "components/Icons";
+
 import AddTenant from "./components/AddTenant";
+import DeleteTenantModal from "./components/DeleteTenantModal";
 
 const columns = [
   {
@@ -31,25 +37,52 @@ const columns = [
     Header: "Markup, %",
     accessor: "markup",
   },
-  {
-    Header: "Actions",
-    accessor: "actions",
-    disableSortBy: true,
-    Cell: () => <TableActions edit del />,
-  },
 ];
 
 const TenantsList: FC = () => {
   const [modalToOpen, setModalToOpen] = useState("");
   const { t } = useTranslation();
-  const { getTenantsData, tenants } = TenantsStore;
+  const { getTenantsData, tenants, deleteTenants } = TenantsStore;
+  const {
+    selectedRows,
+    selectedRowsLength,
+    setSelectedRows,
+  } = TableSelectedRowsStore;
 
+  const columnsWithActions = useMemo(
+    () => [
+      ...columns,
+      {
+        Header: t("Actions"),
+        accessor: "actions",
+        disableSortBy: true,
+        Cell: ({ row: { index } }: CellProps<TenantItemType>) => (
+          <TableActions
+            edit
+            del
+            onDelete={() => {
+              setModalToOpen("delete");
+              setSelectedRows({ [index]: true });
+            }}
+          />
+        ),
+      },
+    ],
+    [setSelectedRows, t],
+  );
   useEffect(() => {
     getTenantsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getTenantsData]);
 
   const toolbarActions = [
+    {
+      id: "delete",
+      title: "Delete",
+      icon: Trash,
+      onClick: () => {
+        setModalToOpen("delete");
+      },
+    },
     {
       id: "add",
       title: "Add",
@@ -64,16 +97,37 @@ const TenantsList: FC = () => {
     setModalToOpen("");
   };
 
+  const callback = () => {
+    getTenantsData();
+    handleCloseModal();
+  };
+  const handleDelete = () => {
+    const selectedTenantsIds = tenants.reduce((prev, cur, i) => {
+      selectedRows[i] && prev.push(cur.uuid);
+      return prev;
+    }, [] as Array<string>);
+    deleteTenants(selectedTenantsIds, callback);
+  };
+
   return (
     <>
       <Table
         title={t("Tenants")}
-        columns={columns}
+        columns={columnsWithActions}
         data={tenants}
         toolbarActions={toolbarActions}
         checkbox
       />
       {modalToOpen === "add" && <AddTenant handleCancel={handleCloseModal} />}
+      {modalToOpen === "delete" && (
+        <DeleteTenantModal
+          handleCloseModal={handleCloseModal}
+          handleDelete={handleDelete}
+          selectedRows={selectedRows}
+          tenants={tenants}
+          selectedRowsLength={selectedRowsLength}
+        />
+      )}
     </>
   );
 };

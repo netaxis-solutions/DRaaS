@@ -2,14 +2,15 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
-import { AnyKeyStringValueObjectType as TenantType } from "utils/types/common";
+import { TenantItemType } from "utils/types/tenant";
 import configStore from "../Config";
+import TenantStore from "../Tenant";
 
 type TTenantsData = {
-  tenants: Array<TenantType>;
+  tenants: Array<TenantItemType>;
 };
 class TenantsStore {
-  tenants: Array<TenantType> = [];
+  tenants: Array<TenantItemType> = [];
 
   constructor() {
     makeObservable(this, {
@@ -30,6 +31,21 @@ class TenantsStore {
       });
     } catch (e) {
       console.log(e, "e");
+    }
+  };
+
+  deleteTenants = async (
+    selectedTenantsIds: string[],
+    callback?: () => void,
+  ) => {
+    try {
+      await Promise.all(
+        selectedTenantsIds.map(uuid => TenantStore.deleteTenant({ uuid })),
+      );
+    } catch (e) {
+      console.log("e", e);
+    } finally {
+      callback && callback();
     }
   };
 }
