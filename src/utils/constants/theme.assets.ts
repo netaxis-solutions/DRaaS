@@ -225,4 +225,13 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       },
     },
   },
+  Mui: {
+    root: {
+      "&$checked": {
+        "&:hover": {
+          background: "none",
+        },
+      },
+    },
+  },
 });

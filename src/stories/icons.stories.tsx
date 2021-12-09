@@ -22,7 +22,10 @@ export const Collection = ({
     }}
   >
     {pairs.map(([name, Icon]) => (
-      <div key={name} style={{ margin: "1em", textAlign: "center", color }}>
+      <div
+        key={name}
+        style={{ margin: "1em", textAlign: "center", color, background: "red" }}
+      >
         <Icon style={{ height: "3em", fill: color }} />
         <h4>{name}</h4>
       </div>

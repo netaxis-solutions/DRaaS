@@ -5,13 +5,14 @@ import MuiCheckbox from "@material-ui/core/Checkbox";
 import { CheckboxType } from "utils/types/form";
 
 import useStyles from "./styles";
+import CheckboxIcon from "levels/authorization/Login/components/CheckboxIcon";
 
 export const Checkbox: React.FC<CheckboxType> = ({
   label = "",
   labelPlacement = "end",
-  checked,
   onChange,
-  disabled
+  disabled,
+  ...rest
 }) => {
   const classes = useStyles();
   const handleChange = (e: ChangeEvent<Element>, checked: boolean) => {
@@ -22,9 +23,11 @@ export const Checkbox: React.FC<CheckboxType> = ({
     <FormControlLabel
       control={
         <MuiCheckbox
-          classes={{ root: classes.root }}
-          checked={checked}
           onChange={handleChange}
+          classes={{ root: classes.root, checked: classes.checked }}
+          {...rest}
+          checkedIcon={<CheckboxIcon />}
+          size={"small"}
         />
       }
       label={label}
@@ -40,9 +43,14 @@ const FormCheckbox = forwardRef(
     const { error } = fieldState;
 
     return (
-      <Checkbox checkboxRef={ref} helperText={error?.message} {...props} />
+      <Checkbox
+        checkboxRef={ref}
+        helperText={error?.message}
+        checked={props.value}
+        {...props}
+      />
     );
-  }
+  },
 );
 
 export default FormCheckbox;

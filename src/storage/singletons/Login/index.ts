@@ -12,6 +12,7 @@ import { LoggedInUserType } from "utils/types/routingConfig";
 import { ResponseData } from "utils/types/login";
 import RoutingConfig from "../RoutingConfig";
 import configStore from "../Config";
+import { encrypt, storageToManipulate } from "utils/functions/storage";
 
 class Login {
   user = {} as object;
@@ -26,8 +27,12 @@ class Login {
     });
   }
 
-  login = async (payload: LoginFormTypes): Promise<void> => {
+  login = async ({
+    keepMeLoggedIn,
+    ...payload
+  }: LoginFormTypes): Promise<void> => {
     try {
+      console.log(payload);
       const data: ResponseData | void = await publicLoginRequest({
         loaderName: "@loginLoader",
         payload,
@@ -37,17 +42,17 @@ class Login {
 
       const accessToken = get(data, "data.access_token", false);
       const refreshToken = get(data, "data.refresh_token", false);
-
+      const storage = storageToManipulate(keepMeLoggedIn);
       accessToken &&
-        localStorage.setItem(
+        storage.setItem(
           `${configStore.config.name}_accessToken`,
-          accessToken,
+          encrypt(accessToken),
         );
 
       refreshToken &&
-        localStorage.setItem(
+        storage.setItem(
           `${configStore.config.name}_refreshToken`,
-          refreshToken,
+          encrypt(refreshToken),
         );
 
       await this.getUserData();
@@ -58,6 +63,17 @@ class Login {
       const route = routeVal?.value?.path || "/";
       RoutingConfig.history.push(route);
     } catch (e) {}
+  };
+
+  logout = () => {
+    storageToManipulate(configStore.keepUserLoggedIn).removeItem(
+      `${configStore.config.name}_accessToken`,
+    );
+    storageToManipulate(configStore.keepUserLoggedIn).removeItem(
+      `${configStore.config.name}_refreshToken`,
+    );
+
+    RoutingConfig.history.push(configStore.customLogoutLink || "/login");
   };
 
   getUserData: () => Promise<void> = async () => {
