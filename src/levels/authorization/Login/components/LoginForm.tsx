@@ -14,7 +14,6 @@ import FormCheckbox from "components/common/Form/FormCheckbox";
 import { useMemo } from "react";
 import ConfigStore from "storage/singletons/Config";
 import { observer } from "mobx-react-lite";
-import CheckboxIcon from "./CheckboxIcon";
 
 const initialValues = {
   username: "",
@@ -82,7 +81,6 @@ const LoginForm: React.FC = () => {
             />
           )}
         />
-        <CheckboxIcon />
         <NavLink
           to={publicRoutes.forgotPassword}
           className={classes.loginForgetPasswordLink}

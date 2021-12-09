@@ -219,19 +219,19 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
     root: {
       color: palette.input.border,
     },
-    colorSecondary: {
-      "&$checked": {
-        color: `${palette.primary.main}`,
-      },
-    },
+    // colorSecondary: {
+    //   "&$checked": {
+    //     color: `none`,
+    //   },
+    // },
   },
-  Mui: {
-    root: {
-      "&$checked": {
-        "&:hover": {
-          background: "none",
-        },
-      },
-    },
-  },
+  // Mui: {
+  //   root: {
+  //     "&$checked": {
+  //       "&:hover": {
+  //         background: "none",
+  //       },
+  //     },
+  //   },
+  // },
 });

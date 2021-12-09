@@ -26,7 +26,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     flexDirection: "column",
     "& svg": {
-      fill: theme.palette.primary.main,
+      //fill: theme.palette.primary.main,
       width: 16,
       height: 16,
     },
@@ -67,7 +67,6 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: 300,
   },
   loginCheckboxAndLinkWrapper: {
-    background: "green",
     display: "flex",
     justifyContent: "space-between",
     marginBottom: theme.spacing(3.75),
