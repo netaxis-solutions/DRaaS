@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, Ref } from "react";
+import React, { ChangeEvent, FocusEvent, Ref } from "react";
 
 export type IconWithButtonPropsType = {
   title: string;
@@ -33,10 +33,12 @@ export type SearchInputType = {
   onChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
 };
-
-export type CheckboxType = {
+export type TCheckboxProps = {
   onChange: (e: ChangeEvent<Element>, checked: boolean) => void;
   checked: boolean;
+  checkedIcon?: React.ReactNode;
+};
+export type CheckboxType = TCheckboxProps & {
   label?: string;
   labelPlacement?: "end" | "bottom" | "top" | "start";
   checkboxRef?: Ref<HTMLInputElement>;

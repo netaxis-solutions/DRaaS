@@ -12,6 +12,19 @@ class Config {
   get formattedConfig() {
     return mergeWith({}, backupConfig, this.config, customizer);
   }
+  get keepUserLoggedIn() {
+    return "keepUserLoggedIn" in this.formattedConfig.authentication
+      ? this.formattedConfig.authentication.keepUserLoggedIn
+      : true;
+  }
+
+  get customLogoutLink() {
+    return (
+      "customLogOut" in this.formattedConfig.authentication &&
+      this.formattedConfig.authentication.customLogOut.enabled &&
+      this.formattedConfig.authentication.customLogOut.route
+    );
+  }
   constructor() {
     makeObservable(this, {
       config: observable.ref,
