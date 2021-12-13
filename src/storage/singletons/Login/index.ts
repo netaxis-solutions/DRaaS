@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { action, makeObservable, observable, runInAction } from "mobx";
 import get from "lodash/get";
 
 import { publicLoginRequest, request } from "services/api";
@@ -18,21 +18,39 @@ class Login {
   user = {} as object;
   level = "" as LoggedInUserType;
   isForgotPasswordNotificationShown: string = "";
+  keepUserLoggedIn: boolean = false;
+
+  get customLogoutLink() {
+    return (
+      "customLogOut" in configStore.config.authentication &&
+      configStore.config.authentication.customLogOut.enabled &&
+      configStore.config.authentication.customLogOut.route
+    );
+  }
 
   constructor() {
     makeObservable(this, {
       user: observable.ref,
       level: observable,
       isForgotPasswordNotificationShown: observable,
+      keepUserLoggedIn: observable,
+      setKeepUserLoggenIn: action,
     });
   }
+
+  setKeepUserLoggenIn = (keepUserLoggedIn: boolean) => {
+    this.keepUserLoggedIn = keepUserLoggedIn;
+  };
 
   login = async ({
     keepMeLoggedIn,
     ...payload
   }: LoginFormTypes): Promise<void> => {
+    runInAction(() => {
+      this.setKeepUserLoggenIn(keepMeLoggedIn);
+    });
+    const storage = storageToManipulate(keepMeLoggedIn);
     try {
-      console.log(payload);
       const data: ResponseData | void = await publicLoginRequest({
         loaderName: "@loginLoader",
         payload,
@@ -42,7 +60,6 @@ class Login {
 
       const accessToken = get(data, "data.access_token", false);
       const refreshToken = get(data, "data.refresh_token", false);
-      const storage = storageToManipulate(keepMeLoggedIn);
       accessToken &&
         storage.setItem(
           `${configStore.config.name}_accessToken`,
@@ -54,8 +71,13 @@ class Login {
           `${configStore.config.name}_refreshToken`,
           encrypt(refreshToken),
         );
+      storage.setItem(
+        `${configStore.config.name}_keepUserLoggedIn`,
+        `${keepMeLoggedIn}`,
+      );
 
       await this.getUserData();
+
       const routeVal = RoutingConfig.availableRouting.find(
         el => el.key === homeUrl[RoutingConfig.currentLevel],
       );
@@ -66,14 +88,12 @@ class Login {
   };
 
   logout = () => {
-    storageToManipulate(configStore.keepUserLoggedIn).removeItem(
-      `${configStore.config.name}_accessToken`,
-    );
-    storageToManipulate(configStore.keepUserLoggedIn).removeItem(
-      `${configStore.config.name}_refreshToken`,
-    );
+    localStorage.removeItem(`${configStore.config.name}_accessToken`);
+    localStorage.removeItem(`${configStore.config.name}_refreshToken`);
+    sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
+    sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
 
-    RoutingConfig.history.push(configStore.customLogoutLink || "/login");
+    RoutingConfig.history.push(this.customLogoutLink || "/login");
   };
 
   getUserData: () => Promise<void> = async () => {

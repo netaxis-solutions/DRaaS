@@ -45,6 +45,7 @@ export const defaultPalette: PaletteDefaultOptionsType = {
   },
   input: {
     border: "#B4BDC2",
+    disabled: "#D9DDE0",
   },
   link: {
     main: "#212356",
@@ -219,19 +220,5 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
     root: {
       color: palette.input.border,
     },
-    // colorSecondary: {
-    //   "&$checked": {
-    //     color: `none`,
-    //   },
-    // },
   },
-  // Mui: {
-  //   root: {
-  //     "&$checked": {
-  //       "&:hover": {
-  //         background: "none",
-  //       },
-  //     },
-  //   },
-  // },
 });

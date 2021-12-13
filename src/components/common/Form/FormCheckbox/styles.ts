@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/core";
+import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
     "&.MuiCheckbox-colorSecondary.Mui-checked:hover": {
       background: "none",
@@ -11,16 +12,15 @@ const useStyles = makeStyles(theme => ({
         stroke: theme.palette.primary.main,
       },
     },
-    // transform: "scale(1.422)",
   },
-
+  iconChecked: { fill: theme.palette.primary.main },
   icon: {
     fill: "#FFFFFF",
-    stroke: "#B4BDC2",
+    stroke: theme.palette.input.border,
   },
 
   disabled: {
-    stroke: "#D9DDE0",
+    stroke: theme.palette.input.disabled,
   },
 
   label: {

@@ -2,11 +2,15 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from "axios";
 import get from "lodash/get";
 
 import configStore from "storage/singletons/Config";
-import Login from "storage/singletons/Login";
+import LoginStore from "storage/singletons/Login";
 import PendingQueries from "storage/singletons/PendingQueries";
-import RoutingConfig from "storage/singletons/RoutingConfig";
 import { getMethod } from "utils/functions/api";
-import { decrypt, encrypt, storageToManipulate } from "utils/functions/storage";
+import {
+  decrypt,
+  encrypt,
+  getToken,
+  storageToManipulate,
+} from "utils/functions/storage";
 import {
   AccessTokenResponse,
   HeadersType,
@@ -55,9 +59,7 @@ export const publicLoginRequest: SendRequestType = ({
 };
 
 const onResponse = (config: AxiosRequestConfig): AxiosRequestConfig => {
-  const encryptedToken = storageToManipulate(
-    configStore.keepUserLoggedIn,
-  ).getItem(`${configStore.config.name}_accessToken`);
+  const encryptedToken = getToken(configStore.config.name);
 
   const token = encryptedToken ? decrypt(encryptedToken) : null;
 
@@ -74,26 +76,18 @@ const onResponseError = async (
 ): Promise<AxiosError | AxiosRequestConfig> => {
   const status = get(error, "response.status", 0);
   const config: AxiosRequestConfig = get(error, "config", {});
-  console.log(
-    config.url,
-    `${configStore.config.backendUrl}/api/v01/auth/access_token`,
-  );
+
   if (
     status === 401 &&
     config.url === `${configStore.config.backendUrl}/api/v01/auth/access_token`
   ) {
-    Login.logout();
-    RoutingConfig.history.push("/login");
-
+    LoginStore.logout();
     return Promise.reject(error);
   } else if (status === 401) {
-    const encryptedToken = storageToManipulate(
-      configStore.keepUserLoggedIn,
-    ).getItem(`${configStore.config.name}_refreshToken`);
+    const encryptedToken = getToken(configStore.config.name, "refreshToken");
 
     try {
       const refreshToken = encryptedToken ? decrypt(encryptedToken) : null;
-
       const response: AccessTokenResponse = await axios.get(
         `${configStore.config.backendUrl}/api/v01/auth/access_token`,
         {
@@ -105,17 +99,19 @@ const onResponseError = async (
 
       if (response.data) {
         const accessToken = response.data.access_token;
-        storageToManipulate(configStore.keepUserLoggedIn).setItem(
+
+        storageToManipulate(LoginStore.keepUserLoggedIn).setItem(
           `${configStore.config.name}_accessToken`,
           encrypt(accessToken),
         );
+
         config["headers" as keyof AxiosRequestConfig][
           "Authorization" as keyof HeadersType
         ] = `Bearer ${accessToken}`;
         return axios(config);
       }
     } catch (error) {
-      Login.logout();
+      LoginStore.logout();
 
       return Promise.reject(error);
     }

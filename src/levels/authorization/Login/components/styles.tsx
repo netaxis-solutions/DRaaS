@@ -25,11 +25,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    "& svg": {
-      //fill: theme.palette.primary.main,
-      width: 16,
-      height: 16,
-    },
+
     "& > div": {
       "&:first-child": {
         marginBottom: `${theme.spacing(3.75)}px`,

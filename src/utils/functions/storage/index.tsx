@@ -19,3 +19,7 @@ export const encrypt = (token: string) => {
 export const decrypt = (token: string) => {
   return CryptoJS.AES.decrypt(token, key, { iv }).toString(CryptoJS.enc.Utf8);
 };
+
+export const getToken = (name: string, token: string = "accessToken") =>
+  localStorage.getItem(`${name}_${token}`) ||
+  sessionStorage.getItem(`${name}_${token}`);

@@ -1,20 +1,20 @@
 import { forwardRef, Ref, ChangeEvent } from "react";
 import clsx from "clsx";
-
-import { FormControlLabel } from "@material-ui/core";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MuiCheckbox from "@material-ui/core/Checkbox";
+
 import { CheckboxType } from "utils/types/form";
 
-import useStyles from "./styles";
 import CheckboxIcon from "levels/authorization/Login/components/CheckboxIcon";
 import CheckboxCheckedIcon from "levels/authorization/Login/components/CheckboxCheckedIcon";
+import useStyles from "./styles";
 
 export const Checkbox: React.FC<CheckboxType> = ({
   label = "",
   labelPlacement = "end",
   onChange,
   disabled,
-  ...rest
+  checked,
 }) => {
   const classes = useStyles();
   const handleChange = (e: ChangeEvent<Element>, checked: boolean) => {
@@ -26,7 +26,7 @@ export const Checkbox: React.FC<CheckboxType> = ({
         <MuiCheckbox
           onChange={handleChange}
           classes={{ root: classes.root }}
-          {...rest}
+          checked={checked}
           icon={
             <CheckboxIcon
               className={clsx(classes.icon, {
@@ -34,8 +34,7 @@ export const Checkbox: React.FC<CheckboxType> = ({
               })}
             />
           }
-          checkedIcon={<CheckboxCheckedIcon />}
-          size={"small"}
+          checkedIcon={<CheckboxCheckedIcon className={classes.iconChecked} />}
         />
       }
       label={label}
