@@ -1,4 +1,4 @@
-import { makeObservable, observable } from "mobx";
+import { makeAutoObservable, observable } from "mobx";
 
 import { TSteps } from "utils/types/modal";
 
@@ -12,7 +12,7 @@ class MultiStepForm {
   }
 
   constructor() {
-    makeObservable(this, {
+    makeAutoObservable(this, {
       values: observable.ref,
       steps: observable.ref,
       activeStep: observable,

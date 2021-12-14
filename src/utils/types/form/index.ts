@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, Ref } from "react";
+import React, { ChangeEvent, FocusEvent, Ref } from "react";
 
 export type IconWithButtonPropsType = {
   title: string;
@@ -35,12 +35,12 @@ export type SearchInputType = {
 };
 
 export type CheckboxType = {
-  onChange: (e: ChangeEvent<Element>, checked: boolean) => void;
-  checked: boolean;
   label?: string;
   labelPlacement?: "end" | "bottom" | "top" | "start";
   checkboxRef?: Ref<HTMLInputElement>;
   disabled?: boolean;
+  onChange: (e: ChangeEvent<Element>, checked: boolean) => void;
+  checked: boolean;
 };
 
 export type TSelectProps = {

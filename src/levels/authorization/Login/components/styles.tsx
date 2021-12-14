@@ -25,6 +25,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     flex: 1,
     display: "flex",
     flexDirection: "column",
+
     "& > div": {
       "&:first-child": {
         marginBottom: `${theme.spacing(3.75)}px`,
@@ -54,13 +55,23 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
   },
+  loginPasswordInput: { "& > div": { marginBottom: theme.spacing(1.25) } },
   loginForgetPasswordLink: {
-    alignSelf: "flex-end",
-    margin: `${theme.spacing(1.25)}px 0 ${theme.spacing(3.75)}px`,
     textDecoration: "underline",
     fontSize: "1.4rem",
     color: theme.palette.primary.white,
     fontWeight: 300,
+  },
+  loginCheckboxAndLinkWrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: theme.spacing(3.75),
+    "& label": {
+      "& span": {
+        paddingTop: 0,
+        paddingBottom: 0,
+      },
+    },
   },
   forgotPasswordText: {
     textAlign: "center",

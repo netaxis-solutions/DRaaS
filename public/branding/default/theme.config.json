@@ -19,7 +19,8 @@
       "success": "#8BB439"
     },
     "input": {
-      "border": "#B4BDC2"
+      "border": "#B4BDC2",
+      "disabled": "#D9DDE0"
     },
     "link": {
       "main": "#212356",
