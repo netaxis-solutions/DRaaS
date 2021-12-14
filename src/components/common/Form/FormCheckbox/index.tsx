@@ -5,8 +5,8 @@ import MuiCheckbox from "@material-ui/core/Checkbox";
 
 import { CheckboxType } from "utils/types/form";
 
-import CheckboxIcon from "levels/authorization/Login/components/CheckboxIcon";
-import CheckboxCheckedIcon from "levels/authorization/Login/components/CheckboxCheckedIcon";
+import CheckboxIcon from "components/common/Form/FormCheckbox/CheckboxIcon";
+import CheckboxCheckedIcon from "components/common/Form/FormCheckbox/CheckboxCheckedIcon";
 import useStyles from "./styles";
 
 export const Checkbox: React.FC<CheckboxType> = ({

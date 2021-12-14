@@ -7,7 +7,7 @@
   "authentication": {
     "keepUserLoggedIn": true,
     "customLogOut": {
-      "enabled": true,
+      "enabled": false,
       "route": "/forgot-password"
     }
   }
