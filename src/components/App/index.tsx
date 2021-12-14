@@ -31,19 +31,19 @@ const App: React.FC = () => {
           lng: "en",
           customTranslations:
             formattedConfig["customTranslations" as keyof object],
-        })
+        }),
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formattedConfig]);
 
-  return (
+  return formattedConfig["name" as keyof object] ? (
     <MuiThemeProvider theme={formattedTheme}>
       <CssBaseline />
       <Router>
         <Routes />
       </Router>
     </MuiThemeProvider>
-  );
+  ) : null;
 };
 
 export default observer(App);

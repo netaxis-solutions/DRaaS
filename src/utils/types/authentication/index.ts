@@ -1,6 +1,7 @@
 export type LoginFormTypes = {
   username: string;
   password: string;
+  keepMeLoggedIn: boolean;
 };
 
 export type ForgotPasswordTypes = {

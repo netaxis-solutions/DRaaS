@@ -5,4 +5,11 @@ export type ConfigType = {
   lng?: string;
   apiVersion: string;
   draasInstance: string;
+  authentication: {
+    keepUserLoggedIn: boolean;
+    customLogOut: {
+      enabled: boolean;
+      route: string;
+    };
+  };
 };
