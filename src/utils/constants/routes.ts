@@ -5,6 +5,7 @@ export const publicRoutes = {
   login: "/login",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password/:oneTimeToken",
+  twoFactor: "/two-factor",
 };
 
 export const homeUrl: HomeUrl = {

@@ -7,6 +7,7 @@ import {
   LoginFormTypes,
   ForgotPasswordTypes,
   ResetPasswordTypes,
+  TTwoFactorAuthentication,
 } from "utils/types/authentication";
 import { LoggedInUserType } from "utils/types/routingConfig";
 import { ResponseData } from "utils/types/login";
@@ -19,6 +20,7 @@ class Login {
   level = "" as LoggedInUserType;
   isForgotPasswordNotificationShown: string = "";
   keepUserLoggedIn: boolean = false;
+  twoFactorCode: string = "";
 
   get customLogoutLink() {
     return (
@@ -35,11 +37,48 @@ class Login {
       isForgotPasswordNotificationShown: observable,
       keepUserLoggedIn: observable,
       setKeepUserLoggenIn: action,
+      twoFactorCode: observable,
     });
   }
 
   setKeepUserLoggenIn = (keepUserLoggedIn: boolean) => {
     this.keepUserLoggedIn = keepUserLoggedIn;
+  };
+  successLoggedIn = async ({
+    data,
+    keepMeLoggedIn,
+  }: {
+    data: object;
+    keepMeLoggedIn: boolean;
+  }) => {
+    const storage = storageToManipulate(keepMeLoggedIn);
+
+    const accessToken = get(data, "data.access_token", false);
+    const refreshToken = get(data, "data.refresh_token", false);
+    accessToken &&
+      storage.setItem(
+        `${configStore.config.name}_accessToken`,
+        encrypt(accessToken),
+      );
+
+    refreshToken &&
+      storage.setItem(
+        `${configStore.config.name}_refreshToken`,
+        encrypt(refreshToken),
+      );
+    storage.setItem(
+      `${configStore.config.name}_keepUserLoggedIn`,
+      `${keepMeLoggedIn}`,
+    );
+
+    await this.getUserData();
+
+    const routeVal = RoutingConfig.availableRouting.find(
+      el => el.key === homeUrl[RoutingConfig.currentLevel],
+    );
+
+    const route = routeVal?.value?.path || "/";
+    RoutingConfig.history.push(route);
   };
 
   login = async ({
@@ -49,7 +88,6 @@ class Login {
     runInAction(() => {
       this.setKeepUserLoggenIn(keepMeLoggedIn);
     });
-    const storage = storageToManipulate(keepMeLoggedIn);
     try {
       const data: ResponseData | void = await publicLoginRequest({
         loaderName: "@loginLoader",
@@ -57,33 +95,15 @@ class Login {
         method: "post",
         route: "auth/login",
       });
+      const twoFactorPayload =
+        data["data" as keyof object]["2fa_payload" as keyof object] || false;
 
-      const accessToken = get(data, "data.access_token", false);
-      const refreshToken = get(data, "data.refresh_token", false);
-      accessToken &&
-        storage.setItem(
-          `${configStore.config.name}_accessToken`,
-          encrypt(accessToken),
-        );
-
-      refreshToken &&
-        storage.setItem(
-          `${configStore.config.name}_refreshToken`,
-          encrypt(refreshToken),
-        );
-      storage.setItem(
-        `${configStore.config.name}_keepUserLoggedIn`,
-        `${keepMeLoggedIn}`,
-      );
-
-      await this.getUserData();
-
-      const routeVal = RoutingConfig.availableRouting.find(
-        el => el.key === homeUrl[RoutingConfig.currentLevel],
-      );
-
-      const route = routeVal?.value?.path || "/";
-      RoutingConfig.history.push(route);
+      if (twoFactorPayload) {
+        this.twoFactorCode = twoFactorPayload;
+        RoutingConfig.history.push("/two-factor");
+      } else {
+        this.successLoggedIn({ data, keepMeLoggedIn });
+      }
     } catch (e) {}
   };
 
@@ -156,6 +176,25 @@ class Login {
     } catch (e) {
     } finally {
       callback && callback();
+    }
+  };
+
+  sendTwoFactorCode = async (
+    payload: TTwoFactorAuthentication,
+  ): Promise<void> => {
+    const newPayload = { ...payload, "2fa_payload": this.twoFactorCode };
+    console.log(newPayload);
+
+    try {
+      const data = await publicLoginRequest({
+        loaderName: "@forgotPasswordLoader",
+        payload: newPayload,
+        method: "post",
+        route: "auth/2fa",
+      });
+      this.successLoggedIn({ data, keepMeLoggedIn: this.keepUserLoggedIn });
+    } catch (e) {
+      console.log(e);
     }
   };
 }

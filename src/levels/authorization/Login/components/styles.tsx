@@ -96,6 +96,14 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   resetButton: {
     marginTop: theme.spacing(7),
   },
+  twoFactorHelperMessage: {
+    marginBottom: theme.spacing(3.75),
+    fontSize: "1.6rem",
+    textAlign: "center",
+  },
+  twoFactorSubmit: {
+    margin: `${theme.spacing(1.875)}px 0`,
+  },
 }));
 
 export default styles;
