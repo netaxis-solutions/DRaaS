@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, useEffect } from "react";
+import {
+  ChangeEvent,
+  FC,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   useTable,
   useSortBy,
@@ -19,6 +26,45 @@ import TableHead from "./components/TableHead";
 import Toolbar from "./components/Toolbar";
 import Pagination from "./components/Pagination";
 import { useStyles } from "./styles";
+type EditableCell = {
+  value: string;
+  row: { index: number; [key: string]: any };
+  cell: { column: { id: number } };
+  updateMyData: (index: number, id: number, value: string) => void;
+  [key: string]: any;
+};
+
+const EditableCell: React.FC<EditableCell> = ({
+  value: initialValue,
+  row: { index },
+  cell: {
+    column: { id },
+  },
+  updateMyData,
+  ...rest
+  // This is a custom function that we supplied to our table instance
+}) => {
+  // We need to keep and update the state of the cell normally
+  const [value, setValue] = useState(initialValue);
+
+  console.log(rest);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    updateMyData(index, id, e.target.value);
+  };
+
+  // We'll only update the external data when the input is blurred
+
+  // If the initialValue is changed external, sync it up with our state
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  return <input value={value} onChange={onChange} />;
+};
+const defaultColumn = {
+  Cell: EditableCell,
+};
 
 const Table: FC<TableProps> = ({
   title,
@@ -28,12 +74,24 @@ const Table: FC<TableProps> = ({
   toolbarActions,
 }) => {
   const classes = useStyles();
+  const ref: MutableRefObject<any> = useRef(data);
 
   const {
     selectedRows,
     setSelectedRows,
     clearSelectedRows,
+    setEditableRow,
   } = TableSelectedRowsStore;
+
+  useEffect(() => {
+    ref.current = data;
+  }, [data]);
+
+  const updateMyData = (index: number, id: number, value: string) => {
+    ref.current.forEach((_: object, curIndex: number) => {
+      curIndex === index && (ref.current[curIndex][id] = value);
+    });
+  };
 
   const {
     getTableProps,
@@ -53,6 +111,8 @@ const Table: FC<TableProps> = ({
     {
       columns,
       data,
+      defaultColumn,
+      updateMyData,
     },
     useFilters,
     useGlobalFilter,
@@ -91,7 +151,6 @@ const Table: FC<TableProps> = ({
           ])
         : hooks.visibleColumns.push(columns => [...columns]),
   );
-
   useEffect(() => {
     setSelectedRows(state.selectedRowIds);
     return () => {
@@ -113,6 +172,13 @@ const Table: FC<TableProps> = ({
 
   return (
     <>
+      <button
+        onClick={() => {
+          console.log(ref.current);
+        }}
+      >
+        CHECK
+      </button>
       <Toolbar
         title={title}
         toolbarActions={

@@ -4,6 +4,7 @@ class TableSelectedRows {
   selectedRows: {
     [key: string]: boolean;
   } = {};
+  editableRow: object = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -20,6 +21,9 @@ class TableSelectedRows {
   get selectedRowsLength() {
     return Object.values(this.selectedRows).length;
   }
+  setEditableRow = (editableRow: object) => {
+    this.editableRow = editableRow;
+  };
 }
 
 export default new TableSelectedRows();
