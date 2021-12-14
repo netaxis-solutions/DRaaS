@@ -10,6 +10,7 @@ const publicRoutes = [
   "/login",
   "/forgot-password",
   "/reset-password/:oneTimeToken",
+  "/two-factor",
 ];
 
 const Routes: React.FC = () => {

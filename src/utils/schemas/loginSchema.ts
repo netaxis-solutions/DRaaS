@@ -17,3 +17,8 @@ export const resetPasswordSchema = (t: TFunction) =>
       .oneOf([ref("password"), null], "Passwords must match")
       .required(),
   });
+
+export const twoFactorSchema = (t: TFunction) =>
+  object().shape({
+    code: string().label(t("Code")).required(),
+  });
