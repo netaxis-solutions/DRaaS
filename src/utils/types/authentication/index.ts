@@ -12,3 +12,8 @@ export type ResetPasswordTypes = {
   password: string;
   confirmPassword: string;
 };
+
+export type TTwoFactorAuthentication = {
+  code: string;
+  trust: boolean;
+};

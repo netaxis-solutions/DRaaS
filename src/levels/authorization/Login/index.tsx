@@ -6,6 +6,7 @@ import LoginForm from "./components/LoginForm";
 import LoginHeader from "./components/LoginHeader";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import ResetPasswordForm from "./components/ResetPasswordForm";
+import TwoFactorAuthenticationForm from "./components/TwoFactorAuthenticationForm";
 import useStyles from "./styles";
 
 const Login: React.FC = () => {
@@ -31,6 +32,11 @@ const Login: React.FC = () => {
             exact
             path={publicRoutes.resetPassword}
             component={ResetPasswordForm}
+          />
+          <Route
+            exact
+            path={publicRoutes.twoFactor}
+            component={TwoFactorAuthenticationForm}
           />
         </Switch>
       </div>
