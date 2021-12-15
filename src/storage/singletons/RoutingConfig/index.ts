@@ -4,12 +4,12 @@ import { publicRoutes } from "utils/constants/routes";
 import {
   getLevelRoutes,
   getAvailableRoutes,
-  getALlPossibleUrls
+  getALlPossibleUrls,
 } from "utils/functions/routingConfig";
 import {
   CurRoute,
   LoggedInUserType,
-  RoutingConfigType
+  RoutingConfigType,
 } from "utils/types/routingConfig";
 import PendingQueries from "../PendingQueries";
 
@@ -24,11 +24,12 @@ class Routing {
     return getLevelRoutes(this.loggedInUserLevel, this.currentLevel);
   }
 
+  //Get routes with paths for LOGGED IN level from publicConfigRoutes utils/constants/routes
   get allAvailvableRouting() {
     if (this.loggedInUserLevel) {
       return getALlPossibleUrls({
         publicConfigRoutes: this.publicConfigRoutes,
-        loggedInUserLevel: this.loggedInUserLevel
+        loggedInUserLevel: this.loggedInUserLevel,
       });
     } else return {};
   }
@@ -37,7 +38,7 @@ class Routing {
     return !!this.levelRoutes.size
       ? getAvailableRoutes(
           this.publicConfigRoutes[this.currentLevel],
-          this.levelRoutes
+          this.levelRoutes,
         )
       : new Map(Object.entries(publicRoutes));
   }
@@ -49,7 +50,7 @@ class Routing {
       if (typeof routeValue === "string") {
         currentLevelRoutingArray.push({
           key: routeName,
-          value: { path: routeValue }
+          value: { path: routeValue },
         });
       } else {
         routeValue.enabled &&
@@ -61,7 +62,7 @@ class Routing {
 
   setLoggedUser = (
     currentLevel: LoggedInUserType,
-    loggedInUserLevel: LoggedInUserType
+    loggedInUserLevel: LoggedInUserType,
   ) => {
     this.currentLevel = currentLevel;
     this.loggedInUserLevel = loggedInUserLevel;
@@ -83,7 +84,7 @@ class Routing {
       currentLevel: observable,
       setLoggedUser: action,
       setHistory: action,
-      setCurrentLevel: action
+      setCurrentLevel: action,
     });
   }
 
