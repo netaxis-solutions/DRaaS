@@ -14,13 +14,13 @@ import Reseller from "./reseller";
 import Tenant from "./tenant";
 
 const Content: React.FC = () => {
-  const { getUserData } = loginStore;
+  const { getUserData, user } = loginStore;
   const { loggedInUserLevel } = RoutingConfig;
 
   useEffect(() => {
-    getUserData();
+    !Object.keys(user).length && getUserData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return loggedInUserLevel ? (
     <MainLayout>
