@@ -17,6 +17,12 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginRight: theme.direction === "ltr" ? 0 : `${theme.spacing(2)}px`,
     },
   },
+  iconButton: {
+    padding: 0,
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
 }));
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
@@ -75,6 +81,17 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     textAlign: "end",
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
     paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
+  },
+  isEditing: {
+    backgroundColor: "#EBEBF7",
+    "&:hover": {
+      backgroundColor: "#EBEBF7",
+    },
+  },
+  disabled: {
+    opacity: 0.6,
+    backgroundColor: "#EEF2FB",
+    pointerEvents: "none",
   },
 }));
 

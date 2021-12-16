@@ -3,6 +3,7 @@ import { TDeleteModalProps } from "../modal";
 export type ResellerItemType = {
   uuid: string;
   name: string;
+  billingId: string;
   [key: string]: string | number;
 };
 
@@ -35,4 +36,10 @@ export type TCreateResellerPayload = {
 
 export type TDeleteResellerModalProps = TDeleteModalProps & {
   resellers: Array<ResellerItemType>;
+};
+
+export type TEditResellerPayload = {
+  name: string;
+  billingId: string;
+  uuid: string;
 };

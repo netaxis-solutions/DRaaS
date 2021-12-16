@@ -10,8 +10,11 @@ import {
 export type TableActionsType = {
   edit?: boolean;
   del?: boolean;
+  save?: boolean;
+  cancel?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
+  onCancel?: () => void;
 };
 
 export type TableData = {
@@ -29,6 +32,8 @@ export type TableProps = {
   data: TableData[];
   checkbox?: boolean;
   toolbarActions: Array<ToolbarActionType>;
+  setModalToOpen?: (s: string) => void;
+  setDefaultValues?: any;
 };
 
 export type ToolbarType = {

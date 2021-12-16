@@ -18,3 +18,9 @@ export const addResellerSchema = (t: TFunction) =>
       excludeEmptyString: true,
     }),
   });
+
+export const editResellerSchema = () =>
+  object().shape({
+    name: string().required(),
+    billingId: string().matches(/^[aA-zZ0-9\s]+$/),
+  });
