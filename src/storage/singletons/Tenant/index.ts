@@ -2,7 +2,7 @@ import { makeObservable } from "mobx";
 
 import { request } from "services/api";
 
-import { TCreateTenant } from "utils/types/tenant";
+import { TCreateTenant, TDeleteTenant } from "utils/types/tenant";
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
 import TenantsStore from "../Tenants";
@@ -32,6 +32,19 @@ class TenantStore {
         loaderName: "@createTenant",
         method: "post",
         payload,
+      });
+      callback && callback();
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+
+  deleteTenant = async ({ uuid, callback }: TDeleteTenant) => {
+    try {
+      await request({
+        route: `${configStore.config.draasInstance}/tenants/${uuid}`,
+        loaderName: "@deleteDistributor",
+        method: "delete",
       });
       callback && callback();
     } catch (e) {
