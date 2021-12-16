@@ -1,3 +1,5 @@
+import { TDeleteModalProps } from "../modal";
+
 export type TAddTenantFormProps = {
   handleCancel: () => void;
 };
@@ -20,4 +22,19 @@ export type TCreateTenant = {
     markup?: number;
   };
   callback?: () => void;
+};
+
+export type TDeleteTenant = {
+  uuid: string;
+  callback?: () => void;
+};
+
+export type TenantItemType = {
+  uuid: string;
+  name: string;
+  [key: string]: string | number;
+};
+
+export type TDeleteTenantModalProps = TDeleteModalProps & {
+  tenants: Array<TenantItemType>;
 };
