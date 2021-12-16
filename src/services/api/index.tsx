@@ -126,6 +126,12 @@ export const request: SendRequestType = ({
   responseType = "json",
   loaderName,
 }) => {
+  const token = getToken(configStore.config.name);
+
+  if (token) {
+    headers["Authorization" as keyof HeadersType] = `Bearer ${decrypt(token)}`;
+  }
+
   const privateInstance: AxiosInstance = axios.create({
     headers,
   });
