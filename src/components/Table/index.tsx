@@ -7,8 +7,10 @@ import {
   CellProps,
   useFilters,
   useGlobalFilter,
+  useRowState,
 } from "react-table";
 import MaUTable from "@material-ui/core/Table";
+import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
@@ -18,6 +20,7 @@ import TableBody from "./components/TableBody";
 import TableHead from "./components/TableHead";
 import Toolbar from "./components/Toolbar";
 import Pagination from "./components/Pagination";
+import TableActions from "components/Table/components/TableActions";
 import { useStyles } from "./styles";
 
 const Table: FC<TableProps> = ({
@@ -26,8 +29,13 @@ const Table: FC<TableProps> = ({
   data,
   checkbox = false,
   toolbarActions,
+  setModalToOpen,
+  setDefaultValues,
+  handleDeleteItem,
+  handleEditItem,
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const {
     selectedRows,
@@ -49,6 +57,7 @@ const Table: FC<TableProps> = ({
     nextPage,
     canNextPage,
     canPreviousPage,
+    setRowState,
   } = useTable(
     {
       columns,
@@ -59,6 +68,7 @@ const Table: FC<TableProps> = ({
     useSortBy,
     usePagination,
     useRowSelect,
+    useRowState,
     hooks =>
       checkbox
         ? hooks.visibleColumns.push(columns => [
@@ -88,8 +98,79 @@ const Table: FC<TableProps> = ({
               },
             },
             ...columns,
+            {
+              Header: () => t("Actions"),
+              accessor: "actions",
+              disableSortBy: true,
+              Cell: (props: any) => {
+                if (props.state.rowState[props.row.index]?.isEditing) {
+                  return (
+                    <TableActions
+                      save
+                      cancel
+                      onCancel={() => {
+                        setRowState([props.row.index], {
+                          isEditing: false,
+                        });
+                      }}
+                    />
+                  );
+                }
+                return (
+                  <TableActions
+                    edit
+                    del
+                    onDelete={() => handleDeleteItem && handleDeleteItem(props)}
+                    onEdit={() => {
+                      handleEditItem && handleEditItem(props);
+                      setRowState([props.row.index], {
+                        isEditing: true,
+                      });
+                    }}
+                  />
+                );
+              },
+            },
           ])
-        : hooks.visibleColumns.push(columns => [...columns]),
+        : hooks.visibleColumns.push(columns => [
+            ...columns,
+            {
+              Header: () => t("Actions"),
+              accessor: "actions",
+              disableSortBy: true,
+              Cell: (props: any) => {
+                if (props.state.rowState[props.row.index]?.isEditing) {
+                  return (
+                    <TableActions
+                      save
+                      cancel
+                      onCancel={() => {
+                        setRowState([props.row.index], {
+                          isEditing: false,
+                        });
+                      }}
+                    />
+                  );
+                }
+                return (
+                  <TableActions
+                    edit
+                    del
+                    onDelete={() => {
+                      setModalToOpen && setModalToOpen("delete");
+                      setSelectedRows({ [props.row.index]: true });
+                    }}
+                    onEdit={() => {
+                      setDefaultValues && setDefaultValues(props.row.original);
+                      setRowState([props.row.index], {
+                        isEditing: true,
+                      });
+                    }}
+                  />
+                );
+              },
+            },
+          ]),
   );
 
   useEffect(() => {
