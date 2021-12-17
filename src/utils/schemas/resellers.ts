@@ -22,5 +22,5 @@ export const addResellerSchema = (t: TFunction) =>
 export const editResellerSchema = () =>
   object().shape({
     name: string().required(),
-    billingId: string().matches(/^[aA-zZ0-9\s]+$/),
+    billingId: string(),
   });
