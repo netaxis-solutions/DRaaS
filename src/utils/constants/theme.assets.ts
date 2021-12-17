@@ -203,7 +203,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
     root: {
       fontSize: "1.4rem",
       "&:last-child": {
-        padding: "16px 90px 16px 16px",
+        padding: "16px 33px 16px 16px",
       },
       padding: 3,
     },

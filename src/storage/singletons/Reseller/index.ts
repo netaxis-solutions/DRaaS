@@ -1,7 +1,10 @@
 import { makeObservable } from "mobx";
 
 import { request } from "services/api";
-import { TCreateResellerPayload } from "utils/types/resellers";
+import {
+  TCreateResellerPayload,
+  TEditResellerPayload,
+} from "utils/types/resellers";
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
 
@@ -22,6 +25,27 @@ class ResellerStore {
         route: `${configStore.config.draasInstance}/resellers`,
         loaderName: "@createReseller",
         method: "post",
+        payload,
+      });
+      ResellersStore.getResellersData();
+      callback && callback();
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+
+  editReseller = async ({
+    payload: { uuid, ...payload },
+    callback,
+  }: {
+    payload: TEditResellerPayload;
+    callback?: () => void;
+  }) => {
+    try {
+      await request({
+        route: `${configStore.config.draasInstance}/resellers/${uuid}`,
+        loaderName: "@editReseller",
+        method: "put",
         payload,
       });
       ResellersStore.getResellersData();
