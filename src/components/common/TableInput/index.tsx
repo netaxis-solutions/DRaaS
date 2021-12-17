@@ -89,19 +89,12 @@ export const TableInput: React.FC<InputPropsType> = ({
   );
 };
 
-const FormInput = forwardRef(
+const FormTableInput = forwardRef(
   ({ fieldState, formState, ...props }: any, ref: Ref<HTMLInputElement>) => {
     const { error } = fieldState;
 
-    return (
-      <TableInput
-        inputRef={ref}
-        error={!!error}
-        helperText={error?.message}
-        {...props}
-      />
-    );
+    return <TableInput inputRef={ref} error={!!error} {...props} />;
   },
 );
 
-export default FormInput;
+export default FormTableInput;

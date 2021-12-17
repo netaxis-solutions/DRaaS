@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
@@ -14,7 +14,7 @@ import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddReseller from "./components/AddReseller";
 import DeleteResellerModal from "./components/DeleteResellerModal";
-import { TableInput } from "components/common/TableInput";
+import FormTableInput from "components/common/TableInput";
 
 const defaultValues = {
   uuid: "",
@@ -33,6 +33,7 @@ const ResellersList: FC = () => {
   const { getResellersData, resellers, deleteResellers } = Resellers;
   const { editReseller } = ResellerStore;
   const { selectedRows, selectedRowsLength } = TableSelectedRowsStore;
+  const { setSelectedRows } = TableSelectedRowsStore;
 
   const onSubmit: SubmitHandler<ResellerItemType> = values => {
     editReseller({
@@ -40,38 +41,46 @@ const ResellersList: FC = () => {
     });
   };
 
-  const columns = [
-    {
-      Header: t("Name"),
-      accessor: "name",
-      EditComponent: () => (
-        <Controller
-          name="name"
-          control={control}
-          render={({ field, ...props }) => <TableInput {...field} {...props} />}
-        />
-      ),
-    },
-    {
-      Header: t("Billing ID"),
-      accessor: "billingId",
-      EditComponent: () => (
-        <Controller
-          name="billingId"
-          control={control}
-          render={({ field, ...props }) => <TableInput {...field} {...props} />}
-        />
-      ),
-    },
-    {
-      Header: t("Owner"),
-      accessor: "owner.name",
-    },
-    {
-      Header: t("Tenants"),
-      accessor: "nbOfTenants",
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        Header: t("Name"),
+        accessor: "name",
+        EditComponent: () => (
+          <Controller
+            name="name"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormTableInput {...field} {...props} />
+            )}
+          />
+        ),
+      },
+      {
+        Header: t("Billing ID"),
+        accessor: "billingId",
+        EditComponent: () => (
+          <Controller
+            name="billingId"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormTableInput {...field} {...props} />
+            )}
+          />
+        ),
+      },
+      {
+        Header: t("Owner"),
+        accessor: "owner.name",
+      },
+      {
+        Header: t("Tenants"),
+        accessor: "nbOfTenants",
+      },
+    ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   useEffect(() => {
     getResellersData();
@@ -121,6 +130,15 @@ const ResellersList: FC = () => {
     setValue("uuid", reseller.uuid);
   };
 
+  const handleDeleteItem = (props: any) => {
+    setModalToOpen("delete");
+    setSelectedRows({ [props.row.index]: true });
+  };
+
+  const handleEditItem = (props: any) => {
+    setDefaultValues(props.row.original);
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -132,6 +150,8 @@ const ResellersList: FC = () => {
           setModalToOpen={setModalToOpen}
           checkbox
           setDefaultValues={setDefaultValues}
+          handleDeleteItem={handleDeleteItem}
+          handleEditItem={handleEditItem}
         />
       </form>
       {modalToOpen === "add" && <AddReseller handleCancel={handleCloseModal} />}

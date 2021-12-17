@@ -41,7 +41,6 @@ class ResellerStore {
     payload: TEditResellerPayload;
     callback?: () => void;
   }) => {
-    console.log("payload", payload);
     try {
       await request({
         route: `${configStore.config.draasInstance}/resellers/${uuid}`,

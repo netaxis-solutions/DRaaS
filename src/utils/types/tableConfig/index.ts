@@ -34,6 +34,8 @@ export type TableProps = {
   toolbarActions: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;
   setDefaultValues?: any;
+  handleDeleteItem?: (props: any) => void;
+  handleEditItem?: (props: any) => void;
 };
 
 export type ToolbarType = {

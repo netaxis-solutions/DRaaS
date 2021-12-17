@@ -22,6 +22,9 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "&:hover": {
       backgroundColor: "transparent",
     },
+    "&& svg": {
+      marginLeft: 0,
+    },
   },
 }));
 
@@ -83,14 +86,14 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
   },
   isEditing: {
-    backgroundColor: "#EBEBF7",
+    backgroundColor: theme.palette.primary.light,
     "&:hover": {
-      backgroundColor: "#EBEBF7",
+      backgroundColor: theme.palette.primary.light,
     },
   },
   disabled: {
     opacity: 0.6,
-    backgroundColor: "#EEF2FB",
+    backgroundColor: theme.palette.primary.background,
     pointerEvents: "none",
   },
 }));

@@ -31,6 +31,8 @@ const Table: FC<TableProps> = ({
   toolbarActions,
   setModalToOpen,
   setDefaultValues,
+  handleDeleteItem,
+  handleEditItem,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -118,6 +120,42 @@ const Table: FC<TableProps> = ({
                   <TableActions
                     edit
                     del
+                    onDelete={() => handleDeleteItem && handleDeleteItem(props)}
+                    onEdit={() => {
+                      handleEditItem && handleEditItem(props);
+                      setRowState([props.row.index], {
+                        isEditing: true,
+                      });
+                    }}
+                  />
+                );
+              },
+            },
+          ])
+        : hooks.visibleColumns.push(columns => [
+            ...columns,
+            {
+              Header: () => t("Actions"),
+              accessor: "actions",
+              disableSortBy: true,
+              Cell: (props: any) => {
+                if (props.state.rowState[props.row.index]?.isEditing) {
+                  return (
+                    <TableActions
+                      save
+                      cancel
+                      onCancel={() => {
+                        setRowState([props.row.index], {
+                          isEditing: false,
+                        });
+                      }}
+                    />
+                  );
+                }
+                return (
+                  <TableActions
+                    edit
+                    del
                     onDelete={() => {
                       setModalToOpen && setModalToOpen("delete");
                       setSelectedRows({ [props.row.index]: true });
@@ -132,8 +170,7 @@ const Table: FC<TableProps> = ({
                 );
               },
             },
-          ])
-        : hooks.visibleColumns.push(columns => [...columns]),
+          ]),
   );
 
   useEffect(() => {
