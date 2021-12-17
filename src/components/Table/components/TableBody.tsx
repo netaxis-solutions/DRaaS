@@ -9,7 +9,7 @@ import { useTableBodyStyles } from "./styles";
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,
   page,
-  prepareRow
+  prepareRow,
 }) => {
   const classes = useTableBodyStyles();
 
@@ -18,7 +18,15 @@ const TableBody: React.FC<TableBodyType> = ({
       {page.map(row => {
         prepareRow(row);
         return (
-          <TableRow {...row.getRowProps()}>
+          <TableRow
+            {...row.getRowProps()}
+            className={clsx({
+              [classes.isEditing]: row.state.isEditing,
+              [classes.disabled]:
+                page.some(row => row.state?.isEditing) && !row.state.isEditing,
+            })}
+            key={row.id}
+          >
             {row.cells.map(cell => {
               return (
                 <TableCell
@@ -26,10 +34,15 @@ const TableBody: React.FC<TableBodyType> = ({
                   className={clsx({
                     [classes.tableCellWithSelection]:
                       cell.column.id === "selection",
-                    [classes.tableCellWithAction]: cell.column.id === "actions"
+                    [classes.tableCellWithAction]: cell.column.id === "actions",
                   })}
                 >
-                  {cell.render("Cell")}
+                  {cell.render(
+                    row.state.isEditing &&
+                      cell.column["EditComponent" as keyof object]
+                      ? "EditComponent"
+                      : "Cell",
+                  )}
                 </TableCell>
               );
             })}
