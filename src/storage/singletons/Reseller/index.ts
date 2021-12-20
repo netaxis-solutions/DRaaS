@@ -42,6 +42,9 @@ class ResellerStore {
     callback?: () => void;
   }) => {
     try {
+      payload.markup = payload.markup
+        ? Number(payload.markup)
+        : 0;
       await request({
         route: `${configStore.config.draasInstance}/resellers/${uuid}`,
         loaderName: "@editReseller",
