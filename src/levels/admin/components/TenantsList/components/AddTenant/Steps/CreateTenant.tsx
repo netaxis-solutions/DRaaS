@@ -41,7 +41,7 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
 
   useEffect(() => {
     getDistributorsData();
-    getResellersData();
+    getResellersData({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

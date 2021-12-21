@@ -2,6 +2,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { CellProps } from "react-table";
+import { TFunction } from "i18next";
 
 import DistributorsStore from "storage/singletons/Distributors";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
@@ -13,21 +14,17 @@ import { Plus, Trash } from "components/Icons";
 import AddDistributor from "./components/AddDistributor";
 import DeleteDistributorModal from "./components/DeleteDistributorModal";
 
-const columns = [
+const getTranslatedColumns = (t: TFunction) => [
   {
-    Header: "Name",
-    accessor: "name",
-  },
-  {
-    Header: "Billing ID",
+    Header: t("Billing ID"),
     accessor: "billingId",
   },
   {
-    Header: "Tenants",
+    Header: t("Tenants"),
     accessor: "nbOfTenants",
   },
   {
-    Header: "Markup, %",
+    Header: t("Markup, %"),
     accessor: "markup",
   },
 ];
@@ -45,6 +42,35 @@ const Distributors: FC = () => {
     selectedRowsLength,
     setSelectedRows,
   } = TableSelectedRowsStore;
+  // TODO: Uncomment when drill down to a distributor level
+  // const { allAvailvableRouting } = RoutingConfig;
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: t("Name"),
+        accessor: "name",
+        // TODO: Uncomment when drill down to a distributor level
+        // Cell: ({ row: { original } }: CellProps<DistributorItemType>) => (
+        //   <Link
+        //     to={createLink({
+        //       url: allAvailvableRouting.distributorResellers,
+        //       params: { distributorID: original.uuid },
+        //     })}
+        //   >
+        //     {original.name}
+        //   </Link>
+        // ),
+      },
+      ...getTranslatedColumns(t),
+    ],
+    [
+      t,
+      // TODO: Uncomment when drill down to a distributor level
+
+      // allAvailvableRouting
+    ],
+  );
 
   useEffect(() => {
     getDistributorsData();
