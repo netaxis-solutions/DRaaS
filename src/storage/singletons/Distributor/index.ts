@@ -5,6 +5,7 @@ import {
   TCreateDistributor,
   TDeleteDistributor,
 } from "utils/types/distributor";
+import { TEditDistributorPayload } from "utils/types/distributors";
 import configStore from "../Config";
 import DistributorsStore from "../Distributors";
 
@@ -35,6 +36,32 @@ class DistributorStore {
         loaderName: "@deleteDistributor",
         method: "delete",
       });
+      callback && callback();
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+
+  editDistributor = async ({
+    payload: { uuid, markup, ...payload },
+    callback,
+  }: {
+    payload: TEditDistributorPayload;
+    callback?: () => void;
+  }) => {
+    try {
+      const payloadWidthMarkup =
+        payload && markup
+          ? { ...payload, markup: Number(markup) }
+          : { ...payload, markup: 0 };
+
+      await request({
+        route: `${configStore.config.draasInstance}/distributors/${uuid}`,
+        loaderName: "@editDistributor",
+        method: "put",
+        payload: payloadWidthMarkup,
+      });
+      DistributorsStore.getDistributorsData();
       callback && callback();
     } catch (e) {
       console.log(e, "e");
