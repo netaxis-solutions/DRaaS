@@ -3,13 +3,14 @@ import { makeObservable } from "mobx";
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
 import TenantsStore from "../Tenants";
+import DistributorsStore from "../Distributors";
 
 import {
   TAddTenantValues,
   TCreateTenant,
   TDeleteTenant,
+  TEditTenantPayload,
 } from "utils/types/tenant";
-import { TEditTenantPayload } from "utils/types/tenant";
 import { request } from "services/api";
 
 class TenantStore {
@@ -19,13 +20,15 @@ class TenantStore {
 
   get ownerOptions() {
     return [
-      ...TenantsStore.tenants.map(tenant => ({
-        label: tenant.name,
-        value: `${tenant.uuid}*distributor`,
+      ...DistributorsStore?.distributors?.map(distributor => ({
+        label: distributor.name,
+        value: `${distributor.uuid}*distributor`,
+        groupBy: `Distributor`,
       })),
-      ...ResellersStore.resellers.map(reseller => ({
+      ...ResellersStore?.resellers?.map(reseller => ({
         label: reseller.name,
         value: `${reseller.uuid}*reseller`,
+        groupBy: `Reseller`,
       })),
     ];
   }

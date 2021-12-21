@@ -18,7 +18,7 @@ export const Select: React.FC<TSelectProps> = ({
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
-    value: { value: string; label: string } | null,
+    value: { value: string; label: string; groupBy: string } | null,
   ) => {
     onChange(value);
   };
@@ -34,7 +34,9 @@ export const Select: React.FC<TSelectProps> = ({
         endAdornment: classes.endAdornment,
         option: classes.option,
         popupIndicator: classes.popupIndicator,
+        groupLabel: classes.groupLabel,
       }}
+      groupBy={option => option.groupBy}
       className={className}
       renderInput={params => (
         <>

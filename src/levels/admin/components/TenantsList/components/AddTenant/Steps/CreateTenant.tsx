@@ -16,6 +16,7 @@ import { TAddTenantFormProps, TAddTenantValues } from "utils/types/tenant";
 import { addTenantSchema } from "utils/schemas/tenant";
 
 import { createTenantStyles } from "./styles";
+import { observer } from "mobx-react-lite";
 
 const defaultValues = {
   name: "",
@@ -137,4 +138,4 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   );
 };
 
-export default CreateTenant;
+export default observer(CreateTenant);
