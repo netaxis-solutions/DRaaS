@@ -1,47 +1,40 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
-import { CellProps } from "react-table";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import TenantStore from "storage/singletons/Tenant";
+import { editTenantSchema } from "utils/schemas/tenant";
+import { TEditTenantPayload } from "utils/types/tenant";
 
 import TenantsStore from "storage/singletons/Tenants";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import { TenantItemType } from "utils/types/tenant";
 
 import Table from "components/Table";
-import TableActions from "components/Table/components/TableActions";
+import FormTableInput from "components/common/TableInput";
 import { Plus, Trash } from "components/Icons";
 
 import AddTenant from "./components/AddTenant";
 import DeleteTenantModal from "./components/DeleteTenantModal";
 
-const columns = [
-  {
-    Header: "Name",
-    accessor: "name",
-  },
-  {
-    Header: "Billing ID",
-    accessor: "billingId",
-  },
-  {
-    Header: "Owner",
-    accessor: "owner.name",
-  },
-  {
-    Header: "Direct tenant",
-    accessor: "owner.type",
-    Cell: (rows: { row: { original: { owner: { type: string } } } }) =>
-      rows.row.original.owner?.type === "distributor" ? "yes" : "no",
-  },
-  {
-    Header: "Markup, %",
-    accessor: "markup",
-  },
-];
+const defaultValues = {
+  uuid: "",
+  name: "",
+  billingId: "",
+  markup: "",
+};
 
 const TenantsList: FC = () => {
-  const [modalToOpen, setModalToOpen] = useState("");
   const { t } = useTranslation();
+  const [modalToOpen, setModalToOpen] = useState("");
+
+  const { control, setValue, handleSubmit } = useForm<TEditTenantPayload>({
+    resolver: yupResolver(editTenantSchema()),
+    defaultValues,
+  });
+
   const { getTenantsData, tenants, deleteTenants } = TenantsStore;
   const {
     selectedRows,
@@ -49,26 +42,66 @@ const TenantsList: FC = () => {
     setSelectedRows,
   } = TableSelectedRowsStore;
 
-  const columnsWithActions = useMemo(
+  const { editTenant } = TenantStore;
+  const onSubmit: SubmitHandler<TenantItemType> = values => {
+    editTenant({
+      payload: values,
+    });
+  };
+  const columns = useMemo(
     () => [
-      ...columns,
       {
-        Header: t("Actions"),
-        accessor: "actions",
-        disableSortBy: true,
-        Cell: ({ row: { index } }: CellProps<TenantItemType>) => (
-          <TableActions
-            edit
-            del
-            onDelete={() => {
-              setModalToOpen("delete");
-              setSelectedRows({ [index]: true });
-            }}
+        Header: "Name",
+        accessor: "name",
+        EditComponent: () => (
+          <Controller
+            name="name"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormTableInput {...field} {...props} />
+            )}
+          />
+        ),
+      },
+      {
+        Header: "Billing ID",
+        accessor: "billingId",
+        EditComponent: () => (
+          <Controller
+            name="billingId"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormTableInput {...field} {...props} />
+            )}
+          />
+        ),
+      },
+      {
+        Header: "Owner",
+        accessor: "owner.name",
+      },
+      {
+        Header: "Direct tenant",
+        accessor: "owner.type",
+        Cell: (rows: { row: { original: { owner: { type: string } } } }) =>
+          rows.row.original.owner?.type === "distributor" ? "yes" : "no",
+      },
+      {
+        Header: "Markup, %",
+        accessor: "markup",
+        EditComponent: () => (
+          <Controller
+            name="markup"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormTableInput {...field} {...props} />
+            )}
           />
         ),
       },
     ],
-    [setSelectedRows, t],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
   );
   useEffect(() => {
     getTenantsData();
@@ -109,15 +142,37 @@ const TenantsList: FC = () => {
     deleteTenants(selectedTenantsIds, callback);
   };
 
+  const setDefaultValues = (tenant: TenantItemType) => {
+    setValue("name", tenant.name);
+    setValue("billingId", tenant.billingId);
+    setValue("uuid", tenant.uuid);
+    setValue("markup", tenant.markup);
+  };
+
+  const handleDeleteItem = (props: any) => {
+    setModalToOpen("delete");
+    setSelectedRows({ [props.row.index]: true });
+  };
+
+  const handleEditItem = (props: any) => {
+    setDefaultValues(props.row.original);
+  };
+
   return (
     <>
-      <Table
-        title={t("Tenants")}
-        columns={columnsWithActions}
-        data={tenants}
-        toolbarActions={toolbarActions}
-        checkbox
-      />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Table
+          title={t("Tenants")}
+          columns={columns}
+          data={tenants}
+          toolbarActions={toolbarActions}
+          checkbox
+          setModalToOpen={setModalToOpen}
+          setDefaultValues={setDefaultValues}
+          handleDeleteItem={handleDeleteItem}
+          handleEditItem={handleEditItem}
+        />
+      </form>
       {modalToOpen === "add" && <AddTenant handleCancel={handleCloseModal} />}
       {modalToOpen === "delete" && (
         <DeleteTenantModal

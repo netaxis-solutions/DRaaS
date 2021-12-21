@@ -1,3 +1,4 @@
+import { TEditTenantPayload } from 'utils/types/tenant';
 import { makeObservable } from "mobx";
 
 import { request } from "services/api";
@@ -46,6 +47,30 @@ class TenantStore {
         loaderName: "@deleteDistributor",
         method: "delete",
       });
+      callback && callback();
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+
+  editTenant = async ({
+    payload: { uuid, ...payload },
+    callback,
+  }: {
+    payload: TEditTenantPayload;
+    callback?: () => void;
+  }) => {
+    try {
+      payload.markup = payload.markup
+        ? Number(payload.markup)
+        : 0;
+      await request({
+        route: `${configStore.config.draasInstance}/tenants/${uuid}`,
+        loaderName: "@editTenant",
+        method: "put",
+        payload,
+      });
+      TenantsStore.getTenantsData();
       callback && callback();
     } catch (e) {
       console.log(e, "e");

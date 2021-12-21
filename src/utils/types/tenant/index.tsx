@@ -32,9 +32,18 @@ export type TDeleteTenant = {
 export type TenantItemType = {
   uuid: string;
   name: string;
+  billingId: string;
+  markup: string|number;
   [key: string]: string | number;
 };
 
 export type TDeleteTenantModalProps = TDeleteModalProps & {
   tenants: Array<TenantItemType>;
+};
+
+export type TEditTenantPayload = {
+  name: string;
+  billingId: string;
+  uuid: string;
+  markup?: string|number;
 };

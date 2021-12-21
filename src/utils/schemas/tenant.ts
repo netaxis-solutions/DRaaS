@@ -18,3 +18,13 @@ export const addTenantSchema = (t: TFunction) =>
       excludeEmptyString: true,
     }),
   });
+
+  export const editTenantSchema = () =>
+  object().shape({
+    name: string().required(),
+    billingId: string(),
+    markup: string().matches(/^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/, {
+      message: "Only numbers and white space allowed",
+      excludeEmptyString: true,
+    }),
+  });
