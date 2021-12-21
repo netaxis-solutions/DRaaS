@@ -13,6 +13,11 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     zIndex: 1000,
     background: theme.palette.primary.white,
   },
+  fixedBackground: {
+    position: "fixed",
+    left: 0,
+    right: 0,
+  },
 }));
 
 export default useStyles;
