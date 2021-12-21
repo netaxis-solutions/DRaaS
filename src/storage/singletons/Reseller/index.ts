@@ -27,7 +27,7 @@ class ResellerStore {
         method: "post",
         payload,
       });
-      ResellersStore.getResellersData();
+      ResellersStore.getResellersData({});
       callback && callback();
     } catch (e) {
       console.log(e, "e");
@@ -48,7 +48,7 @@ class ResellerStore {
         method: "put",
         payload,
       });
-      ResellersStore.getResellersData();
+      ResellersStore.getResellersData({});
       callback && callback();
     } catch (e) {
       console.log(e, "e");

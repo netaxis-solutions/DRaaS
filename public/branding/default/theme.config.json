@@ -5,7 +5,8 @@
       "text": "#333333",
       "background": "#F9F9F9",
       "light": "#EBEBF7",
-      "white": "#FFFFFF"
+      "white": "#FFFFFF",
+      "link": "#0061F1"
     },
     "secondary": {
       "main": "#CCE3D8",
@@ -22,7 +23,7 @@
       "border": "#B4BDC2",
       "disabled": "#D9DDE0"
     },
-    "link": {
+    "menuLink": {
       "main": "#212356",
       "active": "#484CBA"
     },

@@ -3,7 +3,11 @@ import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
 import configStore from "../Config";
-import { ResellerItemType, ResellersDataType } from "utils/types/resellers";
+import {
+  ResellerItemType,
+  ResellersDataType,
+  TGetResellersList,
+} from "utils/types/resellers";
 
 class ResellersStore {
   resellers: Array<ResellerItemType> = [];
@@ -14,10 +18,13 @@ class ResellersStore {
     });
   }
 
-  getResellersData = async () => {
+  getResellersData = async ({ id }: TGetResellersList) => {
+    const route = id
+      ? `${configStore.config.draasInstance}/resellers?distributor_id=${id}`
+      : `${configStore.config.draasInstance}/resellers`;
     try {
       const data: AxiosResponse<ResellersDataType> = await request({
-        route: `${configStore.config.draasInstance}/resellers`,
+        route,
         loaderName: "@getResellersData",
       });
       const resellers = data.data.resellers;
