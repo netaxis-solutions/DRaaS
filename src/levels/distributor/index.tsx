@@ -1,7 +1,10 @@
 import { observer } from "mobx-react-lite";
+// import { lazy } from "react";
 import { Route, Switch } from "react-router";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
+
+// const Resellers = lazy(() => import("./components/Resellers"));
 
 const Distributor = () => {
   const { allAvailvableRouting } = RoutingConfig;
@@ -11,7 +14,8 @@ const Distributor = () => {
       <Route
         exact
         path={allAvailvableRouting.distributorResellers}
-        component={() => <div>distributorResellers</div>}
+        // component={Resellers}
+        component={() => <div>Distributor Resellers</div>}
       />
       <Route
         exact

@@ -9,7 +9,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   secondary: ColorType;
   status: ColorType;
   input: ColorType;
-  link: ColorType;
+  menuLink: ColorType;
   button: ColorType;
   table: ColorType;
   notification: ColorType;

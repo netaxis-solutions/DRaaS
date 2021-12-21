@@ -83,7 +83,7 @@ const ResellersList: FC = () => {
   );
 
   useEffect(() => {
-    getResellersData();
+    getResellersData({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -111,7 +111,7 @@ const ResellersList: FC = () => {
   };
 
   const callback = () => {
-    getResellersData();
+    getResellersData({});
     handleCloseModal();
   };
 
