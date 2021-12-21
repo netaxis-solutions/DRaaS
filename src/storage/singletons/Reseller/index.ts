@@ -42,14 +42,15 @@ class ResellerStore {
     callback?: () => void;
   }) => {
     try {
-      payload.markup = payload.markup
-        ? Number(payload.markup)
-        : 0;
+      const formattedPayload = {
+        ...payload,
+        markup: payload.markup ? Number(payload.markup) : 0,
+      };
       await request({
         route: `${configStore.config.draasInstance}/resellers/${uuid}`,
         loaderName: "@editReseller",
         method: "put",
-        payload,
+        payload: formattedPayload,
       });
       ResellersStore.getResellersData();
       callback && callback();
