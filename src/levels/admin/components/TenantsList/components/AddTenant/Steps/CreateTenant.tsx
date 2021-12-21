@@ -17,6 +17,7 @@ import { addTenantSchema } from "utils/schemas/tenant";
 
 import { createTenantStyles } from "./styles";
 import { observer } from "mobx-react-lite";
+import ModalLoader from "components/Loader/ModalLoader";
 
 const defaultValues = {
   name: "",
@@ -65,76 +66,84 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={classes.createDistributorForm}
-    >
-      <ModalButtonsWrapper
-        handleCancel={onCancel}
-        cancelButton
-        submitButtonTitle={t("Add")}
-      />
-      <Controller
-        name="name"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Name")}
-            {...field}
-            {...props}
-            className={classes.createResellerInput}
+    <>
+      {ownerOptions && ownerOptions.length >= 1 ? (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={classes.createDistributorForm}
+        >
+          <ModalButtonsWrapper
+            handleCancel={onCancel}
+            cancelButton
+            submitButtonTitle={t("Add")}
           />
-        )}
-      />
-      <Controller
-        name="billingId"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Billing ID")}
-            helper={t(
-              "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
-            )}
-            {...field}
-            {...props}
-            className={clsx(
-              classes.createResellerInput,
-              classes.createDistributorBillingInput,
+          <Controller
+            name="name"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormInput
+                label={t("Name")}
+                {...field}
+                {...props}
+                className={classes.createResellerInput}
+              />
             )}
           />
-        )}
-      />
-      <Controller
-        name="owner"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormSelect
-            label={t("Owner")}
-            options={ownerOptions}
-            {...field}
-            {...props}
-            className={classes.createResellerInput}
-          />
-        )}
-      />
-      <Controller
-        name="markup"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Markup")}
-            helper={t("Set the markup for rates plan costs for this tenant")}
-            {...field}
-            {...props}
-            icon={Percent}
-            className={clsx(
-              classes.createResellerInput,
-              classes.createDistributorBillingInput,
+          <Controller
+            name="billingId"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormInput
+                label={t("Billing ID")}
+                helper={t(
+                  "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
+                )}
+                {...field}
+                {...props}
+                className={clsx(
+                  classes.createResellerInput,
+                  classes.createDistributorBillingInput,
+                )}
+              />
             )}
           />
-        )}
-      />
-    </form>
+          <Controller
+            name="owner"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormSelect
+                label={t("Owner")}
+                options={ownerOptions}
+                {...field}
+                {...props}
+                className={classes.createResellerInput}
+              />
+            )}
+          />
+          <Controller
+            name="markup"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormInput
+                label={t("Markup")}
+                helper={t(
+                  "Set the markup for rates plan costs for this tenant",
+                )}
+                {...field}
+                {...props}
+                icon={Percent}
+                className={clsx(
+                  classes.createResellerInput,
+                  classes.createDistributorBillingInput,
+                )}
+              />
+            )}
+          />
+        </form>
+      ) : (
+        <ModalLoader />
+      )}
+    </>
   );
 };
 

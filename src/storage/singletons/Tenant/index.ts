@@ -12,23 +12,27 @@ import {
   TEditTenantPayload,
 } from "utils/types/tenant";
 import { request } from "services/api";
+import { t } from "services/Translation/index";
 
 class TenantStore {
   constructor() {
     makeObservable(this, {});
   }
 
+  translateResellerGroupLabel = t("Reseller");
+  translateDistributorGroupLabel = t("Distributor");
+
   get ownerOptions() {
     return [
       ...DistributorsStore?.distributors?.map(distributor => ({
         label: distributor.name,
         value: `${distributor.uuid}*distributor`,
-        groupBy: `Distributor`,
+        groupBy: this.translateDistributorGroupLabel,
       })),
       ...ResellersStore?.resellers?.map(reseller => ({
         label: reseller.name,
         value: `${reseller.uuid}*reseller`,
-        groupBy: `Reseller`,
+        groupBy: this.translateResellerGroupLabel,
       })),
     ];
   }
