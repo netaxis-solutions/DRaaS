@@ -9,7 +9,7 @@ import { useTableBodyStyles } from "./styles";
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,
   page,
-  prepareRow
+  prepareRow,
 }) => {
   const classes = useTableBodyStyles();
 
@@ -26,7 +26,7 @@ const TableBody: React.FC<TableBodyType> = ({
                   className={clsx({
                     [classes.tableCellWithSelection]:
                       cell.column.id === "selection",
-                    [classes.tableCellWithAction]: cell.column.id === "actions"
+                    [classes.tableCellWithAction]: cell.column.id === "actions",
                   })}
                 >
                   {cell.render("Cell")}

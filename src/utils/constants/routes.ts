@@ -42,8 +42,7 @@ export const urlStartString: UrlStartStringType = {
     admin: "",
     distributor: "/distributors/:distributorID",
     reseller: "/distributors/:distributorID/resellers/:resellerID",
-    tenant:
-      "/distributors/:distributorID/resellers/:resellerID/tenants/:tenantID",
+    tenant: "/tenants/:tenantID",
   },
   distributor: {
     distributor: "/:distributorID",

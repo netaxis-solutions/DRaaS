@@ -30,6 +30,7 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     text: "#333333",
     background: "#F9F9F9",
     light: "#EBEBF7",
+    link: "#0061F1",
   },
   secondary: {
     main: "#CCE3D8",
@@ -47,7 +48,7 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     border: "#B4BDC2",
     disabled: "#D9DDE0",
   },
-  link: {
+  menuLink: {
     main: "#212356",
     active: "#484CBA",
   },
@@ -192,9 +193,13 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       "&$selected": {
         background: "transparent",
       },
+      "& a": {
+        color: palette.primary.link,
+        textDecoration: "none",
+      },
       "& .link": {
         "&:hover": {
-          color: palette.link.main,
+          color: palette.menuLink.main,
         },
       },
     },

@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
+import SubscriptionsList from "./components/SubscriptionsList";
 
 const Tenant = () => {
   const { allAvailvableRouting } = RoutingConfig;
@@ -11,7 +12,7 @@ const Tenant = () => {
       <Route
         exact
         path={allAvailvableRouting.customerSubscriptions}
-        component={() => <div>customerSubscriptions</div>}
+        component={() => <SubscriptionsList />}
       />
       <Route
         exact
