@@ -139,10 +139,12 @@ const Distributors: FC = () => {
   const handleCloseModal = () => {
     setModalToOpen("");
   };
+
   const callback = () => {
     getDistributorsData();
     handleCloseModal();
   };
+
   const handleDelete = () => {
     const selectedDistributorIds = distributors.reduce((prev, cur, i) => {
       selectedRows[i] && prev.push(cur.uuid);
