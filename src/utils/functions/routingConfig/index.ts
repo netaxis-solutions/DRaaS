@@ -16,20 +16,20 @@ export const getLevelRoutes: GetRoutesType = (access, currentLevel) =>
       const curUrlStart = get(
         urlStartString,
         `${access}.${currentLevel}`,
-        null
+        null,
       );
       cur.includes(currentLevel) &&
         prev.set(cur, `${curUrlStart}${privateRoutes[cur]}`);
       return prev;
     },
-    new Map()
+    new Map(),
   );
 
 export const getAvailableRoutes: (
   publicConfigRoutes: {
     [key: string]: { enabled: boolean; sidebar?: AnyKeyStringValueObjectType };
   },
-  levelRoutes: Map<string, string>
+  levelRoutes: Map<string, string>,
 ) => Map<string, RouteValueType> = (publicConfigRoutes, levelRoutes) => {
   const availableRouting = new Map();
 
@@ -42,8 +42,8 @@ export const getAvailableRoutes: (
         publicConfigRoutes[publicRoute].enabled,
         publicConfigRoutes[publicRoute]?.sidebar || null,
         route,
-        publicRoute
-      )
+        publicRoute,
+      ),
     );
   }
   return availableRouting;
@@ -53,10 +53,10 @@ export const getAllAvailableRoutingUrls: (
   publicConfigRoutes: {
     [key: string]: { enabled: boolean; sidebar?: AnyKeyStringValueObjectType };
   },
-  levelRoutes: Map<string, string>
+  levelRoutes: Map<string, string>,
 ) => { [key: string]: string | undefined } = (
   publicConfigRoutes,
-  levelRoutes
+  levelRoutes,
 ) => {
   const obj = {} as { [key: string]: string | undefined };
   for (const publicRoute in publicConfigRoutes) {
@@ -83,9 +83,9 @@ export const getALlPossibleUrls: GetALlPossibleUrlsType = ({
   loggedInUserLevel,
 }) =>
   Object.values(publicConfigRoutes).reduce((prev, cur) => {
-    Object.keys(cur).forEach((urlKey) => {
+    Object.keys(cur).forEach(urlKey => {
       const arr = Object.keys(
-        urlStartString[loggedInUserLevel]
+        urlStartString[loggedInUserLevel],
       ) as LoggedInUserType[];
       arr.forEach((urlStart: LoggedInUserType) => {
         urlKey.includes(urlStart) &&
