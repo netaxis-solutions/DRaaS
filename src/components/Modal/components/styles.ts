@@ -10,7 +10,11 @@ export const modalHeaderUseStyles = makeStyles(
         height: 12,
         fill: theme.palette.primary.main,
       },
+      position: "sticky",
+      top: 0,
+      backgroundColor: theme.palette.primary.white,
       boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.1)",
+      zIndex: 10,
     },
     modalHeaderTitle: {
       fontSize: "2rem",
@@ -36,14 +40,16 @@ export const modalContentUseStyles = makeStyles(
 export const modalButtonsWrapperUseStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
     modalButtonsWrapper: {
+      display: "flex",
+      gap: theme.spacing(1.25),
       width: "fit-content",
-      margin:
-        theme.direction === "ltr"
-          ? `-${theme.spacing(9.5)}px 0 ${theme.spacing(5)}px auto`
-          : `-${theme.spacing(9.5)}px auto ${theme.spacing(5)}px 0`,
-      "& button:last-of-type": {
-        marginLeft: theme.spacing(1.25),
-      },
+      position: "fixed",
+
+      top: "70px",
+      right: theme.direction === "ltr" ? "30px" : "unset",
+      left: theme.direction === "ltr" ? "unset" : "30px",
+      zIndex: 10,
+
       "& .MuiButton-label": {
         marginTop: theme.spacing(0.25),
       },
