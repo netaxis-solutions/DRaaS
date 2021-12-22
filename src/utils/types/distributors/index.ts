@@ -3,6 +3,8 @@ import { TDeleteModalProps } from "../modal";
 export type DistributorItemType = {
   uuid: string;
   name: string;
+  billingId: string;
+  markup: string;
   [key: string]: string | number;
 };
 
@@ -33,4 +35,21 @@ export type TAddAdminValues = {
 
 export type TDeleteDistributorModalProps = TDeleteModalProps & {
   distributors: Array<DistributorItemType>;
+};
+
+export type TCreateDistributorPayload = {
+  name: string;
+  owner: {
+    type: string;
+    id: string;
+  };
+  billingId: string;
+  markup: number;
+};
+
+export type TEditDistributorPayload = {
+  name: string;
+  billingId: string;
+  uuid: string;
+  markup: string;
 };
