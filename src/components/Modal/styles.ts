@@ -12,6 +12,12 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     right: 0,
     zIndex: 1000,
     background: theme.palette.primary.white,
+    overflowY: "auto",
+  },
+  fixedBackground: {
+    position: "fixed",
+    left: 0,
+    right: 0,
   },
 }));
 

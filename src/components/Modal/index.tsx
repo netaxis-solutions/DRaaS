@@ -18,8 +18,11 @@ const Modal: React.FC<TModalProps> = ({
 
   useEffect(() => {
     document.body.appendChild(container);
+    document.body.classList.add(classes.fixedBackground);
+
     return () => {
       document.body.removeChild(container);
+      document.body.classList.remove(classes.fixedBackground);
     };
   }, [container]);
 
