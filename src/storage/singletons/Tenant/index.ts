@@ -51,6 +51,21 @@ class TenantStore {
       console.log(e, "e");
     }
   };
+
+  getTenantSubscriptions = async ({
+    tenantID,
+  }: {
+    tenantID: string;
+  }): Promise<Array<object> | undefined> => {
+    try {
+      const result: { data: { subscriptions: Array<object> } } = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions`,
+      });
+      return await result.data.subscriptions;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }
 
 export default new TenantStore();
