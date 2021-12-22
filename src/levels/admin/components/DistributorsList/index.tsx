@@ -1,7 +1,6 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
-
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -12,7 +11,6 @@ import { DistributorItemType } from "utils/types/distributors";
 import { editDistributorSchema } from "utils/schemas/distributors";
 import { TEditDistributorPayload } from "utils/types/distributors";
 import Table from "components/Table";
-// import TableActions from "components/Table/components/TableActions";
 import { Plus, Trash } from "components/Icons";
 import AddDistributor from "./components/AddDistributor";
 import DeleteDistributorModal from "./components/DeleteDistributorModal";
@@ -32,15 +30,14 @@ const Distributors: FC = () => {
     resolver: yupResolver(editDistributorSchema()),
     defaultValues,
   });
+
+  // TODO: Uncomment when drill down to a distributor level
+  // const { allAvailvableRouting } = RoutingConfig;
   const {
     getDistributorsData,
     distributors,
     deleteDistributors,
   } = DistributorsStore;
-
-  // TODO: Uncomment when drill down to a distributor level
-  // const { allAvailvableRouting } = RoutingConfig;
-
   const { editDistributor } = Distributor;
   const { selectedRows, selectedRowsLength } = TableSelectedRowsStore;
   const { setSelectedRows } = TableSelectedRowsStore;
@@ -54,7 +51,7 @@ const Distributors: FC = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Name",
+        Header: t("Name"),
         accessor: "name",
         EditComponent: () => (
           <Controller
@@ -65,6 +62,17 @@ const Distributors: FC = () => {
             )}
           />
         ),
+        // TODO: Uncomment when drill down to a distributor level
+        // Cell: ({ row: { original } }: CellProps<DistributorItemType>) => (
+        //   <Link
+        //     to={createLink({
+        //       url: allAvailvableRouting.distributorResellers,
+        //       params: { distributorID: original.uuid },
+        //     })}
+        //   >
+        //     {original.name}
+        //   </Link>
+        // ),
       },
       {
         Header: t("Billing ID"),
@@ -82,6 +90,9 @@ const Distributors: FC = () => {
       {
         Header: t("Tenants"),
         accessor: "nbOfTenants",
+        // TODO: Uncomment when drill down to a distributor level
+
+        // allAvailvableRouting
       },
       {
         Header: t("Markup, %"),
@@ -103,7 +114,8 @@ const Distributors: FC = () => {
 
   useEffect(() => {
     getDistributorsData();
-  }, [getDistributorsData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toolbarActions = [
     {

@@ -50,10 +50,9 @@ class DistributorStore {
     callback?: () => void;
   }) => {
     try {
-      const payloadWidthMarkup =
-        payload && markup
-          ? { ...payload, markup: Number(markup) }
-          : { ...payload, markup: 0 };
+      const payloadWidthMarkup = markup
+        ? { ...payload, markup: Number(markup) }
+        : { ...payload, markup: 0 };
 
       await request({
         route: `${configStore.config.draasInstance}/distributors/${uuid}`,
