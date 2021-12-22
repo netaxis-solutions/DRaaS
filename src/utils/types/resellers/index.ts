@@ -4,6 +4,7 @@ export type ResellerItemType = {
   uuid: string;
   name: string;
   billingId: string;
+  markup: string;
   [key: string]: string | number;
 };
 
@@ -42,6 +43,7 @@ export type TEditResellerPayload = {
   name: string;
   billingId: string;
   uuid: string;
+  markup: string;
 };
 
 export type TGetResellersList = {
