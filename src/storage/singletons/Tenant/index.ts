@@ -94,10 +94,6 @@ class TenantStore {
     payload: TEditTenantPayload;
     callback?: () => void;
   }) => {
-    const formattedPayload = {
-      ...payload,
-      markup: payload.markup ? Number(payload.markup) : 0,
-    };
     try {
       const formattedPayload = {
         ...payload,
