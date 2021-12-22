@@ -20,6 +20,7 @@ const defaultValues = {
   uuid: "",
   name: "",
   billingId: "",
+  markup: "",
 };
 
 const ResellersList: FC = () => {
@@ -77,6 +78,19 @@ const ResellersList: FC = () => {
         Header: t("Tenants"),
         accessor: "nbOfTenants",
       },
+      {
+        Header: t("Markup, %"),
+        accessor: "markup",
+        EditComponent: () => (
+          <Controller
+            name="markup"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormTableInput {...field} {...props} />
+            )}
+          />
+        ),
+      },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
@@ -128,6 +142,7 @@ const ResellersList: FC = () => {
     setValue("name", reseller.name);
     setValue("billingId", reseller.billingId);
     setValue("uuid", reseller.uuid);
+    setValue("markup", reseller.markup);
   };
 
   const handleDeleteItem = (props: any) => {
