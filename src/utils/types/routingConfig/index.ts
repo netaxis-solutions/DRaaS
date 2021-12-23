@@ -120,6 +120,7 @@ export type RoutingConfigType = {
     tenantProfile: { enabled: boolean };
     tenantRatePlan: { enabled: boolean };
     tenantSubscriptions: { enabled: boolean };
+    tenantLicenses: { enabled: boolean };
   };
   subscription: {
     subscriptionLicenses: { enabled: boolean };

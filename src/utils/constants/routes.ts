@@ -33,6 +33,7 @@ export const privateRoutes: PrivateRoutesType = {
   resellerProfile: "/profile",
   tenantSubscriptions: "/subscriptions",
   tenantLocations: "/locations",
+  tenantLicenses: "/subscriptions/:subscriptionID/licenses",
   tenantRatePlan: "/rate-plan",
   tenantAdmins: "/admins",
   tenantProfile: "/profile",

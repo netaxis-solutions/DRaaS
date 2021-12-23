@@ -24,6 +24,7 @@
   },
   "tenant": {
     "tenantSubscriptions": { "enabled": true },
+    "tenantLicenses": {"enabled": true},
     "tenantLocations": { "enabled": true },
     "tenantRatePlan": { "enabled": true },
     "tenantAdmins": { "enabled": false },
