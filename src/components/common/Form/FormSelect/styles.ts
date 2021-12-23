@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   groupLabel: {
     color: `${theme.palette.secondary.text} !important`,
-    fontSize: "1.8rem !important",
+    fontSize: "1.4rem !important",
     fontWeight: "300 !important" as "bold",
     padding: "0 20px 0 20px !important",
   },
