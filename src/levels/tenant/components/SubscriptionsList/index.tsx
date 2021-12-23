@@ -15,6 +15,7 @@ import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
 
 import DeleteTenantSubscriptionsModal from "./components/DeleteTenantSubscriptions";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 const getTranslatedColumns = (t: TFunction) => [
   {
     Header: t("Billing ID"),
@@ -24,7 +25,6 @@ const getTranslatedColumns = (t: TFunction) => [
 
 const SubscriptionsList: FC = () => {
   const { t } = useTranslation();
-
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
 
@@ -90,6 +90,8 @@ const SubscriptionsList: FC = () => {
       },
     },
   ];
+  const avilableActions =
+    loggedInUserLevel === "tenant" ? toolbarActions.slice(1) : toolbarActions;
   const handleCloseModal = () => {
     setModalToOpen("");
   };
@@ -114,9 +116,10 @@ const SubscriptionsList: FC = () => {
         title={t("Subscriptions")}
         columns={columns}
         data={subscriptions}
-        toolbarActions={toolbarActions}
+        toolbarActions={avilableActions}
         checkbox
         handleDeleteItem={handleDeleteItem}
+        remove={loggedInUserLevel !== "tenant"}
       />
       {modalToOpen === "add" && (
         <AddTenantSubscription handleCancel={handleCloseModal} />
