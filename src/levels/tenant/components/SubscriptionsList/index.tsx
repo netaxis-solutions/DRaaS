@@ -10,11 +10,11 @@ import Subscriptions from "storage/singletons/Subscriptions";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import createLink from "services/createLink";
 import { SubscriptionItemType } from "utils/types/subscriptions";
-import TableActions from "components/Table/components/TableActions";
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
 
+import DeleteTenantSubscriptionsModal from "./components/DeleteTenantSubscriptions";
 const getTranslatedColumns = (t: TFunction) => [
   {
     Header: t("Billing ID"),
@@ -24,12 +24,22 @@ const getTranslatedColumns = (t: TFunction) => [
 
 const SubscriptionsList: FC = () => {
   const { t } = useTranslation();
+
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
 
-  const { getSubscriptionsData, subscriptions } = Subscriptions;
-  const { setSelectedRows } = TableSelectedRowsStore;
   const { allAvailvableRouting } = RoutingConfig;
+  const {
+    subscriptions,
+    getSubscriptionsData,
+    deleteSubscriptions,
+  } = Subscriptions;
+
+  const {
+    selectedRows,
+    selectedRowsLength,
+    setSelectedRows,
+  } = TableSelectedRowsStore;
 
   const columns = useMemo(
     () => [
@@ -53,25 +63,8 @@ const SubscriptionsList: FC = () => {
         },
       },
       ...getTranslatedColumns(t),
-      {
-        Header: t("Actions"),
-        accessor: "actions",
-        disableSortBy: true,
-        Cell: (props: any) => {
-          return (
-            <TableActions
-              edit
-              del
-              onDelete={() => {
-                // setModalToOpen("delete");
-                setSelectedRows({ [props.row.index]: true });
-              }}
-            />
-          );
-        },
-      },
     ],
-    [t, setSelectedRows, allAvailvableRouting, params.tenantID],
+    [t, allAvailvableRouting, params.tenantID],
   );
 
   useEffect(() => {
@@ -85,7 +78,7 @@ const SubscriptionsList: FC = () => {
       title: "Delete",
       icon: Trash,
       onClick: () => {
-        // setModalToOpen("delete");
+        setModalToOpen("delete");
       },
     },
     {
@@ -97,11 +90,24 @@ const SubscriptionsList: FC = () => {
       },
     },
   ];
-
   const handleCloseModal = () => {
     setModalToOpen("");
   };
-
+  const callback = () => {
+    getSubscriptionsData(params.tenantID);
+    handleCloseModal();
+  };
+  const handleDeleteItem = (props: any) => {
+    setModalToOpen("delete");
+    setSelectedRows({ [props.row.index]: true });
+  };
+  const handleDelete = () => {
+    const selectedSubscriptionsIds = subscriptions.reduce((prev, cur, i) => {
+      selectedRows[i] && prev.push(`${cur.id}`);
+      return prev;
+    }, [] as Array<string>);
+    deleteSubscriptions(params.tenantID, selectedSubscriptionsIds, callback);
+  };
   return (
     <>
       <Table
@@ -110,9 +116,20 @@ const SubscriptionsList: FC = () => {
         data={subscriptions}
         toolbarActions={toolbarActions}
         checkbox
+        handleDeleteItem={handleDeleteItem}
       />
       {modalToOpen === "add" && (
         <AddTenantSubscription handleCancel={handleCloseModal} />
+      )}
+
+      {modalToOpen === "delete" && (
+        <DeleteTenantSubscriptionsModal
+          handleCloseModal={handleCloseModal}
+          handleDelete={handleDelete}
+          selectedRows={selectedRows}
+          subscriptions={subscriptions}
+          selectedRowsLength={selectedRowsLength}
+        />
       )}
     </>
   );
