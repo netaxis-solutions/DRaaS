@@ -2,7 +2,11 @@ import { makeObservable } from "mobx";
 
 import { request } from "services/api";
 
-import { TCreateTenant, TDeleteTenant } from "utils/types/tenant";
+import {
+  TAddTenantValues,
+  TCreateTenant,
+  TDeleteTenant,
+} from "utils/types/tenant";
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
 import TenantsStore from "../Tenants";
@@ -62,6 +66,21 @@ class TenantStore {
         route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions`,
       });
       return await result.data.subscriptions;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  getSpecificTenant = async ({
+    tenantID,
+  }: {
+    tenantID: string;
+  }): Promise<TAddTenantValues | undefined> => {
+    try {
+      const result: { data: TAddTenantValues } = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}`,
+      });
+      return result.data;
     } catch (e) {
       console.log(e);
     }

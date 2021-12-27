@@ -24,6 +24,7 @@ const Modal: React.FC<TModalProps> = ({
       document.body.removeChild(container);
       document.body.classList.remove(classes.fixedBackground);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [container]);
 
   return ReactDOM.createPortal(

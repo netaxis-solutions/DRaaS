@@ -14,3 +14,6 @@ export { default as Search } from "./Search";
 export { default as Sort } from "./Sort";
 export { default as Trash } from "./Trash";
 export { default as World } from "./World";
+export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
+export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
+export { default as TenantLevelIcon } from "./TenantLevelIcon";

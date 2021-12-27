@@ -1,38 +1,64 @@
+import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
+import { useParams } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
+import SidebarConfig from "storage/singletons/SidebarConfig";
 import SubscriptionsList from "./components/SubscriptionsList";
 
 const Tenant = () => {
-  const { allAvailvableRouting } = RoutingConfig;
+  const params = useParams<{ tenantID: string }>();
+
+  const {
+    allAvailvableRouting,
+    loggedInUserLevel,
+    setCurrentLevel,
+  } = RoutingConfig;
+  const { setChosenCustomer } = SidebarConfig;
+
+  useEffect(() => {
+    setChosenCustomer(params.tenantID);
+    return () => {
+      setChosenCustomer("");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.tenantID]);
+
+  useEffect(() => {
+    setCurrentLevel("tenant");
+    return () => {
+      setCurrentLevel(loggedInUserLevel);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedInUserLevel]);
 
   return (
     <Switch>
       <Route
         exact
-        path={allAvailvableRouting.customerSubscriptions}
+        path={allAvailvableRouting.tenantSubscriptions}
         component={() => <SubscriptionsList />}
       />
       <Route
         exact
-        path={allAvailvableRouting.customerLocations}
-        component={() => <div>customerLocations</div>}
+        path={allAvailvableRouting.tenantLocations}
+        component={() => <div>tenantLocations</div>}
       />
       <Route
         exact
-        path={allAvailvableRouting.customerRatePlan}
-        component={() => <div>customerRatePlan</div>}
+        path={allAvailvableRouting.tenantRatePlan}
+        component={() => <div>tenantRatePlan</div>}
       />
       <Route
         exact
-        path={allAvailvableRouting.customerAdmins}
-        component={() => <div>customerAdmins</div>}
+        path={allAvailvableRouting.tenantAdmins}
+        component={() => <div>tenantAdmins</div>}
       />
       <Route
         exact
-        path={allAvailvableRouting.customerProfile}
-        component={() => <div>customerProfile</div>}
+        path={allAvailvableRouting.tenantProfile}
+        component={() => <div>tenantProfile</div>}
       />
     </Switch>
   );

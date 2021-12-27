@@ -26,7 +26,7 @@
     "tenantSubscriptions": { "enabled": true },
     "tenantLocations": { "enabled": true },
     "tenantRatePlan": { "enabled": true },
-    "tenantAdmins": { "enabled": true },
+    "tenantAdmins": { "enabled": false },
     "tenantProfile": { "enabled": true }
   }
 }

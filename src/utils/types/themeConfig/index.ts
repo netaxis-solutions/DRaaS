@@ -14,6 +14,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   table: ColorType;
   notification: ColorType;
   icon: ColorType;
+  sidebar: ColorType;
 };
 
 export type ThemeDefaultOptions = Theme & {
