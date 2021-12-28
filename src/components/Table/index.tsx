@@ -212,7 +212,7 @@ const Table: FC<TableProps> = ({
           getTableBodyProps={getTableBodyProps}
           prepareRow={prepareRow}
           page={page}
-        ></TableBody>
+        />
       </MaUTable>
       <Pagination
         selectedRows={Object.keys(state.selectedRowIds).length}

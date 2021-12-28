@@ -62,8 +62,6 @@ const LicensesList: FC = () => {
         Header: "Name",
         accessor: "subscription.name",
         Cell: ({ value, row }: any) => {
-          console.log(row);
-
           return (
             <span className={clsx({ [classes.typeName]: row.canExpand })}>
               {row.canExpand ? row.original.type : value}
@@ -115,18 +113,12 @@ const LicensesList: FC = () => {
     .value();
 
   return (
-    <>
-      {licenses ? (
-        <Table
-          title={t("Licenses")}
-          columns={columns}
-          data={groupDataWidthType}
-          toolbarActions={toolbarActions}
-        />
-      ) : (
-        <h1>isLoading....</h1>
-      )}
-    </>
+    <Table
+      title={t("Licenses")}
+      columns={columns}
+      data={groupDataWidthType}
+      toolbarActions={toolbarActions}
+    />
   );
 };
 
