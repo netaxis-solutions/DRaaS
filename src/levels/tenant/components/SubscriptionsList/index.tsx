@@ -5,7 +5,6 @@ import { TFunction } from "i18next";
 import { useParams } from "react-router-dom";
 
 import Subscriptions from "storage/singletons/Subscriptions";
-import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
@@ -27,12 +26,8 @@ const SubscriptionsList: FC = () => {
   const [modalToOpen, setModalToOpen] = useState("");
 
   const { getSubscriptionsData, subscriptions } = Subscriptions;
-  const { setSelectedRows } = TableSelectedRowsStore;
 
-  const columns = useMemo(() => [...getTranslatedColumns(t)], [
-    t,
-    setSelectedRows,
-  ]);
+  const columns = useMemo(() => [...getTranslatedColumns(t)], [t]);
 
   useEffect(() => {
     getSubscriptionsData(params.tenantID);
