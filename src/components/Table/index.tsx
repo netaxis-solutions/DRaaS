@@ -33,7 +33,7 @@ const Table: FC<TableProps> = ({
   setDefaultValues,
   handleDeleteItem,
   handleEditItem,
-  remove = true,
+  isRemovable = true,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -120,7 +120,7 @@ const Table: FC<TableProps> = ({
                 return (
                   <TableActions
                     edit
-                    del = {remove}
+                    del={isRemovable}
                     onDelete={() => handleDeleteItem && handleDeleteItem(props)}
                     onEdit={() => {
                       handleEditItem && handleEditItem(props);

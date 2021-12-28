@@ -36,7 +36,7 @@ export type TableProps = {
   setDefaultValues?: any;
   handleDeleteItem?: (props: any) => void;
   handleEditItem?: (props: any) => void;
-  remove?: boolean;
+  isRemovable?: boolean;
 };
 
 export type ToolbarType = {

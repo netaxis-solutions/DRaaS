@@ -8,14 +8,18 @@ import { useParams, Link } from "react-router-dom";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import Subscriptions from "storage/singletons/Subscriptions";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+<<<<<<< HEAD
 import createLink from "services/createLink";
 import { SubscriptionItemType } from "utils/types/subscriptions";
+=======
+import RoutingConfig from "storage/singletons/RoutingConfig";
+>>>>>>> suggestions
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
 
 import DeleteTenantSubscriptionsModal from "./components/DeleteTenantSubscriptions";
-import RoutingConfig from "storage/singletons/RoutingConfig";
+
 const getTranslatedColumns = (t: TFunction) => [
   {
     Header: t("Billing ID"),
@@ -25,6 +29,7 @@ const getTranslatedColumns = (t: TFunction) => [
 
 const SubscriptionsList: FC = () => {
   const { t } = useTranslation();
+  const { loggedInUserLevel } = RoutingConfig;
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
 
@@ -90,19 +95,24 @@ const SubscriptionsList: FC = () => {
       },
     },
   ];
+
   const avilableActions =
     loggedInUserLevel === "tenant" ? toolbarActions.slice(1) : toolbarActions;
+
   const handleCloseModal = () => {
     setModalToOpen("");
   };
+
   const callback = () => {
     getSubscriptionsData(params.tenantID);
     handleCloseModal();
   };
+
   const handleDeleteItem = (props: any) => {
     setModalToOpen("delete");
     setSelectedRows({ [props.row.index]: true });
   };
+
   const handleDelete = () => {
     const selectedSubscriptionsIds = subscriptions.reduce((prev, cur, i) => {
       selectedRows[i] && prev.push(`${cur.id}`);
@@ -110,6 +120,7 @@ const SubscriptionsList: FC = () => {
     }, [] as Array<string>);
     deleteSubscriptions(params.tenantID, selectedSubscriptionsIds, callback);
   };
+
   return (
     <>
       <Table
@@ -119,7 +130,7 @@ const SubscriptionsList: FC = () => {
         toolbarActions={avilableActions}
         checkbox
         handleDeleteItem={handleDeleteItem}
-        remove={loggedInUserLevel !== "tenant"}
+        isRemovable={loggedInUserLevel !== "tenant"}
       />
       {modalToOpen === "add" && (
         <AddTenantSubscription handleCancel={handleCloseModal} />
