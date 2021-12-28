@@ -10,3 +10,12 @@ export type SubscriptionsDataType = {
   pages: number;
   results: number;
 };
+
+export type TCreateSubscriptionPayload = {
+  name: string;
+  billingId: string;
+};
+
+export type AddSubscriptionFormPropsType = {
+  handleCancel: () => void;
+};
