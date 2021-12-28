@@ -3,23 +3,22 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { CellProps } from "react-table";
 import { Link } from "react-router-dom";
-import RoutingConfig from "storage/singletons/RoutingConfig";
-import createLink from "services/createLink";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import TenantStore from "storage/singletons/Tenant";
-import { editTenantSchema } from "utils/schemas/tenant";
-import { TEditTenantPayload } from "utils/types/tenant";
-
+import RoutingConfig from "storage/singletons/RoutingConfig";
 import TenantsStore from "storage/singletons/Tenants";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+
 import { TenantItemType } from "utils/types/tenant";
+import { editTenantSchema } from "utils/schemas/tenant";
+import { TEditTenantPayload } from "utils/types/tenant";
+import createLink from "services/createLink";
 
 import Table from "components/Table";
 import FormTableInput from "components/common/TableInput";
 import { Plus, Trash } from "components/Icons";
-
 import AddTenant from "./components/AddTenant";
 import DeleteTenantModal from "./components/DeleteTenantModal";
 
@@ -46,13 +45,15 @@ const TenantsList: FC = () => {
     setSelectedRows,
   } = TableSelectedRowsStore;
   const { allAvailvableRouting } = RoutingConfig;
-
   const { editTenant } = TenantStore;
+
   const onSubmit: SubmitHandler<TenantItemType> = values => {
+    console.log(values);
     editTenant({
       payload: values,
     });
   };
+
   const columns = useMemo(
     () => [
       {
@@ -116,7 +117,7 @@ const TenantsList: FC = () => {
         ),
       },
     ],
-    [setSelectedRows, t, allAvailvableRouting],
+    [t, control, allAvailvableRouting.tenantSubscriptions],
   );
 
   useEffect(() => {
@@ -151,6 +152,7 @@ const TenantsList: FC = () => {
     getTenantsData();
     handleCloseModal();
   };
+
   const handleDelete = () => {
     const selectedTenantsIds = tenants.reduce((prev, cur, i) => {
       selectedRows[i] && prev.push(cur.uuid);

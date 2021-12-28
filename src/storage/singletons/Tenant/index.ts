@@ -88,7 +88,7 @@ class TenantStore {
     }
   };
   editTenant = async ({
-    payload: { uuid, ...payload },
+    payload: { uuid, markup, ...payload },
     callback,
   }: {
     payload: TEditTenantPayload;
@@ -97,7 +97,7 @@ class TenantStore {
     try {
       const formattedPayload = {
         ...payload,
-        markup: payload.markup ? Number(payload.markup) : 0,
+        markup: markup ? Number(markup) : 0,
       };
       await request({
         route: `${configStore.config.draasInstance}/tenants/${uuid}`,
