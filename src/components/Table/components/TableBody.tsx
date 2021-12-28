@@ -24,10 +24,11 @@ const TableBody: React.FC<TableBodyType> = ({
               [classes.isEditing]: row.state.isEditing,
               [classes.disabled]:
                 page.some(row => row.state?.isEditing) && !row.state.isEditing,
+              [classes.dropDownRow]: row.canExpand,
             })}
             key={row.id}
           >
-            {row.cells.map(cell => {
+            {row.cells.map((cell: any) => {
               return (
                 <TableCell
                   {...cell.getCellProps()}

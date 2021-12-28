@@ -96,6 +96,12 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     backgroundColor: theme.palette.primary.background,
     pointerEvents: "none",
   },
+  dropDownRow: {
+    backgroundColor: theme.palette.primary.light,
+    "&:hover": {
+      backgroundColor: theme.palette.primary.light,
+    },
+  },
 }));
 
 export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({

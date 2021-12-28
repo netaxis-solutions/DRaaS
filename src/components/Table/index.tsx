@@ -2,6 +2,7 @@ import { ChangeEvent, FC, useEffect } from "react";
 import {
   useTable,
   useSortBy,
+  useExpanded,
   usePagination,
   useRowSelect,
   CellProps,
@@ -66,6 +67,7 @@ const Table: FC<TableProps> = ({
     useFilters,
     useGlobalFilter,
     useSortBy,
+    useExpanded,
     usePagination,
     useRowSelect,
     useRowState,
@@ -210,7 +212,7 @@ const Table: FC<TableProps> = ({
           getTableBodyProps={getTableBodyProps}
           prepareRow={prepareRow}
           page={page}
-        />
+        ></TableBody>
       </MaUTable>
       <Pagination
         selectedRows={Object.keys(state.selectedRowIds).length}

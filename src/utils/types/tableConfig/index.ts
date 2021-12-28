@@ -20,6 +20,24 @@ export type TableActionsType = {
 export type TableData = {
   readonly [key: string]: string | number | ((obect: object) => string);
 };
+
+export type TableSubscriptionLicenses = {
+  id: number;
+  name: string;
+};
+
+export type TableSubRowLicenses = {
+  id: number;
+  quantity: number;
+  type: string;
+  subscription: TableSubscriptionLicenses[];
+};
+
+export type TableWidthDropDown = {
+  type: string;
+  subRows: TableSubRowLicenses[];
+};
+
 export type ToolbarActionType = {
   id: string;
   icon: React.FC;
@@ -29,7 +47,7 @@ export type ToolbarActionType = {
 export type TableProps = {
   title: string;
   columns: Column<TableData>[];
-  data: TableData[];
+  data: TableData[] | any;
   checkbox?: boolean;
   toolbarActions: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;
@@ -44,6 +62,8 @@ export type ToolbarType = {
   value: string;
   title: string;
 };
+
+export type RowWithChild = Row & { originalSubRows: Row };
 
 export type TableBodyType = {
   getTableBodyProps: (
