@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   outlined: {
     fontSize: "1.4rem",
   },
-
   error: { color: `${theme.palette.status.error} !important` },
   shrink: {
     fontSize: "1.6rem",
@@ -41,13 +40,13 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     color: `${theme.palette.secondary.text} !important`,
     fontSize: "1.4rem !important",
     fontWeight: "300 !important" as "bold",
-    padding: "0 20px 0 20px !important",
+    padding: `0 ${theme.spacing(2.5)}px !important`,
   },
   option: {
     height: theme.spacing(5),
     fontSize: "1.4rem",
     fontWeight: 300,
-    padding: "0 20px 0 20px !important",
+    padding: `0 ${theme.spacing(2.5)}px !important`,
     color: theme.palette.primary.text,
     "&:hover": {
       backgroundColor: `${theme.palette.primary.light} !important`,

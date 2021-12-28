@@ -51,6 +51,5 @@ export type TSelectProps = {
   label: string;
   disabled?: boolean;
   helperText: string;
-
   className: string | undefined;
 };

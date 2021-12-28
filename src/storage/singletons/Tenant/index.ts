@@ -14,25 +14,24 @@ import {
 import { request } from "services/api";
 import { t } from "services/Translation/index";
 
+const translateResellerGroupLabel = t("Reseller");
+const translateDistributorGroupLabel = t("Distributor");
 class TenantStore {
   constructor() {
     makeObservable(this, {});
   }
-
-  translateResellerGroupLabel = t("Reseller");
-  translateDistributorGroupLabel = t("Distributor");
 
   get ownerOptions() {
     return [
       ...DistributorsStore?.distributors?.map(distributor => ({
         label: distributor.name,
         value: `${distributor.uuid}*distributor`,
-        groupBy: this.translateDistributorGroupLabel,
+        groupBy: translateDistributorGroupLabel,
       })),
       ...ResellersStore?.resellers?.map(reseller => ({
         label: reseller.name,
         value: `${reseller.uuid}*reseller`,
-        groupBy: this.translateResellerGroupLabel,
+        groupBy: translateResellerGroupLabel,
       })),
     ];
   }

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import DistributorsStore from "storage/singletons/Distributors";
@@ -10,14 +11,13 @@ import TenantStore from "storage/singletons/Tenant";
 
 import FormInput from "components/common/Form/FormInput";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
+import ModalLoader from "components/Loader/ModalLoader";
 import FormSelect from "components/common/Form/FormSelect";
 import { Percent } from "components/Icons";
 import { TAddTenantFormProps, TAddTenantValues } from "utils/types/tenant";
 import { addTenantSchema } from "utils/schemas/tenant";
 
 import { createTenantStyles } from "./styles";
-import { observer } from "mobx-react-lite";
-import ModalLoader from "components/Loader/ModalLoader";
 
 const defaultValues = {
   name: "",
