@@ -57,9 +57,11 @@ const SubscriptionsList: FC = () => {
       },
     },
   ];
+
   const handleCloseModal = () => {
     setModalToOpen("");
   };
+
   return (
     <>
       <Table
