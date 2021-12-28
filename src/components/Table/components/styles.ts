@@ -98,6 +98,18 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   dropDownRow: {
     backgroundColor: theme.palette.primary.light,
+
+    "& td": {
+      height: `${theme.spacing(3.75)}px !important`,
+      minHeight: `${theme.spacing(3.75)}px !important`,
+      maxHeight: `${theme.spacing(3.75)}px !important`,
+    },
+    "& td:last-child": {
+      padding: `0 ${theme.spacing(5)}px 0  0!important`,
+    },
+    "& td:first-child": {
+      padding: `0 ${theme.spacing(1)}px 0 ${theme.spacing(3)}px!important`,
+    },
     "&:hover": {
       backgroundColor: theme.palette.primary.light,
     },
