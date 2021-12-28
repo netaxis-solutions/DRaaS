@@ -6,6 +6,7 @@ import configStore from "../Config";
 import {
   SubscriptionItemType,
   SubscriptionsDataType,
+  TCreateSubscriptionPayload,
 } from "utils/types/subscriptions";
 
 class SubscriptionsStore {
@@ -28,6 +29,25 @@ class SubscriptionsStore {
       runInAction(() => {
         this.subscriptions = subscriptions;
       });
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+
+  createSubscription = async (
+    tenantId: string,
+    payload: TCreateSubscriptionPayload,
+    callback?: () => void,
+  ) => {
+    try {
+      await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
+        loaderName: "@postSubscriptionsData",
+        method: "post",
+        payload,
+      });
+      this.getSubscriptionsData(tenantId);
+      callback && callback();
     } catch (e) {
       console.log(e, "e");
     }
