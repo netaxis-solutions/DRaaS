@@ -29,11 +29,10 @@ const getTranslatedColumns = (t: TFunction) => [
 
 const SubscriptionsList: FC = () => {
   const { t } = useTranslation();
-  const { loggedInUserLevel } = RoutingConfig;
+  const { loggedInUserLevel, allAvailvableRouting } = RoutingConfig;
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
 
-  const { allAvailvableRouting } = RoutingConfig;
   const {
     subscriptions,
     getSubscriptionsData,
