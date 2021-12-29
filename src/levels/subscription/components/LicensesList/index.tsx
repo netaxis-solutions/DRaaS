@@ -23,7 +23,7 @@ const LicensesList: FC = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    getSubscriptionLicensesData(params?.tenantID);
+    getSubscriptionLicensesData(params?.tenantID, params?.subscriptionID);
   }, []);
 
   const toolbarActions = [
