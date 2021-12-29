@@ -1,7 +1,5 @@
 import { observer } from "mobx-react-lite";
-
 import { FC, useEffect, useMemo, useState } from "react";
-import { chain } from "lodash";
 
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -18,7 +16,10 @@ const LicensesList: FC = () => {
   //@ts-ignore:next-line
   const [modalToOpen, setModalToOpen] = useState("");
   const params: { tenantID: string; subscriptionID: string } = useParams();
-  const { licenses, getSubscriptionLicensesData } = SubscriptionLicensesStore;
+  const {
+    getSubscriptionLicensesData,
+    groupByType,
+  } = SubscriptionLicensesStore;
   const classes = useStyles();
 
   useEffect(() => {
@@ -104,19 +105,11 @@ const LicensesList: FC = () => {
     [],
   );
 
-  const groupDataWidthType = chain(licenses?.details)
-    .groupBy(item => item.type)
-    .map((value, key) => ({
-      type: key,
-      subRows: value,
-    }))
-    .value();
-
   return (
     <Table
       title={t("Licenses")}
       columns={columns}
-      data={groupDataWidthType}
+      data={groupByType}
       toolbarActions={toolbarActions}
     />
   );

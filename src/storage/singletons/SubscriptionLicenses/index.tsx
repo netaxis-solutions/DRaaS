@@ -1,17 +1,29 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable, runInAction, computed } from "mobx";
 import { AxiosResponse } from "axios";
+import { chain } from "lodash";
 
 import { request } from "services/api";
 import configStore from "../Config";
-// import { SubscriptionLicensesParams } from "utils/types/subscriptionLicenses";
+import { SubscriptionLicensesType } from "utils/types/subscriptionLicenses";
 
 class SubscriptionLicensesStore {
-  licenses: any;
+  licenses!: SubscriptionLicensesType;
 
   constructor() {
     makeObservable(this, {
       licenses: observable.ref,
+      groupByType: computed,
     });
+  }
+
+  get groupByType() {
+    return chain(this.licenses?.details)
+      .groupBy(item => item.type)
+      .map((value, key) => ({
+        type: key,
+        subRows: value,
+      }))
+      .value();
   }
 
   getSubscriptionLicensesData = async (

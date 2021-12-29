@@ -4,7 +4,24 @@ export type SubscriptionLicensesItemType = {
   [key: string]: string | number;
 };
 
-export type SubscriptionLicensesParams = {
-  tenantID: string;
-  subscriptionID: string;
+export type SubscriptionInLicenses = {
+  id: number;
+  name: string;
+};
+
+export type DetailsLicensesType = {
+  id: number;
+  quantity: number;
+  subscription: SubscriptionInLicenses;
+  type: string;
+};
+
+export type CountLicensesType = {
+  channels: {};
+  teams: {};
+};
+
+export type SubscriptionLicensesType = {
+  count: CountLicensesType[];
+  details: DetailsLicensesType[];
 };
