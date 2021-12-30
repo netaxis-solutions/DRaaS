@@ -29,17 +29,17 @@ const Modal: React.FC<TModalProps> = ({
   }, [container]);
 
   return ReactDOM.createPortal(
-    <Loader>
-      <div className={classes.modal}>
-        <ModalHeader
-          title={title}
-          activeStep={activeStep}
-          steps={steps}
-          handleCancel={handleCancel}
-        />
+    <div className={classes.modal}>
+      <ModalHeader
+        title={title}
+        activeStep={activeStep}
+        steps={steps}
+        handleCancel={handleCancel}
+      />
+      <Loader>
         <ModalContent>{children}</ModalContent>
-      </div>
-    </Loader>,
+      </Loader>
+    </div>,
 
     container,
   );
