@@ -45,6 +45,12 @@
       "hover": "#C2C3E8",
       "active": "#484CBA",
       "main": "#828282"
+    },
+    "sidebar": {
+      "distributor": "#D5DCBD",
+      "reseller": "#93BBCB",
+      "tenant": "#E0CFD5",
+      "subscription": "#F5DFBC"
     }
   }
 }

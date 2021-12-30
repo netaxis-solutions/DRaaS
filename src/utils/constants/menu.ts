@@ -32,11 +32,20 @@ const tenantMenu = [
   { key: "tenantProfile", name: "Profile" },
 ];
 
+const subscriptionMenu = [
+  { key: "subscriptionLicenses", name: "Licenses" },
+  { key: "subscriptionNumbers", name: "Numbers" },
+  { key: "subscriptionMSTeams", name: "MS Teams" },
+  { key: "subscriptionSIPTrunks", name: "SIP Trunks" },
+  { key: "subscriptionProfile", name: "Profile" },
+];
+
 export const menu: MenuType = {
   admin: adminMenu,
   distributor: distributorMenu,
   reseller: resellerMenu,
   tenant: tenantMenu,
+  subscription: subscriptionMenu,
 };
 
 export const sidebarLevelMenus: SidebarMenuType = {
@@ -44,6 +53,7 @@ export const sidebarLevelMenus: SidebarMenuType = {
     distributor: distributorMenu,
     reseller: resellerMenu,
     tenant: tenantMenu,
+    subscription: subscriptionMenu,
   },
   distributor: {
     reseller: resellerMenu,
@@ -52,4 +62,8 @@ export const sidebarLevelMenus: SidebarMenuType = {
   reseller: {
     tenant: tenantMenu,
   },
+  tenant: {
+    subscription: subscriptionMenu,
+  },
+  subscription: {},
 };

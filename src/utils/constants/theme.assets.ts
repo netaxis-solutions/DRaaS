@@ -71,6 +71,11 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     active: "#484CBA",
     main: "#828282",
   },
+  sidebar: {
+    distributor: "#D5DCBD",
+    reseller: "#93BBCB",
+    tenant: "#E0CFD5",
+  },
 };
 
 export const overrides = (palette: PaletteDefaultOptionsType) => ({
