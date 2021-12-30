@@ -5,10 +5,9 @@ import { useParams } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
-import SubscriptionsList from "./components/SubscriptionsList";
 
-const Tenant = () => {
-  const params = useParams<{ tenantID: string }>();
+const Subscription = () => {
+  const params = useParams<{ tenantID: string; subscriptionID: string }>();
 
   const {
     allAvailvableRouting,
@@ -18,12 +17,12 @@ const Tenant = () => {
   const { setChosenCustomer } = SidebarConfig;
 
   useEffect(() => {
-    setChosenCustomer(params.tenantID);
+    setChosenCustomer(params.tenantID, params.subscriptionID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.tenantID]);
+  }, [params.tenantID, params.subscriptionID]);
 
   useEffect(() => {
-    setCurrentLevel("tenant");
+    setCurrentLevel("subscription");
     return () => {
       setCurrentLevel(loggedInUserLevel);
     };
@@ -34,31 +33,31 @@ const Tenant = () => {
     <Switch>
       <Route
         exact
-        path={allAvailvableRouting.tenantSubscriptions}
-        component={() => <SubscriptionsList />}
+        path={allAvailvableRouting.subscriptionLicenses}
+        component={() => <div>subscriptionLicenses</div>}
       />
       <Route
         exact
-        path={allAvailvableRouting.tenantLocations}
-        component={() => <div>tenantLocations</div>}
+        path={allAvailvableRouting.subscriptionNumbers}
+        component={() => <div>subscriptionNumbers</div>}
       />
       <Route
         exact
-        path={allAvailvableRouting.tenantRatePlan}
-        component={() => <div>tenantRatePlan</div>}
+        path={allAvailvableRouting.subscriptionMSTeams}
+        component={() => <div>subscriptionMSTeams</div>}
       />
       <Route
         exact
-        path={allAvailvableRouting.tenantAdmins}
-        component={() => <div>tenantAdmins</div>}
+        path={allAvailvableRouting.subscriptionSIPTrunks}
+        component={() => <div>subscriptionSIPTrunks</div>}
       />
       <Route
         exact
-        path={allAvailvableRouting.tenantProfile}
-        component={() => <div>tenantProfile</div>}
+        path={allAvailvableRouting.subscriptionProfile}
+        component={() => <div>subscriptionProfile</div>}
       />
     </Switch>
   );
 };
 
-export default observer(Tenant);
+export default observer(Subscription);
