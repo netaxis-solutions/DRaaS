@@ -8,12 +8,8 @@ import { useParams, Link } from "react-router-dom";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import Subscriptions from "storage/singletons/Subscriptions";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
-<<<<<<< HEAD
 import createLink from "services/createLink";
 import { SubscriptionItemType } from "utils/types/subscriptions";
-=======
-import RoutingConfig from "storage/singletons/RoutingConfig";
->>>>>>> suggestions
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
