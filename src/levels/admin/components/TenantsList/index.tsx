@@ -39,16 +39,17 @@ const TenantsList: FC = () => {
   });
 
   const { getTenantsData, tenants, deleteTenants } = TenantsStore;
+
   const {
     selectedRows,
     selectedRowsLength,
     setSelectedRows,
   } = TableSelectedRowsStore;
+
   const { allAvailvableRouting } = RoutingConfig;
   const { editTenant } = TenantStore;
 
   const onSubmit: SubmitHandler<TenantItemType> = values => {
-    console.log(values);
     editTenant({
       payload: values,
     });

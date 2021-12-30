@@ -1,16 +1,16 @@
-import { TEditTenantPayload } from "utils/types/tenant";
 import { makeObservable } from "mobx";
 
-import { request } from "services/api";
+import configStore from "../Config";
+import ResellersStore from "../Resellers";
+import TenantsStore from "../Tenants";
 
 import {
   TAddTenantValues,
   TCreateTenant,
   TDeleteTenant,
 } from "utils/types/tenant";
-import configStore from "../Config";
-import ResellersStore from "../Resellers";
-import TenantsStore from "../Tenants";
+import { TEditTenantPayload } from "utils/types/tenant";
+import { request } from "services/api";
 
 class TenantStore {
   constructor() {
