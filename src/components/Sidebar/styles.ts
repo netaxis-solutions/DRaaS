@@ -1,21 +1,29 @@
 import { makeStyles } from "@material-ui/core";
 
+import { LoggedInUserType } from "utils/types/routingConfig";
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   sidebarContainer: {
     height: "100%",
     width: 235,
-    borderLeft: `15px solid ${theme.palette.sidebar.tenant}`,
+    borderLeft: (props: { currentLevel: LoggedInUserType }) =>
+      `15px solid ${theme.palette.sidebar[props.currentLevel]}`,
     boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.1)",
     padding: `${theme.spacing(3.75)}px ${theme.spacing(1.875)}px 0 0`,
     position: "relative",
+    "& > div > div": {
+      padding: "0 !important",
+    },
   },
   titleContainer: {
-    marginLeft: theme.spacing(2),
-    marginBottom: theme.spacing(3.75),
+    marginLeft: theme.spacing(1.875),
+    marginBottom: theme.spacing(1.875),
     color: theme.palette.primary.text,
     display: "flex",
+  },
+  titleWithDropdown: {
+    marginBottom: theme.spacing(3.75),
   },
   iconContainer: {
     minWidth: 45,
@@ -51,13 +59,15 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.primary.text,
     border: "solid 2px transparent",
     "&:hover": {
-      borderBottom: `solid 2px ${theme.palette.sidebar.tenant}`,
+      borderBottom: (props: { currentLevel: LoggedInUserType }) =>
+        `solid 2px ${theme.palette.sidebar[props.currentLevel]}`,
     },
   },
   chosen: {
     fontSize: "1.6rem",
     fontWeight: 400,
-    border: `solid 2px ${theme.palette.sidebar.tenant}`,
+    border: (props: { currentLevel: LoggedInUserType }) =>
+      `solid 2px ${theme.palette.sidebar[props.currentLevel]}`,
     borderRadius: 5,
     borderLeft: "none",
     paddingLeft: theme.spacing(3),

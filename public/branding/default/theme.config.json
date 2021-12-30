@@ -49,7 +49,8 @@
     "sidebar": {
       "distributor": "#D5DCBD",
       "reseller": "#93BBCB",
-      "tenant": "#E0CFD5"
+      "tenant": "#E0CFD5",
+      "subscription": "#F5DFBC"
     }
   }
 }

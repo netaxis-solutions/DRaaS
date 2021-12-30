@@ -77,8 +77,9 @@ class TenantStore {
     tenantID: string;
   }): Promise<TAddTenantValues | undefined> => {
     try {
-      const result: { data: TAddTenantValues } = await request({
+      const result = await request({
         route: `${configStore.config.draasInstance}/tenants/${tenantID}`,
+        loaderName: "@getSpecificTenant",
       });
       return result.data;
     } catch (e) {

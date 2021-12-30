@@ -13,6 +13,7 @@ export const homeUrl: HomeUrl = {
   distributor: "distributorResellers",
   reseller: "resellerTenants",
   tenant: "tenantSubscriptions",
+  subscription: "subscriptionLicenses",
 };
 export const privateRoutes: PrivateRoutesType = {
   adminDistributors: "/distributors",
@@ -35,6 +36,11 @@ export const privateRoutes: PrivateRoutesType = {
   tenantRatePlan: "/rate-plan",
   tenantAdmins: "/admins",
   tenantProfile: "/profile",
+  subscriptionLicenses: "/licenses",
+  subscriptionNumbers: "/numbers",
+  subscriptionMSTeams: "/ms-teams",
+  subscriptionSIPTrunks: "/sip-trunks",
+  subscriptionProfile: "/profile",
 };
 
 export const urlStartString: UrlStartStringType = {
@@ -43,6 +49,7 @@ export const urlStartString: UrlStartStringType = {
     distributor: "/distributors/:distributorID",
     reseller: "/distributors/:distributorID/resellers/:resellerID",
     tenant: "/tenants/:tenantID",
+    subscription: "/tenants/:tenantID/subscriptions/:subscriptionID",
   },
   distributor: {
     distributor: "/:distributorID",
@@ -55,5 +62,9 @@ export const urlStartString: UrlStartStringType = {
   },
   tenant: {
     tenant: "/:tenantID",
+    subscription: "/:tenantID/subscriptions/:subscriptionID",
+  },
+  subscription: {
+    subscription: "/:subscriptionID",
   },
 };

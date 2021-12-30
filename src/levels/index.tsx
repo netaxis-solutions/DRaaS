@@ -12,6 +12,7 @@ import Admin from "./admin";
 import Distributor from "./distributor";
 import Reseller from "./reseller";
 import Tenant from "./tenant";
+import Subscription from "./subscription";
 
 const Content: React.FC = () => {
   const { getUserData, user } = loginStore;
@@ -27,11 +28,18 @@ const Content: React.FC = () => {
       <Loader>
         <Switch>
           <Route
+            // @ts-ignore
+            path={urlStartString[loggedInUserLevel].subscription}
+            component={Subscription}
+          />
+          <Route
+            // @ts-ignore
             path={urlStartString[loggedInUserLevel].tenant}
             component={Tenant}
           />
           {loggedInUserLevel !== "tenant" && (
             <Route
+              // @ts-ignore
               path={urlStartString[loggedInUserLevel].reseller}
               component={Reseller}
             />

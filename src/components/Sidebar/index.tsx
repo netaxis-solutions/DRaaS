@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
@@ -11,6 +12,8 @@ import {
   ResellerLevelIcon,
   TenantLevelIcon,
 } from "components/Icons";
+import SidebarDropdown from "./components/SidebarDropdown";
+import Loader from "components/Loader/Loader";
 import useStyles from "./styles";
 
 const levelIcon: {
@@ -24,43 +27,69 @@ const levelIcon: {
 const Sidebar: React.FC<{
   options: SidebarUnitType[];
 }> = ({ options }) => {
-  const classes = useStyles();
   const location = useLocation();
 
-  const { chosenCustomerID, chosenCustomerData } = SidebarConfig;
+  const {
+    chosenCustomerID,
+    chosenCustomerData,
+    extraLevelID,
+    isLoading,
+  } = SidebarConfig;
   const { currentLevel, allAvailvableRouting } = RoutingConfig;
+
+  const classes = useStyles({ currentLevel });
+
+  const level = useMemo(() => {
+    if (currentLevel === "subscription") {
+      return "tenant";
+    } else {
+      return currentLevel;
+    }
+  }, [currentLevel]);
 
   const locationArr = location.pathname.split("/");
   const chosenSidebarItem = locationArr[locationArr.length - 1];
 
   return (
     <div className={classes.sidebarContainer}>
-      <div className={classes.titleContainer}>
-        <div className={classes.iconContainer}>{levelIcon[currentLevel]}</div>
-        <div>
-          <div className={classes.title}>{chosenCustomerData?.name}</div>
-          <div className={classes.level}>{currentLevel}</div>
-        </div>
-      </div>
-      {options.map(el => {
-        const routeArr = allAvailvableRouting[el.key].split("/");
-        const route = routeArr[routeArr.length - 1];
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className={classes.titleWithDropdown}>
+            <div className={classes.titleContainer}>
+              <div className={classes.iconContainer}>{levelIcon[level]}</div>
+              <div>
+                <div className={classes.title}>{chosenCustomerData?.name}</div>
+                <div className={classes.level}>{level}</div>
+              </div>
+            </div>
+            {currentLevel === "subscription" && <SidebarDropdown />}
+          </div>
+          {options.map(el => {
+            const routeArr = allAvailvableRouting[el.key].split("/");
+            const route = routeArr[routeArr.length - 1];
 
-        return (
-          <Link
-            key={el.key}
-            className={clsx(classes.sidebarItem, {
-              [classes.chosen]: route === chosenSidebarItem,
-            })}
-            to={createLink({
-              url: allAvailvableRouting[el.key],
-              params: { tenantID: chosenCustomerID },
-            })}
-          >
-            {el.name}
-          </Link>
-        );
-      })}
+            return (
+              <Link
+                key={el.key}
+                className={clsx(classes.sidebarItem, {
+                  [classes.chosen]: route === chosenSidebarItem,
+                })}
+                to={createLink({
+                  url: allAvailvableRouting[el.key],
+                  params: {
+                    tenantID: chosenCustomerID,
+                    subscriptionID: extraLevelID,
+                  },
+                })}
+              >
+                {el.name}
+              </Link>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 };
