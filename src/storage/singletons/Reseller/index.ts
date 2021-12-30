@@ -35,7 +35,7 @@ class ResellerStore {
   };
 
   editReseller = async ({
-    payload: { uuid, ...payload },
+    payload: { uuid, markup, ...payload },
     callback,
   }: {
     payload: TEditResellerPayload;
@@ -44,7 +44,7 @@ class ResellerStore {
     try {
       const formattedPayload = {
         ...payload,
-        markup: payload.markup ? Number(payload.markup) : 0,
+        markup: markup ? Number(markup) : 0,
       };
       await request({
         route: `${configStore.config.draasInstance}/resellers/${uuid}`,
