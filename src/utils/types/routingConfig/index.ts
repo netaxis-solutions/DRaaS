@@ -11,18 +11,25 @@ export type UrlStartStringType = {
     distributor: string;
     reseller: string;
     tenant: string;
+    subscription: string;
   };
   distributor: {
     distributor: string;
     reseller: string;
     tenant: string;
+    subscription: string;
   };
   reseller: {
     reseller: string;
     tenant: string;
+    subscription: string;
   };
   tenant: {
     tenant: string;
+    subscription: string;
+  };
+  subscription: {
+    subscription: string;
   };
 };
 
@@ -52,18 +59,22 @@ export type MenuType = {
   distributor: { key: string; name: string }[];
   reseller: { key: string; name: string }[];
   tenant: { key: string; name: string }[];
+  subscription: { key: string; name: string }[];
 };
 
 export type InnerSidebarMenu = {
   distributor?: { key: string; name: string }[];
   reseller?: { key: string; name: string }[];
   tenant?: { key: string; name: string }[];
+  subscription?: { key: string; name: string }[];
 };
 
 export type SidebarMenuType = {
   admin: InnerSidebarMenu;
   distributor: InnerSidebarMenu;
   reseller: InnerSidebarMenu;
+  tenant: InnerSidebarMenu;
+  subscription: InnerSidebarMenu;
 };
 
 export type HomeUrl = {
@@ -71,9 +82,15 @@ export type HomeUrl = {
   distributor: string;
   reseller: string;
   tenant: string;
+  subscription: string;
 };
 
-export type LoggedInUserType = "admin" | "distributor" | "reseller" | "tenant";
+export type LoggedInUserType =
+  | "admin"
+  | "distributor"
+  | "reseller"
+  | "tenant"
+  | "subscription";
 
 export type RoutingConfigType = {
   admin: {
@@ -103,6 +120,9 @@ export type RoutingConfigType = {
     tenantProfile: { enabled: boolean };
     tenantRatePlan: { enabled: boolean };
     tenantSubscriptions: { enabled: boolean };
+  };
+  subscription: {
+    subscriptionLicenses: { enabled: boolean };
   };
 };
 

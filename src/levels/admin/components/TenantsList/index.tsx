@@ -88,7 +88,8 @@ const TenantsList: FC = () => {
 
   useEffect(() => {
     getTenantsData();
-  }, [getTenantsData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const toolbarActions = [
     {
