@@ -28,7 +28,6 @@ const Content: React.FC = () => {
       <Loader>
         <Switch>
           <Route
-            // @ts-ignore
             path={urlStartString[loggedInUserLevel].subscription}
             component={Subscription}
           />

@@ -55,10 +55,14 @@ export const urlStartString: UrlStartStringType = {
     distributor: "/:distributorID",
     reseller: "/:distributorID/resellers/:resellerID",
     tenant: "/:distributorID/resellers/:resellerID/tenants/:tenantID",
+    subscription:
+      "/:distributorID/resellers/:resellerID/tenants/:tenantID/subscriptions/:subscriptionID",
   },
   reseller: {
     reseller: "/:resellerID",
     tenant: "/:resellerID/tenants/:tenantID",
+    subscription:
+      "/:resellerID/tenants/:tenantID/subscriptions/:subscriptionID",
   },
   tenant: {
     tenant: "/:tenantID",

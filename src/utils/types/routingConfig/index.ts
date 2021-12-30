@@ -17,10 +17,12 @@ export type UrlStartStringType = {
     distributor: string;
     reseller: string;
     tenant: string;
+    subscription: string;
   };
   reseller: {
     reseller: string;
     tenant: string;
+    subscription: string;
   };
   tenant: {
     tenant: string;
