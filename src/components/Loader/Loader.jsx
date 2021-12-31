@@ -8,12 +8,9 @@ const Loader = () => {
         PendingQueries.empty
           ? {
               opacity: 0,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              display: "none",
               width: "100%",
               height: "calc(100% - 40px)",
-              zIndex: 0,
             }
           : {
               display: "flex",
