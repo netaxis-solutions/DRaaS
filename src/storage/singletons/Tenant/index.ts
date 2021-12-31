@@ -1,15 +1,16 @@
 import { makeObservable } from "mobx";
 
-import { request } from "services/api";
+import configStore from "../Config";
+import ResellersStore from "../Resellers";
+import TenantsStore from "../Tenants";
 
 import {
   TAddTenantValues,
   TCreateTenant,
   TDeleteTenant,
 } from "utils/types/tenant";
-import configStore from "../Config";
-import ResellersStore from "../Resellers";
-import TenantsStore from "../Tenants";
+import { TEditTenantPayload } from "utils/types/tenant";
+import { request } from "services/api";
 
 class TenantStore {
   constructor() {
@@ -84,6 +85,30 @@ class TenantStore {
       return result.data;
     } catch (e) {
       console.log(e);
+    }
+  };
+  editTenant = async ({
+    payload: { uuid, markup, ...payload },
+    callback,
+  }: {
+    payload: TEditTenantPayload;
+    callback?: () => void;
+  }) => {
+    try {
+      const formattedPayload = {
+        ...payload,
+        markup: markup ? Number(markup) : 0,
+      };
+      await request({
+        route: `${configStore.config.draasInstance}/tenants/${uuid}`,
+        loaderName: "@editTenant",
+        method: "put",
+        payload: formattedPayload,
+      });
+      TenantsStore.getTenantsData();
+      callback && callback();
+    } catch (e) {
+      console.log(e, "e");
     }
   };
 }
