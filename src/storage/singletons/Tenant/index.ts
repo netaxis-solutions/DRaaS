@@ -13,7 +13,6 @@ import {
 } from "utils/types/tenant";
 import { request } from "services/api";
 import { t } from "services/Translation/index";
-import Tenants from "../Tenants";
 
 const translateResellerGroupLabel = t("Reseller");
 const translateDistributorGroupLabel = t("Distributor");
@@ -45,7 +44,7 @@ class TenantStore {
         method: "post",
         payload,
       });
-      Tenants.getTenantsData();
+      TenantsStore.getTenantsData();
       callback && callback();
     } catch (e) {
       console.log(e, "e");
