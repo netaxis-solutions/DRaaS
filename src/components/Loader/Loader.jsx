@@ -11,7 +11,7 @@ const Loader = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "100&",
+              width: "100%",
               height: "calc(100% - 40px)",
               zIndex: 0,
             }
@@ -20,7 +20,7 @@ const Loader = () => {
               padding: 50,
               justifyContent: "center",
               alignItems: "center",
-              width: "100vw",
+              width: "100%",
               height: "calc(100% - 40px)",
               zIndex: 999,
             }
