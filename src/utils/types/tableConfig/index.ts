@@ -6,6 +6,7 @@ import {
   TableBodyPropGetter,
   TableBodyProps,
 } from "react-table";
+import { TableWithExpanded } from "utils/types/subscriptionLicenses";
 
 export type TableActionsType = {
   edit?: boolean;
@@ -17,9 +18,11 @@ export type TableActionsType = {
   onCancel?: () => void;
 };
 
-export type TableData = {
-  readonly [key: string]: string | number | ((obect: object) => string);
-};
+export type TableData =
+  | {
+      readonly [key: string]: string | number | ((obect: object) => string);
+    }
+  | TableWithExpanded;
 
 export type TableSubscriptionLicenses = {
   id: number;
@@ -47,7 +50,7 @@ export type ToolbarActionType = {
 export type TableProps = {
   title: string;
   columns: Column<TableData>[];
-  data: TableData[] | any;
+  data: TableData[];
   checkbox?: boolean;
   toolbarActions: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;

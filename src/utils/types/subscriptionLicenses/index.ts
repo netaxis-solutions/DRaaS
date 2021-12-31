@@ -12,13 +12,18 @@ export type SubscriptionInLicenses = {
 export type DetailsLicensesType = {
   id: number;
   quantity: number;
-  subscription: SubscriptionInLicenses;
+  subscription?: SubscriptionInLicenses;
   type: string;
 };
 
 export type CountLicensesType = {
   channels: {};
   teams: {};
+};
+
+export type TableWithExpanded = {
+  type: string;
+  subRows: DetailsLicensesType[];
 };
 
 export type SubscriptionLicensesType = {
