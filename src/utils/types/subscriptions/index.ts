@@ -1,3 +1,5 @@
+import { TDeleteModalProps } from "../modal";
+
 export type SubscriptionItemType = {
   uuid: string;
   name: string;
@@ -18,4 +20,8 @@ export type TCreateSubscriptionPayload = {
 
 export type AddSubscriptionFormPropsType = {
   handleCancel: () => void;
+};
+
+export type TDeleteSubscriptionsModalProps = TDeleteModalProps & {
+  subscriptions: Array<SubscriptionItemType>;
 };
