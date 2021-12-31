@@ -52,6 +52,28 @@ class SubscriptionsStore {
       console.log(e, "e");
     }
   };
+
+  deleteSubscriptions = async (
+    tenantId: string,
+    selectedSubscriptionsIds: string[],
+    callback?: () => void,
+  ) => {
+    try {
+      await Promise.all(
+        selectedSubscriptionsIds.map(subscriptionId =>
+          request({
+            route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionId}`,
+            loaderName: "@deleteSubscriptions",
+            method: "delete",
+          }),
+        ),
+      );
+    } catch (e) {
+      console.log("e", e);
+    } finally {
+      callback && callback();
+    }
+  };
 }
 
 export default new SubscriptionsStore();
