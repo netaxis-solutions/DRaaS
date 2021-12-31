@@ -20,7 +20,13 @@ const DeleteTenantSubscriptionsModal: FC<TDeleteSubscriptionsModalProps> = ({
     <DeleteModal
       handleCancel={handleCloseModal}
       handleDelete={handleDelete}
-      selectedElementName={false}
+      selectedElementName={
+        selectedRowsLength === 1 &&
+        subscriptions.reduce((prev, cur, i) => {
+          selectedRows[i] && (prev = cur.name);
+          return prev;
+        }, "")
+      }
     >
       <div
         className={clsx(classes.text, {
@@ -42,6 +48,11 @@ const DeleteTenantSubscriptionsModal: FC<TDeleteSubscriptionsModalProps> = ({
           })}
           .
         </div>
+        {selectedRowsLength === 1 && (
+          <div>
+            {t("Please, type the name of the subscription to delete it")}:
+          </div>
+        )}
       </div>
     </DeleteModal>
   );
