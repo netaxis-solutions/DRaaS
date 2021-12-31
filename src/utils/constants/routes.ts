@@ -70,5 +70,8 @@ export const urlStartString: UrlStartStringType = {
   },
   subscription: {
     subscription: "/:subscriptionID",
+    subscriptionUsers: "/:subscriptionID/users",
+    // subscription: "/:subscriptionID",
+    // subscription: "/:subscriptionID",
   },
 };

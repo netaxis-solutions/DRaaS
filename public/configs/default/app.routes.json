@@ -31,7 +31,12 @@
   },
   "subscription": {
     "subscriptionLicenses": { "enabled": true },
-    "subscriptionNumbers": { "enabled": true },
+    "subscriptionNumbers": { "enabled": true,
+      "tabs": {
+        "users": true,
+        "groups": true,
+        "phoneNumbers": true
+      } },
     "subscriptionMSTeams": { "enabled": true },
     "subscriptionSIPTrunks": { "enabled": true },
     "subscriptionProfile": { "enabled": true }
