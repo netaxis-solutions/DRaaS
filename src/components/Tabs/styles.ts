@@ -4,6 +4,7 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
   textColorInherit: {
     color: theme.palette.primary.text,
+    textTransform: "none",
     fontSize: "1.4rem",
     fontWeight: 300,
     lineHeight: "1.6rem",

@@ -7,6 +7,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import SubscriptionNumbersPage from "./components/SubscriptionNumbersPage";
 import Licenses from "./components/Licenses";
 =======
@@ -14,6 +15,9 @@ import Numbers from "./components/NumbersList";
 >>>>>>> started
 =======
 >>>>>>> tabs component created
+=======
+import Numbers from "./Numbers";
+>>>>>>> some logic added
 
 const Subscription = () => {
   const params = useParams<{ tenantID: string; subscriptionID: string }>();
@@ -49,6 +53,7 @@ const Subscription = () => {
         exact
         path={`${allAvailvableRouting.subscriptionNumbers}/:tabID?`}
         component={() => <SubscriptionNumbersPage />}
+
       />
       <Route
         exact
