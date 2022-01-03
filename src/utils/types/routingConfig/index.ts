@@ -30,7 +30,6 @@ export type UrlStartStringType = {
   };
   subscription: {
     subscription: string;
-    subscriptionUsers: string;
   };
 };
 
