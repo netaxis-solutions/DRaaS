@@ -4,11 +4,7 @@ import { string, object } from "yup";
 export const addTenantSchema = (t: TFunction) =>
   object().shape({
     name: string().required(t("Please fill this field")),
-    billingId: string().matches(/^[aA-zZ0-9\s]+$/, {
-      message:
-        "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
-      excludeEmptyString: true,
-    }),
+    billingId: string(),
     owner: object().shape({
       label: string(),
       value: string().required("Please choose an owner"),
@@ -19,12 +15,15 @@ export const addTenantSchema = (t: TFunction) =>
     }),
   });
 
-  export const editTenantSchema = () =>
+export const editTenantSchema = () =>
   object().shape({
     name: string().required(),
     billingId: string(),
-    markup: string().matches(/^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/, {
-      message: "Only numbers and white space allowed",
-      excludeEmptyString: true,
-    }),
+    markup: string().matches(
+      /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
+      {
+        message: "Only numbers and white space allowed",
+        excludeEmptyString: true,
+      },
+    ),
   });
