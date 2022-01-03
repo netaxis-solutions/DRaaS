@@ -18,12 +18,14 @@ const LicensesList: FC = () => {
   const params: { tenantID: string; subscriptionID: string } = useParams();
   const {
     getSubscriptionLicensesData,
+    getEntitlements,
     groupByType,
   } = SubscriptionLicensesStore;
   const classes = useStyles();
 
   useEffect(() => {
     getSubscriptionLicensesData(params?.tenantID, params?.subscriptionID);
+    getEntitlements(params?.tenantID);
   }, []);
 
   const toolbarActions = [

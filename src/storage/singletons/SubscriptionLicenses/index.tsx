@@ -8,6 +8,7 @@ import { SubscriptionLicensesType } from "utils/types/subscriptionLicenses";
 
 class SubscriptionLicensesStore {
   licenses!: SubscriptionLicensesType;
+  entitlements!: any;
 
   constructor() {
     makeObservable(this, {
@@ -31,23 +32,35 @@ class SubscriptionLicensesStore {
     subscriptionID?: string,
   ) => {
     try {
-      const payload = subscriptionID
-        ? {
-            tenantID,
-            params: { subscriptionId: Number(subscriptionID) },
-          }
-        : { tenantID };
-
       const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/licenses`,
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/licenses`,
         loaderName: "@getSubscriptionLicensesData",
-        payload,
       });
+
+      console.log(data);
 
       const licenses = data.data.licenses;
 
       runInAction(() => {
         this.licenses = licenses;
+      });
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+
+  getEntitlements = async (tenantID: string) => {
+    try {
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/entitlements`,
+        loaderName: "@getSubscriptionLicensesData",
+      });
+
+      const entitlements = data.data.entitlements;
+
+      runInAction(() => {
+        this.licenses = entitlements;
+        console.log("ENTITLEMENTS!!!", this.entitlements);
       });
     } catch (e) {
       console.log(e, "e");
