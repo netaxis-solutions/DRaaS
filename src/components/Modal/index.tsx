@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { TModalProps } from "utils/types/modal";
 import ModalHeader from "./components/ModalHeader";
 import ModalContent from "./components/ModalContent";
+import Loader from "components/Loader";
 import useStyles from "./styles";
 
 const Modal: React.FC<TModalProps> = ({
@@ -35,8 +36,11 @@ const Modal: React.FC<TModalProps> = ({
         steps={steps}
         handleCancel={handleCancel}
       />
-      <ModalContent>{children}</ModalContent>
+      <Loader>
+        <ModalContent>{children}</ModalContent>
+      </Loader>
     </div>,
+
     container,
   );
 };

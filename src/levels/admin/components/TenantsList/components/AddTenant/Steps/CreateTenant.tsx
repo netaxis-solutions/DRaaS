@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import DistributorsStore from "storage/singletons/Distributors";
@@ -137,4 +138,4 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   );
 };
 
-export default CreateTenant;
+export default observer(CreateTenant);

@@ -36,10 +36,18 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.6rem",
     marginTop: -1,
   },
+  groupLabel: {
+    color: `${theme.palette.secondary.text} !important`,
+    fontSize: "1.4rem !important",
+    textTransform: "uppercase",
+    fontWeight: "300 !important" as "bold",
+    padding: `0 ${theme.spacing(2.5)}px !important`,
+  },
   option: {
     height: theme.spacing(5),
     fontSize: "1.4rem",
     fontWeight: 300,
+    padding: `0 ${theme.spacing(2.5)}px !important`,
     color: theme.palette.primary.text,
     "&:hover": {
       backgroundColor: `${theme.palette.primary.light} !important`,

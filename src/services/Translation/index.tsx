@@ -1,8 +1,16 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import Backend from "i18next-http-backend";
 
 import { GetSpecificLanguageTranslationType } from "utils/types/translation";
+
+export const t = (str: string, options?: string) => {
+  function T({ str, options }: { str: string; options?: string }): JSX.Element {
+    const { t: translate } = useTranslation();
+    return translate(str, options);
+  }
+  return <T str={str} options={options} />;
+};
 
 export const getSpecificLanguageTranslation: GetSpecificLanguageTranslationType = async ({
   name,
@@ -19,7 +27,7 @@ export const getSpecificLanguageTranslation: GetSpecificLanguageTranslationType 
 
   const reqToSendResult = await Promise.all(requestsToSend);
   const jsonResult = await Promise.all(
-    reqToSendResult.map((data) => data.json())
+    reqToSendResult.map(data => data.json()),
   );
 
   const resources = jsonResult.reduce((prev, cur) => {
