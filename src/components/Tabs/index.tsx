@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+=======
+// import { useEffect } from "react";
+// import { useParams } from "react-router";
+
+import { Switch, Route } from "react-router-dom";
+
+>>>>>>> tabs component created
 import { useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { withStyles } from "@material-ui/core";

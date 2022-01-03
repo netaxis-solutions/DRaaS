@@ -6,11 +6,14 @@ import { useParams } from "react-router-dom";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import SubscriptionNumbersPage from "./components/SubscriptionNumbersPage";
 import Licenses from "./components/Licenses";
 =======
 import Numbers from "./components/NumbersList";
 >>>>>>> started
+=======
+>>>>>>> tabs component created
 
 const Subscription = () => {
   const params = useParams<{ tenantID: string; subscriptionID: string }>();
