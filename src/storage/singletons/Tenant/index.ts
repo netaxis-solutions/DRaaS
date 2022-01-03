@@ -16,6 +16,8 @@ import { t } from "services/Translation/index";
 
 const translateResellerGroupLabel = t("Reseller");
 const translateDistributorGroupLabel = t("Distributor");
+const translateDirectCustomerLabel = t("Direct customer");
+
 class TenantStore {
   constructor() {
     makeObservable(this, {});
@@ -23,6 +25,10 @@ class TenantStore {
 
   get ownerOptions() {
     return [
+      {
+        label: translateDirectCustomerLabel.props.str,
+        value: "direct customer",
+      },
       ...DistributorsStore?.distributors?.map(distributor => ({
         label: distributor.name,
         value: `${distributor.uuid}*distributor`,

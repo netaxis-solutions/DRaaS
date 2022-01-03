@@ -8,13 +8,12 @@ import clsx from "clsx";
 import DistributorsStore from "storage/singletons/Distributors";
 import ResellersStore from "storage/singletons/Resellers";
 import TenantStore from "storage/singletons/Tenant";
-
+import { TAddTenantFormProps, TAddTenantValues } from "utils/types/tenant";
+import { addTenantSchema } from "utils/schemas/tenant";
 import FormInput from "components/common/Form/FormInput";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
 import FormSelect from "components/common/Form/FormSelect";
 import { Percent } from "components/Icons";
-import { TAddTenantFormProps, TAddTenantValues } from "utils/types/tenant";
-import { addTenantSchema } from "utils/schemas/tenant";
 
 import { createTenantStyles } from "./styles";
 
@@ -55,7 +54,9 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
       ? { markup: +markup, ...values }
       : { ...values };
     const splittedVal = owner.value.split("*");
-    payload.owner = { uuid: splittedVal[0], type: splittedVal[1] };
+    if (owner.value !== "direct customer") {
+      payload.owner = { uuid: splittedVal[0], type: splittedVal[1] };
+    }
 
     createTenant({ payload, callback: handleCancel });
   };
@@ -92,9 +93,6 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         render={({ field, ...props }) => (
           <FormInput
             label={t("Billing ID")}
-            helper={t(
-              "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
-            )}
             {...field}
             {...props}
             className={clsx(
