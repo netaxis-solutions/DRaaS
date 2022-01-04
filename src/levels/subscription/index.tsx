@@ -35,7 +35,7 @@ const Subscription = () => {
     <Switch>
       <Route
         exact
-        path={allAvailvableRouting.subscriptionLicenses}
+        path={`${allAvailvableRouting.subscriptionLicenses}/:tabID?`}
         component={() => <Licenses />}
       />
       <Route
