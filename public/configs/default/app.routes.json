@@ -31,12 +31,15 @@
   },
   "subscription": {
     "subscriptionLicenses": { "enabled": true },
-    "subscriptionNumbers": { "enabled": true,
+    "subscriptionNumbers": {
+      "enabled": true,
       "tabs": {
-        "users": true,
-        "groups": true,
-        "phoneNumbers": true
-      } },
+        "myNumbers": true,
+        "deletedNumbers": true,
+        "reservedNumbers": true,
+        "porting": true
+      }
+    },
     "subscriptionMSTeams": { "enabled": true },
     "subscriptionSIPTrunks": { "enabled": true },
     "subscriptionProfile": { "enabled": true }
