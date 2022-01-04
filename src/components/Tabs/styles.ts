@@ -34,6 +34,7 @@ export default createStyles((theme: ThemeDefaultOptions) => ({
     boxShadow: "none",
     minHeight: "auto",
     height: 40,
+    marginBottom: theme.spacing(3.75),
   },
   scroller: {
     "&>*": {
