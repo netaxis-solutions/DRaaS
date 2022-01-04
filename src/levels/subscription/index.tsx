@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
 import SubscriptionNumbersPage from "./components/SubscriptionNumbersPage";
+import Licenses from "./components/Licenses";
 
 const Subscription = () => {
   const params = useParams<{ tenantID: string; subscriptionID: string }>();
@@ -35,7 +36,7 @@ const Subscription = () => {
       <Route
         exact
         path={allAvailvableRouting.subscriptionLicenses}
-        component={() => <div>subscriptionLicenses</div>}
+        component={() => <Licenses />}
       />
       <Route
         exact

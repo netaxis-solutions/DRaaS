@@ -156,7 +156,7 @@ const Table: FC<TableProps> = ({
                 return (
                   <TableActions
                     edit
-                    del
+                    del={isRemovable}
                     onDelete={() => {
                       setModalToOpen && setModalToOpen("delete");
                       setSelectedRows({ [props.row.index]: true });

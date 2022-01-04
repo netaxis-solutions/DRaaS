@@ -29,7 +29,7 @@ export type ToolbarActionType = {
 export type TableProps = {
   title: string;
   columns: Column<TableData>[];
-  data: TableData[];
+  data: TableData[] | any;
   checkbox?: boolean;
   toolbarActions: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;
