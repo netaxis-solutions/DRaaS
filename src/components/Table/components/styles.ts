@@ -5,7 +5,7 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableActionsWrapper: {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "end",
     "& svg": {
       fill: theme.palette.icon.main,
       width: 16,
@@ -30,7 +30,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableHeadActionRow: {
-    textAlign: "end",
+    textAlign: "center",
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
     paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
   },
@@ -107,6 +107,7 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     borderColor: theme.palette.table.border,
     borderStyle: "solid",
     borderWidth: "1px 1px 0 1px",
+
     "& button": {
       borderColor: "transparent",
     },
