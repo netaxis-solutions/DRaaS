@@ -48,7 +48,6 @@ const Sidebar: React.FC<{
   }, [currentLevel]);
 
   const locationArr = location.pathname.split("/");
-  const chosenSidebarItem = locationArr[locationArr.length - 1];
 
   return (
     <div className={classes.sidebarContainer}>
@@ -74,7 +73,7 @@ const Sidebar: React.FC<{
               <Link
                 key={el.key}
                 className={clsx(classes.sidebarItem, {
-                  [classes.chosen]: route === chosenSidebarItem,
+                  [classes.chosen]: locationArr.includes(route),
                 })}
                 to={createLink({
                   url: allAvailvableRouting[el.key],
