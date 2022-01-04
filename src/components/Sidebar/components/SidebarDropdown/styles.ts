@@ -5,6 +5,8 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   select: {
+    fontSize: "1.4rem !important",
+    fontWeight: "300 !important" as "bold",
     height: theme.spacing(3.5),
     marginLeft: theme.spacing(1.875),
     border: (props: { currentLevel: LoggedInUserType }) =>
@@ -20,7 +22,10 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       padding: `${theme.spacing(0.75)}px ${theme.spacing(1.25)}px`,
     },
   },
-  menuItem: {},
+  menuItem: {
+    fontSize: "1.4rem !important",
+    fontWeight: "300 !important" as "bold",
+  },
 }));
 
 export default useStyles;
