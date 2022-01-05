@@ -5,7 +5,7 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableActionsWrapper: {
     display: "flex",
-    justifyContent: "end",
+    justifyContent: "flex-end",
     "& svg": {
       fill: theme.palette.icon.main,
       width: 16,
@@ -107,7 +107,6 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     borderColor: theme.palette.table.border,
     borderStyle: "solid",
     borderWidth: "1px 1px 0 1px",
-
     "& button": {
       borderColor: "transparent",
     },

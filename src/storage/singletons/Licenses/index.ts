@@ -11,7 +11,9 @@ import LicensesStore from "../Licenses";
 
 class SubscriptionLicensesStore {
   licenses: SubscriptionLicenseType[] | MsTeamsUsersType[] = [];
-  entitlements!: any;
+
+  // Ready logic for take entitlements data
+  // entitlements!: any;
 
   constructor() {
     makeObservable(this, {
@@ -66,23 +68,23 @@ class SubscriptionLicensesStore {
     }
   };
 
-  getEntitlements = async (tenantID: string) => {
-    try {
-      const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/entitlements`,
-        loaderName: "@getSubscriptionLicensesData",
-      });
+  // Ready logic for take Entitlements Data
+  // getEntitlements = async (tenantID: string) => {
+  //   try {
+  //     const data: AxiosResponse<any> = await request({
+  //       route: `${configStore.config.draasInstance}/tenants/${tenantID}/entitlements`,
+  //       loaderName: "@getSubscriptionLicensesData",
+  //     });
 
-      const entitlements = data.data.entitlements;
+  //     const entitlements = data.data.entitlements;
 
-      runInAction(() => {
-        this.entitlements = entitlements;
-        console.log("ENTITLEMENTS!!!", this.entitlements);
-      });
-    } catch (e) {
-      console.log(e, "e");
-    }
-  };
+  //     runInAction(() => {
+  //       this.entitlements = entitlements;
+  //     });
+  //   } catch (e) {
+  //     console.log(e, "e");
+  //   }
+  // };
 }
 
 export default new SubscriptionLicensesStore();
