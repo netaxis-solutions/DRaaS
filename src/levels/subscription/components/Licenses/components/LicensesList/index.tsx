@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import LicensesStore from "storage/singletons/Licenses";
 import { EditLicensesPayload } from "utils/types/licenses";
 import { editLicenseSchema } from "utils/schemas/license";
+import { MsTeamsUsersType } from "utils/types/licenses";
 
 import FormTableInput from "components/common/TableInput";
 import Table from "components/Table";
@@ -31,8 +32,9 @@ const LicensesList: FC = () => {
     defaultValues,
   });
 
-  const onSubmit: SubmitHandler<any> = payload => {
+  const onSubmit: SubmitHandler<MsTeamsUsersType> = payload => {
     editLicense({ tenantID, subscriptionID, payload });
+    console.log(payload);
   };
 
   const columns = useMemo(
@@ -62,8 +64,8 @@ const LicensesList: FC = () => {
     getSubscriptionLicensesData(tenantID, subscriptionID);
   }, []);
 
-  const setDefaultValues = (license: any) => {
-    setValue("assigned", license.assigned);
+  const setDefaultValues = (license: MsTeamsUsersType) => {
+    setValue("assigned", `${license.assigned}`);
   };
 
   const handleEditItem = (props: any) => {

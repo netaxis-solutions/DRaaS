@@ -6,7 +6,10 @@ import {
   TableBodyPropGetter,
   TableBodyProps,
 } from "react-table";
-import { MsTeamsUsers } from "../licenses";
+import {
+  SubscriptionLicenseType,
+  MsTeamsUsersType,
+} from "utils/types/licenses";
 
 export type TableActionsType = {
   edit?: boolean;
@@ -20,9 +23,10 @@ export type TableActionsType = {
 
 export type TableData =
   | {
-      readonly [key: string]: string | number | ((obect: object) => string);
+      readonly [key: string]: string | number | ((object: object) => string);
     }
-  | MsTeamsUsers;
+  | MsTeamsUsersType
+  | SubscriptionLicenseType;
 
 export type ToolbarActionType = {
   id: string;
@@ -33,7 +37,7 @@ export type ToolbarActionType = {
 export type TableProps = {
   title: string;
   columns: Column<TableData>[];
-  data: TableData[] | any;
+  data: TableData[];
   checkbox?: boolean;
   toolbarActions?: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;

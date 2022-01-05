@@ -4,9 +4,15 @@ export type SubscriptionLicensesItemType = {
   [key: string]: string | number;
 };
 
-export type MsTeamsUsers = {
+export type MsTeamsUsersType = {
   assigned: number;
   inUse: number;
+};
+
+export type LicensesSubmitEditItem = {
+  tenantID: string;
+  subscriptionID: number;
+  payload: MsTeamsUsersType;
 };
 
 export type SipTrunkChannels = {
@@ -14,7 +20,7 @@ export type SipTrunkChannels = {
 };
 
 export type SubscriptionLicenseType = {
-  msteams_users: MsTeamsUsers;
+  msteams_users: MsTeamsUsersType;
   siptrunk_channels: SipTrunkChannels;
 };
 

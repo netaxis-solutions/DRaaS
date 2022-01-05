@@ -3,12 +3,14 @@ import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
 import configStore from "../Config";
-import { SubscriptionLicenseType } from "utils/types/licenses";
-import { MsTeamsUsers } from "utils/types/licenses";
+import {
+  SubscriptionLicenseType,
+  MsTeamsUsersType,
+} from "utils/types/licenses";
 import LicensesStore from "../Licenses";
 
 class SubscriptionLicensesStore {
-  licenses: SubscriptionLicenseType[] | MsTeamsUsers = [];
+  licenses: SubscriptionLicenseType[] | MsTeamsUsersType[] = [];
   entitlements!: any;
 
   constructor() {
@@ -44,7 +46,7 @@ class SubscriptionLicensesStore {
   }: {
     tenantID: string;
     subscriptionID: string;
-    payload: MsTeamsUsers;
+    payload: MsTeamsUsersType;
   }) => {
     try {
       await request({
