@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,7 +10,6 @@ import { EditLicensesPayload } from "utils/types/licenses";
 import { editLicenseSchema } from "utils/schemas/license";
 
 import FormTableInput from "components/common/TableInput";
-import { Plus, Trash } from "components/Icons";
 import Table from "components/Table";
 
 const defaultValues = {
@@ -24,10 +23,9 @@ const LicensesList: FC = () => {
     subscriptionID: string;
   }>();
   const { t } = useTranslation();
-  //@ts-ignore
-  const [modalToOpen, setModalToOpen] = useState("");
 
   const { getSubscriptionLicensesData, licenses, editLicense } = LicensesStore;
+
   const { control, setValue, handleSubmit } = useForm<EditLicensesPayload>({
     resolver: yupResolver(editLicenseSchema()),
     defaultValues,
@@ -60,25 +58,6 @@ const LicensesList: FC = () => {
     [t, control],
   );
 
-  const toolbarActions = [
-    {
-      id: "delete",
-      title: "Delete",
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
-    },
-    {
-      id: "add",
-      title: "Add",
-      icon: Plus,
-      onClick: () => {
-        setModalToOpen("add");
-      },
-    },
-  ];
-
   useEffect(() => {
     getSubscriptionLicensesData(tenantID, subscriptionID);
   }, []);
@@ -91,17 +70,13 @@ const LicensesList: FC = () => {
     setDefaultValues(props.row.original);
   };
 
-  console.log(licenses);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Table
         title={t("Licenses")}
         columns={columns}
         data={licenses}
-        toolbarActions={toolbarActions}
         isRemovable={false}
-        setModalToOpen={setModalToOpen}
         setDefaultValues={setDefaultValues}
         handleEditItem={handleEditItem}
       />

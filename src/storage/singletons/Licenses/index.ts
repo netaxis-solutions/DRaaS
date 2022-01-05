@@ -8,7 +8,7 @@ import { MsTeamsUsers } from "utils/types/licenses";
 import LicensesStore from "../Licenses";
 
 class SubscriptionLicensesStore {
-  licenses: SubscriptionLicenseType[] = [];
+  licenses: SubscriptionLicenseType[] | MsTeamsUsers = [];
   entitlements!: any;
 
   constructor() {

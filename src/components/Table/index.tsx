@@ -198,9 +198,11 @@ const Table: FC<TableProps> = ({
       <Toolbar
         title={title}
         toolbarActions={
-          deleteAvailable
-            ? toolbarActions
-            : toolbarActions.filter(el => el.id !== "delete")
+          toolbarActions
+            ? deleteAvailable
+              ? toolbarActions
+              : toolbarActions.filter(el => el.id !== "delete")
+            : []
         }
         setGlobalFilter={setGlobalFilter}
         value={state.globalFilter}

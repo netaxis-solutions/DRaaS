@@ -6,6 +6,7 @@ import {
   TableBodyPropGetter,
   TableBodyProps,
 } from "react-table";
+import { MsTeamsUsers } from "../licenses";
 
 export type TableActionsType = {
   edit?: boolean;
@@ -17,9 +18,12 @@ export type TableActionsType = {
   onCancel?: () => void;
 };
 
-export type TableData = {
-  readonly [key: string]: string | number | ((obect: object) => string);
-};
+export type TableData =
+  | {
+      readonly [key: string]: string | number | ((obect: object) => string);
+    }
+  | MsTeamsUsers;
+
 export type ToolbarActionType = {
   id: string;
   icon: React.FC;
@@ -31,7 +35,7 @@ export type TableProps = {
   columns: Column<TableData>[];
   data: TableData[] | any;
   checkbox?: boolean;
-  toolbarActions: Array<ToolbarActionType>;
+  toolbarActions?: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;
   setDefaultValues?: any;
   handleDeleteItem?: (props: any) => void;
