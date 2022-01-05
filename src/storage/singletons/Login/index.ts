@@ -16,7 +16,9 @@ import configStore from "../Config";
 import { encrypt, storageToManipulate } from "utils/functions/storage";
 
 class Login {
-  user = {} as object;
+  user = {} as {
+    [key: string]: any;
+  };
   level = "" as LoggedInUserType;
   isForgotPasswordNotificationShown: string = "";
   keepUserLoggedIn: boolean = false;
