@@ -92,7 +92,7 @@ const TenantsList: FC = () => {
         },
       },
       {
-        Header: "Billing ID",
+        Header: t("Billing ID"),
         accessor: "billingId",
         EditComponent: () => (
           <Controller
@@ -105,17 +105,17 @@ const TenantsList: FC = () => {
         ),
       },
       {
-        Header: "Owner",
+        Header: t("Owner"),
         accessor: "owner.name",
       },
       {
-        Header: "Direct tenant",
+        Header: t("Direct tenant"),
         accessor: "owner.type",
         Cell: (rows: { row: { original: { owner: { type: string } } } }) =>
           rows.row.original.owner?.type === "distributor" ? "yes" : "no",
       },
       {
-        Header: "Markup, %",
+        Header: t("Markup, %"),
         accessor: "markup",
         EditComponent: () => (
           <Controller
@@ -141,7 +141,7 @@ const TenantsList: FC = () => {
     if (isTenantsDeletable) {
       actions.push({
         id: "delete",
-        title: "Delete",
+        title: t("Delete"),
         icon: Trash,
         onClick: () => {
           setModalToOpen("delete");
@@ -151,7 +151,7 @@ const TenantsList: FC = () => {
     if (isTenantsCreatable) {
       actions.push({
         id: "add",
-        title: "Add",
+        title: t("Add"),
         icon: Plus,
         onClick: () => {
           setModalToOpen("add");

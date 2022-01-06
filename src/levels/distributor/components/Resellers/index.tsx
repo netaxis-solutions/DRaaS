@@ -54,7 +54,7 @@ const ResellersList: FC = () => {
   const toolbarActions = [
     {
       id: "delete",
-      title: "Delete",
+      title: t("Delete"),
       icon: Trash,
       onClick: () => {
         console.log("delete reseller");
@@ -62,7 +62,7 @@ const ResellersList: FC = () => {
     },
     {
       id: "add",
-      title: "Add",
+      title: t("Add"),
       icon: Plus,
       onClick: () => {},
     },
