@@ -9,6 +9,7 @@ import styles from "./styles";
 const MyNumbers = () => {
   const { entitlements, getEntitlementsData } = EntitlementsStore;
   const params: any = useParams();
+  console.log(params);
   const { history } = RoutingConfig;
   const classes = styles();
 
