@@ -4,15 +4,16 @@ import AppMenu from "@material-ui/core/Menu";
 import LoginStore from "storage/singletons/Login";
 
 import { Login } from "components/Icons";
+import AccountModal from "./components/AccountModal";
 
 import useStyles from "../styles";
 
 const LoginButton: React.FC = () => {
   const classes = useStyles();
+  const [isModalOpened, setModal] = useState(false);
   //@ts-ignore
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, logout } = LoginStore;
-  console.log(user);
   const handleMenu = (e: any) => {
     setAnchorEl(e.currentTarget);
   };
@@ -33,11 +34,20 @@ const LoginButton: React.FC = () => {
           <div className={classes.userEntity}>{user.entity || "No entity"}</div>
           <div className={classes.userProfile}>{user.ui_profile}</div>
         </div>
-        <div className={classes.account}>Account settings</div>
+        <div className={classes.account} onClick={() => setModal(true)}>
+          Account settings
+        </div>
         <div className={classes.logOut} onClick={() => logout()}>
           Logout
         </div>
       </AppMenu>
+      {isModalOpened && (
+        <AccountModal
+          handleCancel={() => {
+            setModal(false);
+          }}
+        />
+      )}
     </>
   );
 };

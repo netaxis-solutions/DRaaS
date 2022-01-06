@@ -43,6 +43,24 @@ class Login {
     });
   }
 
+  putUserData: (payload?: any) => Promise<void> = async (payload: any) => {
+    // type RoutingConfigType = {
+    //   data: { ui_profile: LoggedInUserType; [key: string]: string };
+    // };
+    console.log("payload", payload);
+
+    try {
+      await request({
+        loaderName: "@getUserDataLoader",
+        method: "put",
+        route: "/system/users/" + this.user.id,
+        payload,
+      });
+      this.getUserData();
+      console.log("new user info", this.user);
+    } catch {}
+  };
+
   setKeepUserLoggenIn = (keepUserLoggedIn: boolean) => {
     this.keepUserLoggedIn = keepUserLoggedIn;
   };
