@@ -71,6 +71,23 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1rem",
     lineHeight: "1.2rem",
     fontWeight: 300,
+    languageDropDown: {
+      "& .MuiPaper-root": {
+        position: "absolute !important",
+        left: "calc(100% - 121px) !important",
+        top: "5% !important",
+        maxWidth: "60px",
+      },
+    },
+    languageBarWrapper: {
+      width: 60,
+      fontSize: "1.4rem !important",
+      textAlign: "center",
+      textTransform: "uppercase",
+    },
+    languageBarItemAction: {
+      backgroundColor: `${theme.palette.primary.light} !important`,
+    },
   },
 }));
 

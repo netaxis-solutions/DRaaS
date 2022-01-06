@@ -5,6 +5,7 @@ export type ConfigType = {
   lng?: string;
   apiVersion: string;
   draasInstance: string;
+  languages: string[];
   authentication: {
     keepUserLoggedIn: boolean;
     customLogOut: {
