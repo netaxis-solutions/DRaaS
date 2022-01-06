@@ -34,7 +34,6 @@ const LicensesList: FC = () => {
 
   const onSubmit: SubmitHandler<MsTeamsUsersType> = payload => {
     editLicense({ tenantID, subscriptionID, payload });
-    console.log(payload);
   };
 
   const columns = useMemo(
