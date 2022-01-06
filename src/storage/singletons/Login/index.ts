@@ -19,6 +19,7 @@ class Login {
   user = {} as {
     [key: string]: any;
   };
+
   level = "" as LoggedInUserType;
   isForgotPasswordNotificationShown: string = "";
   keepUserLoggedIn: boolean = false;
@@ -30,6 +31,10 @@ class Login {
       configStore.config.authentication.customLogOut.enabled &&
       configStore.config.authentication.customLogOut.route
     );
+  }
+
+  get userRights() {
+    return this.user.profile.api_rules;
   }
 
   constructor() {

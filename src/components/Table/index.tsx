@@ -33,7 +33,8 @@ const Table: FC<TableProps> = ({
   setDefaultValues,
   handleDeleteItem,
   handleEditItem,
-  isRemovable = true,
+  isEditable = false,
+  isRemovable = false,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -119,7 +120,7 @@ const Table: FC<TableProps> = ({
                 }
                 return (
                   <TableActions
-                    edit
+                    edit={isEditable}
                     del={isRemovable}
                     onDelete={() => handleDeleteItem && handleDeleteItem(props)}
                     onEdit={() => {
@@ -155,7 +156,7 @@ const Table: FC<TableProps> = ({
                 }
                 return (
                   <TableActions
-                    edit
+                    edit={isEditable}
                     del={isRemovable}
                     onDelete={() => {
                       setModalToOpen && setModalToOpen("delete");

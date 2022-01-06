@@ -25,15 +25,35 @@ const resellerMenu = [
 ];
 
 const tenantMenu = [
-  { key: "tenantSubscriptions", name: "Subscription" },
-  { key: "tenantLocations", name: "Locations" },
-  { key: "tenantRatePlan", name: "Rate Plan" },
-  { key: "tenantAdmins", name: "Admins" },
-  { key: "tenantProfile", name: "Profile" },
+  {
+    key: "tenantSubscriptions",
+    name: "Subscription",
+    // rule: "tenants.instance.subscriptions.list",
+  },
+  {
+    key: "tenantLocations",
+    name: "Locations",
+    // rule: "tenants.instance.locations.list",
+  },
+  {
+    key: "tenantRatePlan",
+    name: "Rate Plan",
+    // rule: "tenants.instance.rate_plan.read",
+  },
+  // { key: "tenantAdmins", name: "Admins" },
+  {
+    key: "tenantProfile",
+    name: "Profile",
+    // rule: "tenants.instance.read"
+  },
 ];
 
 const subscriptionMenu = [
-  { key: "subscriptionLicenses", name: "Licenses" },
+  {
+    key: "subscriptionLicenses",
+    name: "Licenses",
+    // rule: "tenants.instance.subscriptions.licenses.list",
+  },
   { key: "subscriptionNumbers", name: "Numbers" },
   { key: "subscriptionMSTeams", name: "MS Teams" },
   { key: "subscriptionSIPTrunks", name: "SIP Trunks" },
