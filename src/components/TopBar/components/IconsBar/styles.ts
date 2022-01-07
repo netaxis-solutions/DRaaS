@@ -13,7 +13,64 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       width: 16,
       height: 16,
       margin: `0 ${theme.spacing(1)}px`,
+      "&:hover": {
+        cursor: "pointer",
+      },
     },
+  },
+  profile: {
+    "& >.MuiPopover-paper": {
+      position: "absolute",
+      top: "40px",
+      right: "30px",
+      width: 188,
+      display: "flex",
+      fontSize: "1.2rem",
+      lineHeight: "1.4rem",
+      boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.1)",
+      borderRadius: "6px",
+      "& >.MuiList-root>:not(:last-child)": {
+        borderBottom: `1px solid ${theme.palette.primary.light}`,
+      },
+      "& >*": {
+        width: "100%",
+        "& >*": {
+          padding: "8px 20px",
+        },
+      },
+    },
+  },
+  logOut: {
+    color: theme.palette.status.error,
+    fontWeight: 300,
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  account: {
+    color: theme.palette.primary.link,
+    fontWeight: 300,
+    "&:hover": {
+      cursor: "pointer",
+    },
+  },
+  userName: {
+    color: theme.palette.primary.text,
+    fontSize: "1.6rem",
+    lineHeight: "1.8rem",
+    fontWeight: 300,
+  },
+  userEntity: {
+    color: theme.palette.secondary.text,
+    fontSize: "1.2rem",
+    lineHeight: "1.4rem",
+    fontWeight: 300,
+  },
+  userProfile: {
+    color: theme.palette.secondary.text,
+    fontSize: "1rem",
+    lineHeight: "1.2rem",
+    fontWeight: 300,
   },
 }));
 
