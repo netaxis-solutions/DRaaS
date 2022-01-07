@@ -1,5 +1,6 @@
 import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
+import { chain } from "lodash";
 
 import { request } from "services/api";
 import configStore from "../Config";
@@ -8,7 +9,6 @@ import {
   MsTeamsUsersType,
 } from "utils/types/licenses";
 import LicensesStore from "../Licenses";
-import { chain } from "lodash";
 
 class SubscriptionLicensesStore {
   licenses: SubscriptionLicenseType[] | MsTeamsUsersType[] = [];

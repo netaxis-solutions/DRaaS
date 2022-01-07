@@ -66,6 +66,7 @@ const LicensesList: FC = () => {
 
   useEffect(() => {
     getSubscriptionLicensesData(tenantID, subscriptionID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setDefaultValues = (license: MsTeamsUsersType) => {
