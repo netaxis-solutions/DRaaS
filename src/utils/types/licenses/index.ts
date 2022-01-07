@@ -6,7 +6,7 @@ export type SubscriptionLicensesItemType = {
 
 export type LicensesUserType = {
   assigned: number;
-  inUse: number;
+  inUse: number | string;
 };
 
 export type MsTeamsUsersType = LicensesUserType & {

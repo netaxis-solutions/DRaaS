@@ -37,7 +37,8 @@ class SubscriptionLicensesStore {
       const formatLicenses: MsTeamsUsersType[] = chain(licenses)
         .map((value, key) => ({
           name: String(key),
-          inUse: Number(value.inUse ? value.inUse : 0),
+          inUse:
+            Number(value.inUse) || Number(value.inUse) === 0 ? value.inUse : "",
           assigned: Number(value.assigned),
         }))
         .value();
