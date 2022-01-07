@@ -121,7 +121,9 @@ class Login {
         method: "get",
         route: "auth/logout",
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
 
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };

@@ -1,5 +1,5 @@
 import { Search, World } from "components/Icons";
-import ProfileButton from "./IconButtons/Login";
+import ProfileButton from "./IconButtons/ProfileButton";
 
 import useStyles from "./styles";
 const IconsBar: React.FC = () => {

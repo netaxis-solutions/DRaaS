@@ -8,7 +8,7 @@ import { Login } from "components/Icons";
 
 import useStyles from "../styles";
 
-const LoginButton: React.FC = () => {
+const ProfileButton: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,11 +41,11 @@ const LoginButton: React.FC = () => {
         </div>
         <div className={classes.account}>{t("Account settings")}</div>
         <div className={classes.logOut} onClick={() => logout()}>
-          Logout
+          {t("Logout")}
         </div>
       </AppMenu>
     </>
   );
 };
 
-export default LoginButton;
+export default ProfileButton;
