@@ -16,7 +16,9 @@ import configStore from "../Config";
 import { encrypt, storageToManipulate } from "utils/functions/storage";
 
 class Login {
-  user = {} as object;
+  user = {} as {
+    [key: string]: any;
+  };
   level = "" as LoggedInUserType;
   isForgotPasswordNotificationShown: string = "";
   keepUserLoggedIn: boolean = false;
@@ -107,11 +109,21 @@ class Login {
     } catch (e) {}
   };
 
-  logout = () => {
+  logout = async () => {
     localStorage.removeItem(`${configStore.config.name}_accessToken`);
     localStorage.removeItem(`${configStore.config.name}_refreshToken`);
     sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
     sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
+
+    try {
+      await publicLoginRequest({
+        loaderName: "@logoutLoader",
+        method: "get",
+        route: "auth/logout",
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };

@@ -1,7 +1,7 @@
-import { Login, Search, World } from "components/Icons";
+import { Search, World } from "components/Icons";
+import ProfileButton from "./IconButtons/ProfileButton";
 
 import useStyles from "./styles";
-
 const IconsBar: React.FC = () => {
   const classes = useStyles();
 
@@ -9,7 +9,7 @@ const IconsBar: React.FC = () => {
     <div className={classes.iconsBarWrapper}>
       <Search />
       <World />
-      <Login />
+      <ProfileButton />
     </div>
   );
 };
