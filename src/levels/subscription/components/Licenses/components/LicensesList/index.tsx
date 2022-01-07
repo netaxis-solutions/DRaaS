@@ -16,6 +16,7 @@ import Table from "components/Table";
 const defaultValues = {
   assigned: "",
   inUse: "",
+  name: "",
 };
 
 const LicensesList: FC = () => {
@@ -40,7 +41,7 @@ const LicensesList: FC = () => {
     () => [
       {
         Header: t("Name"),
-        accessor: "Name",
+        accessor: "name",
       },
       {
         Header: t("inUse"),
@@ -69,11 +70,10 @@ const LicensesList: FC = () => {
 
   const setDefaultValues = (license: MsTeamsUsersType) => {
     setValue("assigned", `${license.assigned}`);
+    setValue("name", `${license.name}`);
   };
 
   const handleEditItem = (props: { row: { original: MsTeamsUsersType } }) => {
-    console.log("PROPS", props);
-
     setDefaultValues(props.row.original);
   };
 

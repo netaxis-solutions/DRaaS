@@ -8,6 +8,7 @@ import {
   MsTeamsUsersType,
 } from "utils/types/licenses";
 import LicensesStore from "../Licenses";
+import { chain } from "lodash";
 
 class SubscriptionLicensesStore {
   licenses: SubscriptionLicenseType[] | MsTeamsUsersType[] = [];
@@ -33,8 +34,16 @@ class SubscriptionLicensesStore {
 
       const licenses = data?.data;
 
+      const formatLicenses: MsTeamsUsersType[] = chain(licenses)
+        .map((value, key) => ({
+          name: String(key),
+          inUse: Number(value.inUse ? value.inUse : 0),
+          assigned: Number(value.assigned),
+        }))
+        .value();
+
       runInAction(() => {
-        this.licenses = [licenses.msteams_users];
+        this.licenses = formatLicenses;
       });
     } catch (e) {
       console.log(e, "e");
@@ -56,7 +65,7 @@ class SubscriptionLicensesStore {
         loaderName: "@putSubscriptionLicensesData",
         method: "put",
         payload: {
-          msteams_users: {
+          [payload.name]: {
             assigned: Number(payload.assigned),
           },
         },

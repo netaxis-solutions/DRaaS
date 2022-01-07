@@ -4,9 +4,13 @@ export type SubscriptionLicensesItemType = {
   [key: string]: string | number;
 };
 
-export type MsTeamsUsersType = {
+export type LicensesUserType = {
   assigned: number;
   inUse: number;
+};
+
+export type MsTeamsUsersType = LicensesUserType & {
+  name: string;
 };
 
 export type LicensesSubmitEditItem = {
@@ -26,4 +30,5 @@ export type SubscriptionLicenseType = {
 
 export type EditLicensesPayload = {
   assigned: string;
+  name: string;
 };
