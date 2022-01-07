@@ -132,7 +132,6 @@ class Login {
     localStorage.removeItem(`${configStore.config.name}_refreshToken`);
     sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
     sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
-
     try {
       await publicLoginRequest({
         loaderName: "@logoutLoader",
@@ -142,7 +141,6 @@ class Login {
     } catch (error) {
       console.log(error);
     }
-
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };
 

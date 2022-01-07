@@ -11,7 +11,6 @@ import useStyles from "../styles";
 const LoginButton: React.FC = () => {
   const classes = useStyles();
   const [isModalOpened, setModal] = useState(false);
-  //@ts-ignore
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, logout } = LoginStore;
   const handleMenu = (e: any) => {
