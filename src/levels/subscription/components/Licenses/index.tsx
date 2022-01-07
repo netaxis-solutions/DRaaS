@@ -4,6 +4,7 @@ import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import createLink from "services/createLink";
+import { Tab } from "utils/types/tabs";
 
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
@@ -32,17 +33,6 @@ const License: FC = () => {
 
   const { allAvailvableRouting } = RoutingConfig;
 
-  const handleTabClick = (tabID: string) => {
-    const url = createLink({
-      url: `${allAvailvableRouting.subscriptionLicenses}/:tabID?`,
-      params: {
-        ...params,
-        tabID,
-      },
-    });
-    history.push(url);
-  };
-
   useEffect(() => {
     if (params.tabID === ":tabID" && tabs && tabs.length) {
       const url = createLink({
@@ -57,8 +47,18 @@ const License: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabs, params]);
 
-  if (params.tabID === ":tabID") return <Loader />;
+  const handleTabClick = (tabID: string) => {
+    const url = createLink({
+      url: `${allAvailvableRouting.subscriptionLicenses}/:tabID?`,
+      params: {
+        ...params,
+        tabID,
+      },
+    });
+    history.push(url);
+  };
 
+  if (params.tabID === ":tabID") return <Loader />;
   return (
     <>
       <Tabs
@@ -68,7 +68,7 @@ const License: FC = () => {
         active={params.tabID}
       />
       <Switch>
-        {tabs.map(({ id, component: Component }: any) => (
+        {tabs.map(({ id, component: Component }: Tab) => (
           <Route
             exact
             key={id}
