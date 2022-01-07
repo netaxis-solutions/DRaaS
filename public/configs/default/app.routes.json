@@ -30,7 +30,13 @@
     "tenantProfile": { "enabled": true }
   },
   "subscription": {
-    "subscriptionLicenses": { "enabled": true },
+    "subscriptionLicenses": {
+       "enabled": true ,
+       "tabs":{
+         "licensesList": true,
+         "entitlementsList": true
+       }
+      },
     "subscriptionNumbers": {
       "enabled": true,
       "tabs": {
