@@ -39,6 +39,10 @@ const LicensesList: FC = () => {
   const columns = useMemo(
     () => [
       {
+        Header: t("Name"),
+        accessor: "Name",
+      },
+      {
         Header: t("inUse"),
         accessor: "inUse",
       },
@@ -67,7 +71,9 @@ const LicensesList: FC = () => {
     setValue("assigned", `${license.assigned}`);
   };
 
-  const handleEditItem = (props: any) => {
+  const handleEditItem = (props: { row: { original: MsTeamsUsersType } }) => {
+    console.log("PROPS", props);
+
     setDefaultValues(props.row.original);
   };
 
