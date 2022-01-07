@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.1)",
       borderRadius: "6px",
       "& >.MuiList-root>:not(:last-child)": {
-        borderBottom: "1px solid" + theme.palette.primary.light,
+        borderBottom: `1px solid ${theme.palette.primary.light}`,
       },
       "& >*": {
         width: "100%",

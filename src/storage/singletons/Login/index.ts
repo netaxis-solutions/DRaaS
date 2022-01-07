@@ -109,11 +109,19 @@ class Login {
     } catch (e) {}
   };
 
-  logout = () => {
+  logout = async () => {
     localStorage.removeItem(`${configStore.config.name}_accessToken`);
     localStorage.removeItem(`${configStore.config.name}_refreshToken`);
     sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
     sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
+
+    try {
+      await publicLoginRequest({
+        loaderName: "@logoutLoader",
+        method: "get",
+        route: "auth/logout",
+      });
+    } catch (error) {}
 
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };

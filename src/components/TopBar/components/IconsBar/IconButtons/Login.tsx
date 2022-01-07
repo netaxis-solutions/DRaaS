@@ -1,21 +1,28 @@
-import { Login } from "components/Icons";
 import { useState } from "react";
-import LoginStore from "storage/singletons/Login";
-import useStyles from "../styles";
 import AppMenu from "@material-ui/core/Menu";
+import { useTranslation } from "react-i18next";
+
+import LoginStore from "storage/singletons/Login";
+
+import { Login } from "components/Icons";
+
+import useStyles from "../styles";
 
 const LoginButton: React.FC = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
-  //@ts-ignore
   const [anchorEl, setAnchorEl] = useState(null);
+
   const { user, logout } = LoginStore;
-  console.log(user);
+
   const handleMenu = (e: any) => {
     setAnchorEl(e.currentTarget);
   };
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <Login onClick={handleMenu} />
@@ -27,10 +34,12 @@ const LoginButton: React.FC = () => {
       >
         <div>
           <div className={classes.userName}>{user.first_name}</div>
-          <div className={classes.userEntity}>{user.entity || "No entity"}</div>
+          <div className={classes.userEntity}>
+            {user.entity || t("No entity")}
+          </div>
           <div className={classes.userProfile}>{user.ui_profile}</div>
         </div>
-        <div className={classes.account}>Account settings</div>
+        <div className={classes.account}>{t("Account settings")}</div>
         <div className={classes.logOut} onClick={() => logout()}>
           Logout
         </div>
