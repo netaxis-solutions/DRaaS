@@ -156,7 +156,7 @@ const Table: FC<TableProps> = ({
                 return (
                   <TableActions
                     edit
-                    del
+                    del={isRemovable}
                     onDelete={() => {
                       setModalToOpen && setModalToOpen("delete");
                       setSelectedRows({ [props.row.index]: true });
@@ -198,9 +198,11 @@ const Table: FC<TableProps> = ({
       <Toolbar
         title={title}
         toolbarActions={
-          deleteAvailable
-            ? toolbarActions
-            : toolbarActions.filter(el => el.id !== "delete")
+          toolbarActions
+            ? deleteAvailable
+              ? toolbarActions
+              : toolbarActions.filter(el => el.id !== "delete")
+            : []
         }
         setGlobalFilter={setGlobalFilter}
         value={state.globalFilter}

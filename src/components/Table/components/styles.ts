@@ -30,7 +30,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableHeadActionRow: {
-    textAlign: "end",
+    textAlign: "center",
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
     paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
   },
