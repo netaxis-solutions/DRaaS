@@ -11,6 +11,7 @@ import {
   SubscriptionLicenseType,
   MsTeamsUsersType,
 } from "utils/types/licenses";
+import { EntitlementsListType } from "../entitlements";
 
 export type TableActionsType = {
   edit?: boolean;
@@ -27,7 +28,8 @@ export type TableData =
       readonly [key: string]: string | number | ((object: object) => string);
     }
   | MsTeamsUsersType
-  | SubscriptionLicenseType;
+  | SubscriptionLicenseType
+  | EntitlementsListType;
 
 export type ToolbarActionType = {
   id: string;
@@ -47,6 +49,7 @@ export type TableProps = {
   handleEditItem?: (props: any) => void;
   isEditable?: boolean;
   isRemovable?: boolean;
+  isEditable?: boolean;
 };
 
 export type ToolbarType = {

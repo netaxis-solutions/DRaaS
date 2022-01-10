@@ -1,3 +1,8 @@
+export { default as BelgiumFlag } from "./BelgiumFlag";
+export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
+export { default as NetherlandFlag } from "./NetherlandFlag";
+export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
+export { default as TenantLevelIcon } from "./TenantLevelIcon";
 export { default as ArrowLeft } from "./ArrowLeft";
 export { default as ArrowRight } from "./ArrowRight";
 export { default as Back } from "./Back";
@@ -14,6 +19,3 @@ export { default as Search } from "./Search";
 export { default as Sort } from "./Sort";
 export { default as Trash } from "./Trash";
 export { default as World } from "./World";
-export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
-export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
-export { default as TenantLevelIcon } from "./TenantLevelIcon";
