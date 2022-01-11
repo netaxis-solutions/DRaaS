@@ -31,7 +31,14 @@ const ResellersList: FC = () => {
     defaultValues,
   });
 
-  const { getResellersData, resellers, deleteResellers } = Resellers;
+  const {
+    getResellersData,
+    resellers,
+    deleteResellers,
+    isResellersCreatable,
+    isResellersDeletable,
+    isResellersEditable,
+  } = Resellers;
   const { editReseller } = ResellerStore;
   const { selectedRows, selectedRowsLength } = TableSelectedRowsStore;
   const { setSelectedRows } = TableSelectedRowsStore;
@@ -101,24 +108,30 @@ const ResellersList: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toolbarActions = [
-    {
-      id: "delete",
-      title: "Delete",
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
-    },
-    {
-      id: "add",
-      title: "Add",
-      icon: Plus,
-      onClick: () => {
-        setModalToOpen("add");
-      },
-    },
-  ];
+  const toolbarActions = useMemo(() => {
+    const actions = [];
+    if (isResellersDeletable) {
+      actions.push({
+        id: "delete",
+        title: "Delete",
+        icon: Trash,
+        onClick: () => {
+          setModalToOpen("delete");
+        },
+      });
+    }
+    if (isResellersCreatable) {
+      actions.push({
+        id: "add",
+        title: "Add",
+        icon: Plus,
+        onClick: () => {
+          setModalToOpen("add");
+        },
+      });
+    }
+    return actions;
+  }, [isResellersCreatable, isResellersDeletable]);
 
   const handleCloseModal = () => {
     setModalToOpen("");
@@ -163,9 +176,11 @@ const ResellersList: FC = () => {
           data={resellers}
           toolbarActions={toolbarActions}
           setModalToOpen={setModalToOpen}
-          checkbox
+          checkbox={isResellersDeletable}
           setDefaultValues={setDefaultValues}
+          isRemovable={isResellersDeletable}
           handleDeleteItem={handleDeleteItem}
+          isEditable={isResellersEditable}
           handleEditItem={handleEditItem}
         />
       </form>

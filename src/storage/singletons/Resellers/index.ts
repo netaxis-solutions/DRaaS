@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
@@ -8,12 +8,13 @@ import {
   ResellersDataType,
   TGetResellersList,
 } from "utils/types/resellers";
+import Login from "../Login";
 
 class ResellersStore {
   resellers: Array<ResellerItemType> = [];
 
   constructor() {
-    makeObservable(this, {
+    makeAutoObservable(this, {
       resellers: observable.ref,
     });
   }
@@ -57,6 +58,27 @@ class ResellersStore {
       callback && callback();
     }
   };
+
+  get resellerRights() {
+    return Login.userRights.filter((el: any) => el.name.includes("resellers"));
+  }
+
+  get isResellersCreatable() {
+    return this.resellerRights.find((el: any) => el.name === "resellers.create")
+      ?.allowed;
+  }
+
+  get isResellersEditable() {
+    return this.resellerRights.find(
+      (el: any) => el.name === "resellers.instance.edit",
+    )?.allowed;
+  }
+
+  get isResellersDeletable() {
+    return this.resellerRights.find(
+      (el: any) => el.name === "resellers.instance.delete",
+    )?.allowed;
+  }
 }
 
 export default new ResellersStore();

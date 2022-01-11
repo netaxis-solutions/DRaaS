@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
@@ -8,12 +8,13 @@ import {
 } from "utils/types/distributors";
 import configStore from "../Config";
 import DistributorStore from "../Distributor";
+import Login from "../Login";
 
 class DistributorsStore {
   distributors: Array<DistributorItemType> = [];
 
   constructor() {
-    makeObservable(this, {
+    makeAutoObservable(this, {
       distributors: observable.ref,
     });
   }
@@ -56,6 +57,30 @@ class DistributorsStore {
       label: el.name,
       value: el.name,
     }));
+  }
+
+  get distributorRights() {
+    return Login.userRights.filter((el: any) =>
+      el.name.includes("distributors"),
+    );
+  }
+
+  get isDistributorsCreatable() {
+    return this.distributorRights.find(
+      (el: any) => el.name === "distributors.create",
+    )?.allowed;
+  }
+
+  get isDistributorsEditable() {
+    return this.distributorRights.find(
+      (el: any) => el.name === "distributors.instance.edit",
+    )?.allowed;
+  }
+
+  get isDistributorDeletable() {
+    return this.distributorRights.find(
+      (el: any) => el.name === "distributors.instance.delete",
+    )?.allowed;
   }
 }
 
