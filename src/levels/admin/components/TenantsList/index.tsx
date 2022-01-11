@@ -38,7 +38,15 @@ const TenantsList: FC = () => {
     defaultValues,
   });
 
-  const { getTenantsData, tenants, deleteTenants } = TenantsStore;
+  const {
+    getTenantsData,
+    tenants,
+    deleteTenants,
+    isTenantsCreatable,
+    isTenantsEditable,
+    isTenantsDeletable,
+    isTenantsReadable,
+  } = TenantsStore;
 
   const {
     selectedRows,
@@ -69,7 +77,7 @@ const TenantsList: FC = () => {
                 <FormTableInput {...field} {...props} />
               )}
             />
-          ) : (
+          ) : isTenantsReadable ? (
             <Link
               to={createLink({
                 url: allAvailvableRouting.tenantSubscriptions,
@@ -78,6 +86,8 @@ const TenantsList: FC = () => {
             >
               {row.original.name}
             </Link>
+          ) : (
+            row.original.name
           );
         },
       },
@@ -118,7 +128,7 @@ const TenantsList: FC = () => {
         ),
       },
     ],
-    [t, control, allAvailvableRouting.tenantSubscriptions],
+    [t, control, allAvailvableRouting.tenantSubscriptions, isTenantsReadable],
   );
 
   useEffect(() => {
@@ -126,24 +136,30 @@ const TenantsList: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toolbarActions = [
-    {
-      id: "delete",
-      title: "Delete",
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
-    },
-    {
-      id: "add",
-      title: "Add",
-      icon: Plus,
-      onClick: () => {
-        setModalToOpen("add");
-      },
-    },
-  ];
+  const toolbarActions = useMemo(() => {
+    const actions = [];
+    if (isTenantsDeletable) {
+      actions.push({
+        id: "delete",
+        title: "Delete",
+        icon: Trash,
+        onClick: () => {
+          setModalToOpen("delete");
+        },
+      });
+    }
+    if (isTenantsCreatable) {
+      actions.push({
+        id: "add",
+        title: "Add",
+        icon: Plus,
+        onClick: () => {
+          setModalToOpen("add");
+        },
+      });
+    }
+    return actions;
+  }, [isTenantsCreatable, isTenantsDeletable]);
 
   const handleCloseModal = () => {
     setModalToOpen("");
@@ -186,10 +202,12 @@ const TenantsList: FC = () => {
           columns={columns}
           data={tenants}
           toolbarActions={toolbarActions}
-          checkbox
+          checkbox={isTenantsDeletable}
           setModalToOpen={setModalToOpen}
           setDefaultValues={setDefaultValues}
+          isRemovable={isTenantsDeletable}
           handleDeleteItem={handleDeleteItem}
+          isEditable={isTenantsEditable}
           handleEditItem={handleEditItem}
         />
       </form>

@@ -129,6 +129,7 @@ export type RoutingConfigType = {
 export type CurRoute = {
   key: string;
   value: RouteValueType | { path: string };
+  rule?: string;
 };
 
 export type GetALlPossibleUrlsType = ({

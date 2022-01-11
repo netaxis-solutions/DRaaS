@@ -13,7 +13,6 @@ import { SubscriptionItemType } from "utils/types/subscriptions";
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
-
 import DeleteTenantSubscriptionsModal from "./components/DeleteTenantSubscriptions";
 
 const getTranslatedColumns = (t: TFunction) => [
@@ -33,6 +32,9 @@ const SubscriptionsList: FC = () => {
     subscriptions,
     getSubscriptionsData,
     deleteSubscriptions,
+    isSubscriptionsCreatable,
+    isSubscriptionsDeletable,
+    // isSubscriptionsEditable,
   } = Subscriptions;
 
   const {
@@ -72,24 +74,30 @@ const SubscriptionsList: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toolbarActions = [
-    {
-      id: "delete",
-      title: "Delete",
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
-    },
-    {
-      id: "add",
-      title: "Add",
-      icon: Plus,
-      onClick: () => {
-        setModalToOpen("add");
-      },
-    },
-  ];
+  const toolbarActions = useMemo(() => {
+    const actions = [];
+    if (isSubscriptionsDeletable) {
+      actions.push({
+        id: "delete",
+        title: "Delete",
+        icon: Trash,
+        onClick: () => {
+          setModalToOpen("delete");
+        },
+      });
+    }
+    if (isSubscriptionsCreatable) {
+      actions.push({
+        id: "add",
+        title: "Add",
+        icon: Plus,
+        onClick: () => {
+          setModalToOpen("add");
+        },
+      });
+    }
+    return actions;
+  }, [isSubscriptionsCreatable, isSubscriptionsDeletable]);
 
   const avilableActions =
     loggedInUserLevel === "tenant" ? toolbarActions.slice(1) : toolbarActions;
@@ -123,9 +131,10 @@ const SubscriptionsList: FC = () => {
         columns={columns}
         data={subscriptions}
         toolbarActions={avilableActions}
-        checkbox
+        checkbox={isSubscriptionsDeletable}
+        // isEditable={isSubscriptionsEditable}
+        isRemovable={loggedInUserLevel !== "tenant" && isSubscriptionsDeletable}
         handleDeleteItem={handleDeleteItem}
-        isRemovable={loggedInUserLevel !== "tenant"}
       />
       {modalToOpen === "add" && (
         <AddTenantSubscription handleCancel={handleCloseModal} />

@@ -10,6 +10,7 @@ import {
   RouteValueType,
   SidebarUnitType,
 } from "utils/types/routingConfig";
+// import Login from "../Login";
 
 import RoutingStore from "../RoutingConfig";
 
@@ -89,12 +90,21 @@ class Menu {
 
         sideMenu =
           RoutingStore.loggedInUserLevel !== RoutingStore.currentLevel
-            ? [...menuArr].filter((el: CurRoute) =>
-                RoutingStore.availableRouting.find(
+            ? [...menuArr].filter((el: CurRoute) => {
+                return RoutingStore.availableRouting.find(
                   (route: CurRoute) => route.key === el.key,
-                ),
-              )
-            : menuBar;
+                );
+              })
+            : // UNCOMMENT WHEN api_rules WORK FINE!!!!!!!
+              // .reduce((prev, cur) => {
+              //   Login.userRights.forEach((rule: any) => {
+              //     if (rule.name === cur.rule) {
+              //       prev.push(cur);
+              //     }
+              //   });
+              //   return prev;
+              // }, [])
+              menuBar;
       }
     }
 

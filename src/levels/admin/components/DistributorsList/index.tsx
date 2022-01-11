@@ -37,6 +37,9 @@ const Distributors: FC = () => {
     getDistributorsData,
     distributors,
     deleteDistributors,
+    isDistributorsCreatable,
+    isDistributorsEditable,
+    isDistributorDeletable,
   } = DistributorsStore;
   const { editDistributor } = Distributor;
   const { selectedRows, selectedRowsLength } = TableSelectedRowsStore;
@@ -117,24 +120,30 @@ const Distributors: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toolbarActions = [
-    {
-      id: "delete",
-      title: "Delete",
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
-    },
-    {
-      id: "add",
-      title: "Add",
-      icon: Plus,
-      onClick: () => {
-        setModalToOpen("add");
-      },
-    },
-  ];
+  const toolbarActions = useMemo(() => {
+    const actions = [];
+    if (isDistributorDeletable) {
+      actions.push({
+        id: "delete",
+        title: "Delete",
+        icon: Trash,
+        onClick: () => {
+          setModalToOpen("delete");
+        },
+      });
+    }
+    if (isDistributorsCreatable) {
+      actions.push({
+        id: "add",
+        title: "Add",
+        icon: Plus,
+        onClick: () => {
+          setModalToOpen("add");
+        },
+      });
+    }
+    return actions;
+  }, [isDistributorsCreatable, isDistributorDeletable]);
 
   const handleCloseModal = () => {
     setModalToOpen("");
@@ -178,9 +187,11 @@ const Distributors: FC = () => {
           data={distributors}
           setModalToOpen={setModalToOpen}
           toolbarActions={toolbarActions}
-          checkbox
+          checkbox={isDistributorDeletable}
           setDefaultValues={setDefaultValues}
+          isRemovable={isDistributorDeletable}
           handleDeleteItem={handleDeleteItem}
+          isEditable={isDistributorsEditable}
           handleEditItem={handleEditItem}
         />
       </form>
