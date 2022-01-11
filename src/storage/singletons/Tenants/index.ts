@@ -74,6 +74,12 @@ class TenantsStore {
     return Login.userRights.filter((el: any) => el.name.includes("tenants"));
   }
 
+  get isTenantsReadable() {
+    return this.tenantRights.find(
+      (el: any) => el.name === "tenants.instance.read",
+    )?.allowed;
+  }
+
   get isTenantsCreatable() {
     return this.tenantRights.find((el: any) => el.name === "tenants.create")
       ?.allowed;

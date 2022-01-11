@@ -1,4 +1,10 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
+import {
+  action,
+  makeObservable,
+  observable,
+  runInAction,
+  computed,
+} from "mobx";
 import get from "lodash/get";
 
 import { publicLoginRequest, request } from "services/api";
@@ -34,7 +40,7 @@ class Login {
   }
 
   get userRights() {
-    return this.user.profile.api_rules;
+    return this.user.profile ? this.user.profile.api_rules : [];
   }
 
   constructor() {
@@ -45,6 +51,7 @@ class Login {
       keepUserLoggedIn: observable,
       setKeepUserLoggenIn: action,
       twoFactorCode: observable,
+      userRights: computed,
     });
   }
 

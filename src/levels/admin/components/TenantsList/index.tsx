@@ -45,6 +45,7 @@ const TenantsList: FC = () => {
     isTenantsCreatable,
     isTenantsEditable,
     isTenantsDeletable,
+    isTenantsReadable,
   } = TenantsStore;
 
   const {
@@ -76,7 +77,7 @@ const TenantsList: FC = () => {
                 <FormTableInput {...field} {...props} />
               )}
             />
-          ) : (
+          ) : isTenantsReadable ? (
             <Link
               to={createLink({
                 url: allAvailvableRouting.tenantSubscriptions,
@@ -85,6 +86,8 @@ const TenantsList: FC = () => {
             >
               {row.original.name}
             </Link>
+          ) : (
+            row.original.name
           );
         },
       },
@@ -125,7 +128,7 @@ const TenantsList: FC = () => {
         ),
       },
     ],
-    [t, control, allAvailvableRouting.tenantSubscriptions],
+    [t, control, allAvailvableRouting.tenantSubscriptions, isTenantsReadable],
   );
 
   useEffect(() => {
