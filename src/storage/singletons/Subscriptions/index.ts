@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import { request } from "services/api";
@@ -8,12 +8,13 @@ import {
   SubscriptionsDataType,
   TCreateSubscriptionPayload,
 } from "utils/types/subscriptions";
+import Login from "../Login";
 
 class SubscriptionsStore {
   subscriptions: Array<SubscriptionItemType> = [];
 
   constructor() {
-    makeObservable(this, {
+    makeAutoObservable(this, {
       subscriptions: observable.ref,
     });
   }
@@ -74,6 +75,30 @@ class SubscriptionsStore {
       callback && callback();
     }
   };
+
+  get subscriptionRights() {
+    return Login.userRights.filter((el: any) =>
+      el.name.includes("subscriptions"),
+    );
+  }
+
+  get isSubscriptionsCreatable() {
+    return this.subscriptionRights.find(
+      (el: any) => el.name === "tenants.instance.subscriptions.create",
+    )?.allowed;
+  }
+
+  get isSubscriptionsDeletable() {
+    return this.subscriptionRights.find(
+      (el: any) => el.name === "tenants.instance.subscriptions.instance.delete",
+    )?.allowed;
+  }
+
+  get isSubscriptionsEditable() {
+    return this.subscriptionRights.find(
+      (el: any) => el.name === "tenants.instance.subscriptions.instance.edit",
+    )?.allowed;
+  }
 }
 
 export default new SubscriptionsStore();

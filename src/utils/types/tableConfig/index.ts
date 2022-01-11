@@ -45,6 +45,7 @@ export type TableProps = {
   setDefaultValues?: any;
   handleDeleteItem?: (props: any) => void;
   handleEditItem?: (props: any) => void;
+  isEditable?: boolean;
   isRemovable?: boolean;
 };
 
