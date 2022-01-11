@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import LoginStore from "storage/singletons/Login";
 
 import { Login } from "components/Icons";
+import AccountModal from "./components/AccountModal";
 
 import useStyles from "../styles";
 
@@ -12,6 +13,7 @@ const ProfileButton: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isModalOpen, setModal] = useState(false);
 
   const { user, logout } = LoginStore;
 
@@ -39,11 +41,20 @@ const ProfileButton: React.FC = () => {
           </div>
           <div className={classes.userProfile}>{user.ui_profile}</div>
         </div>
-        <div className={classes.account}>{t("Account settings")}</div>
+        <div
+          className={classes.account}
+          onClick={() => {
+            setModal(true);
+            handleCloseMenu();
+          }}
+        >
+          {t("Account settings")}
+        </div>
         <div className={classes.logOut} onClick={() => logout()}>
           {t("Logout")}
         </div>
       </AppMenu>
+      {isModalOpen && <AccountModal handleCancel={() => setModal(false)} />}
     </>
   );
 };

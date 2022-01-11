@@ -47,7 +47,6 @@ class Login {
     // type RoutingConfigType = {
     //   data: { ui_profile: LoggedInUserType; [key: string]: string };
     // };
-    console.log("payload", payload);
 
     try {
       await request({
@@ -57,7 +56,6 @@ class Login {
         payload,
       });
       this.getUserData();
-      console.log("new user info", this.user);
     } catch {}
   };
 

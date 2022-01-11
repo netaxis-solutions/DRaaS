@@ -36,7 +36,6 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
   });
   //@ts-ignore
   const onSubmit: any = ({ password, confirmPassword, ...values }: any) => {
-    console.log(values, "asdasdasdasd");
     putUserData(values);
     if (password) {
       putUserData({ password });
