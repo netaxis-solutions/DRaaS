@@ -55,7 +55,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
           cancelButton
           submitButtonTitle={t("Add")}
         />
-        <div>Profile: {user.ui_profile}</div>
+        <div className={classes.userProfile}>Profile: {user.ui_profile}</div>
         <Controller
           name="first_name"
           control={control}

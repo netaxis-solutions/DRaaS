@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     flexWrap: "wrap",
     columnGap: 160,
   },
+  userProfile: {
+    marginBottom: 15,
+  },
 }));
 
 export default useStyles;
