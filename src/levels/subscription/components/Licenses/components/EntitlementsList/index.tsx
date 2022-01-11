@@ -93,6 +93,8 @@ const EntitlementList: FC = () => {
           title={t("Entitlements")}
           columns={columns}
           data={entitlements}
+          isEditable
+          isRemovable
           toolbarActions={toolbarActions}
         />
       </form>

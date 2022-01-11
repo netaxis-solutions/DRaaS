@@ -49,7 +49,6 @@ export type TableProps = {
   handleEditItem?: (props: any) => void;
   isEditable?: boolean;
   isRemovable?: boolean;
-  isEditable?: boolean;
 };
 
 export type ToolbarType = {
