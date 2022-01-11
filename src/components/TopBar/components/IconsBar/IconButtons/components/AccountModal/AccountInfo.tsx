@@ -112,6 +112,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
           render={({ field, ...props }) => (
             <FormInput
               label={t("Password")}
+              type={"password"}
               {...field}
               {...props}
               className={classes.inputField}
@@ -124,6 +125,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
           render={({ field, ...props }) => (
             <FormInput
               label={t("Confirm password")}
+              type={"password"}
               {...field}
               {...props}
               className={classes.inputField}
