@@ -2,7 +2,6 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
-<<<<<<< HEAD
 import { request } from "services/api";
 import {
   EntitlementsListType,
@@ -11,9 +10,6 @@ import {
   CreateNewEntitlement,
 } from "utils/types/entitlements";
 import { errorNotification } from "utils/functions/notifications";
-=======
-// import subscription from "levels/subscription";
->>>>>>> request path changed
 
 class SubscriptionEntitlementsStore {
   entitlements: EntitlementsListType[] = [];

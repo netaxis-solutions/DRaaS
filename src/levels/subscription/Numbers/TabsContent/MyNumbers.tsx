@@ -1,9 +1,11 @@
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Plus } from "components/Icons";
+import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import EntitlementsStore from "storage/singletons/Entitlements";
 import RoutingConfig from "storage/singletons/RoutingConfig";
+import MyNumbersTable from "./MyNumbersTable";
 import styles from "./styles";
 
 const MyNumbers = () => {
@@ -18,7 +20,9 @@ const MyNumbers = () => {
   }, []);
 
   return entitlements.length ? (
-    <div>there will be table</div>
+    <div>
+      <MyNumbersTable numbers={entitlements} />
+    </div>
   ) : (
     <>
       <div className={classes.noNumberText}>
@@ -50,7 +54,7 @@ const MyNumbers = () => {
         <div className={classes.card}>
           <div className={classes.cardText}>
             You can add numbers from{" "}
-            <Link to={"reserved"} className={classes.link}>
+            <Link to={"reservedNumbers"} className={classes.link}>
               Reserved numbers
             </Link>{" "}
             tab.
@@ -61,4 +65,4 @@ const MyNumbers = () => {
   );
 };
 
-export default MyNumbers;
+export default observer(MyNumbers);

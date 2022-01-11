@@ -7,6 +7,8 @@ import createLink from "services/createLink";
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
 import { Tab } from "utils/types/tabs";
+import MyNumbers from "./TabsContent/MyNumbers";
+import { observer } from "mobx-react-lite";
 
 const tabs: Tab[] = [
   {
@@ -91,4 +93,4 @@ const SubscriptionNumbersPage = () => {
   );
 };
 
-export default SubscriptionNumbersPage;
+export default observer(SubscriptionNumbersPage);
