@@ -14,19 +14,24 @@ const NumbersList: FC<{ numbers: any[] }> = ({ numbers }) => {
     () => [
       {
         Header: t("country_code"),
-        accessor: "country_code",
+        accessor: "countryCode",
       },
       {
         Header: "number",
-        accessor: "number",
+        accessor: "nsn",
       },
       {
         Header: "number_type",
-        accessor: "number_type",
+        accessor: "numberType",
       },
       {
         Header: "Origin",
-        accessor: "Origin",
+        accessor: "source",
+        Cell: (...value: any) => {
+          console.log(value, "as");
+
+          return value === "number_inventory" ? "native" : "ported";
+        },
       },
       {
         Header: "Status",

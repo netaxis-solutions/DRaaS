@@ -3,25 +3,29 @@ import { Plus } from "components/Icons";
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import EntitlementsStore from "storage/singletons/Entitlements";
+import NumbersStore from "storage/singletons/numbers";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import MyNumbersTable from "./MyNumbersTable";
 import styles from "./styles";
 
 const MyNumbers = () => {
-  const { entitlements, getEntitlementsData } = EntitlementsStore;
+  const { numbers, getNumbersData } = NumbersStore;
   const params: any = useParams();
   console.log(params);
   const { history } = RoutingConfig;
   const classes = styles();
 
   useEffect(() => {
-    getEntitlementsData(params.tenantID);
+    getNumbersData(params.tenantID, params.subscriptionID);
+    // addNumber(params.tenantID, params.subscriptionID);
+    console.log("ent");
+
+    // addEntitlement(params.tenantID, testEnt);
   }, []);
 
-  return entitlements.length ? (
+  return numbers.length ? (
     <div>
-      <MyNumbersTable numbers={entitlements} />
+      <MyNumbersTable numbers={numbers} />
     </div>
   ) : (
     <>
