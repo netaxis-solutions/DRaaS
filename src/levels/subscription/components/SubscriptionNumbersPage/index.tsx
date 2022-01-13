@@ -1,30 +1,31 @@
 import { useEffect } from "react";
 import { useHistory, useParams, Switch, Route } from "react-router-dom";
 
-// import { t } from "services/Translation";
+import { t } from "services/Translation";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import createLink from "services/createLink";
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
+import { Tab } from "utils/types/tabs";
 
-const tabs = [
+const tabs: Tab[] = [
   {
-    name: "My numbers",
+    name: t("My numbers"),
     id: "myNumbers",
     component: () => <div>My numbers</div>,
   },
   {
-    name: "Deleted numbers",
+    name: t("Deleted numbers"),
     id: "deletedNumbers",
     component: () => <div>Deleted numbers</div>,
   },
   {
-    name: "Reserved numbers",
+    name: t("Reserved numbers"),
     id: "reservedNumbers",
     component: () => <div>Reserved numbers</div>,
   },
   {
-    name: "Porting",
+    name: t("Porting"),
     id: "porting",
     component: () => <div>Porting</div>,
   },
