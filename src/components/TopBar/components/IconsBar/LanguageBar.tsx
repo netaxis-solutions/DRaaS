@@ -31,6 +31,7 @@ const LanguageBar: FC = () => {
 
   useEffect(() => {
     changeLanguage(lang);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang]);
 
   const handleMenu = (event: any) => {
