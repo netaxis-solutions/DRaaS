@@ -113,7 +113,7 @@ const ResellersList: FC = () => {
     if (isResellersDeletable) {
       actions.push({
         id: "delete",
-        title: "Delete",
+        title: t("Delete"),
         icon: Trash,
         onClick: () => {
           setModalToOpen("delete");
@@ -123,7 +123,7 @@ const ResellersList: FC = () => {
     if (isResellersCreatable) {
       actions.push({
         id: "add",
-        title: "Add",
+        title: t("Add"),
         icon: Plus,
         onClick: () => {
           setModalToOpen("add");

@@ -1,5 +1,5 @@
 export interface Tab {
-  name: string;
+  name: string | {};
   id: string;
   component: () => JSX.Element;
 }
