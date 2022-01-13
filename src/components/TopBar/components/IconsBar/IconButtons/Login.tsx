@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import AppMenu from "@material-ui/core/Menu";
 
 import LoginStore from "storage/singletons/Login";
@@ -9,16 +10,21 @@ import AccountModal from "./components/AccountModal";
 import useStyles from "../styles";
 
 const LoginButton: React.FC = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [isModalOpened, setModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
   const { user, logout } = LoginStore;
+
   const handleMenu = (e: any) => {
     setAnchorEl(e.currentTarget);
   };
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <Login onClick={handleMenu} />
@@ -34,10 +40,10 @@ const LoginButton: React.FC = () => {
           <div className={classes.userProfile}>{user.ui_profile}</div>
         </div>
         <div className={classes.account} onClick={() => setModal(true)}>
-          Account settings
+          {t("Account settings")}
         </div>
         <div className={classes.logOut} onClick={() => logout()}>
-          Logout
+          {t("Logout")}
         </div>
       </AppMenu>
       {isModalOpened && (

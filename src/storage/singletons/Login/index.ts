@@ -44,10 +44,6 @@ class Login {
   }
 
   putUserData: (payload?: any) => Promise<void> = async (payload: any) => {
-    // type RoutingConfigType = {
-    //   data: { ui_profile: LoggedInUserType; [key: string]: string };
-    // };
-
     try {
       await request({
         loaderName: "@getUserDataLoader",
@@ -56,7 +52,7 @@ class Login {
         payload,
       });
       this.getUserData();
-    } catch {}
+    } catch (e) {}
   };
 
   setKeepUserLoggenIn = (keepUserLoggedIn: boolean) => {

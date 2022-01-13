@@ -1,26 +1,26 @@
-// import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
-// import clsx from "clsx";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import LoginStore from "storage/singletons/Login";
 
-// import { addDistributorSchema } from "utils/schemas/distributors";
 import { AddDistributorFormPropsType } from "utils/types/distributor";
+import { profileEditSchema } from "utils/schemas/profileSchema";
+
 import FormInput from "components/common/Form/FormInput";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { profileEditSchema } from "utils/schemas/profileSchema";
-// import { Percent } from "components/Icons";
 
 import styles from "./styles";
+import { Save } from "components/Icons";
 
 const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
   const classes = styles();
-  //@ts-ignore
+
   const { user, putUserData } = LoginStore;
+
   const defaultValues = {
     first_name: user.first_name,
     last_name: user.last_name,
@@ -34,7 +34,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
     resolver: yupResolver(profileEditSchema(t)),
     defaultValues,
   });
-  //@ts-ignore
+
   const onSubmit: any = ({ password, confirmPassword, ...values }: any) => {
     putUserData(values);
     if (password) {
@@ -45,16 +45,20 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
   const onCancel = () => {
     handleCancel();
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <div className={classes.profileBox}>
-        <div className={classes.boxHeader}>Account information</div>
+        <div className={classes.boxHeader}>{t("Account information")}</div>
         <ModalButtonsWrapper
           handleCancel={onCancel}
           cancelButton
-          submitButtonTitle={t("Add")}
+          submitButtonTitle={t("Save")}
+          submitIcon={Save}
         />
-        <div className={classes.userProfile}>Profile: {user.ui_profile}</div>
+        <div className={classes.userProfile}>
+          {t("Profile")}: {user.ui_profile}
+        </div>
         <Controller
           name="first_name"
           control={control}
@@ -105,7 +109,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
         />
       </div>
       <div className={classes.profileBox}>
-        <div className={classes.boxHeader}>Password</div>
+        <div className={classes.boxHeader}>{t("Password")}</div>
         <Controller
           name="password"
           control={control}

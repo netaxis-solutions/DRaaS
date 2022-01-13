@@ -10,6 +10,7 @@ export { default as Login } from "./Login";
 export { default as Next } from "./Next";
 export { default as Percent } from "./Percent";
 export { default as Plus } from "./Plus";
+export { default as Save } from "./Save";
 export { default as Search } from "./Search";
 export { default as Sort } from "./Sort";
 export { default as Trash } from "./Trash";

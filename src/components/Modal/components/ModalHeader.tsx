@@ -9,17 +9,21 @@ const ModalHeader: React.FC<TModalHeaderProps> = ({
   handleCancel,
   steps,
   activeStep,
+  isBackIconHidden = false,
 }) => {
   const classes = modalHeaderUseStyles();
 
   return (
     <div className={classes.modalHeaderWrapper}>
       <div className={classes.modalHeaderTitleWrapper}>
-        <IconButton
-          disableRipple
-          onClick={handleCancel}
-          icon={ArrowLeft}
-        ></IconButton>
+        {!isBackIconHidden && (
+          <IconButton
+            disableRipple
+            onClick={handleCancel}
+            icon={ArrowLeft}
+            
+          ></IconButton>
+        )}
         <span className={classes.modalHeaderTitle}>{title}</span>
       </div>
       {steps && typeof activeStep === "number" && (
