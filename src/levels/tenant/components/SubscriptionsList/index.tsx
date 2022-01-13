@@ -79,7 +79,7 @@ const SubscriptionsList: FC = () => {
     if (isSubscriptionsDeletable) {
       actions.push({
         id: "delete",
-        title: "Delete",
+        title: t("Delete"),
         icon: Trash,
         onClick: () => {
           setModalToOpen("delete");
@@ -89,7 +89,7 @@ const SubscriptionsList: FC = () => {
     if (isSubscriptionsCreatable) {
       actions.push({
         id: "add",
-        title: "Add",
+        title: t("Add"),
         icon: Plus,
         onClick: () => {
           setModalToOpen("add");
