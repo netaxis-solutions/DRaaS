@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import Backend from "i18next-http-backend";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 import { GetSpecificLanguageTranslationType } from "utils/types/translation";
 
@@ -38,10 +39,22 @@ export const getSpecificLanguageTranslation: GetSpecificLanguageTranslationType 
   i18n.addResourceBundle(lng, "translation", resources, true, true);
 };
 
-i18n.use(Backend).use(initReactI18next).init({
-  resources: {},
-  fallbackLng: "en",
-});
+i18n
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {},
+    fallbackLng: localStorage.getItem("i18nextLng") || "en",
+    supportedLngs: ["en", "de"],
+    detection: {
+      caches: ["localStorage"],
+    },
+    react: { useSuspense: false },
+    backend: {
+      loadPath: "/locales/{{lng}}/translation.json",
+    },
+  });
 
 i18n.on("languageChanged", function (lng) {
   const direction = i18n.dir(lng);
