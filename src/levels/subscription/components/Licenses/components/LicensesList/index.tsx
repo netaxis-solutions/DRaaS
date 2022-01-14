@@ -84,7 +84,7 @@ const LicensesList: FC = () => {
         title={t("Licenses")}
         columns={columns}
         data={licenses}
-        isRemovable={false}
+        isEditable
         setDefaultValues={setDefaultValues}
         handleEditItem={handleEditItem}
       />

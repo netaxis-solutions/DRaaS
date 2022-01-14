@@ -134,45 +134,50 @@ const Table: FC<TableProps> = ({
               },
             },
           ])
-        : hooks.visibleColumns.push(columns => [
-            ...columns,
-            {
-              Header: () => t("Actions"),
-              accessor: "actions",
-              disableSortBy: true,
-              Cell: (props: any) => {
-                if (props.state.rowState[props.row.index]?.isEditing) {
-                  return (
-                    <TableActions
-                      save
-                      cancel
-                      onCancel={() => {
-                        setRowState([props.row.index], {
-                          isEditing: false,
-                        });
-                      }}
-                    />
-                  );
-                }
-                return (
-                  <TableActions
-                    edit={isEditable}
-                    del={isRemovable}
-                    onDelete={() => {
-                      setModalToOpen && setModalToOpen("delete");
-                      setSelectedRows({ [props.row.index]: true });
-                    }}
-                    onEdit={() => {
-                      setDefaultValues && setDefaultValues(props.row.original);
-                      setRowState([props.row.index], {
-                        isEditing: true,
-                      });
-                    }}
-                  />
-                );
-              },
-            },
-          ]),
+        : hooks.visibleColumns.push(columns =>
+            !isEditable && !isRemovable
+              ? [...columns]
+              : [
+                  ...columns,
+                  {
+                    Header: () => t("Actions"),
+                    accessor: "actions",
+                    disableSortBy: true,
+                    Cell: (props: any) => {
+                      if (props.state.rowState[props.row.index]?.isEditing) {
+                        return (
+                          <TableActions
+                            save
+                            cancel
+                            onCancel={() => {
+                              setRowState([props.row.index], {
+                                isEditing: false,
+                              });
+                            }}
+                          />
+                        );
+                      }
+                      return !isEditable && !isRemovable ? null : (
+                        <TableActions
+                          edit={isEditable}
+                          del={isRemovable}
+                          onDelete={() => {
+                            setModalToOpen && setModalToOpen("delete");
+                            setSelectedRows({ [props.row.index]: true });
+                          }}
+                          onEdit={() => {
+                            setDefaultValues &&
+                              setDefaultValues(props.row.original);
+                            setRowState([props.row.index], {
+                              isEditing: true,
+                            });
+                          }}
+                        />
+                      );
+                    },
+                  },
+                ],
+          ),
   );
 
   useEffect(() => {

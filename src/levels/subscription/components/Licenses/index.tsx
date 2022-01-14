@@ -9,6 +9,7 @@ import { Tab } from "utils/types/tabs";
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
 import LicensesList from "./components/LicensesList";
+import EntitlementList from "./components/EntitlementsList";
 
 const tabs = [
   {
@@ -19,7 +20,7 @@ const tabs = [
   {
     name: "Entitlements List",
     id: "entitlementsList",
-    component: () => <div>Entitlements List</div>,
+    component: () => <EntitlementList />,
   },
 ];
 
