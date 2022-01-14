@@ -11,16 +11,16 @@ import Table from "components/Table";
 import { EntitlementsStyle } from "./styles";
 
 const EntitlementList: FC = () => {
-  const { getEntitlements, entitlements } = EntitlementsStore;
+  // wait implement modal for create entitlements
+  // @ts-ignore
+  const [modalToOpen, setModalToOpen] = useState("");
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
   }>();
   const { t } = useTranslation();
 
-  // wait implement modal for create entitlements
-  // @ts-ignore
-  const [modalToOpen, setModalToOpen] = useState("");
+  const { getEntitlements, entitlements } = EntitlementsStore;
   const classes = EntitlementsStyle();
 
   const columns = useMemo(
