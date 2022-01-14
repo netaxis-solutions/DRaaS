@@ -11,6 +11,7 @@ export type TModalHeaderProps = {
   handleCancel: () => void;
   steps?: TSteps;
   activeStep?: number;
+  isBackIconHidden?: boolean;
 };
 
 export type TModalProps = TModalHeaderProps & {
