@@ -1,6 +1,6 @@
 import { useState } from "react";
-import AppMenu from "@material-ui/core/Menu";
 import { useTranslation } from "react-i18next";
+import AppMenu from "@material-ui/core/Menu";
 
 import LoginStore from "storage/singletons/Login";
 
@@ -9,11 +9,11 @@ import AccountModal from "./components/AccountModal";
 
 import useStyles from "../styles";
 
-const ProfileButton: React.FC = () => {
+const LoginButton: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+  const [isModalOpened, setModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [isModalOpen, setModal] = useState(false);
 
   const { user, logout } = LoginStore;
 
@@ -36,27 +36,25 @@ const ProfileButton: React.FC = () => {
       >
         <div>
           <div className={classes.userName}>{user.first_name}</div>
-          <div className={classes.userEntity}>
-            {user.entity || t("No entity")}
-          </div>
+          <div className={classes.userEntity}>{user.entity || "No entity"}</div>
           <div className={classes.userProfile}>{user.ui_profile}</div>
         </div>
-        <div
-          className={classes.account}
-          onClick={() => {
-            setModal(true);
-            handleCloseMenu();
-          }}
-        >
+        <div className={classes.account} onClick={() => setModal(true)}>
           {t("Account settings")}
         </div>
         <div className={classes.logOut} onClick={() => logout()}>
           {t("Logout")}
         </div>
       </AppMenu>
-      {isModalOpen && <AccountModal handleCancel={() => setModal(false)} />}
+      {isModalOpened && (
+        <AccountModal
+          handleCancel={() => {
+            setModal(false);
+          }}
+        />
+      )}
     </>
   );
 };
 
-export default ProfileButton;
+export default LoginButton;

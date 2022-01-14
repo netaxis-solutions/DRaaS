@@ -13,6 +13,7 @@ const Modal: React.FC<TModalProps> = ({
   children,
   activeStep,
   steps,
+  isBackIconHidden,
 }) => {
   const [container] = useState(document.createElement("div"));
   const classes = useStyles();
@@ -35,6 +36,7 @@ const Modal: React.FC<TModalProps> = ({
         activeStep={activeStep}
         steps={steps}
         handleCancel={handleCancel}
+        isBackIconHidden={isBackIconHidden}
       />
       <Loader>
         <ModalContent>{children}</ModalContent>
