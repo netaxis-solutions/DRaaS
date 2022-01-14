@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   boldText: {
     fontWeight: 400,
+    overflowWrap: "anywhere",
   },
   textWithInput: {
     marginBottom: theme.spacing(1.875),

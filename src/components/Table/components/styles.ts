@@ -96,6 +96,11 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     backgroundColor: theme.palette.primary.background,
     pointerEvents: "none",
   },
+  tableCellOverflow: {
+    maxWidth: 210,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
 }));
 
 export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
