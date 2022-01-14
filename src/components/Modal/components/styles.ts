@@ -12,6 +12,7 @@ export const modalHeaderUseStyles = makeStyles(
       },
       position: "sticky",
       top: 0,
+      minHeight: 88,
       backgroundColor: theme.palette.primary.white,
       boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.1)",
       zIndex: 1000,

@@ -55,6 +55,18 @@ class Login {
     });
   }
 
+  putUserData: (payload?: any) => Promise<void> = async (payload: any) => {
+    try {
+      await request({
+        loaderName: "@getUserDataLoader",
+        method: "put",
+        route: "/system/users/" + this.user.id,
+        payload,
+      });
+      this.getUserData();
+    } catch (e) {}
+  };
+
   setKeepUserLoggenIn = (keepUserLoggedIn: boolean) => {
     this.keepUserLoggedIn = keepUserLoggedIn;
   };
@@ -126,7 +138,6 @@ class Login {
     localStorage.removeItem(`${configStore.config.name}_refreshToken`);
     sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
     sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
-
     try {
       await publicLoginRequest({
         loaderName: "@logoutLoader",
@@ -136,7 +147,6 @@ class Login {
     } catch (error) {
       console.log(error);
     }
-
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };
 
