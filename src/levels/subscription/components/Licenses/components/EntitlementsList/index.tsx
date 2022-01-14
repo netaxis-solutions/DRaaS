@@ -27,7 +27,7 @@ const EntitlementList: FC = () => {
     () => [
       {
         Header: t("Country code"),
-        accessor: "country_code",
+        accessor: "countryCode",
         Cell: ({ cell }: any) => {
           return (
             <div className={classes.root}>
@@ -39,11 +39,28 @@ const EntitlementList: FC = () => {
       },
       {
         Header: t("Type"),
-        accessor: "number_type",
+        accessor: "numberType",
       },
       {
         Header: t("Regions"),
         accessor: "regions",
+        Cell: ({ cell }: any) => {
+          return (
+            <>
+              {cell.row.values?.regions.length > 0 ? (
+                cell.row.values.regions.map((el: any, i: any) => {
+                  return i === cell.row.values.regions.length - 1 ? (
+                    <span key={el}>{el}</span>
+                  ) : (
+                    <span key={el}>{el}, </span>
+                  );
+                })
+              ) : (
+                <></>
+              )}
+            </>
+          );
+        },
       },
       {
         Header: t("Assigned"),
