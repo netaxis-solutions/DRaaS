@@ -50,15 +50,21 @@ const LicensesList: FC = () => {
       {
         Header: t("Assigned"),
         accessor: "assigned",
-        EditComponent: () => (
-          <Controller
-            name="assigned"
-            control={control}
-            render={({ field, ...props }) => (
-              <FormTableInput {...field} {...props} />
-            )}
-          />
-        ),
+        EditComponent: ({ cell }: any) => {
+          return (
+            <Controller
+              name="assigned"
+              control={control}
+              render={({ field, ...props }) => (
+                <FormTableInput
+                  error={cell.row.values.inUse >= cell.row.values.assigned}
+                  {...field}
+                  {...props}
+                />
+              )}
+            />
+          );
+        },
       },
     ],
     [t, control],
