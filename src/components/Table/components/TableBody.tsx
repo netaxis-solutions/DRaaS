@@ -35,6 +35,7 @@ const TableBody: React.FC<TableBodyType> = ({
                     [classes.tableCellWithSelection]:
                       cell.column.id === "selection",
                     [classes.tableCellWithAction]: cell.column.id === "actions",
+                    [classes.tableCellOverflow]: true,
                   })}
                 >
                   {cell.render(
