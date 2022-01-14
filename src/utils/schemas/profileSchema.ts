@@ -13,4 +13,15 @@ export const profileEditSchema = (t: TFunction) =>
     confirmPassword: string()
       .label(t("Confirm password"))
       .oneOf([ref("password"), null], "Passwords must match"),
+    email: string().matches(
+      /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
+      {
+        message: "Incorrect email address",
+        excludeEmptyString: true,
+      },
+    ),
+    mobile_number: string().matches(/^(\+\d{1,3}[- ]?)?\d{10}$/, {
+      message: "Incorrect number",
+      excludeEmptyString: true,
+    }),
   });
