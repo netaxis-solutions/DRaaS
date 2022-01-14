@@ -24,8 +24,8 @@ export type SipTrunkChannels = {
 };
 
 export type SubscriptionLicenseType = {
-  msteams_users: MsTeamsUsersType;
-  siptrunk_channels: SipTrunkChannels;
+  msTeamsUsers: MsTeamsUsersType;
+  sipTrunkChannels: SipTrunkChannels;
 };
 
 export type EditLicensesPayload = {
