@@ -59,23 +59,20 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
         <Controller
           name="old_password"
           control={control}
-          render={({ field, ...props }) => {
-            console.log(props);
-            return (
-              <FormInput
-                label={t("Old password")}
-                type={"password"}
-                error={isErrorOccured || props.fieldState.error}
-                helperText={
-                  (isErrorOccured && t("Wrong old password")) ||
-                  props.fieldState.error?.message
-                }
-                {...field}
-                {...props}
-                className={classes.inputField}
-              />
-            );
-          }}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Old password")}
+              type={"password"}
+              error={isErrorOccured || props.fieldState.error}
+              helperText={
+                (isErrorOccured && t("Wrong old password")) ||
+                props.fieldState.error?.message
+              }
+              {...field}
+              {...props}
+              className={classes.inputField}
+            />
+          )}
         />
         {isErrorOccured && "Wrong old password"}
         <Controller
