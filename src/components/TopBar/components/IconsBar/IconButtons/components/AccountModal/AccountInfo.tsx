@@ -26,8 +26,6 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
     last_name: user.last_name,
     email: user.email,
     mobile_number: user.mobile_number,
-    password: "",
-    confirmPassword: "",
   };
 
   const { control, handleSubmit } = useForm<any>({
@@ -37,9 +35,6 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
 
   const onSubmit: any = ({ password, confirmPassword, ...values }: any) => {
     putUserData(values);
-    if (password) {
-      putUserData({ password });
-    }
   };
 
   const onCancel = () => {
@@ -101,35 +96,6 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
           render={({ field, ...props }) => (
             <FormInput
               label={t("Mobile number")}
-              {...field}
-              {...props}
-              className={classes.inputField}
-            />
-          )}
-        />
-      </div>
-      <div className={classes.profileBox}>
-        <div className={classes.boxHeader}>{t("Password")}</div>
-        <Controller
-          name="password"
-          control={control}
-          render={({ field, ...props }) => (
-            <FormInput
-              label={t("Password")}
-              type={"password"}
-              {...field}
-              {...props}
-              className={classes.inputField}
-            />
-          )}
-        />
-        <Controller
-          name="confirmPassword"
-          control={control}
-          render={({ field, ...props }) => (
-            <FormInput
-              label={t("Confirm password")}
-              type={"password"}
               {...field}
               {...props}
               className={classes.inputField}
