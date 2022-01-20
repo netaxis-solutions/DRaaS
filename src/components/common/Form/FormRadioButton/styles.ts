@@ -14,9 +14,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   iconChecked: {
     borderRadius: "50%",
-    border: `1px solid ${theme.palette.icon.active}`,
     fill: `${theme.palette.icon.active}`,
-    padding: "1.3px",
   },
 }));
 

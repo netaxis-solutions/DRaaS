@@ -16,7 +16,7 @@ class TableSelectedRows {
     this.selectedRows = selectedRows;
   };
 
-  getRadioButtonValueInRows = (payload: RadioSelectRowType) => {
+  setRadioButtonValueInRows = (payload: RadioSelectRowType) => {
     this.radioButtonValueInRow = payload;
   };
 

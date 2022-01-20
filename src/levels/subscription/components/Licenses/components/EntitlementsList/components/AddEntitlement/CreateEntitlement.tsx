@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router";
 
+import EntitlementStorage from "storage/singletons/Entitlements";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import {
   TAddEntitlementFormProps,
   CreateNewEntitlement,
 } from "utils/types/entitlements";
-import EntitlementStorage from "storage/singletons/Entitlements";
-import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 
 import Table from "components/Table";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
@@ -93,7 +93,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <ModalButtonsWrapper
-          handleCancel={onCancel}
+          handleCancel={handleCancel}
           cancelButton
           submitButtonTitle={t("Add")}
         />

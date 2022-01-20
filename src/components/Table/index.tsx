@@ -45,7 +45,7 @@ const Table: FC<TableProps> = ({
     selectedRows,
     setSelectedRows,
     clearSelectedRows,
-    getRadioButtonValueInRows,
+    setRadioButtonValueInRows,
   } = TableSelectedRowsStore;
 
   const {
@@ -117,7 +117,7 @@ const Table: FC<TableProps> = ({
                         _: boolean,
                       ) => {
                         setSelectedRows({ [row.index]: true });
-                        getRadioButtonValueInRows(row.original);
+                        setRadioButtonValueInRows(row.original);
                         onChange && onChange(e);
                       };
 

@@ -3,8 +3,9 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { Country } from "utils/functions/countryConfig";
 import EntitlementsStore from "storage/singletons/Entitlements";
+
+import { Country } from "utils/functions/countryConfig";
 
 import { Plus } from "components/Icons";
 import Table from "components/Table";

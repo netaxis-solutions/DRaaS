@@ -61,7 +61,7 @@ class SubscriptionEntitlementsStore {
   getEntitlementTypes = async () => {
     try {
       /*  Note
-       *  Can't add type because have additional nesting "data"
+       *  Type any was used for improve the flexibility of using this feature
        */
       const { data }: AxiosResponse<any> = await request({
         route: `${configStore.config.draasInstance}/ref_data/entitlement_types`,
