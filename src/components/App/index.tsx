@@ -3,6 +3,10 @@ import { observer } from "mobx-react-lite";
 import { BrowserRouter as Router } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "css/toastify_overrides.css";
+
 import ThemeStore from "storage/singletons/ThemeConfig";
 import RoutingStore from "storage/singletons/RoutingConfig";
 import ConfigStore from "storage/singletons/Config";
@@ -43,6 +47,7 @@ const App: React.FC = () => {
   return formattedConfig["name" as keyof object] ? (
     <MuiThemeProvider theme={formattedTheme}>
       <CssBaseline />
+      <ToastContainer />
       <Router>
         <Routes />
       </Router>

@@ -1,10 +1,12 @@
 import { makeObservable } from "mobx";
 
+import { t } from "services/Translation";
 import { request } from "services/api";
 import {
-  TCreateDistributor,
-  TDeleteDistributor,
-} from "utils/types/distributor";
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
+import { TCreateDistributor } from "utils/types/distributor";
 import { TEditDistributorPayload } from "utils/types/distributors";
 import configStore from "../Config";
 import DistributorsStore from "../Distributors";
@@ -14,57 +16,48 @@ class DistributorStore {
     makeObservable(this, {});
   }
 
-  createDistributor = async ({ payload, callback }: TCreateDistributor) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/distributors`,
-        loaderName: "@createDistributor",
-        method: "post",
-        payload,
+  createDistributor = ({ payload, callback }: TCreateDistributor) => {
+    request({
+      route: `${configStore.config.draasInstance}/distributors`,
+      loaderName: "@createDistributor",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Distributor was successfully created!"));
+        DistributorsStore.getDistributorsData();
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      DistributorsStore.getDistributorsData();
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 
-  deleteDistributor = async ({ uuid, callback }: TDeleteDistributor) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/distributors/${uuid}`,
-        loaderName: "@deleteDistributor",
-        method: "delete",
-      });
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
-  };
-
-  editDistributor = async ({
+  editDistributor = ({
     payload: { uuid, markup, ...payload },
     callback,
   }: {
     payload: TEditDistributorPayload;
     callback?: () => void;
   }) => {
-    try {
-      const payloadWidthMarkup = markup
-        ? { ...payload, markup: Number(markup) }
-        : { ...payload, markup: 0 };
+    const payloadWidthMarkup = markup
+      ? { ...payload, markup: Number(markup) }
+      : { ...payload, markup: 0 };
 
-      await request({
-        route: `${configStore.config.draasInstance}/distributors/${uuid}`,
-        loaderName: "@editDistributor",
-        method: "put",
-        payload: payloadWidthMarkup,
+    request({
+      route: `${configStore.config.draasInstance}/distributors/${uuid}`,
+      loaderName: "@editDistributor",
+      method: "put",
+      payload: payloadWidthMarkup,
+    })
+      .then(() => {
+        successNotification(t("Distributor was successfully edited!"));
+        DistributorsStore.getDistributorsData();
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      DistributorsStore.getDistributorsData();
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 }
 

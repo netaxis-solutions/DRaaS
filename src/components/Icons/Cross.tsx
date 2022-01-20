@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function SvgCross(
+export function SvgCross(
   props: React.SVGProps<SVGSVGElement>,
   svgRef?: React.Ref<SVGSVGElement>,
 ) {

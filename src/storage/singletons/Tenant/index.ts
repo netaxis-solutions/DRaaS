@@ -8,9 +8,12 @@ import DistributorsStore from "../Distributors";
 import {
   TAddTenantValues,
   TCreateTenant,
-  TDeleteTenant,
   TEditTenantPayload,
 } from "utils/types/tenant";
+import {
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
 import { request } from "services/api";
 import { t } from "services/Translation/index";
 
@@ -42,32 +45,21 @@ class TenantStore {
     ];
   }
 
-  createTenant = async ({ payload, callback }: TCreateTenant) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/tenants`,
-        loaderName: "@createTenant",
-        method: "post",
-        payload,
+  createTenant = ({ payload, callback }: TCreateTenant) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants`,
+      loaderName: "@createTenant",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Tenant was successfully created!"));
+        TenantsStore.getTenantsData();
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      TenantsStore.getTenantsData();
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
-  };
-
-  deleteTenant = async ({ uuid, callback }: TDeleteTenant) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/tenants/${uuid}`,
-        loaderName: "@deleteDistributor",
-        method: "delete",
-      });
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 
   getTenantSubscriptions = async ({
@@ -81,7 +73,7 @@ class TenantStore {
       });
       return await result.data.subscriptions;
     } catch (e) {
-      console.log(e);
+      errorNotification(e);
     }
   };
 
@@ -90,40 +82,40 @@ class TenantStore {
   }: {
     tenantID: string;
   }): Promise<TAddTenantValues | undefined> => {
-    try {
-      const result = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}`,
-        loaderName: "@getSpecificTenant",
-      });
-      return result.data;
-    } catch (e) {
-      console.log(e);
-    }
+    const result = await request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}`,
+      loaderName: "@getSpecificTenant",
+    }).catch(e => {
+      errorNotification(e);
+    });
+    return result!.data;
   };
 
-  editTenant = async ({
+  editTenant = ({
     payload: { uuid, markup, ...payload },
     callback,
   }: {
     payload: TEditTenantPayload;
     callback?: () => void;
   }) => {
-    try {
-      const formattedPayload = {
-        ...payload,
-        markup: markup ? Number(markup) : 0,
-      };
-      await request({
-        route: `${configStore.config.draasInstance}/tenants/${uuid}`,
-        loaderName: "@editTenant",
-        method: "put",
-        payload: formattedPayload,
+    const formattedPayload = {
+      ...payload,
+      markup: markup ? Number(markup) : 0,
+    };
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${uuid}`,
+      loaderName: "@editTenant",
+      method: "put",
+      payload: formattedPayload,
+    })
+      .then(() => {
+        successNotification(t("Tenant was successfully edited!"));
+        TenantsStore.getTenantsData();
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      TenantsStore.getTenantsData();
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 }
 

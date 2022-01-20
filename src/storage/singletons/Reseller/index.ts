@@ -1,6 +1,11 @@
 import { makeObservable } from "mobx";
 
+import { t } from "services/Translation";
 import { request } from "services/api";
+import {
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
 import {
   TCreateResellerPayload,
   TEditResellerPayload,
@@ -13,50 +18,54 @@ class ResellerStore {
     makeObservable(this, {});
   }
 
-  createReseller = async ({
+  createReseller = ({
     payload,
     callback,
   }: {
     payload: TCreateResellerPayload;
     callback?: () => void;
   }) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/resellers`,
-        loaderName: "@createReseller",
-        method: "post",
-        payload,
+    request({
+      route: `${configStore.config.draasInstance}/resellers`,
+      loaderName: "@createReseller",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Reseller was successfully created!"));
+        ResellersStore.getResellersData({});
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      ResellersStore.getResellersData({});
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 
-  editReseller = async ({
+  editReseller = ({
     payload: { uuid, markup, ...payload },
     callback,
   }: {
     payload: TEditResellerPayload;
     callback?: () => void;
   }) => {
-    try {
-      const formattedPayload = {
-        ...payload,
-        markup: markup ? Number(markup) : 0,
-      };
-      await request({
-        route: `${configStore.config.draasInstance}/resellers/${uuid}`,
-        loaderName: "@editReseller",
-        method: "put",
-        payload: formattedPayload,
+    const formattedPayload = {
+      ...payload,
+      markup: markup ? Number(markup) : 0,
+    };
+    request({
+      route: `${configStore.config.draasInstance}/resellers/${uuid}`,
+      loaderName: "@editReseller",
+      method: "put",
+      payload: formattedPayload,
+    })
+      .then(() => {
+        successNotification(t("Reseller was successfully edited!"));
+        ResellersStore.getResellersData({});
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      ResellersStore.getResellersData({});
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 }
 
