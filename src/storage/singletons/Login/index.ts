@@ -7,6 +7,7 @@ import {
 } from "mobx";
 import get from "lodash/get";
 
+import { t } from "services/Translation";
 import { publicLoginRequest, request } from "services/api";
 import { homeUrl } from "utils/constants/routes";
 import {
@@ -16,10 +17,14 @@ import {
   TTwoFactorAuthentication,
 } from "utils/types/authentication";
 import { LoggedInUserType } from "utils/types/routingConfig";
+import { encrypt, storageToManipulate } from "utils/functions/storage";
+import {
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
 import { ResponseData } from "utils/types/login";
 import RoutingConfig from "../RoutingConfig";
 import configStore from "../Config";
-import { encrypt, storageToManipulate } from "utils/functions/storage";
 
 class Login {
   user = {} as {
@@ -56,15 +61,19 @@ class Login {
   }
 
   putUserData: (payload?: any) => Promise<void> = async (payload: any) => {
-    try {
-      await request({
-        loaderName: "@getUserDataLoader",
-        method: "put",
-        route: "/system/users/" + this.user.id,
-        payload,
+    request({
+      loaderName: "@putUserDataLoader",
+      method: "put",
+      route: "/system/users/" + this.user.id,
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Account information was successfully updated!"));
+        this.getUserData();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      this.getUserData();
-    } catch (e) {}
   };
 
   setKeepUserLoggenIn = (keepUserLoggedIn: boolean) => {
@@ -130,7 +139,9 @@ class Login {
       } else {
         this.successLoggedIn({ data, keepMeLoggedIn });
       }
-    } catch (e) {}
+    } catch (e) {
+      errorNotification(t("Invalid credentials"));
+    }
   };
 
   logout = async () => {
@@ -138,15 +149,13 @@ class Login {
     localStorage.removeItem(`${configStore.config.name}_refreshToken`);
     sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
     sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
-    try {
-      await publicLoginRequest({
-        loaderName: "@logoutLoader",
-        method: "get",
-        route: "auth/logout",
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await publicLoginRequest({
+      loaderName: "@logoutLoader",
+      method: "get",
+      route: "auth/logout",
+    }).catch(e => {
+      errorNotification(e);
+    });
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };
 
@@ -155,40 +164,44 @@ class Login {
       data: { ui_profile: LoggedInUserType; [key: string]: string };
     };
 
-    try {
-      const data: RoutingConfigType = await request({
-        loaderName: "@getUserDataLoader",
-        route: "/system/users/local",
-      });
-      const level = data.data.ui_profile;
-      RoutingConfig.setLoggedUser(level, level);
+    request({
+      loaderName: "@getUserDataLoader",
+      route: "/system/users/local",
+    })
+      .then((data: RoutingConfigType) => {
+        const level = data.data.ui_profile;
+        RoutingConfig.setLoggedUser(level, level);
 
-      runInAction(() => {
-        this.user = data.data;
-        this.level = level;
+        runInAction(() => {
+          this.user = data.data;
+          this.level = level;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-    } catch {}
   };
 
   forgotPassword = async (payload: ForgotPasswordTypes): Promise<void> => {
     runInAction(() => {
       this.isForgotPasswordNotificationShown = "";
     });
-    try {
-      await publicLoginRequest({
-        loaderName: "@forgotPasswordLoader",
-        payload,
-        method: "post",
-        route: "auth/reset-password",
+    publicLoginRequest({
+      loaderName: "@forgotPasswordLoader",
+      payload,
+      method: "post",
+      route: "auth/reset-password",
+    })
+      .then(() => {
+        runInAction(() => {
+          this.isForgotPasswordNotificationShown = "success";
+        });
+      })
+      .catch(() => {
+        runInAction(() => {
+          this.isForgotPasswordNotificationShown = "fail";
+        });
       });
-      runInAction(() => {
-        this.isForgotPasswordNotificationShown = "success";
-      });
-    } catch (e) {
-      runInAction(() => {
-        this.isForgotPasswordNotificationShown = "fail";
-      });
-    }
   };
 
   resetPassword = async (
@@ -197,20 +210,23 @@ class Login {
     callback?: () => void,
     successCallback?: () => void,
   ): Promise<void> => {
-    try {
-      await publicLoginRequest({
-        loaderName: "@resetPasswordLoader",
-        payload: {
-          password: payload.password,
-        },
-        method: "put",
-        route: `auth/reset-password/${oneTimeToken}`,
+    publicLoginRequest({
+      loaderName: "@resetPasswordLoader",
+      payload: {
+        password: payload.password,
+      },
+      method: "put",
+      route: `auth/reset-password/${oneTimeToken}`,
+    })
+      .then(() => {
+        successCallback && successCallback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      })
+      .finally(() => {
+        callback && callback();
       });
-      successCallback && successCallback();
-    } catch (e) {
-    } finally {
-      callback && callback();
-    }
   };
 
   sendTwoFactorCode = async (
@@ -219,17 +235,18 @@ class Login {
     const newPayload = { ...payload, "2fa_payload": this.twoFactorCode };
     console.log(newPayload);
 
-    try {
-      const data = await publicLoginRequest({
-        loaderName: "@forgotPasswordLoader",
-        payload: newPayload,
-        method: "post",
-        route: "auth/2fa",
+    publicLoginRequest({
+      loaderName: "@forgotPasswordLoader",
+      payload: newPayload,
+      method: "post",
+      route: "auth/2fa",
+    })
+      .then(data => {
+        this.successLoggedIn({ data, keepMeLoggedIn: this.keepUserLoggedIn });
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      this.successLoggedIn({ data, keepMeLoggedIn: this.keepUserLoggedIn });
-    } catch (e) {
-      console.log(e);
-    }
   };
 }
 

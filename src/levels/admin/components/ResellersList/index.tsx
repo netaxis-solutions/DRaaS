@@ -131,7 +131,7 @@ const ResellersList: FC = () => {
       });
     }
     return actions;
-  }, [isResellersCreatable, isResellersDeletable]);
+  }, [isResellersCreatable, isResellersDeletable, t]);
 
   const handleCloseModal = () => {
     setModalToOpen("");

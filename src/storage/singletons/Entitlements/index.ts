@@ -7,6 +7,7 @@ import {
   EntitlementsListType,
   EntitlementData,
 } from "utils/types/entitlements";
+import { errorNotification } from "utils/functions/notifications";
 
 class SubscriptionEntitlementsStore {
   entitlements: EntitlementsListType[] = [];
@@ -17,21 +18,19 @@ class SubscriptionEntitlementsStore {
     });
   }
 
-  getEntitlements = async (tenantID: string, subscriptionID: string) => {
-    try {
-      const { data }: AxiosResponse<EntitlementData> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements`,
-        loaderName: "@getSubscriptionEntitlementsData",
+  getEntitlements = (tenantID: string, subscriptionID: string) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements`,
+      loaderName: "@getSubscriptionEntitlementsData",
+    })
+      .then(({ data }: AxiosResponse<EntitlementData>) => {
+        runInAction(() => {
+          this.entitlements = data.entitlements;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-
-      const entitlements = data.entitlements;
-
-      runInAction(() => {
-        this.entitlements = entitlements;
-      });
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 }
 

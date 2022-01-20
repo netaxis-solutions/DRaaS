@@ -1,6 +1,7 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
+import { t } from "services/Translation";
 import { request } from "services/api";
 import configStore from "../Config";
 import {
@@ -9,6 +10,10 @@ import {
   TGetResellersList,
 } from "utils/types/resellers";
 import Login from "../Login";
+import {
+  deleteNotification,
+  errorNotification,
+} from "utils/functions/notifications";
 
 class ResellersStore {
   resellers: Array<ResellerItemType> = [];
@@ -34,7 +39,7 @@ class ResellersStore {
         this.resellers = resellers;
       });
     } catch (e) {
-      console.log(e, "e");
+      errorNotification(e);
     }
   };
 
@@ -42,21 +47,22 @@ class ResellersStore {
     selectedResellerIds: string[],
     callback?: () => void,
   ) => {
-    try {
-      await Promise.all(
-        selectedResellerIds.map(uuid =>
-          request({
-            route: `${configStore.config.draasInstance}/resellers/${uuid}`,
-            loaderName: "@deleteResellers",
-            method: "delete",
-          }),
-        ),
-      );
-    } catch (e) {
-      console.log("e", e);
-    } finally {
-      callback && callback();
-    }
+    Promise.all(
+      selectedResellerIds.map(uuid =>
+        request({
+          route: `${configStore.config.draasInstance}/resellers/${uuid}`,
+          loaderName: "@deleteResellers",
+          method: "delete",
+        }),
+      ),
+    )
+      .then(() => {
+        deleteNotification(t("Resellers were successfully deleted!"));
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
   };
 
   get resellerRights() {

@@ -97,7 +97,7 @@ const SubscriptionsList: FC = () => {
       });
     }
     return actions;
-  }, [isSubscriptionsCreatable, isSubscriptionsDeletable]);
+  }, [isSubscriptionsCreatable, isSubscriptionsDeletable, t]);
 
   const avilableActions =
     loggedInUserLevel === "tenant" ? toolbarActions.slice(1) : toolbarActions;
