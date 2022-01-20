@@ -1,6 +1,7 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
+import { t } from "services/Translation";
 import { request } from "services/api";
 import configStore from "../Config";
 import {
@@ -9,6 +10,11 @@ import {
   TCreateSubscriptionPayload,
 } from "utils/types/subscriptions";
 import Login from "../Login";
+import {
+  deleteNotification,
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
 
 class SubscriptionsStore {
   subscriptions: Array<SubscriptionItemType> = [];
@@ -19,61 +25,65 @@ class SubscriptionsStore {
     });
   }
 
-  getSubscriptionsData = async (tenantId: string) => {
-    try {
-      const data: AxiosResponse<SubscriptionsDataType> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
-        loaderName: "@getSubscriptionsData",
+  getSubscriptionsData = (tenantId: string) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
+      loaderName: "@getSubscriptionsData",
+    })
+      .then((data: AxiosResponse<SubscriptionsDataType>) => {
+        runInAction(() => {
+          this.subscriptions = data.data.subscriptions;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      const subscriptions = data.data.subscriptions;
-
-      runInAction(() => {
-        this.subscriptions = subscriptions;
-      });
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 
-  createSubscription = async (
+  createSubscription = (
     tenantId: string,
     payload: TCreateSubscriptionPayload,
     callback?: () => void,
   ) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
-        loaderName: "@postSubscriptionsData",
-        method: "post",
-        payload,
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
+      loaderName: "@postSubscriptionsData",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Subscription was successfully created!"));
+        this.getSubscriptionsData(tenantId);
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      this.getSubscriptionsData(tenantId);
-      callback && callback();
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
 
-  deleteSubscriptions = async (
+  deleteSubscriptions = (
     tenantId: string,
     selectedSubscriptionsIds: string[],
     callback?: () => void,
   ) => {
-    try {
-      await Promise.all(
-        selectedSubscriptionsIds.map(subscriptionId =>
-          request({
-            route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionId}`,
-            loaderName: "@deleteSubscriptions",
-            method: "delete",
-          }),
-        ),
-      );
-    } catch (e) {
-      console.log("e", e);
-    } finally {
-      callback && callback();
-    }
+    Promise.all(
+      selectedSubscriptionsIds.map(subscriptionId =>
+        request({
+          route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionId}`,
+          loaderName: "@deleteSubscriptions",
+          method: "delete",
+        }),
+      ),
+    )
+      .then(() => {
+        deleteNotification(t("Subscriptions were successfully deleted!"));
+      })
+      .catch(e => {
+        errorNotification(e);
+      })
+      .finally(() => {
+        callback && callback();
+      });
   };
 
   get subscriptionRights() {

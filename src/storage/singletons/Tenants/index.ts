@@ -1,11 +1,13 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
-import { AxiosResponse } from "axios";
 
+import { t } from "services/Translation";
 import { request } from "services/api";
 import { TenantItemType } from "utils/types/tenant";
+import {
+  deleteNotification,
+  errorNotification,
+} from "utils/functions/notifications";
 import configStore from "../Config";
-import TenantStore from "../Tenant";
-// import Tenant from "../Tenant";
 import PendingQueries from "../PendingQueries";
 import Login from "../Login";
 
@@ -23,51 +25,56 @@ class TenantsStore {
 
   getTenantsData = async () => {
     const queryID = PendingQueries.add("@getTenantsData", null);
-    try {
-      const data: AxiosResponse<TTenantsData> = await request({
-        route: `${configStore.config.draasInstance}/tenants`,
+    request({
+      route: `${configStore.config.draasInstance}/tenants`,
+    })
+      .then((data: { data: TTenantsData }) => {
+        runInAction(() => {
+          this.tenants = data.data.tenants;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
+      })
+      .finally(() => {
+        PendingQueries.remove("@getTenantsData", queryID);
       });
 
-      // const tenants = await Promise.allSettled(
-      //   data.data.tenants.map(async tenant => {
-      //     const subscriptions = await Tenant.getTenantSubscriptions({
-      //       tenantID: tenant.uuid,
-      //     });
+    // const tenants = await Promise.allSettled(
+    //   data.data.tenants.map(async tenant => {
+    //     const subscriptions = await Tenant.getTenantSubscriptions({
+    //       tenantID: tenant.uuid,
+    //     });
 
-      //     return {
-      //       ...tenant,
-      //       subscriptions,
-      //     };
-      //   }),
-      // );
-      // const tenantsValue = await tenants.reduce((prev, { status, ...rest }) => {
-      //   status === "fulfilled" && prev.push(rest["value" as keyof object]);
-      //   return prev;
-      // }, []);
-
-      runInAction(() => {
-        this.tenants = data.data.tenants;
-      });
-      PendingQueries.remove("@getTenantsData", queryID);
-    } catch (e) {
-      console.log(e, "e");
-      PendingQueries.remove("@getTenantsData", queryID);
-    }
+    //     return {
+    //       ...tenant,
+    //       subscriptions,
+    //     };
+    //   }),
+    // );
+    // const tenantsValue = await tenants.reduce((prev, { status, ...rest }) => {
+    //   status === "fulfilled" && prev.push(rest["value" as keyof object]);
+    //   return prev;
+    // }, []);
   };
 
-  deleteTenants = async (
-    selectedTenantsIds: string[],
-    callback?: () => void,
-  ) => {
-    try {
-      await Promise.all(
-        selectedTenantsIds.map(uuid => TenantStore.deleteTenant({ uuid })),
-      );
-    } catch (e) {
-      console.log("e", e);
-    } finally {
-      callback && callback();
-    }
+  deleteTenants = (selectedTenantsIds: string[], callback?: () => void) => {
+    Promise.all(
+      selectedTenantsIds.map(uuid =>
+        request({
+          route: `${configStore.config.draasInstance}/tenants/${uuid}`,
+          loaderName: "@deleteTenants",
+          method: "delete",
+        }),
+      ),
+    )
+      .then(() => {
+        deleteNotification(t("Tenants were successfully deleted!"));
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
   };
 
   get tenantRights() {
