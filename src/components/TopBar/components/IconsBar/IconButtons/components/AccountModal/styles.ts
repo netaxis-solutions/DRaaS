@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.primary.text,
     fontStyle: "normal",
     fontWeight: 300,
-    fontSize: "18px",
-    lineHeight: "21px",
+    fontSize: "1.8rem",
+    lineHeight: "2.1rem",
     marginBottom: 27,
   },
   inputField: {
