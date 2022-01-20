@@ -82,23 +82,28 @@ class Login {
       });
   };
 
-  changePassword = (
+  changePassword: (
+    payload: changePasswordPayload,
+    successCallback: () => void,
+    errorCallback: () => void,
+  ) => Promise<void> = async (
     payload: changePasswordPayload,
     successCallback: () => void,
     errorCallback: () => void,
   ) => {
-    return request({
+    await request({
       loaderName: "@getUserDataLoader",
       method: "put",
       route: "/system/users/local",
       payload,
     })
       .then(() => {
+        successNotification(t("Password was successfully updated!"));
         successCallback && successCallback();
         this.getUserData();
       })
       .catch(e => {
-        console.log(e);
+        errorNotification(e);
         errorCallback && errorCallback();
       });
   };
