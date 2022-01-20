@@ -16,6 +16,7 @@ export type TModalHeaderProps = {
 
 export type TModalProps = TModalHeaderProps & {
   children: React.ReactNode;
+  styleWithSideBar?: boolean;
 };
 
 export type TStepperProps = {

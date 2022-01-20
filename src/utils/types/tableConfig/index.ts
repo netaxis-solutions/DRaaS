@@ -49,6 +49,7 @@ export type TableProps = {
   handleEditItem?: (props: any) => void;
   isEditable?: boolean;
   isRemovable?: boolean;
+  radioButton?: boolean;
 };
 
 export type ToolbarType = {
@@ -84,6 +85,15 @@ export type PaginationNavigationType = {
   nextPage: () => void;
   canNextPage: boolean;
   canPreviousPage: boolean;
+  isRadioButton?: boolean;
+};
+export type RadioSelectRowType = {
+  /*  Note
+   *  We cannot predict the data type that we get
+   *  with selected row. Therefore, we use any type
+   *  for increasing flexibility and reusability
+   */
+  [key: string]: any;
 };
 
 export type TablePaginationType = PaginationDropdownType &

@@ -43,6 +43,15 @@ export type CheckboxType = {
   checked: boolean;
 };
 
+export type RadioButtonType = {
+  label?: string;
+  labelPlacement?: "end" | "bottom" | "top" | "start";
+  checkboxRef?: Ref<HTMLInputElement>;
+  disabled?: boolean;
+  onChange: (e: ChangeEvent<Element>, checked: boolean) => void;
+  checked: boolean;
+};
+
 export type TSelectProps = {
   options: Array<{ value: string; label: string; groupBy: string }>;
   onChange: (
