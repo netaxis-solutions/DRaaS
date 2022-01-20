@@ -1,13 +1,17 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
+import { t } from "services/Translation";
 import { request } from "services/api";
 import {
   DistributorItemType,
   DistributorsDataType,
 } from "utils/types/distributors";
+import {
+  deleteNotification,
+  errorNotification,
+} from "utils/functions/notifications";
 import configStore from "../Config";
-import DistributorStore from "../Distributor";
 import Login from "../Login";
 
 class DistributorsStore {
@@ -31,25 +35,28 @@ class DistributorsStore {
         this.distributors = distributors;
       });
     } catch (e) {
-      console.log(e, "e");
+      errorNotification(e);
     }
   };
 
-  deleteDistributors = async (
+  deleteDistributors = (
     selectedDistributorsIds: string[],
     callback?: () => void,
   ) => {
-    try {
-      await Promise.all(
-        selectedDistributorsIds.map(uuid =>
-          DistributorStore.deleteDistributor({ uuid }),
-        ),
-      );
-    } catch (e) {
-      console.log("e", e);
-    } finally {
-      callback && callback();
-    }
+    Promise.all(
+      selectedDistributorsIds.map(uuid =>
+        request({
+          route: `${configStore.config.draasInstance}/distributors/${uuid}`,
+          loaderName: "@deleteDistributors",
+          method: "delete",
+        }),
+      ),
+    )
+      .then(() => {
+        deleteNotification(t("Distributors were successfully deleted!"));
+        callback && callback();
+      })
+      .catch(e => errorNotification(e));
   };
 
   get distributorsForResellerCreation() {

@@ -159,7 +159,7 @@ const TenantsList: FC = () => {
       });
     }
     return actions;
-  }, [isTenantsCreatable, isTenantsDeletable]);
+  }, [isTenantsCreatable, isTenantsDeletable, t]);
 
   const handleCloseModal = () => {
     setModalToOpen("");

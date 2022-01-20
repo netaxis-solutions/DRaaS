@@ -1,0 +1,112 @@
+.Toastify__toast-container {
+  width: 450px;
+}
+
+.Toastify__toast {
+  min-height: 60px;
+  color: #323d69;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0 23px 0 12px;
+  border-radius: 5px;
+}
+
+.Toastify__toast-body {
+  padding: 0;
+  width: calc(100% - 14px);
+  margin: 16px 0;
+}
+
+.Toastify__toast-body > div:last-child {
+  line-height: initial;
+  margin-top: 2px;
+}
+
+.Toastify__toast-icon {
+  margin-inline-end: 12px;
+}
+
+.Toastify__toast--success {
+  background: #edffca;
+  border-left: 8px solid #8bb439;
+}
+.Toastify__toast--success path {
+  stroke: #8bb439;
+}
+.Toastify__toast--success > svg {
+  width: 14px;
+  height: 14px;
+  fill: #8bb439;
+  align-self: center;
+}
+.Toastify__toast--success > svg path {
+  stroke: none;
+}
+
+.Toastify__toast--info {
+  background: #cbe0ff;
+  border-left: 8px solid #365ab7;
+}
+.Toastify__toast--info path {
+  stroke: #365ab7;
+}
+.Toastify__toast--info > svg {
+  width: 14px;
+  height: 14px;
+  fill: #365ab7;
+  align-self: center;
+}
+.Toastify__toast--info > svg path {
+  stroke: none;
+}
+
+.Toastify__toast--error {
+  background: #ffe4e6;
+  border-left: 8px solid #df2231;
+}
+.Toastify__toast--error path {
+  stroke: #df2231;
+}
+.Toastify__toast--error > svg {
+  width: 14px;
+  height: 14px;
+  fill: #df2231;
+  align-self: center;
+}
+.Toastify__toast--error > svg path {
+  stroke: none;
+}
+
+.Toastify__toast--warning {
+  background: #ffe3c5;
+  border-left: 8px solid #ff8800;
+}
+.Toastify__toast--warning path {
+  stroke: #ff8800;
+}
+.Toastify__toast--warning > svg {
+  width: 14px;
+  height: 14px;
+  fill: #ff8800;
+  align-self: center;
+}
+.Toastify__toast--warning > svg path {
+  stroke: none;
+}
+
+.Toastify__toast--default {
+  background: #d1daec;
+  border-left: 8px solid #67748e;
+}
+.Toastify__toast--default svg path {
+  stroke: #67748e;
+}
+.Toastify__toast--default > svg {
+  width: 14px;
+  height: 14px;
+  fill: #67748e;
+  align-self: center;
+}
+.Toastify__toast--default > svg path {
+  stroke: none;
+}
