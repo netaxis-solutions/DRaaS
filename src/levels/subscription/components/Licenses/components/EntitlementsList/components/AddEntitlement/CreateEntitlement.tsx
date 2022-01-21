@@ -77,7 +77,6 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
 
   const onSubmit: SubmitHandler<CreateNewEntitlement> = () => {
     createEntitlement(tenantID, subscriptionID, {
-      externalReference: radioButtonValueInRow.externalReference,
       licenseModelId: radioButtonValueInRow.id,
     });
     onCancel();
