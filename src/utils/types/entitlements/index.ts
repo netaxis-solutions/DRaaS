@@ -30,7 +30,7 @@ export type EntitlementsTypeListType = {
 export type CreateNewEntitlement = {
   externalReference?: string;
   licenseModelId: number;
-  entitlement: number;
+  entitlement?: number;
 };
 
 export type EntitlementData = {

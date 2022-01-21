@@ -15,7 +15,7 @@ import Table from "components/Table";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
 
 const defaultValues: CreateNewEntitlement = {
-  entitlement: 10,
+  entitlement: 0,
   externalReference: "",
   licenseModelId: 0,
 };
@@ -79,7 +79,6 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     createEntitlement(tenantID, subscriptionID, {
       externalReference: radioButtonValueInRow.externalReference,
       licenseModelId: radioButtonValueInRow.id,
-      entitlement: 0,
     });
     onCancel();
   };
