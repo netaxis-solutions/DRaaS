@@ -3,11 +3,14 @@ import AppMenu from "@material-ui/core/Menu";
 import { useTranslation } from "react-i18next";
 
 import LoginStore from "storage/singletons/Login";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 
 import { Login } from "components/Icons";
 import AccountModal from "./components/AccountModal";
 
 import useStyles from "../styles";
+
+console.log(process.env);
 
 const ProfileButton: React.FC = () => {
   const { t } = useTranslation();
@@ -15,6 +18,7 @@ const ProfileButton: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isModalOpen, setModal] = useState(false);
 
+  const { history, loggedInUserLevel } = RoutingConfig;
   const { user, logout } = LoginStore;
 
   const handleMenu = (e: any) => {
@@ -50,6 +54,14 @@ const ProfileButton: React.FC = () => {
         >
           {t("Account settings")}
         </div>
+        {loggedInUserLevel === "admin" && (
+          <div
+            className={classes.account}
+            onClick={() => history.push("/info")}
+          >
+            {t("Version info")}
+          </div>
+        )}
         <div className={classes.logOut} onClick={() => logout()}>
           {t("Logout")}
         </div>
