@@ -11,6 +11,10 @@ import { t } from "services/Translation";
 import { publicLoginRequest, request } from "services/api";
 import { homeUrl } from "utils/constants/routes";
 import {
+  changeAccountInfoPayload,
+  changePasswordPayload,
+} from "utils/types/user";
+import {
   LoginFormTypes,
   ForgotPasswordTypes,
   ResetPasswordTypes,
@@ -60,9 +64,11 @@ class Login {
     });
   }
 
-  putUserData: (payload?: any) => Promise<void> = async (payload: any) => {
-    request({
-      loaderName: "@putUserDataLoader",
+  putUserData: (payload: changeAccountInfoPayload) => Promise<void> = async (
+    payload: changeAccountInfoPayload,
+  ) => {
+    await request({
+      loaderName: "@getUserDataLoader",
       method: "put",
       route: "/system/users/" + this.user.id,
       payload,
@@ -73,6 +79,32 @@ class Login {
       })
       .catch(e => {
         errorNotification(e);
+      });
+  };
+
+  changePassword: (
+    payload: changePasswordPayload,
+    successCallback: () => void,
+    errorCallback: () => void,
+  ) => Promise<void> = async (
+    payload: changePasswordPayload,
+    successCallback: () => void,
+    errorCallback: () => void,
+  ) => {
+    await request({
+      loaderName: "@getUserDataLoader",
+      method: "put",
+      route: "/system/users/local",
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Password was successfully updated!"));
+        successCallback && successCallback();
+        this.getUserData();
+      })
+      .catch(e => {
+        errorNotification(e);
+        errorCallback && errorCallback();
       });
   };
 
