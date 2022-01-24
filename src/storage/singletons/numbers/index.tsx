@@ -26,7 +26,29 @@ class NumbersStore {
         console.log(this.numbers, "asdsafasdfsd");
       });
     } catch (e) {
+      this.numbers = [];
       console.log(e, "e");
+    }
+  };
+
+  getNumbersInventoryData = async (
+    tenantID: string,
+    subscriptionID: string,
+  ) => {
+    try {
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/number_inventory`,
+        loaderName: "@getNumbersData",
+      });
+      const numbers = data.data.numbers;
+
+      runInAction(() => {
+        this.numbers = numbers;
+        console.log(this.numbers, "asdsafasdfsd");
+      });
+    } catch (e) {
+      this.numbers = [];
+      console.log(e, "ААААААААА");
     }
   };
 
@@ -34,26 +56,30 @@ class NumbersStore {
     tenantID: string,
     subscriptionID: string,
     payload: any = {
-      countryCode: "+32",
-      numbers: [25405220, 25405221],
-      ranges: [
-        [25405230, 25405239],
-        [25405270, 25405279],
-      ],
+      countryCode: "+31",
+      ranges: [[302869750, 302869751]],
     },
   ) => {
     try {
-      const data: AxiosResponse<any> = await request({
+      await request({
         route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
         loaderName: "@postNumber",
         method: "post",
         payload,
       });
-      const numbers = data.data.numbers;
-
       runInAction(() => {
-        this.numbers = numbers;
+        this.getNumbersData(tenantID, subscriptionID);
         console.log(this.numbers, "asdsafasdfsd");
+      });
+    } catch (e) {
+      console.log(e, "e");
+    }
+  };
+  testRequest = async () => {
+    try {
+      await request({
+        route: `${configStore.config.draasInstance}/number_inventory/suggestion?range_size=10&number_type=geo&country_code=31&number_of_results=10`,
+        loaderName: "@postNumber",
       });
     } catch (e) {
       console.log(e, "e");

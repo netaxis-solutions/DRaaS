@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import Table from "components/Table";
 import { TableData } from "utils/types/tableConfig";
 import { Plus, Trash } from "components/Icons";
+import SelectFromInventory from "./Modals/SelectFromInventory";
 
 const NumbersList: FC<{ numbers: any[] }> = ({ numbers }) => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const NumbersList: FC<{ numbers: any[] }> = ({ numbers }) => {
       {
         Header: "Origin",
         accessor: "source",
-        Cell: (...value: any) => {
+        Cell: ({ value }: any) => {
           console.log(value, "as");
 
           return value === "number_inventory" ? "native" : "ported";
@@ -40,6 +41,10 @@ const NumbersList: FC<{ numbers: any[] }> = ({ numbers }) => {
     ],
     [],
   );
+
+  const handleModalClose = () => {
+    setModalToOpen("");
+  };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,8 +82,11 @@ const NumbersList: FC<{ numbers: any[] }> = ({ numbers }) => {
         checkbox
         isEditable={false}
       />
-      {modalToOpen === "add" && <div>Add</div>}
-      {modalToOpen === "delete" && <div>Add</div>}
+      {/* part for future modals*/}
+      {modalToOpen === "add" && (
+        <SelectFromInventory handleCancel={handleModalClose} />
+      )}
+      {modalToOpen === "delete" && null}
     </>
   );
 };

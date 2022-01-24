@@ -45,10 +45,10 @@ export const modalButtonsWrapperUseStyles = makeStyles(
       gap: theme.spacing(1.25),
       width: "fit-content",
       position: "fixed",
-      top: 70,
+      top: (props: any) => props.top || 70,
       right: theme.direction === "ltr" ? "30px" : "unset",
       left: theme.direction === "ltr" ? "unset" : "30px",
-      zIndex: 1000,
+      zIndex: 1001,
 
       "& .MuiButton-label": {
         marginTop: theme.spacing(0.25),

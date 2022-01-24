@@ -31,6 +31,7 @@ export type TModalButtonsWrapperProps = {
   submitButtonTitle?: string;
   submitIcon?: React.FC;
   cancelIcon?: React.FC;
+  formId?: string;
 };
 
 export type TDeleteModalProps = {
