@@ -3,16 +3,16 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { Country } from "utils/functions/countryConfig";
 import EntitlementsStore from "storage/singletons/Entitlements";
 
-import { Plus, Trash } from "components/Icons";
+import { Country } from "utils/functions/countryConfig";
+
+import { Plus } from "components/Icons";
 import Table from "components/Table";
+import AddEntitlement from "./components/AddEntitlement";
 import { EntitlementsStyle } from "./styles";
 
 const EntitlementList: FC = () => {
-  // wait implement modal for create entitlements
-  // @ts-ignore
   const [modalToOpen, setModalToOpen] = useState("");
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -20,7 +20,11 @@ const EntitlementList: FC = () => {
   }>();
   const { t } = useTranslation();
 
-  const { getEntitlements, entitlements } = EntitlementsStore;
+  const {
+    getEntitlements,
+    entitlements,
+    getEntitlementTypes,
+  } = EntitlementsStore;
   const classes = EntitlementsStyle();
 
   const columns = useMemo(
@@ -63,12 +67,12 @@ const EntitlementList: FC = () => {
         },
       },
       {
-        Header: t("Assigned"),
-        accessor: "assigned",
-      },
-      {
         Header: t("Reserved"),
         accessor: "reserved",
+      },
+      {
+        Header: t("Assigned"),
+        accessor: "assigned",
       },
       {
         Header: t("Entitlement"),
@@ -76,23 +80,20 @@ const EntitlementList: FC = () => {
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t],
+    [t, entitlements],
   );
 
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID);
+    getEntitlementTypes();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleCloseModal = () => {
+    setModalToOpen("");
+  };
+
   const toolbarActions = [
-    {
-      id: "delete",
-      title: "Delete",
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
-    },
     {
       id: "add",
       title: "Add",
@@ -115,6 +116,9 @@ const EntitlementList: FC = () => {
           toolbarActions={toolbarActions}
         />
       </form>
+      {modalToOpen === "add" && (
+        <AddEntitlement handleCancel={handleCloseModal} />
+      )}
     </>
   );
 };

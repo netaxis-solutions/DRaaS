@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import clsx from "clsx";
 
 import { TModalProps } from "utils/types/modal";
 import ModalHeader from "./components/ModalHeader";
@@ -14,6 +15,7 @@ const Modal: React.FC<TModalProps> = ({
   activeStep,
   steps,
   isBackIconHidden,
+  styleWithSideBar,
 }) => {
   const [container] = useState(document.createElement("div"));
   const classes = useStyles();
@@ -30,7 +32,11 @@ const Modal: React.FC<TModalProps> = ({
   }, [container]);
 
   return ReactDOM.createPortal(
-    <div className={classes.modal}>
+    <div
+      className={clsx(classes.modal, {
+        [classes.modalWithSideBar]: styleWithSideBar,
+      })}
+    >
       <ModalHeader
         title={title}
         activeStep={activeStep}
