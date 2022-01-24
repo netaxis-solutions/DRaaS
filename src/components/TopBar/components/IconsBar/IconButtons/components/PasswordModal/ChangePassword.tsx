@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -5,36 +6,40 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import LoginStore from "storage/singletons/Login";
 
 import { AddDistributorFormPropsType } from "utils/types/distributor";
-import { profileEditSchema } from "utils/schemas/profileSchema";
+import { changePasswordSchema } from "utils/schemas/profileSchema";
 
 import FormInput from "components/common/Form/FormInput";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
+import { Save } from "components/Icons";
 
 import styles from "./styles";
-import { Save } from "components/Icons";
 
 const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
   const classes = styles();
+  const [isErrorOccured, setError] = useState(false);
 
-  const { user, putUserData } = LoginStore;
+  const { changePassword } = LoginStore;
 
   const defaultValues = {
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    mobile_number: user.mobile_number,
+    old_password: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const { control, handleSubmit } = useForm<any>({
-    resolver: yupResolver(profileEditSchema(t)),
+    resolver: yupResolver(changePasswordSchema(t)),
     defaultValues,
   });
 
-  const onSubmit: any = ({ password, confirmPassword, ...values }: any) => {
-    putUserData(values);
+  const onSubmit: any = ({ confirmPassword, ...payload }: any) => {
+    changePassword(
+      payload,
+      () => handleCancel(),
+      () => setError(true),
+    );
   };
 
   const onCancel = () => {
@@ -43,23 +48,40 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+      <ModalButtonsWrapper
+        handleCancel={onCancel}
+        cancelButton
+        submitButtonTitle={t("Save")}
+        submitIcon={Save}
+      />
       <div className={classes.profileBox}>
-        <div className={classes.boxHeader}>{t("Account information")}</div>
-        <ModalButtonsWrapper
-          handleCancel={onCancel}
-          cancelButton
-          submitButtonTitle={t("Save")}
-          submitIcon={Save}
-        />
-        <div className={classes.userProfile}>
-          {t("Profile")}: {user.ui_profile}
-        </div>
+        <div className={classes.boxHeader}>{t("Password")}</div>
         <Controller
-          name="first_name"
+          name="old_password"
           control={control}
           render={({ field, ...props }) => (
             <FormInput
-              label={t("First name")}
+              label={t("Old password")}
+              type={"password"}
+              error={isErrorOccured || props.fieldState.error}
+              helperText={
+                (isErrorOccured && t("Wrong old password")) ||
+                props.fieldState.error?.message
+              }
+              {...field}
+              {...props}
+              className={classes.inputField}
+            />
+          )}
+        />
+        {isErrorOccured && t("Wrong old password")}
+        <Controller
+          name="password"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Password")}
+              type={"password"}
               {...field}
               {...props}
               className={classes.inputField}
@@ -67,35 +89,12 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
           )}
         />
         <Controller
-          name="last_name"
+          name="confirmPassword"
           control={control}
           render={({ field, ...props }) => (
             <FormInput
-              label={t("Last name ")}
-              {...field}
-              {...props}
-              className={classes.inputField}
-            />
-          )}
-        />
-        <Controller
-          name="email"
-          control={control}
-          render={({ field, ...props }) => (
-            <FormInput
-              label={t("Email")}
-              {...field}
-              {...props}
-              className={classes.inputField}
-            />
-          )}
-        />
-        <Controller
-          name="mobile_number"
-          control={control}
-          render={({ field, ...props }) => (
-            <FormInput
-              label={t("Mobile number")}
+              label={t("Confirm password")}
+              type={"password"}
               {...field}
               {...props}
               className={classes.inputField}
