@@ -33,7 +33,7 @@ const Pagination: React.FC<TablePaginationType> = ({
         </span>
         <PaginationDropdown pageSize={pageSize} setPageSize={setPageSize} />
         <span className={classes.tablePaginationPageNumber}>
-          {`${pageNumber} ${t("of")} ${pageCount}`}
+          {t("of", { pageNumber, pageCount })}
         </span>
         <PaginationNavigation
           previousPage={previousPage}

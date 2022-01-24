@@ -22,7 +22,7 @@ const RadioButtonCheckedIcon = ({ className }: Props) => {
         fill="white"
         stroke="#484CBA"
       />
-      <circle cx="8" cy="8" r="5" fill="#484CBA" />
+      <circle cx="8" cy="8" r="5" className={className} />
     </SvgIcon>
   );
 };

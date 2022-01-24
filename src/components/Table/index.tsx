@@ -93,9 +93,7 @@ const Table: FC<TableProps> = ({
                         onChange && onChange(e);
                       };
 
-                      return radioButton ? (
-                        <></>
-                      ) : (
+                      return radioButton ? null : (
                         <Checkbox checked={checked} onChange={handleChange} />
                       );
                     },
@@ -148,9 +146,7 @@ const Table: FC<TableProps> = ({
                         onChange && onChange(e);
                       };
 
-                      return radioButton ? (
-                        <></>
-                      ) : (
+                      return radioButton ? null : (
                         <Checkbox checked={checked} onChange={handleChange} />
                       );
                     },
