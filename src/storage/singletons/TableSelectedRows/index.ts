@@ -16,6 +16,10 @@ class TableSelectedRows {
     this.selectedRows = selectedRows;
   };
 
+  clearSelectedRowsValue = () => {
+    this.radioButtonValueInRow = {};
+  };
+
   setRadioButtonValueInRows = (payload: RadioSelectRowType) => {
     this.radioButtonValueInRow = payload;
   };

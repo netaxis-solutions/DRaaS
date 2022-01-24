@@ -31,7 +31,11 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     defaultValues,
   });
 
-  const { radioButtonValueInRow } = TableSelectedRowsStore;
+  const {
+    radioButtonValueInRow,
+    clearSelectedRows,
+    clearSelectedRowsValue,
+  } = TableSelectedRowsStore;
 
   const {
     getEntitlementTypes,
@@ -72,6 +76,10 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
   useEffect(() => {
     getEntitlementTypes();
     filteredEntitlementType();
+    return function cleanup() {
+      clearSelectedRows();
+      clearSelectedRowsValue();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
