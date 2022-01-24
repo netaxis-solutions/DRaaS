@@ -14,7 +14,8 @@ const Pagination: React.FC<TablePaginationType> = ({
   previousPage,
   nextPage,
   canNextPage,
-  canPreviousPage
+  canPreviousPage,
+  isRadioButton,
 }) => {
   const classes = tablePaginationStyles();
   const { t } = useTranslation();
@@ -22,16 +23,18 @@ const Pagination: React.FC<TablePaginationType> = ({
   return (
     <div className={classes.tablePaginationWrapper}>
       <span>
-        {!!selectedRows && `${t("Selected")} ${selectedRows}/${pageSize}`}
+        {!!selectedRows &&
+          !isRadioButton &&
+          `${t("Selected")} ${selectedRows}/${pageSize}`}
       </span>
       <div className={classes.tablePaginationActionsWrapper}>
         <span className={classes.tablePaginationLinesPerPageTitle}>
           {t("Lines per page")}:
         </span>
         <PaginationDropdown pageSize={pageSize} setPageSize={setPageSize} />
-        <span className={classes.tablePaginationPageNumber}>{`${pageNumber} ${t(
-          "of"
-        )} ${pageCount}`}</span>
+        <span className={classes.tablePaginationPageNumber}>
+          {t("of", { pageNumber, pageCount })}
+        </span>
         <PaginationNavigation
           previousPage={previousPage}
           nextPage={nextPage}
