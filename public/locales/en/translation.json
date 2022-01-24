@@ -2,5 +2,6 @@
   "First name": "First name",
   "First name is too Long": "First name is too Long",
   "First name is too Short": "First name is too Short",
-  "LOGGED USER": "LOGGED AAAA"
+  "LOGGED USER": "LOGGED AAAA",
+  "of":"{{ pageNumber}} of {{ pageCount }}"
 }
