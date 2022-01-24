@@ -74,7 +74,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
             />
           )}
         />
-        {isErrorOccured && "Wrong old password"}
+        {isErrorOccured && t("Wrong old password")}
         <Controller
           name="password"
           control={control}

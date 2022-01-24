@@ -27,6 +27,6 @@ export const changePasswordSchema = (t: TFunction) =>
       }),
     confirmPassword: string()
       .label(t("Confirm password"))
-      .oneOf([ref("password"), null], "Passwords must match"),
+      .oneOf([ref("password"), null], t("Passwords must match")),
     old_password: string().required().label(t("Old password")),
   });

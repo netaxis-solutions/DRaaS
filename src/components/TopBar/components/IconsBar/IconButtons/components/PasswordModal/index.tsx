@@ -10,7 +10,7 @@ const EditUserProfile: React.FC<{ handleCancel: () => void }> = ({
   const { t } = useTranslation();
 
   return (
-    <Modal title={t("")} handleCancel={handleCancel} isBackIconHidden={true}>
+    <Modal title={""} handleCancel={handleCancel} isBackIconHidden={true}>
       <AccountInfo handleCancel={handleCancel} />
     </Modal>
   );
