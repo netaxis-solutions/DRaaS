@@ -1,5 +1,7 @@
 import { makeObservable } from "mobx";
 
+import configStore from "../Config";
+import DistributorsStore from "../Distributors";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -8,8 +10,6 @@ import {
 } from "utils/functions/notifications";
 import { TCreateDistributor } from "utils/types/distributor";
 import { TEditDistributorPayload } from "utils/types/distributors";
-import configStore from "../Config";
-import DistributorsStore from "../Distributors";
 
 class DistributorStore {
   constructor() {

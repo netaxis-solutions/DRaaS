@@ -7,6 +7,8 @@ import {
 } from "mobx";
 import get from "lodash/get";
 
+import configStore from "../Config";
+import RoutingConfig from "../RoutingConfig";
 import { t } from "services/Translation";
 import { publicLoginRequest, request } from "services/api";
 import { homeUrl } from "utils/constants/routes";
@@ -27,15 +29,13 @@ import {
   successNotification,
 } from "utils/functions/notifications";
 import { ResponseData } from "utils/types/login";
-import RoutingConfig from "../RoutingConfig";
-import configStore from "../Config";
 
 class Login {
   user = {} as {
     [key: string]: any;
   };
 
-  level = "" as LoggedInUserType;
+  level: LoggedInUserType | "" = "";
   isForgotPasswordNotificationShown: string = "";
   keepUserLoggedIn: boolean = false;
   twoFactorCode: string = "";
@@ -211,6 +211,10 @@ class Login {
       })
       .catch(e => {
         errorNotification(e);
+        runInAction(() => {
+          this.user = [];
+          this.level = "";
+        });
       });
   };
 

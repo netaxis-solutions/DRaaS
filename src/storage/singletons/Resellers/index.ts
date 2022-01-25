@@ -1,15 +1,15 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
+import Login from "../Login";
+import configStore from "../Config";
 import { t } from "services/Translation";
 import { request } from "services/api";
-import configStore from "../Config";
 import {
   ResellerItemType,
   ResellersDataType,
   TGetResellersList,
 } from "utils/types/resellers";
-import Login from "../Login";
 import {
   deleteNotification,
   errorNotification,
@@ -40,6 +40,9 @@ class ResellersStore {
       });
     } catch (e) {
       errorNotification(e);
+      runInAction(() => {
+        this.resellers = [];
+      });
     }
   };
 

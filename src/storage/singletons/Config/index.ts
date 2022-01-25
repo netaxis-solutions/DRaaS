@@ -1,12 +1,12 @@
 import { makeObservable, observable, runInAction } from "mobx";
 import mergeWith from "lodash/mergeWith";
 
+import LoginStore from "../Login";
 import PendingQueries from "storage/singletons/PendingQueries";
 import { backupConfig } from "utils/constants/app.config.assets";
 import { ConfigType } from "utils/types/config";
 import { customizer } from "utils/functions/config";
 import { getToken } from "utils/functions/storage";
-import LoginStore from "../Login";
 
 class Config {
   config = {} as ConfigType;

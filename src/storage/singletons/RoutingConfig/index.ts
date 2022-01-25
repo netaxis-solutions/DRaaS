@@ -1,5 +1,7 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
 import { History } from "history";
+
+import PendingQueries from "../PendingQueries";
 import { publicRoutes } from "utils/constants/routes";
 import {
   getLevelRoutes,
@@ -11,7 +13,6 @@ import {
   LoggedInUserType,
   RoutingConfigType,
 } from "utils/types/routingConfig";
-import PendingQueries from "../PendingQueries";
 
 class Routing {
   publicConfigRoutes = {} as RoutingConfigType;
