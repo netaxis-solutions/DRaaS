@@ -2,6 +2,8 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 import { chain } from "lodash";
 
+import configStore from "../Config";
+import LicensesStore from "../Licenses";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -12,8 +14,6 @@ import {
   errorNotification,
   successNotification,
 } from "utils/functions/notifications";
-import configStore from "../Config";
-import LicensesStore from "../Licenses";
 
 class SubscriptionLicensesStore {
   licenses: SubscriptionLicenseType[] | MsTeamsUsersType[] = [];
@@ -52,6 +52,9 @@ class SubscriptionLicensesStore {
       })
       .catch(e => {
         errorNotification(e);
+        runInAction(() => {
+          this.licenses = [];
+        });
       });
   };
 

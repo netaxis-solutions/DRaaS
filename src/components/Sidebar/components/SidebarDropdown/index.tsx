@@ -23,6 +23,7 @@ const SidebarDropdown = () => {
   useEffect(() => {
     currentLevel === "subscription" &&
       !subscriptions.length &&
+      chosenCustomerID &&
       getSubscriptionsData(chosenCustomerID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenCustomerID, currentLevel]);

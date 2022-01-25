@@ -1,5 +1,8 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 
+import Login from "../Login";
+import configStore from "../Config";
+import PendingQueries from "../PendingQueries";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import { TenantItemType } from "utils/types/tenant";
@@ -7,9 +10,6 @@ import {
   deleteNotification,
   errorNotification,
 } from "utils/functions/notifications";
-import configStore from "../Config";
-import PendingQueries from "../PendingQueries";
-import Login from "../Login";
 
 type TTenantsData = {
   tenants: Array<TenantItemType>;
@@ -35,6 +35,9 @@ class TenantsStore {
       })
       .catch(e => {
         errorNotification(e);
+        runInAction(() => {
+          this.tenants = [];
+        });
       })
       .finally(() => {
         PendingQueries.remove("@getTenantsData", queryID);
