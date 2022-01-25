@@ -12,7 +12,7 @@ type Props = {
   children: ReactNode;
   handleCancel: () => void;
   handleDelete: () => void;
-  selectedElementName: string | false;
+  selectedElementName?: string | false;
 };
 
 const DeleteModal: React.FC<Props> = ({

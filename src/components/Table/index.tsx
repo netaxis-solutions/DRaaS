@@ -237,9 +237,14 @@ const Table: FC<TableProps> = ({
                   },
                   ...columns,
                   {
-                    Header: () => t("Actions"),
+                    Header: () => (
+                      <div className={classes.actionsHeader}>
+                        {t("Actions")}
+                      </div>
+                    ),
                     accessor: "actions",
                     disableSortBy: true,
+
                     Cell: (props: any) => {
                       if (props.state.rowState[props.row.index]?.isEditing) {
                         return (
@@ -290,7 +295,11 @@ const Table: FC<TableProps> = ({
               : [
                   ...columns,
                   {
-                    Header: () => t("Actions"),
+                    Header: () => (
+                      <div className={classes.actionsHeader}>
+                        {t("Actions")}
+                      </div>
+                    ),
                     accessor: "actions",
                     disableSortBy: true,
                     Cell: (props: any) => {
@@ -322,7 +331,8 @@ const Table: FC<TableProps> = ({
                             customActions
                           }
                           onDelete={() => {
-                            setModalToOpen && setModalToOpen("delete");
+                            setModalToOpen &&
+                              setModalToOpen("delete", props.row.original);
                             setSelectedRows({ [props.row.index]: true });
                           }}
                           onEdit={() => {
