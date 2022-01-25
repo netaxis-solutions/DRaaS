@@ -10,8 +10,6 @@ import AccountModal from "./components/AccountModal";
 
 import useStyles from "../styles";
 
-console.log(process.env);
-
 const ProfileButton: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();

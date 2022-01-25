@@ -3,7 +3,7 @@ import packageJson from "../../../../../package.json";
 
 const buildTimestamp = preval`module.exports = new Date().getTime();`;
 
-const BuildInfo: React.FC<any> = () => {
+const BuildInfo: React.FC = () => {
   return (
     <>
       <div>Current version: {packageJson.version}</div>
