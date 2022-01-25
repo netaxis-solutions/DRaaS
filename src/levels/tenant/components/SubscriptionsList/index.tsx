@@ -78,8 +78,6 @@ const SubscriptionsList: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("subs", subscriptions);
-
   const toolbarActions = useMemo(() => {
     const actions = [];
     if (isSubscriptionsDeletable) {
