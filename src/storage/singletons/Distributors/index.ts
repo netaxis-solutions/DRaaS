@@ -1,6 +1,8 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
+import Login from "../Login";
+import configStore from "../Config";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -11,8 +13,6 @@ import {
   deleteNotification,
   errorNotification,
 } from "utils/functions/notifications";
-import configStore from "../Config";
-import Login from "../Login";
 
 class DistributorsStore {
   distributors: Array<DistributorItemType> = [];
@@ -36,6 +36,9 @@ class DistributorsStore {
       });
     } catch (e) {
       errorNotification(e);
+      runInAction(() => {
+        this.distributors = [];
+      });
     }
   };
 

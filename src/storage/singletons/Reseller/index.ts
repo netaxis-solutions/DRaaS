@@ -1,5 +1,7 @@
 import { makeObservable } from "mobx";
 
+import configStore from "../Config";
+import ResellersStore from "../Resellers";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -10,8 +12,6 @@ import {
   TCreateResellerPayload,
   TEditResellerPayload,
 } from "utils/types/resellers";
-import configStore from "../Config";
-import ResellersStore from "../Resellers";
 
 class ResellerStore {
   constructor() {

@@ -1,4 +1,7 @@
 import get from "lodash/get";
+
+// import Login from "../Login";
+import RoutingStore from "../RoutingConfig";
 import { menu, sidebarLevelMenus } from "utils/constants/menu";
 import {
   getLevelRoutes,
@@ -10,9 +13,6 @@ import {
   RouteValueType,
   SidebarUnitType,
 } from "utils/types/routingConfig";
-// import Login from "../Login";
-
-import RoutingStore from "../RoutingConfig";
 
 class Menu {
   //GET available routing(filtered from disabled routes and the ones that all sidebar routes are)

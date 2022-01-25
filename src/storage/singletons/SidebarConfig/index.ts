@@ -1,6 +1,7 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-import { TAddTenantValues } from "utils/types/tenant";
+
 import Tenant from "../Tenant";
+import { TAddTenantValues } from "utils/types/tenant";
 
 class SidebarConfig {
   chosenCustomerID = "";

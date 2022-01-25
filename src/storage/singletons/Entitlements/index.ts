@@ -36,6 +36,9 @@ class SubscriptionEntitlementsStore {
       })
       .catch(e => {
         errorNotification(e);
+        runInAction(() => {
+          this.entitlements = [];
+        });
       });
   };
 
