@@ -40,7 +40,7 @@ export type TableProps = {
   data: TableData[];
   checkbox?: boolean;
   toolbarActions?: Array<ToolbarActionType>;
-  setModalToOpen?: (s: string) => void;
+  setModalToOpen?: (s: string, props?: any) => void;
   setDefaultValues?: any;
   handleDeleteItem?: (props: any) => void;
   handleEditItem?: (props: any) => void;

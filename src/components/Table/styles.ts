@@ -9,13 +9,13 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       paddingLeft: 30,
       textAlign: "start !important",
     },
-    "& thead  tr th:last-child": {
-      paddingLeft: 30,
-      textAlign: "end !important",
-    },
+
     "& tbody tr td:first-child": {
       paddingLeft: 30,
       textAlign: "start !important",
     },
+  },
+  actionsHeader: {
+    textAlign: "end",
   },
 }));

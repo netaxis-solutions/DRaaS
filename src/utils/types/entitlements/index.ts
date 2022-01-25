@@ -1,7 +1,9 @@
+import { TDeleteModalProps } from "../modal";
+
 export type EntitlementsListType = {
   countryCode: string;
   entitlement: number;
-  id: number;
+  id: string;
   license_model_id: number;
   name: string;
   numberType: string;
@@ -27,6 +29,11 @@ export type EntitlementsTypeListType = {
   externalReference?: string;
 };
 
+export type EditEntitlementType = {
+  entitlement: string;
+  entitlementID: string;
+};
+
 export type CreateNewEntitlement = {
   externalReference?: string;
   licenseModelId: number;
@@ -45,4 +52,8 @@ export type AvailableEntitlements = {
 
 export type TAddEntitlementFormProps = {
   handleCancel: () => void;
+};
+
+export type TDeleteEntitlementModalProps = TDeleteModalProps & {
+  entitlement: EntitlementsListType;
 };
