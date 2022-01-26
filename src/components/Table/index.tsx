@@ -177,8 +177,8 @@ const Table: FC<TableProps> = ({
                         <RadioButton
                           checked={checked}
                           onChange={handleChangeRadio}
-                          // defaultValue="0"
                           value={row.index}
+                          defaultValue={2}
                         />
                       ) : (
                         <Checkbox checked={checked} onChange={handleChange} />
