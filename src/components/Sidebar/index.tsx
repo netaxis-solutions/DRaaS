@@ -58,7 +58,7 @@ const Sidebar: React.FC<{
           <div className={classes.titleWithDropdown}>
             <div className={classes.titleContainer}>
               <div className={classes.iconContainer}>{levelIcon[level]}</div>
-              <div>
+              <div className={classes.titleWrapper}>
                 <div className={classes.title}>{chosenCustomerData?.name}</div>
                 <div className={classes.level}>{level}</div>
               </div>

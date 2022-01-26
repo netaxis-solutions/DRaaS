@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   titleWithDropdown: {
     marginBottom: theme.spacing(3.75),
+    overflow: "hidden",
+  },
+  titleWrapper: {
+    overflow: "hidden",
   },
   iconContainer: {
     minWidth: 45,
@@ -40,6 +44,8 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "2rem",
     lineHeight: "23px",
     fontWeight: 400,
+    textOverflow: "ellipsis",
+    overflow: "hidden",
   },
   level: {
     fontWeight: 300,
