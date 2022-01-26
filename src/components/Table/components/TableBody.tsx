@@ -5,18 +5,31 @@ import clsx from "clsx";
 
 import { TableBodyType } from "utils/types/tableConfig";
 import { useTableBodyStyles } from "./styles";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,
   page,
   prepareRow,
+  radioButton,
 }) => {
   const classes = useTableBodyStyles();
+
+  const { selectedRows } = TableSelectedRowsStore;
 
   return (
     <MTableBody {...getTableBodyProps()}>
       {page.map(row => {
+        if (
+          radioButton &&
+          Object.keys(selectedRows).length === 0 &&
+          row.index === 0
+        ) {
+          row.isSelected = true;
+        }
+
         prepareRow(row);
+
         return (
           <TableRow
             {...row.getRowProps()}
@@ -27,7 +40,6 @@ const TableBody: React.FC<TableBodyType> = ({
             })}
             key={row.id}
           >
-            
             {row.cells.map(cell => {
               return (
                 <TableCell

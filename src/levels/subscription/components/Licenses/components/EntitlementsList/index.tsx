@@ -114,7 +114,6 @@ const EntitlementList: FC = () => {
           isEditable
           isRemovable
           toolbarActions={toolbarActions}
-          radioButton
         />
       </form>
       {modalToOpen === "add" && (

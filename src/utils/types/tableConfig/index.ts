@@ -65,6 +65,7 @@ export type TableBodyType = {
   ) => TableBodyProps;
   page: Row[];
   prepareRow: (row: Row<TableData>) => void;
+  radioButton: boolean;
 };
 
 export type TableHeadType = {

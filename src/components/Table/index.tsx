@@ -151,7 +151,6 @@ const Table: FC<TableProps> = ({
                       );
                     },
                     Cell: ({ row }: CellProps<TableProps>) => {
-                      
                       const {
                         checked = false,
                         onChange,
@@ -172,13 +171,10 @@ const Table: FC<TableProps> = ({
                         onChange && onChange(e);
                       };
 
-
                       return radioButton ? (
                         <RadioButton
                           checked={checked}
                           onChange={handleChangeRadio}
-                          value={row.index}
-                          defaultValue={2}
                         />
                       ) : (
                         <Checkbox checked={checked} onChange={handleChange} />
@@ -308,6 +304,7 @@ const Table: FC<TableProps> = ({
           getTableBodyProps={getTableBodyProps}
           prepareRow={prepareRow}
           page={page}
+          radioButton={radioButton}
         />
       </MaUTable>
       <Pagination
