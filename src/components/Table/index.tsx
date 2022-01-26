@@ -151,6 +151,7 @@ const Table: FC<TableProps> = ({
                       );
                     },
                     Cell: ({ row }: CellProps<TableProps>) => {
+                      
                       const {
                         checked = false,
                         onChange,
@@ -171,10 +172,13 @@ const Table: FC<TableProps> = ({
                         onChange && onChange(e);
                       };
 
+
                       return radioButton ? (
                         <RadioButton
                           checked={checked}
                           onChange={handleChangeRadio}
+                          // defaultValue="0"
+                          value={row.index}
                         />
                       ) : (
                         <Checkbox checked={checked} onChange={handleChange} />

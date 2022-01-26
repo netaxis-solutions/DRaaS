@@ -27,6 +27,7 @@ const TableBody: React.FC<TableBodyType> = ({
             })}
             key={row.id}
           >
+            
             {row.cells.map(cell => {
               return (
                 <TableCell

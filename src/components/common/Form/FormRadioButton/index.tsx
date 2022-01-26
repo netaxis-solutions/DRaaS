@@ -1,6 +1,7 @@
 import { FC, ChangeEvent, Ref, forwardRef } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
+import RadioGroup from '@mui/material/RadioGroup';
 
 import { RadioButtonType } from "utils/types/form";
 
@@ -14,6 +15,8 @@ export const RadioButton: FC<RadioButtonType> = ({
   checked,
   label = "",
   labelPlacement = "end",
+  defaultValue = "0",
+  value
 }) => {
   const classes = useStyles();
   const handleChange = (e: ChangeEvent<Element>, checked: boolean) => {
@@ -24,15 +27,20 @@ export const RadioButton: FC<RadioButtonType> = ({
     <>
       <FormControlLabel
         control={
+          <RadioGroup
+          defaultValue={defaultValue}
+          >
           <Radio
             className={classes.root}
             onChange={handleChange}
             checked={checked}
+            value={value}
             icon={<RadioButtonIcon className={classes.root} />}
             checkedIcon={
               <RadioButtonCheckedIcon className={classes.iconChecked} />
             }
           />
+          </RadioGroup>
         }
         label={label}
         disabled={disabled}
@@ -44,7 +52,9 @@ export const RadioButton: FC<RadioButtonType> = ({
 
 const FormRadioButton = forwardRef(
   ({ fieldState, formState, ...props }: any, ref: Ref<HTMLInputElement>) => {
-    return <RadioButton inputRef={ref} checked={props.value} {...props} />;
+    console.log(props);
+    
+    return <RadioButton inputRef={ref} defaultValue="0"  value={props.index} checked={props.value} {...props} />;
   },
 );
 
