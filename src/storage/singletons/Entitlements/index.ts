@@ -10,6 +10,7 @@ import {
   AvailableEntitlements,
 } from "utils/types/entitlements";
 import {
+  deleteNotification,
   errorNotification,
   successNotification,
 } from "utils/functions/notifications";
@@ -119,16 +120,24 @@ class SubscriptionEntitlementsStore {
   deleteEntitlement = (
     tenantID: string,
     subscriptionID: string,
-    entitlementID: string,
+    selectedEntitlementsIds: string[],
+    callback?: () => void,
   ) => {
-    request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements/${entitlementID}`,
-      loaderName: "@deleteEntitlement",
-      method: "delete",
-    })
+    Promise.allSettled(
+      selectedEntitlementsIds.map(id => {
+        console.log("ID STORE", id);
+
+        request({
+          route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements/${id}`,
+          loaderName: "@deleteEntitlements",
+          method: "delete",
+        });
+      }),
+    )
       .then(() => {
-        successNotification(t("Entitlement was successfully deleted!"));
+        deleteNotification(t("Entitlements were successfully deleted!"));
         this.getEntitlements(tenantID, subscriptionID);
+        callback && callback();
       })
       .catch(e => {
         errorNotification(e);
