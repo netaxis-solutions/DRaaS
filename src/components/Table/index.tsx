@@ -24,7 +24,6 @@ import Toolbar from "./components/Toolbar";
 import Pagination from "./components/Pagination";
 import TableActions from "components/Table/components/TableActions";
 import { RadioButton } from "components/common/Form/FormRadioButton";
-
 import { useStyles } from "./styles";
 
 const Table: FC<TableProps> = ({

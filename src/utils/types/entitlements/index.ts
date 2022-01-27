@@ -55,5 +55,5 @@ export type TAddEntitlementFormProps = {
 };
 
 export type TDeleteEntitlementModalProps = TDeleteModalProps & {
-  entitlement: EntitlementsListType;
+  entitlement: EntitlementsListType[];
 };

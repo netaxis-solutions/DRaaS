@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core";
+
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
@@ -14,6 +15,12 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   iconChecked: { fill: theme.palette.primary.main },
+  iconDisabled: {
+    /*
+      Need to align the icon to the same level as the inputs
+    */
+    marginLeft: theme.spacing(-0.2),
+  },
   icon: {
     fill: "#FFFFFF",
     stroke: theme.palette.input.border,

@@ -11,12 +11,9 @@ import EntitlementsStore from "storage/singletons/Entitlements";
 
 import { editEntitlementSchema } from "utils/schemas/entitlements";
 import { Country } from "utils/functions/countryConfig";
-import {
-  EditEntitlementType,
-  EntitlementsListType,
-} from "utils/types/entitlements";
+import { EditEntitlementType } from "utils/types/entitlements";
 
-import { Plus } from "components/Icons";
+import { Plus, Trash } from "components/Icons";
 import Table from "components/Table";
 import FormTableInput from "components/common/TableInput";
 import AddEntitlement from "./components/AddEntitlement";
@@ -41,12 +38,14 @@ const EntitlementList: FC = () => {
     entitlements,
     getEntitlementTypes,
     editEntitlement,
-    setEntitlementDeleteModalData,
-    entitlementDeleteModalData,
     deleteEntitlement,
   } = EntitlementsStore;
 
-  const { selectedRows, selectedRowsLength } = TableSelectedRowsStore;
+  const {
+    selectedRows,
+    selectedRowsLength,
+    setSelectedRows,
+  } = TableSelectedRowsStore;
 
   const { control, setValue, handleSubmit } = useForm<any>({
     resolver: yupResolver(editEntitlementSchema()),
@@ -134,21 +133,32 @@ const EntitlementList: FC = () => {
     setModalToOpen("");
   };
 
-  const handleDelete = () => {
-    deleteEntitlement(tenantID, subscriptionID, entitlementDeleteModalData.id);
-    handleCloseModal();
-  };
-
   const setDefaultValues = (entitlement: any) => {
     setValue("entitlement", entitlement.entitlement);
     setValue("entitlementID", entitlement.id);
   };
 
-  const test = (name: any, props?: EntitlementsListType) => {
-    setModalToOpen(name);
-    if (props) {
-      setEntitlementDeleteModalData(props);
-    }
+  const handleDeleteItem = (props: any) => {
+    setModalToOpen("delete");
+    setSelectedRows({ [props.row.index]: true });
+  };
+
+  const callback = () => {
+    getEntitlements(tenantID, subscriptionID);
+    handleCloseModal();
+  };
+
+  const handleDelete = () => {
+    const selectedEntitlementsIds = entitlements.reduce((prev, cur, i) => {
+      selectedRows[i] && prev.push(cur.id);
+      return prev;
+    }, [] as Array<string>);
+    deleteEntitlement(
+      tenantID,
+      subscriptionID,
+      selectedEntitlementsIds,
+      callback,
+    );
   };
 
   const handleEditItem = (props: any) => {
@@ -156,6 +166,14 @@ const EntitlementList: FC = () => {
   };
 
   const toolbarActions = [
+    {
+      id: "delete",
+      title: t("Delete"),
+      icon: Trash,
+      onClick: () => {
+        setModalToOpen("delete");
+      },
+    },
     {
       id: "add",
       title: "Add",
@@ -166,6 +184,11 @@ const EntitlementList: FC = () => {
     },
   ];
 
+  const disabledRules = {
+    nameDisabledColumn: "assigned",
+    valueDisabledColumn: 0,
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -174,11 +197,14 @@ const EntitlementList: FC = () => {
           columns={columns}
           data={entitlements}
           setDefaultValues={setDefaultValues}
-          setModalToOpen={test}
+          setModalToOpen={setModalToOpen}
           isEditable
           isRemovable
+          checkbox
+          handleDeleteItem={handleDeleteItem}
           toolbarActions={toolbarActions}
           handleEditItem={handleEditItem}
+          disabled={disabledRules}
         />
       </form>
       {modalToOpen === "add" && (
@@ -189,7 +215,7 @@ const EntitlementList: FC = () => {
           handleCloseModal={handleCloseModal}
           handleDelete={handleDelete}
           selectedRows={selectedRows}
-          entitlement={entitlementDeleteModalData}
+          entitlement={entitlements}
           selectedRowsLength={selectedRowsLength}
         />
       )}
