@@ -72,9 +72,8 @@ const SubscriptionsList: FC = () => {
 
   useEffect(() => {
     getSubscriptionsData(params.tenantID);
-    return function cleanup() {
-      cleanSubscriptionHistory();
-    };
+    return () => cleanSubscriptionHistory();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
