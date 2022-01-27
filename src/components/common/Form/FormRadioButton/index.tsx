@@ -6,6 +6,7 @@ import { RadioButtonType } from "utils/types/form";
 
 import RadioButtonIcon from "./RadioButtonIcon";
 import RadioButtonCheckedIcon from "./RadioButtonCheckedIcon";
+
 import useStyles from "./styles";
 
 export const RadioButton: FC<RadioButtonType> = ({
@@ -44,15 +45,7 @@ export const RadioButton: FC<RadioButtonType> = ({
 
 const FormRadioButton = forwardRef(
   ({ fieldState, formState, ...props }: any, ref: Ref<HTMLInputElement>) => {
-    return (
-      <RadioButton
-        inputRef={ref}
-        value={props.index}
-        defaultValue={2}
-        checked={props.value}
-        {...props}
-      />
-    );
+    return <RadioButton inputRef={ref} checked={props.value} {...props} />;
   },
 );
 

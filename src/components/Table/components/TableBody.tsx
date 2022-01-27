@@ -3,9 +3,11 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import clsx from "clsx";
 
-import { TableBodyType } from "utils/types/tableConfig";
-import { useTableBodyStyles } from "./styles";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+
+import { TableBodyType } from "utils/types/tableConfig";
+
+import { useTableBodyStyles } from "./styles";
 
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,

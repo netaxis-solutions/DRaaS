@@ -50,8 +50,6 @@ export type RadioButtonType = {
   disabled?: boolean;
   onChange: (e: ChangeEvent<Element>, checked: boolean) => void;
   checked: boolean;
-  defaultValue?: any
-  value?: any
 };
 
 export type TSelectProps = {
