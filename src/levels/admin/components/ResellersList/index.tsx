@@ -27,7 +27,7 @@ const ResellersList: FC = () => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
   const { control, setValue, handleSubmit } = useForm<TEditResellerPayload>({
-    resolver: yupResolver(editResellerSchema()),
+    resolver: yupResolver(editResellerSchema(t)),
     defaultValues,
   });
 
