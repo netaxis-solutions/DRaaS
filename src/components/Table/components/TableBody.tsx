@@ -3,20 +3,35 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import clsx from "clsx";
 
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+
 import { TableBodyType } from "utils/types/tableConfig";
+
 import { useTableBodyStyles } from "./styles";
 
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,
   page,
   prepareRow,
+  radioButton,
 }) => {
   const classes = useTableBodyStyles();
+
+  const { selectedRows } = TableSelectedRowsStore;
 
   return (
     <MTableBody {...getTableBodyProps()}>
       {page.map(row => {
+        if (
+          radioButton &&
+          Object.keys(selectedRows).length === 0 &&
+          row.index === 0
+        ) {
+          row.isSelected = true;
+        }
+
         prepareRow(row);
+
         return (
           <TableRow
             {...row.getRowProps()}
