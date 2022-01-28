@@ -43,6 +43,10 @@ class SubscriptionsStore {
       });
   };
 
+  cleanSubscriptionHistory = () => {
+    this.subscriptions = [];
+  };
+
   createSubscription = (
     tenantId: string,
     payload: TCreateSubscriptionPayload,
