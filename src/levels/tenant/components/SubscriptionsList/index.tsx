@@ -34,6 +34,7 @@ const SubscriptionsList: FC = () => {
     deleteSubscriptions,
     isSubscriptionsCreatable,
     isSubscriptionsDeletable,
+    cleanSubscriptionHistory,
     // isSubscriptionsEditable,
   } = Subscriptions;
 
@@ -71,6 +72,8 @@ const SubscriptionsList: FC = () => {
 
   useEffect(() => {
     getSubscriptionsData(params.tenantID);
+    return () => cleanSubscriptionHistory();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
