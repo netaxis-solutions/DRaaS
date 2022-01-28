@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { lazy } from "react";
 import { Route, Switch } from "react-router";
 import RoutingConfig from "storage/singletons/RoutingConfig";
+import BuildInfo from "./components/CurrentVersionInfo";
 
 const ResellersList = lazy(() => import("./components/ResellersList"));
 const DistributorsList = lazy(() => import("./components/DistributorsList"));
@@ -32,6 +33,7 @@ const Admin = () => {
         path={allAvailvableRouting.adminRatePlan}
         component={() => <div>Billing</div>}
       />
+      <Route exact path={"/info"} component={BuildInfo} />
     </Switch>
   );
 };
