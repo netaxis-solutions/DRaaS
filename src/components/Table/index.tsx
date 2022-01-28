@@ -304,6 +304,7 @@ const Table: FC<TableProps> = ({
           getTableBodyProps={getTableBodyProps}
           prepareRow={prepareRow}
           page={page}
+          radioButton={radioButton}
         />
       </MaUTable>
       <Pagination
