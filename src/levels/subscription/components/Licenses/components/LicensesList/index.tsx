@@ -29,7 +29,7 @@ const LicensesList: FC = () => {
   const { getSubscriptionLicensesData, licenses, editLicense } = LicensesStore;
 
   const { control, setValue, handleSubmit } = useForm<EditLicensesPayload>({
-    resolver: yupResolver(editLicenseSchema()),
+    resolver: yupResolver(editLicenseSchema(t)),
     defaultValues,
   });
 
@@ -57,7 +57,10 @@ const LicensesList: FC = () => {
               control={control}
               render={({ field, ...props }) => (
                 <FormTableInput
-                  error={cell.row.values.inUse >= cell.row.values.assigned}
+                  error={
+                    cell.row.values.inUse >= cell.row.values.assigned ||
+                    props.fieldState.error?.message
+                  }
                   {...field}
                   {...props}
                 />
