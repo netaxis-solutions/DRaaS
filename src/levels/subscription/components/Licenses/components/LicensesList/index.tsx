@@ -58,7 +58,7 @@ const LicensesList: FC = () => {
               render={({ field, ...props }) => (
                 <FormTableInput
                   error={
-                    cell.row.values.inUse >= cell.row.values.assigned ||
+                    cell.row.values.inUse > cell.row.values.assigned ||
                     props.fieldState.error?.message
                   }
                   {...field}
