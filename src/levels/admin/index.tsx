@@ -15,22 +15,22 @@ const Admin = () => {
     <Switch>
       <Route
         exact
-        path={allAvailvableRouting.adminDistributors}
+        path={allAvailvableRouting.systemDistributors}
         component={DistributorsList}
       />
       <Route
         exact
-        path={allAvailvableRouting.adminResellers}
+        path={allAvailvableRouting.systemResellers}
         component={ResellersList}
       />
       <Route
         exact
-        path={allAvailvableRouting.adminTenants}
+        path={allAvailvableRouting.systemTenants}
         component={TenantsList}
       />
       <Route
         exact
-        path={allAvailvableRouting.adminRatePlan}
+        path={allAvailvableRouting.systemRatePlan}
         component={() => <div>Billing</div>}
       />
       <Route exact path={"/info"} component={BuildInfo} />

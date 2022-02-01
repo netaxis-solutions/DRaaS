@@ -6,8 +6,8 @@ export type GetRoutesType = (
 ) => Map<string, string>;
 
 export type UrlStartStringType = {
-  admin: {
-    admin: string;
+  system: {
+    system: string;
     distributor: string;
     reseller: string;
     tenant: string;
@@ -55,7 +55,7 @@ export type MenuElement = {
 };
 
 export type MenuType = {
-  admin: { key: string; name: string }[];
+  system: { key: string; name: string }[];
   distributor: { key: string; name: string }[];
   reseller: { key: string; name: string }[];
   tenant: { key: string; name: string }[];
@@ -70,7 +70,7 @@ export type InnerSidebarMenu = {
 };
 
 export type SidebarMenuType = {
-  admin: InnerSidebarMenu;
+  system: InnerSidebarMenu;
   distributor: InnerSidebarMenu;
   reseller: InnerSidebarMenu;
   tenant: InnerSidebarMenu;
@@ -78,7 +78,7 @@ export type SidebarMenuType = {
 };
 
 export type HomeUrl = {
-  admin: string;
+  system: string;
   distributor: string;
   reseller: string;
   tenant: string;
@@ -86,18 +86,18 @@ export type HomeUrl = {
 };
 
 export type LoggedInUserType =
-  | "admin"
+  | "system"
   | "distributor"
   | "reseller"
   | "tenant"
   | "subscription";
 
 export type RoutingConfigType = {
-  admin: {
-    adminTenants: { enabled: boolean };
-    adminDistributors: { enabled: boolean };
-    adminRatePlan: { enabled: boolean };
-    adminResellers: { enabled: boolean };
+  system: {
+    systemTenants: { enabled: boolean };
+    systemDistributors: { enabled: boolean };
+    systemRatePlan: { enabled: boolean };
+    systemResellers: { enabled: boolean };
   };
   distributor: {
     distributorAdmins: { enabled: boolean };

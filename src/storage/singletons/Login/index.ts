@@ -201,7 +201,8 @@ class Login {
       route: "/system/users/local",
     })
       .then((data: RoutingConfigType) => {
-        const level = data.data.ui_profile;
+        // @ts-ignore
+        const level = data.data.admin_of[0].level;
         RoutingConfig.setLoggedUser(level, level);
 
         runInAction(() => {
