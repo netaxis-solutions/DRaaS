@@ -16,10 +16,10 @@ export const homeUrl: HomeUrl = {
   subscription: "subscriptionLicenses",
 };
 export const privateRoutes: PrivateRoutesType = {
-  adminDistributors: "/distributors",
-  adminResellers: "/resellers",
-  adminTenants: "/tenants",
-  adminRatePlan: "/rate-plan",
+  draas_system_adminDistributors: "/distributors",
+  draas_system_adminResellers: "/resellers",
+  draas_system_adminTenants: "/tenants",
+  draas_system_adminRatePlan: "/rate-plan",
   distributorResellers: "/resellers",
   distributorTenants: "/tenants",
   distributorLicenseConsumption: "/license-consumption",

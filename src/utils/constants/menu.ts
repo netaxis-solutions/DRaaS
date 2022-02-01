@@ -1,10 +1,10 @@
 import { MenuType, SidebarMenuType } from "utils/types/routingConfig";
 
 const adminMenu = [
-  { key: "adminDistributors", name: "Distributors" },
-  { key: "adminResellers", name: "Resellers" },
-  { key: "adminTenants", name: "Tenants" },
-  { key: "adminRatePlan", name: "Rate plan" },
+  { key: "draas_system_adminDistributors", name: "Distributors" },
+  { key: "draas_system_adminResellers", name: "Resellers" },
+  { key: "draas_system_adminTenants", name: "Tenants" },
+  { key: "draas_system_adminRatePlan", name: "Rate plan" },
 ];
 
 const distributorMenu = [

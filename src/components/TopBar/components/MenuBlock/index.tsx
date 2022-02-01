@@ -11,8 +11,6 @@ const MenuBlock: React.FC = () => {
 
   if (!topMenu) return <></>;
 
-  console.log("TOPMENU", topMenu);
-
   return (
     <>
       {topMenu.map((menuEl: MenuElement, i: number) => (

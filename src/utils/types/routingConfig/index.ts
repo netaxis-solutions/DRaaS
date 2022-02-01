@@ -94,9 +94,9 @@ export type LoggedInUserType =
 
 export type RoutingConfigType = {
   draas_system_admin: {
-    adminTenants: { enabled: boolean };
-    adminDistributors: { enabled: boolean };
-    adminRatePlan: { enabled: boolean };
+    draas_system_adminTenants: { enabled: boolean };
+    draas_system_adminDistributors: { enabled: boolean };
+    draas_system_adminRatePlan: { enabled: boolean };
     adminResellers: { enabled: boolean };
   };
   distributor: {

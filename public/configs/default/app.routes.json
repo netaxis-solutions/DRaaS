@@ -1,11 +1,11 @@
 {
   "draas_system_admin": {
-    "adminDistributors": {
+    "draas_system_adminDistributors": {
       "enabled": true
     },
-    "adminResellers": { "enabled": true },
-    "adminTenants": { "enabled": true },
-    "adminRatePlan": { "enabled": true }
+    "draas_system_adminResellers": { "enabled": true },
+    "draas_system_adminTenants": { "enabled": true },
+    "draas_system_adminRatePlan": { "enabled": true }
   },
   "distributor": {
     "distributorResellers": { "enabled": true },
