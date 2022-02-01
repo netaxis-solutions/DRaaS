@@ -193,7 +193,7 @@ class Login {
 
   getUserData: () => Promise<void> = async () => {
     type RoutingConfigType = {
-      data: { ui_profile: LoggedInUserType; [key: string]: string };
+      data: { profile: LoggedInUserType; [key: string]: string };
     };
 
     request({
@@ -201,7 +201,8 @@ class Login {
       route: "/system/users/local",
     })
       .then((data: RoutingConfigType) => {
-        const level = data.data.ui_profile;
+        // @ts-ignore
+        const level = data.data.profile.name;
         RoutingConfig.setLoggedUser(level, level);
 
         runInAction(() => {

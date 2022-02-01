@@ -6,7 +6,7 @@ export type GetRoutesType = (
 ) => Map<string, string>;
 
 export type UrlStartStringType = {
-  admin: {
+  draas_system_admin: {
     admin: string;
     distributor: string;
     reseller: string;
@@ -55,7 +55,7 @@ export type MenuElement = {
 };
 
 export type MenuType = {
-  admin: { key: string; name: string }[];
+  draas_system_admin: { key: string; name: string }[];
   distributor: { key: string; name: string }[];
   reseller: { key: string; name: string }[];
   tenant: { key: string; name: string }[];
@@ -70,7 +70,7 @@ export type InnerSidebarMenu = {
 };
 
 export type SidebarMenuType = {
-  admin: InnerSidebarMenu;
+  draas_system_admin: InnerSidebarMenu;
   distributor: InnerSidebarMenu;
   reseller: InnerSidebarMenu;
   tenant: InnerSidebarMenu;
@@ -78,7 +78,7 @@ export type SidebarMenuType = {
 };
 
 export type HomeUrl = {
-  admin: string;
+  draas_system_admin: string;
   distributor: string;
   reseller: string;
   tenant: string;
@@ -86,14 +86,14 @@ export type HomeUrl = {
 };
 
 export type LoggedInUserType =
-  | "admin"
+  | "draas_system_admin"
   | "distributor"
   | "reseller"
   | "tenant"
   | "subscription";
 
 export type RoutingConfigType = {
-  admin: {
+  draas_system_admin: {
     adminTenants: { enabled: boolean };
     adminDistributors: { enabled: boolean };
     adminRatePlan: { enabled: boolean };

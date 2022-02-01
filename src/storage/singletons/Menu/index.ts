@@ -36,6 +36,8 @@ class Menu {
     if (RoutingStore.loggedInUserLevel) {
       menuBar = [...menu[RoutingStore.loggedInUserLevel]];
 
+      console.log("MENUBAR", menuBar, "MENU", menu);
+
       const filteredMenu = menuBar?.reduce(
         (prev: Array<MenuElement>, el: MenuElement) => {
           const menuEl: RouteValueType | undefined = this.availableRoutes.get(
@@ -51,6 +53,7 @@ class Menu {
         [],
       );
       menuBar = filteredMenu;
+      console.log("FILTERED MENU", filteredMenu);
     }
     return menuBar;
   }

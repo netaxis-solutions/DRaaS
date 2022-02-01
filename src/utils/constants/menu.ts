@@ -61,7 +61,7 @@ const subscriptionMenu = [
 ];
 
 export const menu: MenuType = {
-  admin: adminMenu,
+  draas_system_admin: adminMenu,
   distributor: distributorMenu,
   reseller: resellerMenu,
   tenant: tenantMenu,
@@ -69,7 +69,7 @@ export const menu: MenuType = {
 };
 
 export const sidebarLevelMenus: SidebarMenuType = {
-  admin: {
+  draas_system_admin: {
     distributor: distributorMenu,
     reseller: resellerMenu,
     tenant: tenantMenu,

@@ -10,6 +10,9 @@ const MenuBlock: React.FC = () => {
   const { setCurrentLevel, loggedInUserLevel } = RoutingConfig;
 
   if (!topMenu) return <></>;
+
+  console.log("TOPMENU", topMenu);
+
   return (
     <>
       {topMenu.map((menuEl: MenuElement, i: number) => (

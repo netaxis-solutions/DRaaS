@@ -9,7 +9,7 @@ export const publicRoutes = {
 };
 
 export const homeUrl: HomeUrl = {
-  admin: "adminDistributors",
+  draas_system_admin: "adminDistributors",
   distributor: "distributorResellers",
   reseller: "resellerTenants",
   tenant: "tenantSubscriptions",
@@ -44,7 +44,7 @@ export const privateRoutes: PrivateRoutesType = {
 };
 
 export const urlStartString: UrlStartStringType = {
-  admin: {
+  draas_system_admin: {
     admin: "",
     distributor: "/distributors/:distributorID",
     reseller: "/distributors/:distributorID/resellers/:resellerID",
