@@ -20,8 +20,6 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
   const filteredData = entitlement.filter((el: any) => el.assigned === 0);
   const disabledData = entitlement.filter((el: any) => el.assigned > 0);
 
-  console.log("disabledData", disabledData);
-
   return (
     <DeleteModal
       handleCancel={handleCloseModal}
@@ -44,7 +42,9 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
           <span className={classes.boldText}>
             {selectedRowsLength === 1
               ? filteredData?.find((_: any, i: any) => selectedRows[i])?.name
-              : `${selectedRowsLength} ${t("entitlements")}`}
+              : `${selectedRowsLength - disabledData.length} ${t(
+                  "entitlements",
+                )}`}
           </span>
           ?
         </div>
