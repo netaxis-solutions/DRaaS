@@ -125,8 +125,6 @@ class SubscriptionEntitlementsStore {
   ) => {
     Promise.allSettled(
       selectedEntitlementsIds.map(id => {
-        console.log("ID STORE", id);
-
         request({
           route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements/${id}`,
           loaderName: "@deleteEntitlements",
