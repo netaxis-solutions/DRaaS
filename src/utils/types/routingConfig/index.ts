@@ -7,7 +7,7 @@ export type GetRoutesType = (
 
 export type UrlStartStringType = {
   draas_system_admin: {
-    admin: string;
+    draas_system_admin: string;
     distributor: string;
     reseller: string;
     tenant: string;

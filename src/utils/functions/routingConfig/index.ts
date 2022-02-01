@@ -18,6 +18,37 @@ export const getLevelRoutes: GetRoutesType = (access, currentLevel) =>
         `${access}.${currentLevel}`,
         null,
       );
+
+      console.log(
+        "DEVELOP VERSION ----------------------------",
+        "privateRoutes",
+        privateRoutes,
+        "prev -----",
+        prev,
+        "access",
+        access,
+        "currentLevel",
+        currentLevel,
+        "CUR",
+        cur,
+      );
+      console.log(
+        "CURURLSTART=========",
+        curUrlStart,
+        `${access}.${currentLevel}`,
+        "SSSS",
+        privateRoutes[cur],
+      );
+
+      console.log(
+        "CUR-------",
+        cur.includes(currentLevel),
+        "CURRENT LEVEL",
+        currentLevel,
+        "CUR",
+        cur,
+      );
+
       cur.includes(currentLevel) &&
         prev.set(cur, `${curUrlStart}${privateRoutes[cur]}`);
       return prev;

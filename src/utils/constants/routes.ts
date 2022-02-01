@@ -45,7 +45,7 @@ export const privateRoutes: PrivateRoutesType = {
 
 export const urlStartString: UrlStartStringType = {
   draas_system_admin: {
-    admin: "",
+    draas_system_admin: "",
     distributor: "/distributors/:distributorID",
     reseller: "/distributors/:distributorID/resellers/:resellerID",
     tenant: "/tenants/:tenantID",
