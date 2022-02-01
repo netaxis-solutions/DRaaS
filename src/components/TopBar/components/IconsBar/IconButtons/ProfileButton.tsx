@@ -47,7 +47,7 @@ const ProfileButton: React.FC = () => {
           <div className={classes.userEntity}>
             {user.entity || t("No entity")}
           </div>
-          <div className={classes.userProfile}>{user.ui_profile}</div>
+          <div className={classes.userProfile}>{user?.profile?.name}</div>
         </div>
         <div
           className={classes.account}
