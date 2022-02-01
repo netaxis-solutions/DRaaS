@@ -18,6 +18,9 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
   const classes = useStyles();
 
   const filteredData = entitlement.filter((el: any) => el.assigned === 0);
+  const disabledData = entitlement.filter((el: any) => el.assigned > 0);
+
+  console.log("disabledData", disabledData);
 
   return (
     <DeleteModal
