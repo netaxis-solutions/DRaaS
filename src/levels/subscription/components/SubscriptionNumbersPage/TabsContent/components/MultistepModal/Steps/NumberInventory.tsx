@@ -6,7 +6,6 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 import Numbers from "storage/singletons/Numbers";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 
-import { errorNotification } from "utils/functions/notifications";
 import { EntitlementsListType } from "utils/types/entitlements";
 
 import Table from "components/Table";
@@ -26,7 +25,7 @@ const NumberInventory: React.FC = () => {
     goNext,
     setPreviousChoices,
   } = MultiStepForm;
-  const { radioButtonValueInRow, isRowSelected } = TableSelectedRows;
+  const { radioButtonValueInRow } = TableSelectedRows;
 
   const entitlement: EntitlementsListType = previousChoices[0].entitlements;
 
@@ -84,10 +83,7 @@ const NumberInventory: React.FC = () => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!isRowSelected()) {
-      errorNotification(t("Row should be selected"));
-      return;
-    }
+
     setPreviousChoices({ numbersRange: radioButtonValueInRow });
 
     setValues({

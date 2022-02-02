@@ -66,18 +66,13 @@ const RangeSelection: React.FC = () => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addNumber(
-      tenantId,
-      subscriptionId,
-      {
-        countryCode: previousChoices[0].entitlements.countryCode,
-        ranges: selectedRowsValues.map(row => [
-          row.values.rangeStart,
-          row.values.rangeEnd,
-        ]),
-      },
-      MultiStepForm.clearMultiStep,
-    );
+    addNumber(tenantId, subscriptionId, {
+      countryCode: previousChoices[0].entitlements.countryCode,
+      ranges: selectedRowsValues.map(row => [
+        row.values.rangeStart,
+        row.values.rangeEnd,
+      ]),
+    });
   };
   useEffect(() => {
     setAmountSelected(

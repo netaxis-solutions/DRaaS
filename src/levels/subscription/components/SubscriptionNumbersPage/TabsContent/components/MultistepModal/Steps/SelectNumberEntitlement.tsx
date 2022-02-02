@@ -8,8 +8,6 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 import Entitlements from "storage/singletons/Entitlements";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 
-import { errorNotification } from "utils/functions/notifications";
-
 import Table from "components/Table";
 
 import { styles } from "./styles";
@@ -22,7 +20,7 @@ const SelectNumberEntitlement: React.FC = () => {
 
   const { setValues, goNext, setPreviousChoices } = MultiStepForm;
   const { entitlements, getEntitlements } = Entitlements;
-  const { radioButtonValueInRow, isRowSelected } = TableSelectedRows;
+  const { radioButtonValueInRow } = TableSelectedRows;
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
@@ -96,10 +94,7 @@ const SelectNumberEntitlement: React.FC = () => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!isRowSelected()) {
-      errorNotification(t("Row should be selected"));
-      return;
-    }
+
     setPreviousChoices({ entitlements: radioButtonValueInRow });
 
     setValues({

@@ -79,13 +79,10 @@ class NumbersStore {
   };
 
   addNumber = (
-    tenantID: string = "0da9f1cc-6e8b-4eb8-8191-919b748b2772",
-    subscriptionID: string = "58",
-    payload: CountryCodeWithRanges = {
-      countryCode: "+32",
-      ranges: [[25409983, 25409992]],
-    },
-    successCallback: () => void,
+    tenantID: string,
+    subscriptionID: string,
+    payload: CountryCodeWithRanges,
+    successCallback?: () => void,
   ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,

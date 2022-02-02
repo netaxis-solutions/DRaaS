@@ -8,6 +8,7 @@ import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import { TableBodyType } from "utils/types/tableConfig";
 
 import { useTableBodyStyles } from "./styles";
+import { useEffect } from "react";
 
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,
@@ -17,7 +18,20 @@ const TableBody: React.FC<TableBodyType> = ({
 }) => {
   const classes = useTableBodyStyles();
 
-  const { selectedRows } = TableSelectedRowsStore;
+  const {
+    selectedRows,
+    setSelectedRows,
+    setRadioButtonValueInRows,
+  } = TableSelectedRowsStore;
+
+  useEffect(() => {
+    const target = page.find(el => el.isSelected);
+    if (target && radioButton) {
+      setSelectedRows({ 0: true });
+      setRadioButtonValueInRows(target.original);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <MTableBody {...getTableBodyProps()}>
