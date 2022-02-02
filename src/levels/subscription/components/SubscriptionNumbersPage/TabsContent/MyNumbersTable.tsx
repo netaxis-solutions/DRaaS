@@ -1,58 +1,41 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { CellProps, TableProps } from "react-table";
 
-import Table from "components/Table";
-import { TableData } from "utils/types/tableConfig";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import NumbersStore from "storage/singletons/Numbers";
+
+import { PhoneNumberType } from "utils/types/numbers";
+
 import { Plus, Trash } from "components/Icons";
-import SelectFromInventory from "./Modals/SelectFromInventory";
+import Table from "components/Table";
+import SelectFromInventory from "./components/MultistepModal";
+import DeleteNumberModal from "./components/DeleteModal";
 
-const NumbersList: FC<{ numbers: any[] }> = ({ numbers }) => {
+const NumbersList: FC<{ numbers: PhoneNumberType[] }> = ({ numbers }) => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
 
-  const columns = useMemo(
-    () => [
-      {
-        Header: t("country_code"),
-        accessor: "countryCode",
-      },
-      {
-        Header: "number",
-        accessor: "nsn",
-      },
-      {
-        Header: "number_type",
-        accessor: "numberType",
-      },
-      {
-        Header: "Origin",
-        accessor: "source",
-        Cell: ({ value }: any) => {
-          console.log(value, "as");
+  const {
+    selectedRows,
+    selectedRowsLength,
+    selectedRowsValues,
+    setSelectedRows,
+    setSelectedRowsValues,
+  } = TableSelectedRowsStore;
 
-          return value === "number_inventory" ? "native" : "ported";
-        },
-      },
-      {
-        Header: "Status",
-        accessor: "Status",
-      },
-    ],
-    [],
-  );
+  const { getNumbersData, deassignNumbers } = NumbersStore;
 
-  const handleModalClose = () => {
-    setModalToOpen("");
-  };
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const toolbarActions = [
     {
       id: "delete",
-      title: "Delete",
+      title: t("Delete"),
       icon: Trash,
       onClick: () => {
         setModalToOpen("delete");
@@ -60,33 +43,100 @@ const NumbersList: FC<{ numbers: any[] }> = ({ numbers }) => {
     },
     {
       id: "add",
-      title: "Add",
+      title: t("Add"),
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
       },
     },
   ];
-  const handleDeleteItem = () => {
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: t("Country code"),
+        accessor: "countryCode",
+      },
+      {
+        Header: t("Number"),
+        accessor: "nsn",
+      },
+      {
+        Header: t("Number type"),
+        accessor: "numberType",
+      },
+      {
+        Header: t("Origin"),
+        accessor: "source",
+        Cell: ({ value }: CellProps<TableProps>) => {
+          return value === "number_inventory" ? "native" : "ported";
+        },
+      },
+      {
+        Header: t("Status"),
+        accessor: "assigned",
+        Cell: ({ value }: CellProps<TableProps>) => {
+          return value ? "connected" : "free";
+        },
+      },
+    ],
+    [t],
+  );
+  const handleModalClose = () => {
+    setModalToOpen("");
+  };
+
+  const handleDeleteItem = (props: any) => {
+    setSelectedRows({ [props.row.index]: true });
+    setSelectedRowsValues([props.row]);
     setModalToOpen("delete");
+  };
+
+  const successCallback = () => {
+    getNumbersData(tenantID, subscriptionID);
+    handleModalClose();
+  };
+
+  const handleDelete = () => {
+    const numbersToDeassign = selectedRowsValues.reduce(
+      (num: Array<{ countryCode: string; nsn: number }>, row) => [
+        ...num,
+        { countryCode: row.values.countryCode, nsn: Number(row.values.nsn) },
+      ],
+      [],
+    );
+    deassignNumbers(
+      tenantID,
+      subscriptionID,
+      numbersToDeassign,
+      successCallback,
+    );
+    successCallback();
   };
 
   return (
     <>
       <Table
-        title={t("Tenants")}
+        title={t("My numbers")}
         columns={columns}
-        data={numbers as TableData[]}
+        data={numbers}
         toolbarActions={toolbarActions}
         handleDeleteItem={handleDeleteItem}
         checkbox
-        isEditable={false}
+        isRemovable
       />
-      {/* part for future modals*/}
       {modalToOpen === "add" && (
         <SelectFromInventory handleCancel={handleModalClose} />
       )}
-      {modalToOpen === "delete" && null}
+      {modalToOpen === "delete" && (
+        <DeleteNumberModal
+          handleCloseModal={handleModalClose}
+          handleDelete={handleDelete}
+          selectedRows={selectedRows}
+          numbers={numbers}
+          selectedRowsLength={selectedRowsLength}
+        />
+      )}
     </>
   );
 };

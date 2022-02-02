@@ -1,5 +1,5 @@
 export type EntitlementsListType = {
-  country_code: string;
+  countryCode: string;
   entitlement: number;
   id: number;
   license_model_id: number;
@@ -8,14 +8,14 @@ export type EntitlementsListType = {
   regions: [];
   serviceCapabilities: string;
   vanityType: string;
-  assigned?: string;
-  reserved?: string;
-  disconnected?: string;
+  assigned?: number;
+  reserved?: number;
+  disconnected?: number;
   entitlementType?: number;
 };
 
 export type EntitlementsTypeListType = {
-  country_code: string;
+  countryCode: string;
   id: number;
   name: string;
   numberType: string;

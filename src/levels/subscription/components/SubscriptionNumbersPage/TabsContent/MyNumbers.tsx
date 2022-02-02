@@ -1,26 +1,33 @@
-import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Plus } from "components/Icons";
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import NumbersStore from "storage/singletons/Numbers";
 import RoutingConfig from "storage/singletons/RoutingConfig";
-import SelectFromInventory from "./Modals/SelectFromInventory";
+
+import SelectFromInventory from "./components/MultistepModal";
 import MyNumbersTable from "./MyNumbersTable";
+import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
+import { Plus } from "components/Icons";
+
 import styles from "./styles";
 
 const MyNumbers = () => {
-  const params: any = useParams();
+  const { t } = useTranslation();
+  const params = useParams<{ tenantID: string; subscriptionID: string }>();
   const classes = styles();
   const [isModalOpened, setModal] = useState(false);
 
   const { history } = RoutingConfig;
-  const { numbers, getNumbersData, testRequest } = NumbersStore;
+  const { numbers, getNumbersData, clearNumbers } = NumbersStore;
 
   useEffect(() => {
     getNumbersData(params.tenantID, params.subscriptionID);
-    testRequest();
-  }, []);
+    return () => {
+      clearNumbers();
+    };
+  }, [clearNumbers, getNumbersData, params.subscriptionID, params.tenantID]);
 
   const handleModalClose = () => {
     setModal(false);
@@ -33,16 +40,16 @@ const MyNumbers = () => {
   ) : (
     <>
       <div className={classes.noNumberText}>
-        You have no phone numbers added yet
+        {t("You have no phone numbers added yet")}
       </div>
       <div className={classes.cardsWrapper}>
         <div className={classes.card}>
           <div className={classes.cardText}>
-            You can add numbers from inventory
+            {t("You can add numbers from inventory")}
           </div>
           <ButtonWithIcon
             icon={Plus}
-            title={"Add from inventory"}
+            title={t("Add from inventory")}
             variant={"contained"}
             onClick={() => setModal(true)}
           />
@@ -50,22 +57,22 @@ const MyNumbers = () => {
         <div className={classes.card}>
           {" "}
           <div className={classes.cardText}>
-            You can port your numbers by adding porting request
+            {t("You can port your numbers by adding porting request")}
           </div>
           <ButtonWithIcon
             icon={Plus}
-            title={"Add porting request"}
+            title={t("Add porting request")}
             variant={"contained"}
             onClick={() => history.push("porting")}
           />
         </div>
         <div className={classes.card}>
           <div className={classes.cardText}>
-            You can add numbers from{" "}
+            {t("You can add numbers from")}{" "}
             <Link to={"reservedNumbers"} className={classes.link}>
-              Reserved numbers
+              {t("Reserved numbers")}
             </Link>{" "}
-            tab.
+            {t("tab")}.
           </div>
         </div>
       </div>

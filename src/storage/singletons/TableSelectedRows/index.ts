@@ -1,4 +1,5 @@
-import { makeAutoObservable } from "mobx";
+import { isEmpty } from "lodash";
+import { makeAutoObservable, observable } from "mobx";
 
 import { RadioSelectRowType } from "utils/types/tableConfig";
 
@@ -7,9 +8,12 @@ class TableSelectedRows {
     [key: string]: boolean;
   } = {};
   radioButtonValueInRow: RadioSelectRowType = {};
+  selectedRowsValues: Array<{ [key: string]: any }> = [];
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      selectedRowsValues: observable.ref,
+    });
   }
 
   setSelectedRows = (selectedRows: Record<string, boolean>) => {
@@ -24,8 +28,16 @@ class TableSelectedRows {
     this.radioButtonValueInRow = payload;
   };
 
+  setSelectedRowsValues = (selectedValues: Array<{ [key: string]: any }>) => {
+    this.selectedRowsValues = selectedValues;
+  };
+
   clearSelectedRows = () => {
     this.selectedRows = {};
+  };
+
+  isRowSelected = () => {
+    return !isEmpty(this.selectedRows);
   };
 
   get selectedRowsLength() {

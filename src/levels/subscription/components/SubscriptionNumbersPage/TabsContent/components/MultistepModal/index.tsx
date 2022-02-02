@@ -4,8 +4,9 @@ import { useTranslation } from "react-i18next";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
-import Modal from "components/Modal";
 import { TAddTenantFormProps } from "utils/types/tenant";
+
+import Modal from "components/Modal";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
 import { Back, Next } from "components/Icons";
 import SelectNumberEntitlement from "./Steps/SelectNumberEntitlement";
@@ -15,24 +16,32 @@ import RangeSelection from "./Steps/RangeSelection";
 
 const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   const { t } = useTranslation();
-  const { stepContent, activeStep, steps, setSteps, goBack } = MultiStepForm;
+  const {
+    stepContent,
+    activeStep,
+    steps,
+    setSteps,
+    goBack,
+    clearMultiStep,
+  } = MultiStepForm;
 
   useEffect(() => {
     setSteps([
       {
-        title: "Select number entitlement",
+        title: t("Select number entitlement"),
         component: <SelectNumberEntitlement />,
       },
-      { title: "Numbers inventory", component: <NumberInventory /> },
-      { title: "Range settings", component: <RangeSettings /> },
-      { title: "Range selection", component: <RangeSelection /> },
+      { title: t("Numbers inventory"), component: <NumberInventory /> },
+      { title: t("Range settings"), component: <RangeSettings /> },
+      { title: t("Range selection"), component: <RangeSelection /> },
     ]);
-  }, [setSteps, handleCancel, t]);
+    return () => clearMultiStep();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlePrevious = () => {
     goBack(handleCancel);
   };
-
   return (
     <>
       <Modal

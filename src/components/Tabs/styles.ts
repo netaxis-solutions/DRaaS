@@ -9,7 +9,6 @@ export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: 300,
     lineHeight: "1.6rem",
     opacity: 1,
-    textTransform: "none",
   },
   root: {
     marginBottom: "-1px",

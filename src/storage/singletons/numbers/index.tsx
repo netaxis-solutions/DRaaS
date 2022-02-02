@@ -2,14 +2,27 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 import { request } from "services/api";
 import configStore from "../Config";
-// import subscription from "levels/subscription";
+import { errorNotification } from "utils/functions/notifications";
+import {
+  CountryCodeWithNSN,
+  CountryCodeWithRanges,
+  NumberRangesType,
+  NumberSuggestionsType,
+  PhoneNumberType,
+} from "utils/types/numbers";
 
 class NumbersStore {
-  numbers: Array<any> = [];
+  numbers: Array<PhoneNumberType> = [];
+  numberInventory: Array<PhoneNumberType> = [];
+  numberInventoryRanges: Array<NumberRangesType> = [];
+  numberSuggestions: NumberSuggestionsType = [];
 
   constructor() {
     makeObservable(this, {
       numbers: observable.ref,
+      numberInventory: observable.ref,
+      numberInventoryRanges: observable.ref,
+      numberSuggestions: observable.ref,
     });
   }
 
@@ -23,11 +36,26 @@ class NumbersStore {
 
       runInAction(() => {
         this.numbers = numbers;
-        console.log(this.numbers, "asdsafasdfsd");
       });
     } catch (e) {
-      this.numbers = [];
-      console.log(e, "e");
+      this.clearNumbers();
+      errorNotification(e);
+    }
+  };
+
+  getNumbersInventoryRanges = async () => {
+    try {
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/number_inventory/ranges`,
+        loaderName: "@getNumbersData",
+      });
+      const ranges = data.data.ranges;
+
+      runInAction(() => {
+        this.numberInventoryRanges = ranges;
+      });
+    } catch (e) {
+      this.numberInventoryRanges = [];
     }
   };
 
@@ -43,47 +71,75 @@ class NumbersStore {
       const numbers = data.data.numbers;
 
       runInAction(() => {
-        this.numbers = numbers;
-        console.log(this.numbers, "asdsafasdfsd");
+        this.numberInventory = numbers;
       });
     } catch (e) {
       this.numbers = [];
-      console.log(e, "ААААААААА");
     }
   };
 
-  addNumber = async (
-    tenantID: string,
-    subscriptionID: string,
-    payload: any = {
-      countryCode: "+31",
-      ranges: [[302869750, 302869751]],
+  addNumber = (
+    tenantID: string = "0da9f1cc-6e8b-4eb8-8191-919b748b2772",
+    subscriptionID: string = "58",
+    payload: CountryCodeWithRanges = {
+      countryCode: "+32",
+      ranges: [[25409983, 25409992]],
     },
+    successCallback: () => void,
   ) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
-        loaderName: "@postNumber",
-        method: "post",
-        payload,
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
+      loaderName: "@postNumber",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        runInAction(() => {
+          this.getNumbersData(tenantID, subscriptionID);
+        });
+        successCallback && successCallback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      runInAction(() => {
-        this.getNumbersData(tenantID, subscriptionID);
-        console.log(this.numbers, "asdsafasdfsd");
-      });
-    } catch (e) {
-      console.log(e, "e");
-    }
   };
-  testRequest = async () => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/number_inventory/suggestion?range_size=10&number_type=geo&country_code=31&number_of_results=10`,
-        loaderName: "@postNumber",
+
+  getNumberSuggestions = (params: any, callback?: any) => {
+    request({
+      route: `${configStore.config.draasInstance}/number_inventory/suggestion`,
+      payload: { params },
+    })
+      .then(({ data }: any) => {
+        this.numberSuggestions = data.suggestions;
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-    } catch (e) {
-      console.log(e, "e");
-    }
+  };
+
+  deassignNumbers = (
+    uuid: string,
+    subId: string,
+    numbers: CountryCodeWithNSN[],
+    callback?: () => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${uuid}/subscriptions/${subId}/numbers`,
+      method: "delete",
+      payload: { numbers },
+    })
+      .then(({ data }: any) => {
+        this.numberSuggestions = data.suggestions;
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  clearNumbers = () => {
+    this.numbers = [];
   };
 }
 

@@ -46,9 +46,11 @@ const Table: FC<TableProps> = ({
     setSelectedRows,
     clearSelectedRows,
     setRadioButtonValueInRows,
+    setSelectedRowsValues,
   } = TableSelectedRowsStore;
 
   const {
+    rows,
     getTableProps,
     getTableBodyProps,
     headerGroups,
@@ -264,9 +266,9 @@ const Table: FC<TableProps> = ({
                 ],
           ),
   );
-
   useEffect(() => {
     setSelectedRows(state.selectedRowIds);
+    setSelectedRowsValues(rows.filter(row => row.id in state.selectedRowIds));
     return () => {
       clearSelectedRows();
     };
