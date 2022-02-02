@@ -19,6 +19,11 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
 
   const filteredData = entitlement.filter((el: any) => el.assigned === 0);
   const disabledData = entitlement.filter((el: any) => el.assigned > 0);
+  const SelectedRowsDisabled = selectedRowsLength - disabledData.length;
+  const filteredRowsWithoutDisabledCheckbox =
+    selectedRowsLength >= filteredData.length
+      ? SelectedRowsDisabled
+      : selectedRowsLength;
 
   return (
     <DeleteModal
@@ -42,9 +47,7 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
           <span className={classes.boldText}>
             {selectedRowsLength === 1
               ? filteredData?.find((_: any, i: any) => selectedRows[i])?.name
-              : `${selectedRowsLength - disabledData.length} ${t(
-                  "entitlements",
-                )}`}
+              : `${filteredRowsWithoutDisabledCheckbox} ${t("entitlements")}`}
           </span>
           ?
         </div>
