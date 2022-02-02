@@ -196,7 +196,7 @@ class Login {
       data: {
         ui_profile: LoggedInUserType;
         admin_of: [{ level: LoggedInUserType; reference: string }];
-        [key: string]: any;
+        [key: string]: string | [] | {};
       };
     };
 
