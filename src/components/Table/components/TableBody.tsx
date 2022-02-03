@@ -31,8 +31,7 @@ const TableBody: React.FC<TableBodyType> = ({
       setRadioButtonValueInRows(target.original);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  }, [page]);
   return (
     <MTableBody {...getTableBodyProps()}>
       {page.map(row => {

@@ -5,9 +5,7 @@ import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Cross, Plus } from "components/Icons";
 import { modalButtonsWrapperUseStyles } from "./styles";
 
-const ModalButtonsWrapper: React.FC<
-  TModalButtonsWrapperProps & { top?: any }
-> = ({
+const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
   cancelButton,
   cancelButtonTitle,
   handleCancel,

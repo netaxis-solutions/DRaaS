@@ -45,7 +45,7 @@ export const modalButtonsWrapperUseStyles = makeStyles(
       gap: theme.spacing(1.25),
       width: "fit-content",
       position: "fixed",
-      top: (props: any) => props.top || 70,
+      top: (props: { top?: string | number }) => props.top || 70,
       right: theme.direction === "ltr" ? "30px" : "unset",
       left: theme.direction === "ltr" ? "unset" : "30px",
       zIndex: 1001,

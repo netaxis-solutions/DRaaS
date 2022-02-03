@@ -101,7 +101,15 @@ class NumbersStore {
       });
   };
 
-  getNumberSuggestions = (params: any, callback?: any) => {
+  getNumberSuggestions = (
+    params: {
+      numberType: string;
+      countryCode: string;
+      rangeSize: string;
+      numberOfResults: string;
+    },
+    callback?: () => void,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/number_inventory/suggestion`,
       payload: { params },
