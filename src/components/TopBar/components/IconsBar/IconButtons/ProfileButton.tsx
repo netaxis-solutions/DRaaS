@@ -47,7 +47,9 @@ const ProfileButton: React.FC = () => {
           <div className={classes.userEntity}>
             {user.entity || t("No entity")}
           </div>
-          <div className={classes.userProfile}>{user.ui_profile}</div>
+          <div className={classes.userProfile}>
+            {user.admin_of && user?.admin_of[0]?.level}
+          </div>
         </div>
         <div
           className={classes.account}

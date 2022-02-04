@@ -52,7 +52,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
           submitIcon={Save}
         />
         <div className={classes.userProfile}>
-          {t("Profile")}: {user.ui_profile}
+          {t("Profile")}: {user.admin_of && user.admin_of[0].level}
         </div>
         <Controller
           name="first_name"
