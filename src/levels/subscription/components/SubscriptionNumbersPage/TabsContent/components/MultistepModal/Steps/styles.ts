@@ -8,29 +8,6 @@ export const styles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
 }));
 
-export const addAdminStyles = makeStyles((theme: ThemeDefaultOptions) => ({
-  addAdminForm: {
-    display: "flex",
-  },
-  addAdminInput: {
-    margin: `${theme.spacing(2.5)}px 0`,
-    maxWidth: 400,
-  },
-  addAdminFormPart: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    "& > label": {
-      margin: `${theme.spacing(3)}px 0`,
-    },
-  },
-  addAdminFormPartTitle: {
-    fontSize: "1.8rem",
-    fontWeight: 300,
-    paddingTop: `${theme.spacing(1.25)}px`,
-  },
-}));
-
 export const useEntitlementCardStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
     entitlementCard: {
@@ -105,6 +82,9 @@ export const useRangeSelectionStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
     warningText: {
       color: theme.palette.status.alert,
+    },
+    infoText: {
+      marginBottom: 10,
     },
   }),
 );

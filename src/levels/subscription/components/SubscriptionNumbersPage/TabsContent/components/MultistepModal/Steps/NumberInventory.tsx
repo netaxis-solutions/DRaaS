@@ -98,7 +98,7 @@ const NumberInventory: React.FC = () => {
       <div className={classes.entitlementCard}>
         {cardData.map(field => {
           return (
-            <div className={classes.fieldWrapper}>
+            <div key={field.fieldName} className={classes.fieldWrapper}>
               <span className={classes.fieldName}>{field.fieldName} </span>{" "}
               <span className={classes.fieldValue}>{field.fieldValue} </span>
             </div>

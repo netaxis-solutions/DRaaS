@@ -25,10 +25,10 @@ const TableBody: React.FC<TableBodyType> = ({
   } = TableSelectedRowsStore;
 
   useEffect(() => {
-    const target = page.find(el => el.isSelected);
-    if (target && radioButton) {
+    const selectedRow = page.find(el => el.isSelected);
+    if (selectedRow && radioButton) {
       setSelectedRows({ 0: true });
-      setRadioButtonValueInRows(target.original);
+      setRadioButtonValueInRows(selectedRow.original);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);

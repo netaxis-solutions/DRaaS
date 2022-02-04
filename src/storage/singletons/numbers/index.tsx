@@ -2,7 +2,10 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 import { request } from "services/api";
 import configStore from "../Config";
-import { errorNotification } from "utils/functions/notifications";
+import {
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
 import {
   CountryCodeWithNSN,
   CountryCodeWithRanges,
@@ -10,6 +13,7 @@ import {
   NumberSuggestionsType,
   PhoneNumberType,
 } from "utils/types/numbers";
+import { t } from "services/Translation";
 
 class NumbersStore {
   numbers: Array<PhoneNumberType> = [];
@@ -95,12 +99,20 @@ class NumbersStore {
           this.getNumbersData(tenantID, subscriptionID);
         });
         successCallback && successCallback();
+        successNotification(
+          t("numbers and ranges were assigned", {
+            numberAmount:
+              payload.ranges.length *
+              (payload.ranges[0][1] - payload.ranges[0][0] + 1),
+            rangesAmount: payload.ranges.length,
+          }),
+        );
       })
       .catch(e => {
         errorNotification(e);
       });
   };
-  //changes
+
   getNumberSuggestions = (
     params: {
       numberType: string;
@@ -137,6 +149,11 @@ class NumbersStore {
       .then(({ data }: any) => {
         this.numberSuggestions = data.suggestions;
         callback && callback();
+        successNotification(
+          t("numbers and ranges were deleted", {
+            numberAmount: numbers.length,
+          }),
+        );
       })
       .catch(e => {
         errorNotification(e);

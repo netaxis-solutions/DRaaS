@@ -55,7 +55,6 @@ const MyNumbers = () => {
           />
         </div>
         <div className={classes.card}>
-          {" "}
           <div className={classes.cardText}>
             {t("You can port your numbers by adding porting request")}
           </div>

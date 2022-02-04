@@ -30,9 +30,9 @@ const RangeSelection: React.FC = () => {
     previousChoices[0].entitlements.assigned;
 
   const { selectedRowsValues } = TableSelectedRowsStore;
-  let { numberSuggestions, addNumber } = Numbers;
+  const { numberSuggestions, addNumber } = Numbers;
 
-  const rangeSize = +previousChoices[2].suggestionsSetting.rangeSize;
+  const rangeSize = Number(previousChoices[2].suggestionsSetting.rangeSize);
 
   const formattedNumberSuggestions: FormattedNumberSuggestionsType[] = useMemo(
     () =>
@@ -85,7 +85,7 @@ const RangeSelection: React.FC = () => {
 
   return (
     <form id={"SelectFromInventory"} onSubmit={onSubmit}>
-      <div>
+      <div className={classes.infoText}>
         {t("Amount of the numbers you can still select of this type is")}{" "}
         <span
           className={clsx({
