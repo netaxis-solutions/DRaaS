@@ -3,12 +3,13 @@ import IconButton from "@material-ui/core/IconButton";
 import clsx from "clsx";
 import { Row } from "react-table";
 
-import { Edit, Trash, Cross, Check } from "components/Icons";
 import {
   CustomActionType,
   TableActionsType,
   TableData,
 } from "utils/types/tableConfig";
+
+import { Edit, Trash, Cross, Check } from "components/Icons";
 
 import { useStyles } from "./styles";
 

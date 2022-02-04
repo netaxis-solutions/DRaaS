@@ -184,11 +184,6 @@ const EntitlementList: FC = () => {
     },
   ];
 
-  const disabledRules = {
-    nameDisabledColumn: "assigned",
-    valueDisabledColumn: 0,
-  };
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -204,7 +199,6 @@ const EntitlementList: FC = () => {
           handleDeleteItem={handleDeleteItem}
           toolbarActions={toolbarActions}
           handleEditItem={handleEditItem}
-          disabled={disabledRules}
         />
       </form>
       {modalToOpen === "add" && (
