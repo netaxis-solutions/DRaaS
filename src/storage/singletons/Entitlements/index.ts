@@ -124,13 +124,13 @@ class SubscriptionEntitlementsStore {
     callback?: () => void,
   ) => {
     Promise.all(
-      selectedEntitlementsIds.map(id => {
+      selectedEntitlementsIds.map(id =>
         request({
           route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements/${id}`,
           loaderName: "@deleteEntitlements",
           method: "delete",
-        }).catch(e => errorNotification(e));
-      }),
+        }).catch(e => errorNotification(e)),
+      ),
     ).then(() => {
       deleteNotification(t("Entitlements were successfully deleted!"));
       this.getEntitlements(tenantID, subscriptionID);
