@@ -114,10 +114,12 @@ export type TablePaginationType = PaginationDropdownType &
     pageCount: number;
     pageNumber: number;
     disabledData: any;
-    disabledParams?: {
-      nameDisabledColumn: string;
-      valueDisabledColumn: number;
-    };
+    disabledParams:
+      | {
+          nameDisabledColumn: string;
+          valueDisabledColumn: number;
+        }
+      | undefined;
 
     checkbox: boolean;
   };

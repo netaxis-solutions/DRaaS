@@ -18,42 +18,42 @@ const Pagination: React.FC<TablePaginationType> = ({
   isRadioButton,
   disabledData,
   disabledParams,
-  checkbox,
 }) => {
   const classes = tablePaginationStyles();
   const { t } = useTranslation();
 
-  const filteredDataPagination =
-    !isRadioButton &&
-    checkbox &&
+  const disabledFilteredRow =
     disabledParams &&
     disabledData.filter(
       (el: any) =>
-        el.original[disabledParams?.nameDisabledColumn] ===
+        el.original[disabledParams?.nameDisabledColumn] !==
         disabledParams?.valueDisabledColumn,
     );
 
-  const disabledDataPagination =
-    !isRadioButton &&
-    checkbox &&
-    disabledParams &&
-    disabledData.filter(
-      (el: any) =>
-        el.original[disabledParams?.nameDisabledColumn] >
-        disabledParams?.valueDisabledColumn,
-    );
-
-  const SelectedRowsDisabled =
-    !isRadioButton && checkbox && selectedRows - disabledDataPagination?.length;
-  const filteredRowsWithoutDisabledCheckbox =
-    !isRadioButton && checkbox && selectedRows > filteredDataPagination?.length
-      ? SelectedRowsDisabled
+  const calculatedSelectedRow =
+    selectedRows === disabledFilteredRow?.length
+      ? selectedRows - disabledFilteredRow?.length
       : selectedRows;
+
+  const filteredRowsWithoutDisabledCheckbox =
+    (disabledData &&
+      disabledData.reduce((sum: any, cur: any) => {
+        if (
+          disabledParams &&
+          cur.isSelected &&
+          cur.original[disabledParams?.nameDisabledColumn] ===
+            disabledParams?.valueDisabledColumn
+        ) {
+          return ++sum;
+        }
+        return sum;
+      }, 0)) ||
+    calculatedSelectedRow;
 
   return (
     <div className={classes.tablePaginationWrapper}>
       <span>
-        {!!selectedRows &&
+        {!!calculatedSelectedRow &&
           !isRadioButton &&
           `${t("Selected", {
             filteredRowsWithoutDisabledCheckbox,
