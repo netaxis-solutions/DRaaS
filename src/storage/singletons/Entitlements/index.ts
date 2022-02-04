@@ -129,15 +129,13 @@ class SubscriptionEntitlementsStore {
           route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements/${id}`,
           loaderName: "@deleteEntitlements",
           method: "delete",
-        })
-          .then(() => {
-            deleteNotification(t("Entitlements were successfully deleted!"));
-            this.getEntitlements(tenantID, subscriptionID);
-            callback && callback();
-          })
-          .catch(e => errorNotification(e));
+        }).catch(e => errorNotification(e));
       }),
-    );
+    ).then(() => {
+      deleteNotification(t("Entitlements were successfully deleted!"));
+      this.getEntitlements(tenantID, subscriptionID);
+      callback && callback();
+    });
   };
 
   getEntitlementTypes = async () => {

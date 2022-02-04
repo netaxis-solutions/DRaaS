@@ -12,6 +12,7 @@ export type TableActionsType = {
   del?: boolean;
   save?: boolean;
   cancel?: boolean;
+  disabled?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
   onCancel?: () => void;
@@ -112,4 +113,11 @@ export type TablePaginationType = PaginationDropdownType &
     selectedRows: number;
     pageCount: number;
     pageNumber: number;
+    disabledData: any;
+    disabledParams?: {
+      nameDisabledColumn: string;
+      valueDisabledColumn: number;
+    };
+
+    checkbox: boolean;
   };

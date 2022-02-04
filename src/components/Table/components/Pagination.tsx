@@ -16,16 +16,49 @@ const Pagination: React.FC<TablePaginationType> = ({
   canNextPage,
   canPreviousPage,
   isRadioButton,
+  disabledData,
+  disabledParams,
+  checkbox,
 }) => {
   const classes = tablePaginationStyles();
   const { t } = useTranslation();
+
+  const filteredDataPagination =
+    !isRadioButton &&
+    checkbox &&
+    disabledParams &&
+    disabledData.filter(
+      (el: any) =>
+        el.original[disabledParams?.nameDisabledColumn] ===
+        disabledParams?.valueDisabledColumn,
+    );
+
+  const disabledDataPagination =
+    !isRadioButton &&
+    checkbox &&
+    disabledParams &&
+    disabledData.filter(
+      (el: any) =>
+        el.original[disabledParams?.nameDisabledColumn] >
+        disabledParams?.valueDisabledColumn,
+    );
+
+  const SelectedRowsDisabled =
+    !isRadioButton && checkbox && selectedRows - disabledDataPagination?.length;
+  const filteredRowsWithoutDisabledCheckbox =
+    !isRadioButton && checkbox && selectedRows > filteredDataPagination?.length
+      ? SelectedRowsDisabled
+      : selectedRows;
 
   return (
     <div className={classes.tablePaginationWrapper}>
       <span>
         {!!selectedRows &&
           !isRadioButton &&
-          `${t("Selected")} ${selectedRows}/${pageSize}`}
+          `${t("Selected", {
+            filteredRowsWithoutDisabledCheckbox,
+            pageSize,
+          })} `}
       </span>
       <div className={classes.tablePaginationActionsWrapper}>
         <span className={classes.tablePaginationLinesPerPageTitle}>

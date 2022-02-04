@@ -18,6 +18,11 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginRight: theme.direction === "ltr" ? 0 : `${theme.spacing(2)}px`,
     },
   },
+  tableActionTrash: {
+    "&>path": {
+      fill: theme.palette.table.iconDisabled,
+    },
+  },
   iconButton: {
     padding: 0,
     "&:hover": {
