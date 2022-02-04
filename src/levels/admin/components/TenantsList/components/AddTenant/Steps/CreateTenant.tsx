@@ -93,6 +93,9 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         render={({ field, ...props }) => (
           <FormInput
             label={t("Billing ID")}
+            helper={t(
+              "Use only letters and digits, don't use special characters (e.g *,%,#)",
+            )}
             {...field}
             {...props}
             className={clsx(
