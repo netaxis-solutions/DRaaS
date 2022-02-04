@@ -44,7 +44,7 @@ const Content: React.FC = () => {
             />
           )}
           {(loggedInUserLevel === "distributor" ||
-            loggedInUserLevel === "admin") && (
+            loggedInUserLevel === "system") && (
             <Route
               path={urlStartString[loggedInUserLevel].distributor}
               component={Distributor}

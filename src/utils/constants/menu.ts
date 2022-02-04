@@ -1,10 +1,10 @@
 import { MenuType, SidebarMenuType } from "utils/types/routingConfig";
 
 const adminMenu = [
-  { key: "adminDistributors", name: "Distributors" },
-  { key: "adminResellers", name: "Resellers" },
-  { key: "adminTenants", name: "Tenants" },
-  { key: "adminRatePlan", name: "Rate plan" },
+  { key: "systemDistributors", name: "Distributors" },
+  { key: "systemResellers", name: "Resellers" },
+  { key: "systemTenants", name: "Tenants" },
+  { key: "systemRatePlan", name: "Rate plan" },
 ];
 
 const distributorMenu = [
@@ -61,7 +61,7 @@ const subscriptionMenu = [
 ];
 
 export const menu: MenuType = {
-  admin: adminMenu,
+  system: adminMenu,
   distributor: distributorMenu,
   reseller: resellerMenu,
   tenant: tenantMenu,
@@ -69,7 +69,7 @@ export const menu: MenuType = {
 };
 
 export const sidebarLevelMenus: SidebarMenuType = {
-  admin: {
+  system: {
     distributor: distributorMenu,
     reseller: resellerMenu,
     tenant: tenantMenu,
