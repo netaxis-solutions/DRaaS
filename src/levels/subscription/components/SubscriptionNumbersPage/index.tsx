@@ -10,7 +10,7 @@ import { Tab } from "utils/types/tabs";
 
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
-import MyNumbers from "./TabsContent/MyNumbers";
+import MyNumbers from "./TabsContent/AssignedNumbers/MyNumbers";
 
 const tabs: Tab[] = [
   {
