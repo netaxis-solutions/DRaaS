@@ -298,7 +298,6 @@ const Table: FC<TableProps> = ({
             : []
         }
         setGlobalFilter={setGlobalFilter}
-        value={state.globalFilter}
       />
       <MaUTable {...getTableProps()} className={classes.tableRoot}>
         <TableHead headerGroups={headerGroups} />

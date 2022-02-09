@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Distributor from "storage/singletons/Distributor";
 import DistributorsStore from "storage/singletons/Distributors";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
+
 import { DistributorItemType } from "utils/types/distributors";
 import { editDistributorSchema } from "utils/schemas/distributors";
 import { TEditDistributorPayload } from "utils/types/distributors";
@@ -30,6 +32,13 @@ const Distributors: FC = () => {
     resolver: yupResolver(editDistributorSchema()),
     defaultValues,
   });
+
+  const {
+    tablePageCounter,
+    tablePageSize,
+    clearPaginationData,
+    search,
+  } = TablePagination;
 
   // TODO: Uncomment when drill down to a distributor level
   // const { allAvailvableRouting } = RoutingConfig;
@@ -117,6 +126,11 @@ const Distributors: FC = () => {
 
   useEffect(() => {
     getDistributorsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tablePageCounter, tablePageSize, search]);
+
+  useEffect(() => {
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

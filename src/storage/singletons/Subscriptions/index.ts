@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 
 import Login from "../Login";
 import configStore from "../Config";
+import TablePagination from "../TablePagination";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -29,9 +30,17 @@ class SubscriptionsStore {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
       loaderName: "@getSubscriptionsData",
+      payload: {
+        params: {
+          page: TablePagination.tablePageCounter,
+          page_size: TablePagination.tablePageSize,
+          search: TablePagination.search,
+        },
+      },
     })
       .then((data: AxiosResponse<SubscriptionsDataType>) => {
         runInAction(() => {
+          TablePagination.getTableConfig(data?.data);
           this.subscriptions = data.data.subscriptions;
         });
       })

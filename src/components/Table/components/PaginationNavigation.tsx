@@ -2,31 +2,47 @@ import clsx from "clsx";
 
 import { ArrowLeft, ArrowRight } from "components/Icons";
 import { PaginationNavigationType } from "utils/types/tableConfig";
+import TablePagination from "storage/singletons/TablePagination";
 import { paginationNavigationStyles } from "./styles";
 
 const PaginationNavigation: React.FC<PaginationNavigationType> = ({
-  canPreviousPage,
   previousPage,
-  canNextPage,
-  nextPage
+  nextPage,
 }) => {
   const classes = paginationNavigationStyles();
+
+  const {
+    tableNextPage,
+    tablePrevPage,
+    getMinPage,
+    getMaxPage,
+  } = TablePagination;
+
+  const nextPageStore = () => {
+    nextPage();
+    tableNextPage();
+  };
+
+  const prevPageStore = () => {
+    previousPage();
+    tablePrevPage();
+  };
 
   return (
     <>
       <div
         className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: !canPreviousPage
+          [classes.tablePaginationNavigateDisabled]: getMinPage(),
         })}
-        onClick={previousPage}
+        onClick={prevPageStore}
       >
         <ArrowLeft />
       </div>
       <div
         className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: !canNextPage
+          [classes.tablePaginationNavigateDisabled]: getMaxPage(),
         })}
-        onClick={nextPage}
+        onClick={nextPageStore}
       >
         <ArrowRight />
       </div>
