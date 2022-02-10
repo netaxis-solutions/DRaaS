@@ -46,7 +46,13 @@
         "porting": true
       }
     },
-    "subscriptionMSTeams": { "enabled": true },
+    "subscriptionMSTeams": { 
+      "enabled": true ,
+      "tabs":{
+        "o365tenant": true,
+        "o365admin": true
+      }
+    },
     "subscriptionSIPTrunks": { "enabled": true },
     "subscriptionProfile": { "enabled": true }
   }
