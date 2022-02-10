@@ -1,18 +1,22 @@
 import { useEffect } from "react";
 import { useHistory, useParams, Switch, Route } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
-import { t } from "services/Translation";
 import RoutingConfig from "storage/singletons/RoutingConfig";
+
 import createLink from "services/createLink";
+import { t } from "services/Translation";
+import { Tab } from "utils/types/tabs";
+
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
-import { Tab } from "utils/types/tabs";
+import MyNumbers from "./TabsContent/AssignedNumbers/MyNumbers";
 
 const tabs: Tab[] = [
   {
     name: t("My numbers"),
     id: "myNumbers",
-    component: () => <div>My numbers</div>,
+    component: () => <MyNumbers />,
   },
   {
     name: t("Deleted numbers"),
@@ -91,4 +95,4 @@ const SubscriptionNumbersPage = () => {
   );
 };
 
-export default SubscriptionNumbersPage;
+export default observer(SubscriptionNumbersPage);

@@ -12,9 +12,11 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
   submitButtonTitle,
   submitIcon,
   cancelIcon,
+  top,
+  formId,
 }) => {
   const { t } = useTranslation();
-  const classes = modalButtonsWrapperUseStyles();
+  const classes = modalButtonsWrapperUseStyles({ top });
   const IconSubmit = submitIcon ? submitIcon : Plus;
   const IconCancel = cancelIcon ? cancelIcon : Cross;
 
@@ -31,6 +33,7 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
       <ButtonWithIcon
         type="submit"
         variant="contained"
+        form={formId}
         icon={IconSubmit}
         title={submitButtonTitle ? submitButtonTitle : t("Add")}
       />

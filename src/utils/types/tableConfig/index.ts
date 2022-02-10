@@ -25,7 +25,11 @@ export type TableActionsType = {
 
 export type TableData =
   | {
-      readonly [key: string]: string | number | ((object: object) => string);
+      readonly [key: string]:
+        | string
+        | number
+        | ((object: object) => string)
+        | boolean;
     }
   | MsTeamsUsersType
   | SubscriptionLicenseType

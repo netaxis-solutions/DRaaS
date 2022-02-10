@@ -7,6 +7,7 @@ export type IconWithButtonPropsType = {
   variant?: "contained" | "outlined";
   onClick?: () => void;
   className?: string | undefined;
+  form?: string;
 };
 
 export type IconButtonPropsType = {

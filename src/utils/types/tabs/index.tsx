@@ -1,7 +1,7 @@
 export interface Tab {
   name: string | {};
   id: string;
-  component: () => JSX.Element;
+  component: () => JSX.Element | JSX.Element;
 }
 
 export interface TabsProps {

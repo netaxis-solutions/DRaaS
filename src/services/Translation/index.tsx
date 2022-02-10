@@ -5,8 +5,14 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import { GetSpecificLanguageTranslationType } from "utils/types/translation";
 
-export const t = (str: string, options?: string) => {
-  function T({ str, options }: { str: string; options?: string }): JSX.Element {
+export const t = (str: string, options?: string | {}) => {
+  function T({
+    str,
+    options,
+  }: {
+    str: string;
+    options?: string | {};
+  }): JSX.Element {
     const { t: translate } = useTranslation();
     return translate(str, options);
   }
