@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { CellProps } from "react-table";
 import { useParams } from "react-router-dom";
 import clsx from "clsx";
 
@@ -8,11 +9,11 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 import Entitlements from "storage/singletons/Entitlements";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 
+import { TableProps } from "utils/types/tableConfig";
+
 import Table from "components/Table";
 
 import { styles } from "./styles";
-import { CellProps } from "react-table";
-import { TableProps } from "utils/types/tableConfig";
 
 const SelectNumberEntitlement: React.FC = () => {
   const { t } = useTranslation();
