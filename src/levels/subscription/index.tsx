@@ -7,6 +7,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
 import SubscriptionNumbersPage from "./components/SubscriptionNumbersPage";
 import Licenses from "./components/Licenses";
+import MsTeams from "./components/MsTeams";
 
 const Subscription = () => {
   const params = useParams<{ tenantID: string; subscriptionID: string }>();
@@ -45,8 +46,8 @@ const Subscription = () => {
       />
       <Route
         exact
-        path={allAvailvableRouting.subscriptionMSTeams}
-        component={() => <div>subscriptionMSTeams</div>}
+        path={`${allAvailvableRouting.subscriptionMSTeams}/:tabID?`}
+        component={() => <MsTeams />}
       />
       <Route
         exact
