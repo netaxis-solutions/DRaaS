@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import { withStyles } from "@material-ui/core";
 import MuiTabs from "@material-ui/core/Tabs";
 import MuiTab from "@material-ui/core/Tab";
-import createLink from "services/createLink";
-import styles, { tabStyles } from "./styles";
+
 import RoutingConfig from "storage/singletons/RoutingConfig";
+
+import createLink from "services/createLink";
 import { TabsProps } from "utils/types/tabs";
+
+import styles, { tabStyles } from "./styles";
 
 const CustomTab = withStyles(tabStyles)(MuiTab);
 const CustomTabs = withStyles(styles)(MuiTabs);

@@ -193,19 +193,23 @@ class Login {
 
   getUserData: () => Promise<void> = async () => {
     type RoutingConfigType = {
-      data: { ui_profile: LoggedInUserType; [key: string]: string };
+      data: {
+        ui_profile: LoggedInUserType;
+        admin_of: [{ level: LoggedInUserType; reference: string }];
+        [key: string]: string | [] | {};
+      };
     };
 
     request({
       loaderName: "@getUserDataLoader",
       route: "/system/users/local",
     })
-      .then((data: RoutingConfigType) => {
-        const level = data.data.ui_profile;
+      .then(({ data }: RoutingConfigType) => {
+        const level = data.admin_of[0].level;
         RoutingConfig.setLoggedUser(level, level);
 
         runInAction(() => {
-          this.user = data.data;
+          this.user = data;
           this.level = level;
         });
       })

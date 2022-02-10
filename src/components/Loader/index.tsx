@@ -9,7 +9,7 @@ const Loader = ({ children }: { children: any }) => {
   }
 
   return (
-    <div style={{ position: "relative", height: "calc(90% - 40px)" }}>
+    <div style={{ position: "relative", height: "calc(90% - 140px)" }}>
       <div
         style={
           PendingQueries.empty

@@ -1,11 +1,11 @@
 {
-  "admin": {
-    "adminDistributors": {
+  "system": {
+    "systemDistributors": {
       "enabled": true
     },
-    "adminResellers": { "enabled": true },
-    "adminTenants": { "enabled": true },
-    "adminRatePlan": { "enabled": true }
+    "systemResellers": { "enabled": true },
+    "systemTenants": { "enabled": true },
+    "systemRatePlan": { "enabled": true }
   },
   "distributor": {
     "distributorResellers": { "enabled": true },
@@ -46,7 +46,13 @@
         "porting": true
       }
     },
-    "subscriptionMSTeams": { "enabled": true },
+    "subscriptionMSTeams": { 
+      "enabled": true ,
+      "tabs":{
+        "o365tenant": true,
+        "o365admin": true
+      }
+    },
     "subscriptionSIPTrunks": { "enabled": true },
     "subscriptionProfile": { "enabled": true }
   }

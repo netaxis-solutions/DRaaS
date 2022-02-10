@@ -1,41 +1,30 @@
-import { useEffect } from "react";
-import { useHistory, useParams, Switch, Route } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { FC, useEffect } from "react";
+import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
-
 import createLink from "services/createLink";
-import { t } from "services/Translation";
 import { Tab } from "utils/types/tabs";
 
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
-import MyNumbers from "./TabsContent/AssignedNumbers/MyNumbers";
+import O365Tenant from "./components/O365Tanant";
+import O365Admin from "./components/O365Admin";
 
-const tabs: Tab[] = [
+const tabs = [
   {
-    name: t("My numbers"),
-    id: "myNumbers",
-    component: () => <MyNumbers />,
+    name: "O365 Tenant",
+    id: "o365tenant",
+    component: () => <O365Tenant />,
   },
   {
-    name: t("Deleted numbers"),
-    id: "deletedNumbers",
-    component: () => <div>Deleted numbers</div>,
-  },
-  {
-    name: t("Reserved numbers"),
-    id: "reservedNumbers",
-    component: () => <div>Reserved numbers</div>,
-  },
-  {
-    name: t("Porting"),
-    id: "porting",
-    component: () => <div>Porting</div>,
+    name: "O365 admin",
+    id: "o365admin",
+    component: () => <O365Admin />,
   },
 ];
 
-const SubscriptionNumbersPage = () => {
+const MSTeams: FC = () => {
   const history = useHistory();
   const params = useParams<{
     tenantID: string;
@@ -47,7 +36,7 @@ const SubscriptionNumbersPage = () => {
 
   const handleTabClick = (tabID: string) => {
     const url = createLink({
-      url: `${allAvailvableRouting.subscriptionNumbers}/:tabID?`,
+      url: `${allAvailvableRouting.subscriptionMSTeams}/:tabID?`,
       params: {
         ...params,
         tabID,
@@ -59,7 +48,7 @@ const SubscriptionNumbersPage = () => {
   useEffect(() => {
     if (params.tabID === ":tabID" && tabs && tabs.length) {
       const url = createLink({
-        url: `${allAvailvableRouting.subscriptionNumbers}/:tabID?`,
+        url: `${allAvailvableRouting.subscriptionMSTeams}/:tabID?`,
         params: {
           ...params,
           tabID: tabs[0].id,
@@ -75,16 +64,16 @@ const SubscriptionNumbersPage = () => {
     <>
       <Tabs
         tabs={tabs}
-        url={allAvailvableRouting.subscriptionNumbers}
+        url={allAvailvableRouting.subscriptionMSTeams}
         onTabChange={handleTabClick}
         active={params.tabID}
       />
       <Switch>
-        {tabs.map(({ id, component: Component }: any) => (
+        {tabs.map(({ id, component: Component }: Tab) => (
           <Route
             exact
             key={id}
-            path={`${allAvailvableRouting.subscriptionNumbers}/${id}`}
+            path={`${allAvailvableRouting.subscriptionMSTeams}/${id}`}
           >
             <Component />
           </Route>
@@ -95,4 +84,4 @@ const SubscriptionNumbersPage = () => {
   );
 };
 
-export default observer(SubscriptionNumbersPage);
+export default observer(MSTeams);

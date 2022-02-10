@@ -9,17 +9,17 @@ export const publicRoutes = {
 };
 
 export const homeUrl: HomeUrl = {
-  admin: "adminDistributors",
+  system: "systemDistributors",
   distributor: "distributorResellers",
   reseller: "resellerTenants",
   tenant: "tenantSubscriptions",
   subscription: "subscriptionLicenses",
 };
 export const privateRoutes: PrivateRoutesType = {
-  adminDistributors: "/distributors",
-  adminResellers: "/resellers",
-  adminTenants: "/tenants",
-  adminRatePlan: "/rate-plan",
+  systemDistributors: "/distributors",
+  systemResellers: "/resellers",
+  systemTenants: "/tenants",
+  systemRatePlan: "/rate-plan",
   distributorResellers: "/resellers",
   distributorTenants: "/tenants",
   distributorLicenseConsumption: "/license-consumption",
@@ -44,8 +44,8 @@ export const privateRoutes: PrivateRoutesType = {
 };
 
 export const urlStartString: UrlStartStringType = {
-  admin: {
-    admin: "",
+  system: {
+    system: "",
     distributor: "/distributors/:distributorID",
     reseller: "/distributors/:distributorID/resellers/:resellerID",
     tenant: "/tenants/:tenantID",

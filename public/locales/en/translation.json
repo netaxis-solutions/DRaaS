@@ -3,5 +3,7 @@
   "First name is too Long": "First name is too Long",
   "First name is too Short": "First name is too Short",
   "LOGGED USER": "LOGGED AAAA",
-  "of":"{{ pageNumber}} of {{ pageCount }}"
+  "of":"{{ pageNumber}} of {{ pageCount }}",
+  "numbers and ranges were assigned":"{{ numberAmount }} numbers and {{ rangesAmount }} ranges were assigned ",
+  "numbers and ranges were deleted":"{{ numberAmount }} numbers were deleted "
 }
