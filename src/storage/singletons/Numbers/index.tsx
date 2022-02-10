@@ -20,6 +20,7 @@ class NumbersStore {
   numberInventory: Array<PhoneNumberType> = [];
   numberInventoryRanges: Array<NumberRangesType> = [];
   numberSuggestions: NumberSuggestionsType = [];
+  reservedNumbers: any[] = [];
 
   constructor() {
     makeObservable(this, {
@@ -27,6 +28,7 @@ class NumbersStore {
       numberInventory: observable.ref,
       numberInventoryRanges: observable.ref,
       numberSuggestions: observable.ref,
+      reservedNumbers: observable.ref,
     });
   }
 
@@ -79,6 +81,23 @@ class NumbersStore {
       });
     } catch (e) {
       this.numbers = [];
+    }
+  };
+
+  getReservedNumbers = async (tenantID: string, subscriptionID: string) => {
+    try {
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/number_inventory`,
+        loaderName: "@getReservedNumbersData",
+        payload: { params: { status: "reserved" } },
+      });
+      const numbers = data.data.numbers;
+
+      runInAction(() => {
+        this.reservedNumbers = numbers;
+      });
+    } catch (e) {
+      this.reservedNumbers = [];
     }
   };
 

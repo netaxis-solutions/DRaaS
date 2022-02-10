@@ -7,12 +7,6 @@ import {
   TableBodyProps,
 } from "react-table";
 
-import {
-  SubscriptionLicenseType,
-  MsTeamsUsersType,
-} from "utils/types/licenses";
-import { EntitlementsListType } from "../entitlements";
-
 export type TableActionsType = {
   edit?: boolean;
   del?: boolean;
@@ -23,17 +17,13 @@ export type TableActionsType = {
   onCancel?: () => void;
 };
 
-export type TableData =
-  | {
-      readonly [key: string]:
-        | string
-        | number
-        | ((object: object) => string)
-        | boolean;
-    }
-  | MsTeamsUsersType
-  | SubscriptionLicenseType
-  | EntitlementsListType;
+export type RawTableData = {
+  readonly [key: string]: any;
+};
+
+export type TableData = RawTableData & {
+  isRowDisabled: boolean;
+};
 
 export type ToolbarActionType = {
   id: string;
@@ -44,7 +34,7 @@ export type ToolbarActionType = {
 export type TableProps = {
   title: string;
   columns: Column<TableData>[];
-  data: TableData[];
+  data: RawTableData[];
   checkbox?: boolean;
   toolbarActions?: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;
@@ -67,7 +57,7 @@ export type TableBodyType = {
   getTableBodyProps: (
     propGetter?: TableBodyPropGetter<TableData> | undefined,
   ) => TableBodyProps;
-  page: Row[];
+  page: Row<TableData>[];
   prepareRow: (row: Row<TableData>) => void;
   radioButton?: boolean;
 };

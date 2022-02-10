@@ -12,9 +12,9 @@ import {
 import { errorNotification } from "utils/functions/notifications";
 
 class SubscriptionEntitlementsStore {
-  entitlements: EntitlementsListType[] = [];
-  entitlementTypes: EntitlementsTypeListType[] = [];
-  filteredDataEntitlementTypes: EntitlementsTypeListType[] = [];
+  entitlements: Array<EntitlementsListType> = [];
+  entitlementTypes: Array<EntitlementsTypeListType> = [];
+  filteredDataEntitlementTypes: Array<EntitlementsTypeListType> = [];
 
   constructor() {
     makeObservable(this, {

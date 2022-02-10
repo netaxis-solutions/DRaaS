@@ -11,6 +11,7 @@ import { Tab } from "utils/types/tabs";
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
 import MyNumbers from "./TabsContent/AssignedNumbers/MyNumbers";
+import ReservedNumbers from "./TabsContent/ReservedNumbers";
 
 const tabs: Tab[] = [
   {
@@ -26,7 +27,7 @@ const tabs: Tab[] = [
   {
     name: t("Reserved numbers"),
     id: "reservedNumbers",
-    component: () => <div>Reserved numbers</div>,
+    component: () => <ReservedNumbers />,
   },
   {
     name: t("Porting"),

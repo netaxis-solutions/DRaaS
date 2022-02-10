@@ -26,6 +26,12 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginLeft: 0,
     },
   },
+  disabled: {
+    "&>svg": { cursor: "default", fill: theme.palette.table.iconDisabled },
+  },
+  hidden: {
+    "&>svg": { visibility: "hidden" },
+  },
 }));
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
