@@ -8,7 +8,7 @@ export type EntitlementsListType = {
   regions: [];
   serviceCapabilities: string;
   vanityType: string;
-  assigned?: number;
+  assigned: number;
   reserved?: number;
   disconnected?: number;
   entitlementType?: number;

@@ -21,7 +21,7 @@ class NumbersStore {
   numberInventoryRanges: Array<NumberRangesType> = [];
   numberSuggestions: NumberSuggestionsType = [];
   reservedNumbers: any[] = [];
-
+  availableEntitlementsAmount: any = {};
   constructor() {
     makeObservable(this, {
       numbers: observable.ref,
@@ -29,6 +29,7 @@ class NumbersStore {
       numberInventoryRanges: observable.ref,
       numberSuggestions: observable.ref,
       reservedNumbers: observable.ref,
+      availableEntitlementsAmount: observable.ref,
     });
   }
 

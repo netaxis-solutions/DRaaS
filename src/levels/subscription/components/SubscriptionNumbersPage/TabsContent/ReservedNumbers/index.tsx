@@ -11,6 +11,23 @@ import { EyeOpened, Plus } from "components/Icons";
 import Table from "components/Table";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 import EntitlementsStore from "storage/singletons/Entitlements";
+import { styled, Tooltip } from "@material-ui/core";
+import { useStyles } from "./styles";
+import { tooltipClasses } from "@mui/material/Tooltip";
+import { ThemeDefaultOptions } from "utils/types/themeConfig";
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }: { theme: ThemeDefaultOptions }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor:
+      "linear-gradient(90deg, rgba(33, 35, 86, 0.8) 21.35%, rgba(33, 35, 86, 0.6) 100%)",
+    color: theme.palette.primary.white,
+    boxShadow: theme.shadows[1],
+    height: 185,
+    fontSize: 12,
+  },
+}));
 
 const ReservedNumbers: FC = () => {
   const { t } = useTranslation();
@@ -20,23 +37,33 @@ const ReservedNumbers: FC = () => {
   }>();
 
   const { reservedNumbers, getReservedNumbers } = NumbersStore;
-  const { entitlements, getEntitlements } = EntitlementsStore;
+  const { getEntitlements } = EntitlementsStore;
   const { selectedRowsLength } = TableSelectedRows;
+  const classes = useStyles();
   useEffect(() => {
     getReservedNumbers(tenantID, subscriptionID);
     getEntitlements(tenantID, subscriptionID);
   }, []);
 
-  const isUnAvailable = (row: any) => {
-    const entitlement = entitlements.find(entitlement => {
+  const isAvailable = (row: any) => {
+    const entitlement = EntitlementsStore.entitlements.find(entitlement => {
       return (
-        entitlement.countryCode === row.countryCode &&
-        entitlement.numberType === row.numberType
+        entitlement.countryCode === row.original.countryCode &&
+        entitlement.numberType === row.original.numberType
       );
     });
-    return !(entitlement
-      ? entitlement.entitlement - entitlement.assigned > selectedRowsLength
-      : false);
+
+    const available = EntitlementsStore.getAvailableEntitlements;
+
+    return entitlement
+      ? available[entitlement.countryCode][entitlement.numberType] -
+          TableSelectedRows.selectedRowsValues.filter(
+            row =>
+              row.original.countryCode === entitlement.countryCode &&
+              row.original.numberType === entitlement.numberType,
+          ).length >
+          0
+      : false;
   };
 
   const toolbarActions = selectedRowsLength
@@ -59,12 +86,21 @@ const ReservedNumbers: FC = () => {
       isShown: true,
       disabled: false,
       onClick: (row: any) => {
-        console.log(row);
+        console.log((row.original.isRowDisabled = true));
       },
     },
     {
       actionName: "info",
-      iconComponent: <EyeOpened />,
+      iconComponent: (
+        <LightTooltip
+          className={classes.tooltip}
+          arrow
+          title="No more entitlements for this number left"
+          placement="bottom-end"
+        >
+          <EyeOpened />
+        </LightTooltip>
+      ),
       isShown: true,
       disabled: false,
       onClick: () => {
@@ -80,11 +116,14 @@ const ReservedNumbers: FC = () => {
         {
           ...action,
           isShown:
-            action.actionName === "info" ? row.index === 0 : action.isShown,
+            action.actionName === "info" ? !isAvailable(row) : action.isShown,
           disabled:
             action.actionName === "addReserved"
-              ? isUnAvailable(row)
-              : action.disabled,
+              ? !isAvailable(row) &&
+                !row.isSelected &&
+                (row.original.isRowDisabled = true)
+              : action.disabled &&
+                (row.original.isRowDisabled = action.disabled),
         },
       ],
       [],
@@ -125,7 +164,7 @@ const ReservedNumbers: FC = () => {
       actionsDataFormatter={actionDataFormatter}
       toolbarActions={toolbarActions}
       checkbox
-      disableRowCondition={isUnAvailable}
+      // disableRowCondition={isUnAvailable}
     />
   );
 };

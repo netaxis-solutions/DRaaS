@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { computed, makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
@@ -21,6 +21,7 @@ class SubscriptionEntitlementsStore {
       entitlements: observable.ref,
       entitlementTypes: observable.ref,
       filteredDataEntitlementTypes: observable.ref,
+      getAvailableEntitlements: computed,
     });
   }
 
@@ -41,6 +42,18 @@ class SubscriptionEntitlementsStore {
         });
       });
   };
+
+  get getAvailableEntitlements() {
+    return this.entitlements.reduce((availableEntitlements: any, curr: any) => {
+      return {
+        ...availableEntitlements,
+        [curr.countryCode]: {
+          ...availableEntitlements[curr.countryCode],
+          [curr.numberType]: curr.entitlement - curr.assigned,
+        },
+      };
+    }, {});
+  }
 
   createEntitlement = async (
     tenantID: string,

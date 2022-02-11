@@ -50,7 +50,7 @@ const Table: FC<
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-
+  console.log("'asdasd");
   const {
     selectedRows,
     setSelectedRows,
@@ -60,8 +60,8 @@ const Table: FC<
   } = TableSelectedRowsStore;
 
   const formattedData: TableData[] = useMemo(
-    () =>
-      data.reduce(
+    () => {
+      return data.reduce(
         (result: Array<TableData>, rowData: RawTableData) => [
           ...result,
           {
@@ -71,7 +71,8 @@ const Table: FC<
           },
         ],
         [],
-      ),
+      );
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data],
   );
