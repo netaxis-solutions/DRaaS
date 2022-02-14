@@ -6,7 +6,8 @@
       "background": "#F9F9F9",
       "light": "#EBEBF7",
       "white": "#FFFFFF",
-      "link": "#0061F1"
+      "link": "#0061F1",
+      "newLink": "#4975E5"
     },
     "secondary": {
       "main": "#CCE3D8",
