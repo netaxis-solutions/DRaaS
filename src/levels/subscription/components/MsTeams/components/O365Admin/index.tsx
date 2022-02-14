@@ -77,8 +77,8 @@ const O365Admin: FC = () => {
     <span className={classes.checkboxStyling}>
       {" "}
       {t("I agree to the Direct routing ")}{" "}
-      <Link to="*"> {t("Terms and Policies")} </Link> {t("and")}{" "}
-      <Link to="*">{t("Privacy Policy")}</Link>{" "}
+      <Link to="#"> {t("Terms and Policies")} </Link> {t("and")}{" "}
+      <Link to="#">{t("Privacy Policy")}</Link>{" "}
     </span>
   );
 
