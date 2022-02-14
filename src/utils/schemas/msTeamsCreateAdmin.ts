@@ -14,9 +14,10 @@ export const msTeamCreateAdmin = (t: TFunction) =>
       ),
     msPassword: string()
       .label(t("Password"))
+      .max(25)
       .when(t("Password"), {
         is: (value: any) => value !== "",
-        then: string().min(8),
+        then: string().min(5),
         otherwise: s => s.notRequired(),
       }),
   });

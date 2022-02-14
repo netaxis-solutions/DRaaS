@@ -15,7 +15,7 @@ const StartedText: FC = () => {
       <div className={classes.adminBody}>
         <span>
           Please provide the credentials of a tenant administrator that has the
-          <Link to="*"> appropriate rights </Link> within your tenant:
+          <Link to="#"> appropriate rights </Link> within your tenant:
         </span>
         <ul>
           {appropriateRightsList.map((el: string) => (
