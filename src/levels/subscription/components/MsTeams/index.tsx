@@ -26,7 +26,7 @@ const tabs = [
     component: () => <O365Tenant />,
   },
   {
-    name: "O365 admin",
+    name: "Admin account",
     id: "o365admin",
     component: () => <O365Admin />,
   },
