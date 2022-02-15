@@ -11,7 +11,6 @@ const O365Tenant: FC = () => {
   }>();
 
   useEffect(() => {
-    checkOnboarding(tenantID, subscriptionID);
     console.log("render");
   }, []);
 

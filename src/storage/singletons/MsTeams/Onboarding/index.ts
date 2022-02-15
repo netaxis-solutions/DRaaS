@@ -5,6 +5,7 @@ import configStore from "../../Config";
 import { request } from "services/api";
 
 class MsTeamOnboarding {
+  transactionID: number = 0;
   checkOnboardingData: any = [];
 
   constructor() {
@@ -30,14 +31,15 @@ class MsTeamOnboarding {
   };
 
   startOnboarding = async (tenantID: string, subscriptionID?: string) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
-        method: "post",
+    await request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
+      method: "post",
+    }).then((resp: any) => {
+      const transactionID = resp.data.id;
+      runInAction(() => {
+        this.transactionID = transactionID;
       });
-    } catch (e) {
-      console.error(e);
-    }
+    });
   };
 }
 
