@@ -1,10 +1,10 @@
-import { Button } from "@material-ui/core";
+import { Button, ButtonProps } from "@material-ui/core";
 
 import { IconWithButtonPropsType } from "utils/types/form";
 
 import useStyles from "./styles";
 
-const ButtonWithIcon: React.FC<IconWithButtonPropsType> = ({
+const ButtonWithIcon: React.FC<IconWithButtonPropsType & ButtonProps> = ({
   icon: Icon,
   title,
   type = "button",
