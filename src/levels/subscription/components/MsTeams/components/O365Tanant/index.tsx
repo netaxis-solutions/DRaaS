@@ -17,7 +17,6 @@ const O365Tenant: FC = () => {
   const classes = EntitlementsStyle();
 
   useEffect(() => {
-    checkOnboarding(tenantID, subscriptionID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,6 +50,9 @@ const O365Tenant: FC = () => {
           </span>
         </span>
         <div>
+          <button onClick={() => checkOnboarding(tenantID, subscriptionID)}>
+            Check
+          </button>
           <ButtonWithIcon
             className={classes.buttonConfirm}
             title="Link MS Teams"

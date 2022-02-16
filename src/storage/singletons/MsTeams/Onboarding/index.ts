@@ -16,7 +16,7 @@ class MsTeamOnboarding {
 
   checkOnboarding = async (tenantID: string, subscriptionID?: string) => {
     request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard_check`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
     })
       .then((data: any) => {
         const checkOnboardingData = data?.data;
