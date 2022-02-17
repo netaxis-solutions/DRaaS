@@ -2,24 +2,34 @@ import { forwardRef, Ref, ChangeEvent } from "react";
 import clsx from "clsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MuiCheckbox from "@material-ui/core/Checkbox";
+import { Row } from "react-table";
 
 import { CheckboxType } from "utils/types/form";
+import { TableData } from "utils/types/tableConfig";
 
 import CheckboxIcon from "components/common/Form/FormCheckbox/CheckboxIcon";
 import CheckboxCheckedIcon from "components/common/Form/FormCheckbox/CheckboxCheckedIcon";
 import useStyles from "./styles";
 
-export const Checkbox: React.FC<CheckboxType> = ({
+export const Checkbox: React.FC<
+  CheckboxType & {
+    row?: Row<TableData>;
+    isAvailable?: (row: Row<TableData>) => boolean;
+  }
+> = ({
   label = "",
   labelPlacement = "end",
   onChange,
   disabled,
   checked,
+  isAvailable,
+  row,
 }) => {
   const classes = useStyles();
   const handleChange = (e: ChangeEvent<Element>, checked: boolean) => {
     onChange(e, checked);
   };
+  const isRowDisabled = (isAvailable && row && !isAvailable(row)) || disabled;
   return (
     <FormControlLabel
       control={
@@ -30,7 +40,7 @@ export const Checkbox: React.FC<CheckboxType> = ({
           icon={
             <CheckboxIcon
               className={clsx(classes.icon, {
-                [classes.disabled]: disabled,
+                [classes.disabled]: isRowDisabled,
               })}
             />
           }
@@ -40,7 +50,7 @@ export const Checkbox: React.FC<CheckboxType> = ({
       label={label}
       classes={{ label: classes.label }}
       labelPlacement={labelPlacement}
-      disabled={disabled}
+      disabled={isRowDisabled}
     />
   );
 };

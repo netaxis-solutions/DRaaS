@@ -1,5 +1,4 @@
-//@ts-nocheck
-import { ChangeEvent, FC, useEffect, useMemo } from "react";
+import { ChangeEvent, FC, useEffect } from "react";
 import {
   useTable,
   useSortBy,
@@ -15,7 +14,9 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
-import { RawTableData, TableData, TableProps } from "utils/types/tableConfig";
+
+import { TableData, TableProps } from "utils/types/tableConfig";
+
 import { Checkbox } from "components/common/Form/FormCheckbox";
 import TableBody from "./components/TableBody";
 import TableHead from "./components/TableHead";
@@ -23,15 +24,10 @@ import Toolbar from "./components/Toolbar";
 import Pagination from "./components/Pagination";
 import TableActions from "components/Table/components/TableActions";
 import { RadioButton } from "components/common/Form/FormRadioButton";
+
 import { useStyles } from "./styles";
 
-const Table: FC<
-  TableProps & {
-    customActions?: Array<any>;
-    actionsDataFormatter?: (row: any, data: any) => any;
-    disableRowCondition?: (rowData: any) => boolean;
-  }
-> = ({
+const Table: FC<TableProps> = ({
   title,
   columns,
   data,
@@ -46,36 +42,18 @@ const Table: FC<
   isRemovable = false,
   customActions,
   actionsDataFormatter,
-  disableRowCondition,
+  isCheckboxAvailable,
+  isGeneralCheckboxSelected,
+  selectAllRowCondition,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  console.log("'asdasd");
   const {
     selectedRows,
     setSelectedRows,
-    clearSelectedRows,
     setRadioButtonValueInRows,
     setSelectedRowsValues,
   } = TableSelectedRowsStore;
-
-  const formattedData: TableData[] = useMemo(
-    () => {
-      return data.reduce(
-        (result: Array<TableData>, rowData: RawTableData) => [
-          ...result,
-          {
-            ...rowData,
-            isRowDisabled:
-              (disableRowCondition && disableRowCondition(rowData)) || false,
-          },
-        ],
-        [],
-      );
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data],
-  );
 
   const {
     rows,
@@ -96,7 +74,7 @@ const Table: FC<
   } = useTable(
     {
       columns,
-      data: formattedData,
+      data,
     },
     useFilters,
     useGlobalFilter,
@@ -112,31 +90,34 @@ const Table: FC<
                   {
                     id: "selection",
                     Header: ({ toggleRowSelected, page }) => {
-                      let selectableRowsInCurrentPage = 0;
-                      let selectedRowsInCurrentPage = 0;
-
-                      page.forEach(row => {
-                        row.isSelected && selectedRowsInCurrentPage++;
-                        !row.original.isRowDisabled &&
-                          selectableRowsInCurrentPage++;
-                      });
-
-                      let isSelected =
-                        !!selectableRowsInCurrentPage &&
-                        selectableRowsInCurrentPage ===
-                          selectedRowsInCurrentPage;
+                      TableSelectedRowsStore.setIsChecked(
+                        isGeneralCheckboxSelected
+                          ? isGeneralCheckboxSelected(page)
+                          : TableSelectedRowsStore.selectedRowsLength ===
+                              page.length,
+                      );
 
                       const handleChange = () => {
                         page.forEach(row => {
-                          !row.original.isRowDisabled &&
-                            toggleRowSelected(row.id, !isSelected);
+                          selectAllRowCondition
+                            ? selectAllRowCondition(
+                                TableSelectedRowsStore.isChecked,
+                                row,
+                              ) &&
+                              toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              )
+                            : toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              );
                         });
                       };
 
                       return radioButton ? null : (
                         <Checkbox
-                          checked={isSelected}
-                          disabled={!selectableRowsInCurrentPage}
+                          checked={TableSelectedRowsStore.isChecked}
                           onChange={handleChange}
                         />
                       );
@@ -151,9 +132,7 @@ const Table: FC<
                       } = row.getToggleRowSelectedProps();
 
                       const handleChange = () => {
-                        setSelectedRows({ [row.index]: true });
-                        !row.original.isRowDisabled &&
-                          toggleRowSelected(String(row.index));
+                        toggleRowSelected(String(row.index));
                       };
 
                       const handleChangeRadio = (
@@ -173,7 +152,8 @@ const Table: FC<
                       ) : (
                         <Checkbox
                           checked={row.isSelected}
-                          disabled={row.original.isRowDisabled}
+                          isAvailable={isCheckboxAvailable}
+                          row={row}
                           onChange={handleChange}
                         />
                       );
@@ -184,32 +164,35 @@ const Table: FC<
               : [
                   {
                     id: "selection",
-                    Header: ({ toggleRowSelected, page }) => {
-                      let selectableRowsInCurrentPage = 0;
-                      let selectedRowsInCurrentPage = 0;
-
-                      page.forEach(row => {
-                        row.isSelected && selectedRowsInCurrentPage++;
-                        !row.original.isRowDisabled &&
-                          selectableRowsInCurrentPage++;
-                      });
-
-                      let isSelected =
-                        !!selectableRowsInCurrentPage &&
-                        selectableRowsInCurrentPage ===
-                          selectedRowsInCurrentPage;
+                    Header: ({ page, toggleRowSelected }) => {
+                      TableSelectedRowsStore.setIsChecked(
+                        isGeneralCheckboxSelected
+                          ? isGeneralCheckboxSelected(page)
+                          : TableSelectedRowsStore.selectedRowsLength ===
+                              page.length,
+                      );
 
                       const handleChange = () => {
                         page.forEach(row => {
-                          !row.original.isRowDisabled &&
-                            toggleRowSelected(row.id, !isSelected);
+                          selectAllRowCondition
+                            ? selectAllRowCondition(
+                                TableSelectedRowsStore.isChecked,
+                                row,
+                              ) &&
+                              toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              )
+                            : toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              );
                         });
                       };
 
                       return radioButton ? null : (
                         <Checkbox
-                          checked={isSelected}
-                          disabled={!selectableRowsInCurrentPage}
+                          checked={TableSelectedRowsStore.isChecked}
                           onChange={handleChange}
                         />
                       );
@@ -224,8 +207,7 @@ const Table: FC<
                       } = row.getToggleRowSelectedProps();
 
                       const handleChange = () => {
-                        !row.original.isRowDisabled &&
-                          toggleRowSelected(String(row.index));
+                        toggleRowSelected(String(row.index));
                       };
 
                       const handleChangeRadio = (
@@ -244,7 +226,8 @@ const Table: FC<
                       ) : (
                         <Checkbox
                           checked={row.isSelected}
-                          disabled={row.original.isRowDisabled}
+                          isAvailable={isCheckboxAvailable}
+                          row={row}
                           onChange={handleChange}
                         />
                       );
@@ -276,6 +259,7 @@ const Table: FC<
                           del={isRemovable}
                           customActions={
                             (actionsDataFormatter &&
+                              customActions &&
                               actionsDataFormatter(props.row, customActions)) ||
                             customActions
                           }
@@ -324,6 +308,7 @@ const Table: FC<
                           del={isRemovable}
                           customActions={
                             (actionsDataFormatter &&
+                              customActions &&
                               actionsDataFormatter(props.row, customActions)) ||
                             customActions
                           }
@@ -350,12 +335,11 @@ const Table: FC<
     setSelectedRows(state.selectedRowIds);
     setSelectedRowsValues(rows.filter(row => row.id in state.selectedRowIds));
     return () => {
-      clearSelectedRows();
+      TableSelectedRowsStore.clearSelectedRows();
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.selectedRowIds]);
-
   useEffect(() => {
     return () => {
       if (Object.values(state.selectedRowIds).length) {
@@ -365,6 +349,11 @@ const Table: FC<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRows]);
 
+  useEffect(() => {
+    return () => {
+      TableSelectedRowsStore.clearStorage();
+    };
+  }, []);
   const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
 
   return (

@@ -17,12 +17,8 @@ export type TableActionsType = {
   onCancel?: () => void;
 };
 
-export type RawTableData = {
+export type TableData = {
   readonly [key: string]: any;
-};
-
-export type TableData = RawTableData & {
-  isRowDisabled: boolean;
 };
 
 export type ToolbarActionType = {
@@ -31,10 +27,17 @@ export type ToolbarActionType = {
   onClick: () => void;
   title: string;
 };
+export type CustomActionType = {
+  actionName: string;
+  iconComponent: JSX.Element;
+  isShown: boolean;
+  disabled: boolean;
+  onClick: (row: Row<TableData>) => void;
+};
 export type TableProps = {
   title: string;
   columns: Column<TableData>[];
-  data: RawTableData[];
+  data: TableData[];
   checkbox?: boolean;
   toolbarActions?: Array<ToolbarActionType>;
   setModalToOpen?: (s: string) => void;
@@ -44,6 +47,17 @@ export type TableProps = {
   isEditable?: boolean;
   isRemovable?: boolean;
   radioButton?: boolean;
+  customActions?: Array<CustomActionType>;
+  actionsDataFormatter?: (
+    row: Row<TableData>,
+    actions: CustomActionType[],
+  ) => CustomActionType[];
+  isCheckboxAvailable?: (rowData: Row<TableData>) => boolean;
+  isGeneralCheckboxSelected?: (page: Row<TableData>[]) => boolean;
+  selectAllRowCondition?: (
+    isChecked: boolean,
+    row: Row<TableData>,
+  ) => boolean | number;
 };
 
 export type ToolbarType = {

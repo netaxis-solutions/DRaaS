@@ -40,3 +40,8 @@ export type CountryCodeWithRanges = {
   countryCode: string;
   ranges: NumberSuggestionsType;
 };
+
+export type assignReservedPayload = {
+  countryCode: string;
+  numbers: Array<number>;
+};

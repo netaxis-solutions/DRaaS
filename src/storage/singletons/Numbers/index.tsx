@@ -7,6 +7,7 @@ import {
   successNotification,
 } from "utils/functions/notifications";
 import {
+  assignReservedPayload,
   CountryCodeWithNSN,
   CountryCodeWithRanges,
   NumberRangesType,
@@ -127,6 +128,30 @@ class NumbersStore {
             rangesAmount: payload.ranges.length,
           }),
         );
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  addReservedNumber = (
+    tenantID: string,
+    subscriptionID: string,
+    payload: assignReservedPayload,
+    successCallback?: () => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
+      loaderName: "@postNumber",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        runInAction(() => {
+          this.getNumbersData(tenantID, subscriptionID);
+        });
+        successCallback && successCallback();
+        this.getReservedNumbers(tenantID, subscriptionID);
       })
       .catch(e => {
         errorNotification(e);

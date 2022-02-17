@@ -2,32 +2,21 @@ import { FC, useEffect, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-import { CellProps, TableProps } from "react-table";
+import { CellProps, Row, TableProps } from "react-table";
+import { has } from "lodash";
 
-// import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import NumbersStore from "storage/singletons/Numbers";
-
-import { EyeOpened, Plus } from "components/Icons";
-import Table from "components/Table";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 import EntitlementsStore from "storage/singletons/Entitlements";
-import { styled, Tooltip } from "@material-ui/core";
-import { useStyles } from "./styles";
-import { tooltipClasses } from "@mui/material/Tooltip";
-import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }: { theme: ThemeDefaultOptions }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor:
-      "linear-gradient(90deg, rgba(33, 35, 86, 0.8) 21.35%, rgba(33, 35, 86, 0.6) 100%)",
-    color: theme.palette.primary.white,
-    boxShadow: theme.shadows[1],
-    height: 185,
-    fontSize: 12,
-  },
-}));
+import { CustomActionType, TableData } from "utils/types/tableConfig";
+import { AvailableEntitlements } from "utils/types/entitlements";
+
+import { InfoIcon, Plus } from "components/Icons";
+import Table from "components/Table";
+import Tooltip from "components/Tooltip";
+
+import { useStyles } from "./styles";
 
 const ReservedNumbers: FC = () => {
   const { t } = useTranslation();
@@ -36,16 +25,22 @@ const ReservedNumbers: FC = () => {
     subscriptionID: string;
   }>();
 
-  const { reservedNumbers, getReservedNumbers } = NumbersStore;
-  const { getEntitlements } = EntitlementsStore;
+  const {
+    reservedNumbers,
+    getReservedNumbers,
+    addReservedNumber,
+  } = NumbersStore;
+  const { getEntitlements, setAvailable } = EntitlementsStore;
   const { selectedRowsLength } = TableSelectedRows;
   const classes = useStyles();
   useEffect(() => {
     getReservedNumbers(tenantID, subscriptionID);
     getEntitlements(tenantID, subscriptionID);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isAvailable = (row: any) => {
+  const isAvailable = (row: Row<TableData>) => {
     const entitlement = EntitlementsStore.entitlements.find(entitlement => {
       return (
         entitlement.countryCode === row.original.countryCode &&
@@ -62,7 +57,7 @@ const ReservedNumbers: FC = () => {
               row.original.countryCode === entitlement.countryCode &&
               row.original.numberType === entitlement.numberType,
           ).length >
-          0
+          0 || row.isSelected
       : false;
   };
 
@@ -73,7 +68,12 @@ const ReservedNumbers: FC = () => {
           title: t("Add"),
           icon: Plus,
           onClick: () => {
-            console.log("add");
+            TableSelectedRows.selectedRowsValues.forEach(row => {
+              addReservedNumber(tenantID, subscriptionID, {
+                countryCode: row.original.countryCode,
+                numbers: [+row.original.nsn],
+              });
+            });
           },
         },
       ]
@@ -85,33 +85,37 @@ const ReservedNumbers: FC = () => {
       iconComponent: <Plus />,
       isShown: true,
       disabled: false,
-      onClick: (row: any) => {
-        console.log((row.original.isRowDisabled = true));
+      onClick: (row: Row<TableData>) => {
+        addReservedNumber(tenantID, subscriptionID, {
+          countryCode: row.original.countryCode,
+          numbers: [+row.original.nsn],
+        });
       },
     },
     {
       actionName: "info",
       iconComponent: (
-        <LightTooltip
+        <Tooltip
           className={classes.tooltip}
           arrow
           title="No more entitlements for this number left"
           placement="bottom-end"
         >
-          <EyeOpened />
-        </LightTooltip>
+          <InfoIcon />
+        </Tooltip>
       ),
       isShown: true,
       disabled: false,
-      onClick: () => {
-        console.log("tooltip");
-      },
+      onClick: () => {},
     },
   ];
 
-  const actionDataFormatter = (row: any, actions: any[]) => {
+  const actionDataFormatter = (
+    row: Row<TableData>,
+    actions: CustomActionType[],
+  ) => {
     return actions.reduce(
-      (sum: any, action: any) => [
+      (sum: CustomActionType[], action: CustomActionType) => [
         ...sum,
         {
           ...action,
@@ -119,11 +123,8 @@ const ReservedNumbers: FC = () => {
             action.actionName === "info" ? !isAvailable(row) : action.isShown,
           disabled:
             action.actionName === "addReserved"
-              ? !isAvailable(row) &&
-                !row.isSelected &&
-                (row.original.isRowDisabled = true)
-              : action.disabled &&
-                (row.original.isRowDisabled = action.disabled),
+              ? !isAvailable(row) && !row.isSelected
+              : action.disabled,
         },
       ],
       [],
@@ -155,6 +156,73 @@ const ReservedNumbers: FC = () => {
     [t],
   );
 
+  const selectAllCondition = (page: Row<TableData>[]) => {
+    setAvailable(EntitlementsStore.getAvailableEntitlements);
+    const { availableEntitlements: available } = EntitlementsStore;
+    const availableOnCurrentPage =
+      page.length &&
+      page.reduce((sum: AvailableEntitlements, row) => {
+        const countryCode = row.original.countryCode;
+        const numberType = row.original.numberType;
+        if (
+          !has(available, [countryCode, numberType]) ||
+          !available[countryCode][numberType]
+        ) {
+          console.log("aaaaa");
+          return {
+            ...sum,
+            [countryCode]: {
+              ...sum[countryCode],
+              [numberType]: 0,
+            },
+          };
+        }
+        return {
+          ...sum,
+          [countryCode]: {
+            ...sum[countryCode],
+            [numberType]: has(sum, [countryCode, numberType])
+              ? sum[countryCode][numberType] <
+                available[countryCode][numberType]
+                ? ++sum[countryCode][numberType]
+                : sum[countryCode][numberType]
+              : available[countryCode][numberType]
+              ? 1
+              : 0,
+          },
+        };
+      }, {});
+
+    const amountAvailable = Object.values(availableOnCurrentPage).reduce(
+      (sum: number, curr: { [key: string]: number }) => {
+        return (
+          sum +
+          Object.values(curr).reduce((sum: number, curr: number) => {
+            return sum + curr;
+          }, 0)
+        );
+      },
+      0,
+    );
+    return amountAvailable === TableSelectedRows.selectedRowsLength;
+  };
+
+  const selectAllRowCondition = (isChecked: boolean, row: Row<TableData>) => {
+    const { availableEntitlements: available } = EntitlementsStore;
+
+    return isChecked
+      ? available[row.original.countryCode][row.original.numberType] &&
+          available[row.original.countryCode][row.original.numberType]++
+      : !row.isSelected &&
+          available[row.original.countryCode][row.original.numberType] -
+            TableSelectedRows.selectedRowsValues.filter(
+              selectedRow =>
+                selectedRow.original.countryCode === row.original.countryCode &&
+                selectedRow.original.numberType === row.original.numberType,
+            ).length &&
+          available[row.original.countryCode][row.original.numberType]--;
+  };
+
   return (
     <Table
       title={t("Reserved numbers")}
@@ -164,7 +232,9 @@ const ReservedNumbers: FC = () => {
       actionsDataFormatter={actionDataFormatter}
       toolbarActions={toolbarActions}
       checkbox
-      // disableRowCondition={isUnAvailable}
+      isCheckboxAvailable={isAvailable}
+      isGeneralCheckboxSelected={selectAllCondition}
+      selectAllRowCondition={selectAllRowCondition}
     />
   );
 };

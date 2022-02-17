@@ -37,6 +37,12 @@ export type EntitlementData = {
   entitlements: EntitlementsListType[];
 };
 
+export type AvailableEntitlements = {
+  [key: string]: {
+    [key: string]: number;
+  };
+};
+
 export type TAddEntitlementFormProps = {
   handleCancel: () => void;
 };

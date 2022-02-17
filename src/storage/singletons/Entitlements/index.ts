@@ -8,6 +8,7 @@ import {
   EntitlementData,
   EntitlementsTypeListType,
   CreateNewEntitlement,
+  AvailableEntitlements,
 } from "utils/types/entitlements";
 import { errorNotification } from "utils/functions/notifications";
 
@@ -15,6 +16,7 @@ class SubscriptionEntitlementsStore {
   entitlements: Array<EntitlementsListType> = [];
   entitlementTypes: Array<EntitlementsTypeListType> = [];
   filteredDataEntitlementTypes: Array<EntitlementsTypeListType> = [];
+  availableEntitlements: AvailableEntitlements = {};
 
   constructor() {
     makeObservable(this, {
@@ -44,17 +46,25 @@ class SubscriptionEntitlementsStore {
   };
 
   get getAvailableEntitlements() {
-    return this.entitlements.reduce((availableEntitlements: any, curr: any) => {
-      return {
-        ...availableEntitlements,
-        [curr.countryCode]: {
-          ...availableEntitlements[curr.countryCode],
-          [curr.numberType]: curr.entitlement - curr.assigned,
-        },
-      };
-    }, {});
+    return this.entitlements.reduce(
+      (
+        availableEntitlements: AvailableEntitlements,
+        curr: EntitlementsListType,
+      ) => {
+        return {
+          ...availableEntitlements,
+          [curr.countryCode]: {
+            ...availableEntitlements[curr.countryCode],
+            [curr.numberType]: curr.entitlement - curr.assigned,
+          },
+        };
+      },
+      {},
+    );
   }
-
+  setAvailable = (av: AvailableEntitlements) => {
+    this.availableEntitlements = av;
+  };
   createEntitlement = async (
     tenantID: string,
     subscriptionID: string,

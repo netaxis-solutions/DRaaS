@@ -9,7 +9,7 @@ class TableSelectedRows {
   } = {};
   radioButtonValueInRow: RadioSelectRowType = {};
   selectedRowsValues: Array<{ [key: string]: any }> = [];
-
+  isChecked: boolean = false;
   constructor() {
     makeAutoObservable(this, {
       selectedRowsValues: observable.ref,
@@ -38,6 +38,22 @@ class TableSelectedRows {
 
   isRowSelected = () => {
     return !isEmpty(this.selectedRows);
+  };
+
+  clearStorage = () => {
+    this.selectedRows = {};
+    this.radioButtonValueInRow = {};
+    this.selectedRowsValues = [];
+    this.isChecked = false;
+  };
+
+  toggleIsChecked = () => {
+    this.isChecked = !this.isChecked;
+    console.log(this.isChecked);
+  };
+
+  setIsChecked = (value: boolean) => {
+    this.isChecked = value;
   };
 
   get selectedRowsLength() {
