@@ -1,21 +1,30 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import { observer } from "mobx-react-lite";
 import LinearProgress from "@mui/material/LinearProgress";
+// import { useParams } from "react-router";
 
 import { TStartMsTeamModal } from "utils/types/msTeam";
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Cross } from "components/Icons";
+import CancelMsTeamStepper from "./CancelModal";
 
 import { EntitlementsStyle } from "./styles";
 
 const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
+  const [modalToOpen, setModalToOpen] = useState("");
+
   const classes = EntitlementsStyle();
+
+  // const { tenantID, subscriptionID } = useParams<{
+  //   tenantID: string;
+  //   subscriptionID: string;
+  // }>();
 
   const {
     checkOnboardingData,
@@ -82,10 +91,26 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
       ? currentStep + 5
       : currentStep + 1;
 
+  const handleDelete = () => {
+    handleCancel();
+  };
+
+  const handleCloseModal = () => {
+    setModalToOpen("");
+  };
+
+  const handleCancelModal = () => {
+    setModalToOpen("cancel");
+  };
+
   return (
     <>
       <div className={classes.buttonCancel}>
-        <ButtonWithIcon title="Cancel" icon={Cross} onClick={handleCancel} />
+        <ButtonWithIcon
+          title="Cancel"
+          icon={Cross}
+          onClick={handleCancelModal}
+        />
       </div>
       <div className={classes.StepperWrapper}>
         <Stepper
@@ -108,6 +133,12 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
           ))}
         </Stepper>
       </div>
+      {modalToOpen === "cancel" && (
+        <CancelMsTeamStepper
+          handleCloseModal={handleCloseModal}
+          handleDelete={handleDelete}
+        />
+      )}
     </>
   );
 };

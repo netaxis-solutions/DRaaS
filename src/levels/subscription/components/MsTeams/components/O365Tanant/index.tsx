@@ -15,7 +15,11 @@ import { EntitlementsStyle } from "./styles";
 
 const O365Tenant: FC = () => {
   const { startOnboarding } = MsTeamOnboarding;
-  const { getMsTeamAdmin, msTeamAdmin } = MsTeamAdminStorage;
+  const {
+    getMsTeamAdmin,
+    msTeamAdmin,
+    clearCashMsTeamAdmin,
+  } = MsTeamAdminStorage;
   const [modalToOpen, setModalToOpen] = useState("");
 
   const { tenantID, subscriptionID } = useParams<{
@@ -27,6 +31,7 @@ const O365Tenant: FC = () => {
 
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
+    return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,7 +45,6 @@ const O365Tenant: FC = () => {
   };
 
   const disabledButton = Object.keys(msTeamAdmin).length;
-  console.log(!!disabledButton);
 
   return (
     <>
@@ -93,7 +97,7 @@ const O365Tenant: FC = () => {
                 className={classes.buttonConfirm}
                 title="Link MS Teams"
                 icon={MsTeamLimk}
-                disabled={!!disabledButton}
+                disabled
               />
             )}
           </div>
