@@ -4,6 +4,12 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
+    "&.Mui-disabled": {
+      background: "#C0C0C0",
+      color: "white",
+      border: "none",
+    },
+
     padding: `${theme.spacing(1.25)}px ${theme.spacing(2.5)}px`,
     "& svg": {
       width: 14,

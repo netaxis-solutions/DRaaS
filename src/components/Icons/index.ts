@@ -1,5 +1,6 @@
 export { default as BelgiumFlag } from "./BelgiumFlag";
 export { default as NetherlandFlag } from "./NetherlandFlag";
+export { default as AlertOutline } from "./AlertOutline";
 export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
 export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
 export { default as TenantLevelIcon } from "./TenantLevelIcon";

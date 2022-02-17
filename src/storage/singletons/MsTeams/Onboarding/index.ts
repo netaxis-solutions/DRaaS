@@ -7,10 +7,12 @@ import { request } from "services/api";
 class MsTeamOnboarding {
   transactionID: number = 0;
   checkOnboardingData: any = [];
+  isRunning: boolean = true;
 
   constructor() {
     makeObservable(this, {
       checkOnboardingData: observable.ref,
+      isRunning: observable.ref,
     });
   }
 
@@ -19,9 +21,11 @@ class MsTeamOnboarding {
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
     })
       .then((data: any) => {
-        const checkOnboardingData = data?.data;
+        const isRunning = data?.data.running;
+        const checkOnboardingData = data?.data.wizardSteps;
 
         runInAction(() => {
+          this.isRunning = isRunning;
           this.checkOnboardingData = checkOnboardingData;
         });
       })
@@ -40,6 +44,11 @@ class MsTeamOnboarding {
         this.transactionID = transactionID;
       });
     });
+  };
+
+  clearStorage = () => {
+    this.checkOnboardingData = [];
+    this.isRunning = false;
   };
 }
 
