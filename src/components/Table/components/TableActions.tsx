@@ -1,13 +1,21 @@
 import { FC } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import { Edit, Trash, Cross, Check } from "components/Icons";
-import { TableActionsType } from "utils/types/tableConfig";
+import {
+  CustomActionType,
+  TableActionsType,
+  TableData,
+} from "utils/types/tableConfig";
 
 import { useStyles } from "./styles";
 import clsx from "clsx";
+import { Row } from "react-table";
 
 const TableActions: FC<
-  TableActionsType & { customActions?: any[]; rowData?: any }
+  TableActionsType & {
+    customActions?: CustomActionType[];
+    rowData?: Row<TableData>;
+  }
 > = ({
   edit,
   del,
@@ -33,7 +41,7 @@ const TableActions: FC<
               [classes.hidden]: !isShown,
             })}
             onClick={() => {
-              !disabled && isShown && onClick(rowData);
+              !disabled && isShown && rowData && onClick(rowData);
             }}
           >
             {iconComponent}

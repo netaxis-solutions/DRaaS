@@ -49,7 +49,6 @@ class TableSelectedRows {
 
   toggleIsChecked = () => {
     this.isChecked = !this.isChecked;
-    console.log(this.isChecked);
   };
 
   setIsChecked = (value: boolean) => {

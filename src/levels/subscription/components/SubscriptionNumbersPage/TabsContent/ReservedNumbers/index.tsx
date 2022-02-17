@@ -168,7 +168,6 @@ const ReservedNumbers: FC = () => {
           !has(available, [countryCode, numberType]) ||
           !available[countryCode][numberType]
         ) {
-          console.log("aaaaa");
           return {
             ...sum,
             [countryCode]: {

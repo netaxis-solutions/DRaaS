@@ -7,12 +7,13 @@ import {
   successNotification,
 } from "utils/functions/notifications";
 import {
-  assignReservedPayload,
+  AssignReservedPayload,
   CountryCodeWithNSN,
   CountryCodeWithRanges,
   NumberRangesType,
   NumberSuggestionsType,
   PhoneNumberType,
+  ReservedNumbers,
 } from "utils/types/numbers";
 import { t } from "services/Translation";
 
@@ -21,8 +22,7 @@ class NumbersStore {
   numberInventory: Array<PhoneNumberType> = [];
   numberInventoryRanges: Array<NumberRangesType> = [];
   numberSuggestions: NumberSuggestionsType = [];
-  reservedNumbers: any[] = [];
-  availableEntitlementsAmount: any = {};
+  reservedNumbers: ReservedNumbers[] = [];
   constructor() {
     makeObservable(this, {
       numbers: observable.ref,
@@ -30,7 +30,6 @@ class NumbersStore {
       numberInventoryRanges: observable.ref,
       numberSuggestions: observable.ref,
       reservedNumbers: observable.ref,
-      availableEntitlementsAmount: observable.ref,
     });
   }
 
@@ -137,7 +136,7 @@ class NumbersStore {
   addReservedNumber = (
     tenantID: string,
     subscriptionID: string,
-    payload: assignReservedPayload,
+    payload: AssignReservedPayload,
     successCallback?: () => void,
   ) => {
     request({
