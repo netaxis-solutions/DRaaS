@@ -14,8 +14,8 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       color: theme.palette.primary.newLink,
     },
     "& ul": {
-      paddingLeft: "20px",
-      marginTop: "5px",
+      paddingLeft: theme.spacing(2.5),
+      marginTop: theme.spacing(0.7),
     },
   },
   checkboxStyling: {
@@ -25,7 +25,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   formRoot: {
-    marginTop: 30,
+    marginTop: theme.spacing(3.75),
     maxWidth: "690px",
     "& > div": {
       maxWidth: "500px",
@@ -34,7 +34,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       maxWidth: "600px",
       display: "flex",
       justifyContent: "end",
-      marginTop: 30,
+      marginTop: theme.spacing(3.75),
     },
   },
   formCheckbox: {
@@ -64,13 +64,13 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   multiFormRoot: {
     maxWidth: "500px",
-    marginTop: 30,
+    marginTop: theme.spacing(3.75),
   },
   multiSubmitGroupRoot: {
     maxWidth: 500,
     display: "flex",
     justifyContent: "end",
-    gap: 18,
+    gap: theme.spacing(2.1),
     "& button": {
       maxWidth: 90,
       width: 90,
@@ -79,6 +79,6 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   successLogin: {
     display: "flex",
     alignItem: "center",
-    gap: "10px",
+    gap: theme.spacing(1.15),
   },
 }));

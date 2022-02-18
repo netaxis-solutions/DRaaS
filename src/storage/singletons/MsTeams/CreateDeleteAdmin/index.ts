@@ -3,12 +3,17 @@ import { AxiosResponse } from "axios";
 
 import configStore from "../../Config";
 import { request } from "services/api";
+import {
+  TMsTeamAdmins,
+  TMsTeamCheck,
+  TMsTeamUserList,
+} from "utils/types/msTeam";
 
 class MsTeamAdmin {
-  msTeamAdmin: any = {};
-  checkMsTeamAdmin: any = {};
-  checkMsTeamUsersList: any = [];
-  isLoading: any = false;
+  msTeamAdmin: TMsTeamAdmins = { id: null, msUsername: "" };
+  checkMsTeamAdmin: TMsTeamCheck | {} = {};
+  checkMsTeamUsersList: TMsTeamUserList | [] = [];
+  isLoading: boolean = false;
 
   constructor() {
     makeObservable(this, {
@@ -19,7 +24,7 @@ class MsTeamAdmin {
     });
   }
 
-  getMsTeamAdmin = async (tenantID: string, subscriptionID?: string) => {
+  getMsTeamAdmin = async (tenantID: string, subscriptionID: string) => {
     this.isLoading = true;
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/admins`,
@@ -34,12 +39,12 @@ class MsTeamAdmin {
         });
       })
       .catch(e => {
-        console.log(e);
-        this.msTeamAdmin = {};
+        console.error(e);
+        this.msTeamAdmin = { id: null, msUsername: "" };
       });
   };
 
-  getMsTeamUsers = async (tenantID: string, subscriptionID?: string) => {
+  getMsTeamUsers = async (tenantID: string, subscriptionID: string) => {
     this.isLoading = true;
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users`,
@@ -54,11 +59,11 @@ class MsTeamAdmin {
         });
       })
       .catch(e => {
-        console.log(e);
+        console.error(e);
       });
   };
 
-  getCheckMsTeamAdmin = async (tenantID: string, subscriptionID?: string) => {
+  getCheckMsTeamAdmin = async (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/check`,
       loaderName: "@getMsTeamAdmin",
@@ -77,8 +82,8 @@ class MsTeamAdmin {
 
   createMsTeamAdmin = async (
     tenantID: string,
-    subscriptionID?: string,
-    payload?: any,
+    subscriptionID: string,
+    payload: any,
   ) => {
     try {
       await request({
@@ -98,8 +103,8 @@ class MsTeamAdmin {
 
   deleteMsTeamAdmin = async (
     tenantID: string,
-    subscriptionID?: string,
-    payload?: any,
+    subscriptionID: string,
+    payload: any,
   ) => {
     try {
       await request({
@@ -119,7 +124,7 @@ class MsTeamAdmin {
 
   clearCashMsTeamAdmin = () => {
     runInAction(() => {
-      this.msTeamAdmin = {};
+      this.msTeamAdmin = { id: null, msUsername: "" };
     });
   };
 }

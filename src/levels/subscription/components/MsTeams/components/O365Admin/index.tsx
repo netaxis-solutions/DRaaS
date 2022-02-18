@@ -84,12 +84,12 @@ const O365Admin: FC = () => {
 
   return (
     <div>
-      {Object.keys(msTeamAdmin).length > 0 ? (
+      {msTeamAdmin.id ? (
         <AcceptText userName={msTeamAdmin.msUsername} />
       ) : (
         <StartedText />
       )}
-      {Object.keys(msTeamAdmin).length > 0 ? (
+      {msTeamAdmin.id ? (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={classes.multiFormRoot}

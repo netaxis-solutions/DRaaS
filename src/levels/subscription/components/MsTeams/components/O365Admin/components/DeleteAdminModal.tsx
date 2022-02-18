@@ -1,10 +1,12 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import useStyles from "./styles";
+
+import { TDeleteAdminModalProps } from "utils/types/msTeam";
 
 import DeleteModal from "components/common/DeleteModal";
-import { TDeleteAdminModalProps } from "utils/types/msTeam";
+
+import useStyles from "./styles";
 
 const DeleteTenantModal: FC<TDeleteAdminModalProps> = ({
   handleCloseModal,

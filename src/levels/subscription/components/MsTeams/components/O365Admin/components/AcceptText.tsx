@@ -3,7 +3,11 @@ import { FC } from "react";
 import { SuccessArrow } from "components/Icons";
 import { EntitlementsStyle } from "../styles";
 
-const AcceptText: FC<any> = ({ userName }: { userName: string }) => {
+type TAcceptText = {
+  userName: string;
+};
+
+const AcceptText: FC<TAcceptText> = ({ userName }) => {
   const classes = EntitlementsStyle();
   return (
     <div className={classes.successLogin}>
