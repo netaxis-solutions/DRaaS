@@ -1,5 +1,4 @@
 import { makeObservable, observable, runInAction } from "mobx";
-// import { AxiosResponse } from "axios";
 
 import configStore from "../../Config";
 import { request } from "services/api";
@@ -11,12 +10,14 @@ class MsTeamOnboarding {
   checkOnboardingData: any = [];
   isRunning: boolean = true;
   isError: boolean = false;
+  msTeamInterval: number = 17000;
 
   constructor() {
     makeObservable(this, {
       checkOnboardingData: observable.ref,
       isRunning: observable.ref,
       isError: observable.ref,
+      msTeamInterval: observable.ref,
     });
   }
 
@@ -32,6 +33,8 @@ class MsTeamOnboarding {
           this.isError = false;
           this.isRunning = isRunning;
           this.checkOnboardingData = checkOnboardingData;
+          this.msTeamInterval = configStore.config.msTeamInterval;
+
           if (!isRunning) {
             successNotification(t("MS Teams was linked to the platform"));
           }

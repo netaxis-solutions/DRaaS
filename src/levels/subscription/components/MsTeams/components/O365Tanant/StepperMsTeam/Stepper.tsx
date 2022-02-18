@@ -34,12 +34,13 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
     isRunning,
     clearStorage,
     isError,
+    msTeamInterval,
   } = MsTeamOnboarding;
 
   useEffect(() => {
     const checkingSteps = setInterval(() => {
       checkOnboarding("49fed14a-549a-48c4-98dd-14efe6454503", "60");
-    }, 15000);
+    }, msTeamInterval);
 
     !isRunning && clearInterval(checkingSteps);
     return () => {

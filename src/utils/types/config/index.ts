@@ -13,4 +13,5 @@ export type ConfigType = {
       route: string;
     };
   };
+  msTeamInterval: number;
 };
