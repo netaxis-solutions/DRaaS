@@ -55,7 +55,6 @@ const Table: FC<TableProps> = ({
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    setGlobalFilter,
     page,
     state,
     setPageSize,
@@ -297,7 +296,6 @@ const Table: FC<TableProps> = ({
               : toolbarActions.filter(el => el.id !== "delete")
             : []
         }
-        setGlobalFilter={setGlobalFilter}
       />
       <MaUTable {...getTableProps()} className={classes.tableRoot}>
         <TableHead headerGroups={headerGroups} />
