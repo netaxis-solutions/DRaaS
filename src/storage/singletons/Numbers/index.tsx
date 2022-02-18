@@ -50,7 +50,7 @@ class NumbersStore {
   getNumbersInventoryRanges = async () => {
     try {
       const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/number_inventory/ranges`,
+        route: `${configStore.config.draasInstance}/public/number_inventory/ranges`,
         loaderName: "@getNumbersData",
       });
       const ranges = data.data.ranges;
@@ -123,7 +123,7 @@ class NumbersStore {
     callback?: () => void,
   ) => {
     request({
-      route: `${configStore.config.draasInstance}/number_inventory/suggestion`,
+      route: `${configStore.config.draasInstance}/public/number_inventory/suggestion`,
       payload: { params },
     })
       .then(({ data }: any) => {
