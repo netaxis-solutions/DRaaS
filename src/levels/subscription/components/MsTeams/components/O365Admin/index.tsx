@@ -47,8 +47,8 @@ const O365Admin: FC = () => {
   const defaultValues = {
     msUsername: "",
     msPassword: "",
-    agree: false,
-    privacy: false,
+    agree: true,
+    privacy: true,
   };
 
   const { control, handleSubmit } = useForm<TCreateMsAdmin>({

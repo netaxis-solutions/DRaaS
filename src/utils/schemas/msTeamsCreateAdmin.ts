@@ -1,5 +1,5 @@
 import { TFunction } from "i18next";
-import { string, object } from "yup";
+import { string, object, boolean } from "yup";
 
 export const msTeamCreateAdmin = (t: TFunction) =>
   object().shape({
@@ -12,6 +12,12 @@ export const msTeamCreateAdmin = (t: TFunction) =>
           excludeEmptyString: true,
         },
       ),
+    agree: boolean()
+      .required(t("The terms and conditions must be accepted."))
+      .oneOf([true], t("Field must be checked")),
+    privacy: boolean()
+      .required(t("The terms and conditions must be accepted."))
+      .oneOf([true], t("Field must be checked")),
     msPassword: string()
       .label(t("Password"))
       .max(25)
