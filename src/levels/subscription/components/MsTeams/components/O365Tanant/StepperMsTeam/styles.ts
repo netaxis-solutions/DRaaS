@@ -79,9 +79,6 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   StepperContent: {
     "& .MuiCollapse-wrapperInner": {
       paddingTop: 12,
-      "& span:last-child": {
-        marginTop: 10,
-      },
     },
 
     fontSize: 14,
@@ -92,5 +89,35 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     maxWidth: 644,
     padding: "16px 31px",
     borderRadius: 10,
+  },
+  isError: {
+    display: "flex",
+    alignItems: "center",
+  },
+  isErrorNote: {
+    border: `1px solid ${theme.palette.secondary.alertBorder}`,
+    borderRadius: 10,
+    backgroundColor: theme.palette.secondary.alertBackground,
+    width: "100%",
+    fontSize: 14,
+    padding: 10,
+    margin: 10,
+  },
+  buttonRetry: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.white,
+    width: 93,
+    "& span": {
+      "& svg": {
+        "& path": {
+          fill: theme.palette.primary.white,
+        },
+      },
+    },
+
+    "&:hover": {
+      backgroundColor: `${theme.palette.primary.main} !important`,
+      color: theme.palette.primary.white,
+    },
   },
 }));

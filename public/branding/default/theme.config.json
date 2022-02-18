@@ -13,7 +13,9 @@
       "main": "#CCE3D8",
       "light": "#EBEBF7",
       "text": "#828282",
-      "hover": "#F5F7FF"
+      "hover": "#F5F7FF",
+      "alertBackground": "#FDECEB",
+      "alertBorder":"#EE594D"
     },
     "status": {
       "alert": "#FF8800",

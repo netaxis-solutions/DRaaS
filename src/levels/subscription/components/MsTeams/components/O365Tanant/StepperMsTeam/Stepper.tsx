@@ -1,17 +1,18 @@
 import { FC, useEffect, useState } from "react";
+// Wait changed in backend
+// import { useParams } from "react-router";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import { observer } from "mobx-react-lite";
 import LinearProgress from "@mui/material/LinearProgress";
-// import { useParams } from "react-router";
 
 import { TStartMsTeamModal } from "utils/types/msTeam";
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Cross } from "components/Icons";
+import { Cross, Reload } from "components/Icons";
 import CancelMsTeamStepper from "./CancelModal";
 
 import { EntitlementsStyle } from "./styles";
@@ -21,6 +22,7 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
 
   const classes = EntitlementsStyle();
 
+  // Wait changed in backend
   // const { tenantID, subscriptionID } = useParams<{
   //   tenantID: string;
   //   subscriptionID: string;
@@ -31,6 +33,7 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
     checkOnboarding,
     isRunning,
     clearStorage,
+    isError,
   } = MsTeamOnboarding;
 
   useEffect(() => {
@@ -84,6 +87,12 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
     },
   ];
 
+  const errorInActiveStep = steps.filter((el: any, index: any) => {
+    if (index === currentStep + 1) {
+      return el;
+    }
+  });
+
   const activeStep =
     currentStep !== 4 && isRunning
       ? currentStep + 1
@@ -124,10 +133,37 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
                 <span> {step.label}</span>
               </StepLabel>
               <StepContent className={classes.StepperContent}>
-                <span>{step.description}</span>
-                <div className={classes.progressIndicate}>
-                  <LinearProgress className={classes.progressIndicate} />
-                </div>
+                {isError ? (
+                  <div className={classes.isError}>
+                    <div className={classes.isErrorNote}>
+                      <span>
+                        {" "}
+                        Setting up the {errorInActiveStep[0].label.slice(
+                          1,
+                        )}{" "}
+                        failed. You can retry setting up.{" "}
+                      </span>
+                    </div>
+                    <ButtonWithIcon
+                      title="Retry"
+                      className={classes.buttonRetry}
+                      icon={Reload}
+                      onClick={() =>
+                        checkOnboarding(
+                          "49fed14a-549a-48c4-98dd-14efe6454503",
+                          "60",
+                        )
+                      }
+                    ></ButtonWithIcon>
+                  </div>
+                ) : (
+                  <>
+                    <span>{step.description}</span>
+                    <div className={classes.progressIndicate}>
+                      <LinearProgress className={classes.progressIndicate} />
+                    </div>
+                  </>
+                )}
               </StepContent>
             </Step>
           ))}

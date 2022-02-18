@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
+import { Check } from "components/Icons";
 import DeleteModal from "components/common/DeleteModal";
+
 import useStyles from "./styles";
 
 export type TCancelMsModal = {
@@ -21,6 +23,7 @@ const CancelMsTeamStepper: FC<TCancelMsModal> = ({
       handleCancel={handleCloseModal}
       handleDelete={handleDelete}
       selectedElementName={false}
+      deleteIcon={Check}
       deleteTitle={"Yes, cancel"}
       cancelTitle={"No, continue"}
     >

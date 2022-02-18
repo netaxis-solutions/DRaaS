@@ -22,6 +22,7 @@ export { default as Next } from "./Next";
 export { default as Notification } from "./Notification";
 export { default as Percent } from "./Percent";
 export { default as Plus } from "./Plus";
+export { default as Reload } from "./Reload";
 export { default as Save } from "./Save";
 export { default as Search } from "./Search";
 export { default as Sort } from "./Sort";

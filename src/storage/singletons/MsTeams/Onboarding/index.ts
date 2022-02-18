@@ -3,16 +3,20 @@ import { makeObservable, observable, runInAction } from "mobx";
 
 import configStore from "../../Config";
 import { request } from "services/api";
+import { t } from "services/Translation";
+import { successNotification } from "utils/functions/notifications";
 
 class MsTeamOnboarding {
   transactionID: number = 0;
   checkOnboardingData: any = [];
   isRunning: boolean = true;
+  isError: boolean = false;
 
   constructor() {
     makeObservable(this, {
       checkOnboardingData: observable.ref,
       isRunning: observable.ref,
+      isError: observable.ref,
     });
   }
 
@@ -25,11 +29,16 @@ class MsTeamOnboarding {
         const checkOnboardingData = data?.data.wizardSteps;
 
         runInAction(() => {
+          this.isError = false;
           this.isRunning = isRunning;
           this.checkOnboardingData = checkOnboardingData;
+          if (!isRunning) {
+            successNotification(t("MS Teams was linked to the platform"));
+          }
         });
       })
       .catch(e => {
+        this.isError = true;
         console.log(e);
       });
   };
