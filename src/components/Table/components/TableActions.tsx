@@ -1,5 +1,8 @@
 import { FC } from "react";
 import IconButton from "@material-ui/core/IconButton";
+import clsx from "clsx";
+import { Row } from "react-table";
+
 import { Edit, Trash, Cross, Check } from "components/Icons";
 import {
   CustomActionType,
@@ -8,8 +11,6 @@ import {
 } from "utils/types/tableConfig";
 
 import { useStyles } from "./styles";
-import clsx from "clsx";
-import { Row } from "react-table";
 
 const TableActions: FC<
   TableActionsType & {

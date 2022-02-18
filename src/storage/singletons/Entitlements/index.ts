@@ -62,8 +62,8 @@ class SubscriptionEntitlementsStore {
       {},
     );
   }
-  setAvailable = (av: AvailableEntitlements) => {
-    this.availableEntitlements = av;
+  setAvailable = (availableEntitlements: AvailableEntitlements) => {
+    this.availableEntitlements = availableEntitlements;
   };
   createEntitlement = async (
     tenantID: string,

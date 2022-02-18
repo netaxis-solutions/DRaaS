@@ -16,8 +16,6 @@ import { InfoIcon, Plus } from "components/Icons";
 import Table from "components/Table";
 import Tooltip from "components/Tooltip";
 
-import { useStyles } from "./styles";
-
 const ReservedNumbers: FC = () => {
   const { t } = useTranslation();
   const { tenantID, subscriptionID } = useParams<{
@@ -32,7 +30,6 @@ const ReservedNumbers: FC = () => {
   } = NumbersStore;
   const { getEntitlements, setAvailable } = EntitlementsStore;
   const { selectedRowsLength } = TableSelectedRows;
-  const classes = useStyles();
   useEffect(() => {
     getReservedNumbers(tenantID, subscriptionID);
     getEntitlements(tenantID, subscriptionID);
@@ -96,7 +93,6 @@ const ReservedNumbers: FC = () => {
       actionName: "info",
       iconComponent: (
         <Tooltip
-          className={classes.tooltip}
           arrow
           title="No more entitlements for this number left"
           placement="bottom-end"
@@ -115,8 +111,8 @@ const ReservedNumbers: FC = () => {
     actions: CustomActionType[],
   ) => {
     return actions.reduce(
-      (sum: CustomActionType[], action: CustomActionType) => [
-        ...sum,
+      (formattedActions: CustomActionType[], action: CustomActionType) => [
+        ...formattedActions,
         {
           ...action,
           isShown:
@@ -158,10 +154,12 @@ const ReservedNumbers: FC = () => {
 
   const selectAllCondition = (page: Row<TableData>[]) => {
     setAvailable(EntitlementsStore.getAvailableEntitlements);
+
     const { availableEntitlements: available } = EntitlementsStore;
+
     const availableOnCurrentPage =
       page.length &&
-      page.reduce((sum: AvailableEntitlements, row) => {
+      page.reduce((availableEntitlements: AvailableEntitlements, row) => {
         const countryCode = row.original.countryCode;
         const numberType = row.original.numberType;
         if (
@@ -169,22 +167,22 @@ const ReservedNumbers: FC = () => {
           !available[countryCode][numberType]
         ) {
           return {
-            ...sum,
+            ...availableEntitlements,
             [countryCode]: {
-              ...sum[countryCode],
+              ...availableEntitlements[countryCode],
               [numberType]: 0,
             },
           };
         }
         return {
-          ...sum,
+          ...availableEntitlements,
           [countryCode]: {
-            ...sum[countryCode],
-            [numberType]: has(sum, [countryCode, numberType])
-              ? sum[countryCode][numberType] <
+            ...availableEntitlements[countryCode],
+            [numberType]: has(availableEntitlements, [countryCode, numberType])
+              ? availableEntitlements[countryCode][numberType] <
                 available[countryCode][numberType]
-                ? ++sum[countryCode][numberType]
-                : sum[countryCode][numberType]
+                ? ++availableEntitlements[countryCode][numberType]
+                : availableEntitlements[countryCode][numberType]
               : available[countryCode][numberType]
               ? 1
               : 0,
@@ -193,17 +191,26 @@ const ReservedNumbers: FC = () => {
       }, {});
 
     const amountAvailable = Object.values(availableOnCurrentPage).reduce(
-      (sum: number, curr: { [key: string]: number }) => {
+      (
+        availableEntitlementsAmount: number,
+        curr: { [key: string]: number },
+      ) => {
         return (
-          sum +
-          Object.values(curr).reduce((sum: number, curr: number) => {
-            return sum + curr;
-          }, 0)
+          availableEntitlementsAmount +
+          Object.values(curr).reduce(
+            (availableEntitlements: number, curr: number) => {
+              return availableEntitlements + curr;
+            },
+            0,
+          )
         );
       },
       0,
     );
-    return amountAvailable === TableSelectedRows.selectedRowsLength;
+    return (
+      amountAvailable === TableSelectedRows.selectedRowsLength &&
+      TableSelectedRows.selectedRowsLength !== 0
+    );
   };
 
   const selectAllRowCondition = (isChecked: boolean, row: Row<TableData>) => {
