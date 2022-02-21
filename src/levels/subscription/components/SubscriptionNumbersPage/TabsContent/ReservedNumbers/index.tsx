@@ -94,7 +94,7 @@ const ReservedNumbers: FC = () => {
       iconComponent: (
         <Tooltip
           arrow
-          title="No more entitlements for this number left"
+          title={t("No more entitlements for this number left")}
           placement="bottom-end"
         >
           <InfoIcon />
