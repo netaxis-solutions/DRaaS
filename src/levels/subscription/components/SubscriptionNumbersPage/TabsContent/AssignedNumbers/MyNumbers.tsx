@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import NumbersStore from "storage/singletons/Numbers";
 import RoutingConfig from "storage/singletons/RoutingConfig";
+import TablePagination from "storage/singletons/TablePagination";
 
 import SelectFromInventory from "./components/MultistepModal";
 import MyNumbersTable from "./MyNumbersTable";
@@ -19,15 +20,26 @@ const MyNumbers = () => {
   const classes = styles();
   const [isModalOpened, setModal] = useState(false);
 
+  const { tablePageCounter, tablePageSize, search } = TablePagination;
+
   const { history } = RoutingConfig;
   const { numbers, getNumbersData, clearNumbers } = NumbersStore;
 
   useEffect(() => {
     getNumbersData(params.tenantID, params.subscriptionID);
+
     return () => {
       clearNumbers();
     };
-  }, [clearNumbers, getNumbersData, params.subscriptionID, params.tenantID]);
+  }, [
+    clearNumbers,
+    getNumbersData,
+    params.subscriptionID,
+    params.tenantID,
+    tablePageCounter,
+    tablePageSize,
+    search,
+  ]);
 
   const handleModalClose = () => {
     setModal(false);

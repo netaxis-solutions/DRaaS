@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import _ from "lodash";
+import { debounce } from "lodash";
 
 class TablePagination {
   tablePageCounter: number = 1;
@@ -31,7 +31,7 @@ class TablePagination {
     });
   };
 
-  tableSearch = _.debounce(() => {
+  tableSearch = debounce(() => {
     runInAction(() => {
       this.tablePageCounter = 1;
       this.search = this.liveSearch;

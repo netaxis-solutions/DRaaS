@@ -13,6 +13,7 @@ import {
   NumberSuggestionsType,
   PhoneNumberType,
 } from "utils/types/numbers";
+import TablePagination from "../TablePagination";
 import { t } from "services/Translation";
 
 class NumbersStore {
@@ -35,10 +36,18 @@ class NumbersStore {
       const data: AxiosResponse<any> = await request({
         route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
         loaderName: "@getNumbersData",
+        payload: {
+          params: {
+            page: TablePagination.tablePageCounter,
+            page_size: TablePagination.tablePageSize,
+            search: TablePagination.search,
+          },
+        },
       });
       const numbers = data.data.numbers;
 
       runInAction(() => {
+        TablePagination.getTableConfig(data?.data);
         this.numbers = numbers;
       });
     } catch (e) {

@@ -1,8 +1,10 @@
 import clsx from "clsx";
 
-import { ArrowLeft, ArrowRight } from "components/Icons";
 import { PaginationNavigationType } from "utils/types/tableConfig";
 import TablePagination from "storage/singletons/TablePagination";
+
+import { ArrowLeft, ArrowRight } from "components/Icons";
+
 import { paginationNavigationStyles } from "./styles";
 
 const PaginationNavigation: React.FC<PaginationNavigationType> = ({
