@@ -17,6 +17,39 @@ import CancelMsTeamStepper from "./CancelModal";
 
 import { EntitlementsStyle } from "./styles";
 
+const steps = [
+  {
+    label: "1 Provide credentials of tenant admin",
+    description: `Provide credentials of tenant admin.`,
+  },
+  {
+    label: "2 Initiate MS Teams tenant in our system",
+    description: `API is adding new subdomain to your tenant. Normally it takes 2 minutes.`,
+  },
+  {
+    label: "3 Create service principal and set MS Graph gateway",
+    description: `Microsoft is  in process of verifying your domain. Normally it takes 30 minutes.`,
+  },
+  {
+    label: "4 Set a domain for the tenant and validate it against Microsoft",
+    description: `Our backend is creating a temporary teams user and assigning it to new subdomain. It can take around 5 minutes.`,
+  },
+  {
+    label:
+      "5 Add an e-mail service to the domain together with its related DNS entries",
+    description: `User is created. Waiting until Microsoft activates the domain. It can take up to 24 hours.`,
+  },
+  {
+    label:
+      "6 Create a dummy account and associate an E1 / E3 / E5 license to it",
+    description: `Voice routing is setting up. It can take up to 30 seconds.`,
+  },
+  {
+    label: "7 Create a SBC and remove associated license from the dummy user",
+    description: `Voice routing is setting up. It can take up to 30 seconds.`,
+  },
+];
+
 const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
   const [modalToOpen, setModalToOpen] = useState("");
 
@@ -29,81 +62,19 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
   // }>();
 
   const {
-    checkOnboardingData,
+    currentStep,
+    activeStep,
     checkOnboarding,
-    isRunning,
     clearStorage,
     isError,
-    msTeamInterval,
   } = MsTeamOnboarding;
 
-  useEffect(() => {
-    const checkingSteps = setInterval(() => {
-      checkOnboarding("49fed14a-549a-48c4-98dd-14efe6454503", "60");
-    }, msTeamInterval);
+  useEffect(() => clearStorage, []);
 
-    !isRunning && clearInterval(checkingSteps);
-    return () => {
-      clearStorage();
-      clearInterval(checkingSteps);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const currentStep =
-    (checkOnboardingData &&
-      [...checkOnboardingData]?.reverse().find(curr => curr.executed)?.step) ||
-    0;
-
-  const steps = [
-    {
-      label: "1 Provide credentials of tenant admin",
-      description: `Provide credentials of tenant admin.`,
-    },
-    {
-      label: "2 Initiate MS Teams tenant in our system",
-      description: `API is adding new subdomain to your tenant. Normally it takes 2 minutes.`,
-    },
-    {
-      label: "3 Create service principal and set MS Graph gateway",
-      description: `Microsoft is  in process of verifying your domain. Normally it takes 30 minutes.`,
-    },
-    {
-      label: "4 Set a domain for the tenant and validate it against Microsoft",
-      description: `Our backend is creating a temporary teams user and assigning it to new subdomain. It can take around 5 minutes.`,
-    },
-    {
-      label:
-        "5 Add an e-mail service to the domain together with its related DNS entries",
-      description: `User is created. Waiting until Microsoft activates the domain. It can take up to 24 hours.`,
-    },
-    {
-      label:
-        "6 Create a dummy account and associate an E1 / E3 / E5 license to it",
-      description: `Voice routing is setting up. It can take up to 30 seconds.`,
-    },
-    {
-      label: "7 Create a SBC and remove associated license from the dummy user",
-      description: `Voice routing is setting up. It can take up to 30 seconds.`,
-    },
-  ];
-
-  const errorInActiveStep = steps.filter((el: any, index: any) => {
-    if (index === currentStep + 1) {
-      return el;
-    }
-  });
-
-  const activeStep =
-    currentStep !== 4 && isRunning
-      ? currentStep + 1
-      : !isRunning
-      ? currentStep + 5
-      : currentStep + 1;
-
-  const handleDelete = () => {
-    handleCancel();
-  };
+  const errorInActiveStep =
+    currentStep + 1 >= steps.length
+      ? steps[steps.length - 1]
+      : steps[currentStep + 1];
 
   const handleCloseModal = () => {
     setModalToOpen("");
@@ -139,10 +110,9 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
                     <div className={classes.isErrorNote}>
                       <span>
                         {" "}
-                        Setting up the {errorInActiveStep[0].label.slice(
-                          1,
-                        )}{" "}
-                        failed. You can retry setting up.{" "}
+                        Setting up the
+                        {errorInActiveStep.label.replace(/^\d+/, "")} failed.
+                        You can retry setting up.{" "}
                       </span>
                     </div>
                     <ButtonWithIcon
@@ -173,7 +143,7 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
       {modalToOpen === "cancel" && (
         <CancelMsTeamStepper
           handleCloseModal={handleCloseModal}
-          handleDelete={handleDelete}
+          handleDelete={handleCancel}
         />
       )}
     </>

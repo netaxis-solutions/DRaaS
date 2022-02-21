@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, computed, observable, runInAction } from "mobx";
 import mergeWith from "lodash/mergeWith";
 
 import LoginStore from "../Login";
@@ -20,7 +20,12 @@ class Config {
   constructor() {
     makeObservable(this, {
       config: observable.ref,
+      ready: computed,
     });
+  }
+
+  get ready() {
+    return !!Object.keys(this.config).length;
   }
 
   getConfig = async (): Promise<void> => {
