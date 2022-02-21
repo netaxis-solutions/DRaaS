@@ -65,11 +65,11 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
     currentStep,
     activeStep,
     checkOnboarding,
-    clearStorage,
+    clearOnboardingProgress,
     isError,
   } = MsTeamOnboarding;
 
-  useEffect(() => clearStorage, []);
+  useEffect(() => clearOnboardingProgress, []);
 
   const errorInActiveStep =
     currentStep + 1 >= steps.length

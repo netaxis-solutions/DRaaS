@@ -5,13 +5,15 @@ import { request } from "services/api";
 import { t } from "services/Translation";
 import { successNotification } from "utils/functions/notifications";
 
+import { TMsTeamOnboardingSteps } from "utils/types/msTeam";
+
 const DEFAULT_STEPS_INTERVAL = 10000;
 const HARDCODED_ID = "49fed14a-549a-48c4-98dd-14efe6454503";
 const HARDCODED_SUBSCRIPTION_ID = "60";
 
 class MsTeamOnboarding {
   transactionID: number = 0;
-  checkOnboardingData: any = [];
+  checkOnboardingData: Array<TMsTeamOnboardingSteps> = [];
   isRunning: boolean = false;
   isError: boolean = false;
   msTeamInterval: number = 0;
@@ -23,7 +25,7 @@ class MsTeamOnboarding {
       isError: observable.ref,
       msTeamInterval: observable.ref,
       transactionID: observable.ref,
-      clearStorage: true,
+      clearOnboardingProgress: true,
       currentStep: true,
       activeStep: true,
     });
@@ -32,12 +34,12 @@ class MsTeamOnboarding {
       () => this.transactionID,
       transactionID => {
         if (transactionID > 0) {
-          console.log("Initial checkOnBoarding");
           this.checkOnboarding(HARDCODED_ID, HARDCODED_SUBSCRIPTION_ID);
         }
       },
     );
 
+    // Must be left in order to work properly
     // @ts-ignore
     let checkingStepsTimer: Timeout = 0;
 
@@ -45,14 +47,10 @@ class MsTeamOnboarding {
       () => this.isRunning,
       isRunning => {
         if (isRunning) {
-          console.log("Starting interval");
           checkingStepsTimer = setInterval(() => {
-            console.log("trulala");
-
             this.checkOnboarding(HARDCODED_ID, HARDCODED_SUBSCRIPTION_ID);
           }, this.msTeamInterval);
         } else {
-          console.log("Stopping interval");
           clearInterval(checkingStepsTimer);
         }
       },
@@ -110,7 +108,7 @@ class MsTeamOnboarding {
     });
   };
 
-  clearStorage = () => {
+  clearOnboardingProgress = () => {
     this.checkOnboardingData = [];
     this.isRunning = false;
   };

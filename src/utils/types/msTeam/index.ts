@@ -96,3 +96,14 @@ export type TCreateMsAdmin = {
 export type TStartMsTeamModal = {
   handleCancel: () => void;
 };
+
+export type TMsTeamOnboardingSteps = {
+  step: number;
+  text: string;
+  executed: boolean;
+};
+
+export type TMsTeamOnboarding = {
+  running: boolean;
+  wizardSteps: TMsTeamOnboardingSteps[];
+};
