@@ -7,11 +7,13 @@ import {
   successNotification,
 } from "utils/functions/notifications";
 import {
+  AssignReservedPayload,
   CountryCodeWithNSN,
   CountryCodeWithRanges,
   NumberRangesType,
   NumberSuggestionsType,
   PhoneNumberType,
+  ReservedNumbers,
 } from "utils/types/numbers";
 import { t } from "services/Translation";
 
@@ -20,13 +22,14 @@ class NumbersStore {
   numberInventory: Array<PhoneNumberType> = [];
   numberInventoryRanges: Array<NumberRangesType> = [];
   numberSuggestions: NumberSuggestionsType = [];
-
+  reservedNumbers: ReservedNumbers[] = [];
   constructor() {
     makeObservable(this, {
       numbers: observable.ref,
       numberInventory: observable.ref,
       numberInventoryRanges: observable.ref,
       numberSuggestions: observable.ref,
+      reservedNumbers: observable.ref,
     });
   }
 
@@ -82,6 +85,23 @@ class NumbersStore {
     }
   };
 
+  getReservedNumbers = async (tenantID: string, subscriptionID: string) => {
+    try {
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/number_inventory`,
+        loaderName: "@getReservedNumbersData",
+        payload: { params: { status: "reserved" } },
+      });
+      const numbers = data.data.numbers;
+
+      runInAction(() => {
+        this.reservedNumbers = numbers;
+      });
+    } catch (e) {
+      this.reservedNumbers = [];
+    }
+  };
+
   addNumber = (
     tenantID: string,
     subscriptionID: string,
@@ -107,6 +127,30 @@ class NumbersStore {
             rangesAmount: payload.ranges.length,
           }),
         );
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  addReservedNumber = (
+    tenantID: string,
+    subscriptionID: string,
+    payload: AssignReservedPayload,
+    successCallback?: () => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
+      loaderName: "@postNumber",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        runInAction(() => {
+          this.getNumbersData(tenantID, subscriptionID);
+        });
+        successCallback && successCallback();
+        this.getReservedNumbers(tenantID, subscriptionID);
       })
       .catch(e => {
         errorNotification(e);

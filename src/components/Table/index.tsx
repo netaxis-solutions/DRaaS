@@ -14,7 +14,9 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
-import { TableProps } from "utils/types/tableConfig";
+
+import { TableData, TableProps } from "utils/types/tableConfig";
+
 import { Checkbox } from "components/common/Form/FormCheckbox";
 import TableBody from "./components/TableBody";
 import TableHead from "./components/TableHead";
@@ -22,6 +24,7 @@ import Toolbar from "./components/Toolbar";
 import Pagination from "./components/Pagination";
 import TableActions from "components/Table/components/TableActions";
 import { RadioButton } from "components/common/Form/FormRadioButton";
+
 import { useStyles } from "./styles";
 
 const Table: FC<TableProps> = ({
@@ -37,14 +40,17 @@ const Table: FC<TableProps> = ({
   handleEditItem,
   isEditable = false,
   isRemovable = false,
+  customActions,
+  actionsDataFormatter,
+  isCheckboxAvailable,
+  isGeneralCheckboxSelected,
+  selectAllRowCondition,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-
   const {
     selectedRows,
     setSelectedRows,
-    clearSelectedRows,
     setRadioButtonValueInRows,
     setSelectedRowsValues,
   } = TableSelectedRowsStore;
@@ -79,37 +85,54 @@ const Table: FC<TableProps> = ({
     hooks =>
       checkbox || radioButton
         ? hooks.visibleColumns.push(columns =>
-            !isEditable && !isRemovable
+            !isEditable && !isRemovable && !customActions
               ? [
                   {
                     id: "selection",
-                    Header: ({ getToggleAllPageRowsSelectedProps }) => {
-                      const {
-                        checked = false,
-                        onChange,
-                      } = getToggleAllPageRowsSelectedProps();
-                      const handleChange = (
-                        e: ChangeEvent<Element>,
-                        _: boolean,
-                      ) => {
-                        onChange && onChange(e);
+                    Header: ({ toggleRowSelected, page }) => {
+                      TableSelectedRowsStore.setIsChecked(
+                        isGeneralCheckboxSelected
+                          ? isGeneralCheckboxSelected(page)
+                          : TableSelectedRowsStore.selectedRowsLength ===
+                              page.length,
+                      );
+
+                      const handleChange = () => {
+                        page.forEach(row => {
+                          selectAllRowCondition
+                            ? selectAllRowCondition(
+                                TableSelectedRowsStore.isChecked,
+                                row,
+                              ) &&
+                              toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              )
+                            : toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              );
+                        });
                       };
 
                       return radioButton ? null : (
-                        <Checkbox checked={checked} onChange={handleChange} />
+                        <Checkbox
+                          checked={TableSelectedRowsStore.isChecked}
+                          onChange={handleChange}
+                        />
                       );
                     },
-                    Cell: ({ row }: CellProps<TableProps>) => {
+                    Cell: ({
+                      toggleRowSelected,
+                      row,
+                    }: CellProps<TableData>) => {
                       const {
                         checked = false,
                         onChange,
                       } = row.getToggleRowSelectedProps();
 
-                      const handleChange = (
-                        e: ChangeEvent<Element>,
-                        _: boolean,
-                      ) => {
-                        onChange && onChange(e);
+                      const handleChange = () => {
+                        toggleRowSelected(String(row.index));
                       };
 
                       const handleChangeRadio = (
@@ -127,7 +150,12 @@ const Table: FC<TableProps> = ({
                           onChange={handleChangeRadio}
                         />
                       ) : (
-                        <Checkbox checked={checked} onChange={handleChange} />
+                        <Checkbox
+                          checked={row.isSelected}
+                          isAvailable={isCheckboxAvailable}
+                          row={row}
+                          onChange={handleChange}
+                        />
                       );
                     },
                   },
@@ -136,33 +164,50 @@ const Table: FC<TableProps> = ({
               : [
                   {
                     id: "selection",
-                    Header: ({ getToggleAllPageRowsSelectedProps }) => {
-                      const {
-                        checked = false,
-                        onChange,
-                      } = getToggleAllPageRowsSelectedProps();
-                      const handleChange = (
-                        e: ChangeEvent<Element>,
-                        _: boolean,
-                      ) => {
-                        onChange && onChange(e);
+                    Header: ({ page, toggleRowSelected }) => {
+                      TableSelectedRowsStore.setIsChecked(
+                        isGeneralCheckboxSelected
+                          ? isGeneralCheckboxSelected(page)
+                          : TableSelectedRowsStore.selectedRowsLength ===
+                              page.length,
+                      );
+
+                      const handleChange = () => {
+                        page.forEach(row => {
+                          selectAllRowCondition
+                            ? selectAllRowCondition(
+                                TableSelectedRowsStore.isChecked,
+                                row,
+                              ) &&
+                              toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              )
+                            : toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              );
+                        });
                       };
 
                       return radioButton ? null : (
-                        <Checkbox checked={checked} onChange={handleChange} />
+                        <Checkbox
+                          checked={TableSelectedRowsStore.isChecked}
+                          onChange={handleChange}
+                        />
                       );
                     },
-                    Cell: ({ row }: CellProps<TableProps>) => {
+                    Cell: ({
+                      toggleRowSelected,
+                      row,
+                    }: CellProps<TableData>) => {
                       const {
                         checked = false,
                         onChange,
                       } = row.getToggleRowSelectedProps();
 
-                      const handleChange = (
-                        e: ChangeEvent<Element>,
-                        _: boolean,
-                      ) => {
-                        onChange && onChange(e);
+                      const handleChange = () => {
+                        toggleRowSelected(String(row.index));
                       };
 
                       const handleChangeRadio = (
@@ -179,10 +224,65 @@ const Table: FC<TableProps> = ({
                           onChange={handleChangeRadio}
                         />
                       ) : (
-                        <Checkbox checked={checked} onChange={handleChange} />
+                        <Checkbox
+                          checked={row.isSelected}
+                          isAvailable={isCheckboxAvailable}
+                          row={row}
+                          onChange={handleChange}
+                        />
                       );
                     },
                   },
+                  ...columns,
+                  {
+                    Header: () => t("Actions"),
+                    accessor: "actions",
+                    disableSortBy: true,
+                    Cell: (props: any) => {
+                      if (props.state.rowState[props.row.index]?.isEditing) {
+                        return (
+                          <TableActions
+                            save
+                            cancel
+                            onCancel={() => {
+                              setRowState([props.row.index], {
+                                isEditing: false,
+                              });
+                            }}
+                          />
+                        );
+                      }
+
+                      return (
+                        <TableActions
+                          edit={isEditable}
+                          del={isRemovable}
+                          customActions={
+                            (actionsDataFormatter &&
+                              customActions &&
+                              actionsDataFormatter(props.row, customActions)) ||
+                            customActions
+                          }
+                          rowData={props.row}
+                          onDelete={() =>
+                            handleDeleteItem && handleDeleteItem(props)
+                          }
+                          onEdit={() => {
+                            handleEditItem && handleEditItem(props);
+                            setRowState([props.row.index], {
+                              isEditing: true,
+                            });
+                          }}
+                        />
+                      );
+                    },
+                  },
+                ],
+          )
+        : hooks.visibleColumns.push(columns =>
+            !isEditable && !isRemovable && !customActions
+              ? [...columns]
+              : [
                   ...columns,
                   {
                     Header: () => t("Actions"),
@@ -206,48 +306,13 @@ const Table: FC<TableProps> = ({
                         <TableActions
                           edit={isEditable}
                           del={isRemovable}
-                          onDelete={() =>
-                            handleDeleteItem && handleDeleteItem(props)
+                          customActions={
+                            (actionsDataFormatter &&
+                              customActions &&
+                              actionsDataFormatter(props.row, customActions)) ||
+                            customActions
                           }
-                          onEdit={() => {
-                            handleEditItem && handleEditItem(props);
-                            setRowState([props.row.index], {
-                              isEditing: true,
-                            });
-                          }}
-                        />
-                      );
-                    },
-                  },
-                ],
-          )
-        : hooks.visibleColumns.push(columns =>
-            !isEditable && !isRemovable
-              ? [...columns]
-              : [
-                  ...columns,
-                  {
-                    Header: () => t("Actions"),
-                    accessor: "actions",
-                    disableSortBy: true,
-                    Cell: (props: any) => {
-                      if (props.state.rowState[props.row.index]?.isEditing) {
-                        return (
-                          <TableActions
-                            save
-                            cancel
-                            onCancel={() => {
-                              setRowState([props.row.index], {
-                                isEditing: false,
-                              });
-                            }}
-                          />
-                        );
-                      }
-                      return !isEditable && !isRemovable ? null : (
-                        <TableActions
-                          edit={isEditable}
-                          del={isRemovable}
+                          rowData={props.row}
                           onDelete={() => {
                             setModalToOpen && setModalToOpen("delete");
                             setSelectedRows({ [props.row.index]: true });
@@ -270,11 +335,11 @@ const Table: FC<TableProps> = ({
     setSelectedRows(state.selectedRowIds);
     setSelectedRowsValues(rows.filter(row => row.id in state.selectedRowIds));
     return () => {
-      clearSelectedRows();
+      TableSelectedRowsStore.clearSelectedRows();
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.selectedRowIds]);
-
   useEffect(() => {
     return () => {
       if (Object.values(state.selectedRowIds).length) {
@@ -284,6 +349,11 @@ const Table: FC<TableProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRows]);
 
+  useEffect(() => {
+    return () => {
+      TableSelectedRowsStore.clearStorage();
+    };
+  }, []);
   const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
 
   return (

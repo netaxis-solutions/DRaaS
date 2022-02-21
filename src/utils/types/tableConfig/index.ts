@@ -7,12 +7,6 @@ import {
   TableBodyProps,
 } from "react-table";
 
-import {
-  SubscriptionLicenseType,
-  MsTeamsUsersType,
-} from "utils/types/licenses";
-import { EntitlementsListType } from "../entitlements";
-
 export type TableActionsType = {
   edit?: boolean;
   del?: boolean;
@@ -23,23 +17,22 @@ export type TableActionsType = {
   onCancel?: () => void;
 };
 
-export type TableData =
-  | {
-      readonly [key: string]:
-        | string
-        | number
-        | ((object: object) => string)
-        | boolean;
-    }
-  | MsTeamsUsersType
-  | SubscriptionLicenseType
-  | EntitlementsListType;
+export type TableData = {
+  readonly [key: string]: any;
+};
 
 export type ToolbarActionType = {
   id: string;
   icon: React.FC;
   onClick: () => void;
   title: string;
+};
+export type CustomActionType = {
+  actionName: string;
+  iconComponent: JSX.Element;
+  isShown: boolean;
+  disabled: boolean;
+  onClick: (row: Row<TableData>) => void;
 };
 export type TableProps = {
   title: string;
@@ -54,6 +47,17 @@ export type TableProps = {
   isEditable?: boolean;
   isRemovable?: boolean;
   radioButton?: boolean;
+  customActions?: Array<CustomActionType>;
+  actionsDataFormatter?: (
+    row: Row<TableData>,
+    actions: CustomActionType[],
+  ) => CustomActionType[];
+  isCheckboxAvailable?: (rowData: Row<TableData>) => boolean;
+  isGeneralCheckboxSelected?: (page: Row<TableData>[]) => boolean;
+  selectAllRowCondition?: (
+    isChecked: boolean,
+    row: Row<TableData>,
+  ) => boolean | number;
 };
 
 export type ToolbarType = {
@@ -67,7 +71,7 @@ export type TableBodyType = {
   getTableBodyProps: (
     propGetter?: TableBodyPropGetter<TableData> | undefined,
   ) => TableBodyProps;
-  page: Row[];
+  page: Row<TableData>[];
   prepareRow: (row: Row<TableData>) => void;
   radioButton?: boolean;
 };

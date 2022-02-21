@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { computed, makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
@@ -8,19 +8,22 @@ import {
   EntitlementData,
   EntitlementsTypeListType,
   CreateNewEntitlement,
+  AvailableEntitlements,
 } from "utils/types/entitlements";
 import { errorNotification } from "utils/functions/notifications";
 
 class SubscriptionEntitlementsStore {
-  entitlements: EntitlementsListType[] = [];
-  entitlementTypes: EntitlementsTypeListType[] = [];
-  filteredDataEntitlementTypes: EntitlementsTypeListType[] = [];
+  entitlements: Array<EntitlementsListType> = [];
+  entitlementTypes: Array<EntitlementsTypeListType> = [];
+  filteredDataEntitlementTypes: Array<EntitlementsTypeListType> = [];
+  availableEntitlements: AvailableEntitlements = {};
 
   constructor() {
     makeObservable(this, {
       entitlements: observable.ref,
       entitlementTypes: observable.ref,
       filteredDataEntitlementTypes: observable.ref,
+      getAvailableEntitlements: computed,
     });
   }
 
@@ -42,6 +45,26 @@ class SubscriptionEntitlementsStore {
       });
   };
 
+  get getAvailableEntitlements() {
+    return this.entitlements.reduce(
+      (
+        availableEntitlements: AvailableEntitlements,
+        curr: EntitlementsListType,
+      ) => {
+        return {
+          ...availableEntitlements,
+          [curr.countryCode]: {
+            ...availableEntitlements[curr.countryCode],
+            [curr.numberType]: curr.entitlement - curr.assigned,
+          },
+        };
+      },
+      {},
+    );
+  }
+  setAvailable = (availableEntitlements: AvailableEntitlements) => {
+    this.availableEntitlements = availableEntitlements;
+  };
   createEntitlement = async (
     tenantID: string,
     subscriptionID: string,

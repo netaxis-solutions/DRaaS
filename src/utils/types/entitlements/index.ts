@@ -8,7 +8,7 @@ export type EntitlementsListType = {
   regions: [];
   serviceCapabilities: string;
   vanityType: string;
-  assigned?: number;
+  assigned: number;
   reserved?: number;
   disconnected?: number;
   entitlementType?: number;
@@ -35,6 +35,12 @@ export type CreateNewEntitlement = {
 
 export type EntitlementData = {
   entitlements: EntitlementsListType[];
+};
+
+export type AvailableEntitlements = {
+  [key: string]: {
+    [key: string]: number;
+  };
 };
 
 export type TAddEntitlementFormProps = {
