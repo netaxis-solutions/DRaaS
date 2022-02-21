@@ -25,3 +25,4 @@ export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
 export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
 export { default as TenantLevelIcon } from "./TenantLevelIcon";
 export { default as InfoIcon } from "./InfoIcon";
+export { default as Minus } from "./Minus";

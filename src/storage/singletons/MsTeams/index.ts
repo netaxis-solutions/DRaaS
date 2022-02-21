@@ -20,7 +20,7 @@ class MsTeam {
       loaderName: "@getMsTeamAdmin",
     })
       .then((data: AxiosResponse<any>) => {
-        const checkMsTeamUsersList = data.data;
+        const checkMsTeamUsersList = data.data.users;
 
         runInAction(() => {
           this.msTeamUsersList = checkMsTeamUsersList;
@@ -28,6 +28,7 @@ class MsTeam {
       })
       .catch(e => {
         console.error(e);
+        this.msTeamUsersList = [];
       });
   };
 }

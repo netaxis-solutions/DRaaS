@@ -7,10 +7,16 @@ import Table from "components/Table";
 import MsTeamsStore from "storage/singletons/MsTeams";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
+import OtherLicenses from "./components/OtherLicenses";
+import { Controller, useForm } from "react-hook-form";
+import FormSelect from "components/common/Form/FormSelect";
+import AssignedNumber from "./components/AssignedNumber";
 
 const MsTeamsUsers: FC = () => {
   const { t } = useTranslation();
 
+  const { control } = useForm<any>({});
   const { msTeamUsersList, getMsTeamUsers } = MsTeamsStore;
 
   const { tenantID, subscriptionID } = useParams<{
@@ -21,32 +27,48 @@ const MsTeamsUsers: FC = () => {
   useEffect(() => {
     getMsTeamUsers(tenantID, subscriptionID);
   }, []);
+
   const columns = useMemo(
     () => [
       {
         Header: t("Display name"),
-        accessor: "countryCode",
+        accessor: "msTeams.displayName",
       },
       {
         Header: t("Assigned number"),
-        accessor: "nsn",
-      },
-      {
-        Header: t("Number type"),
-        accessor: "numberType",
-      },
-      {
-        Header: t("Phone system licence"),
-        accessor: "source",
+        accessor: "draas",
         Cell: ({ value }: CellProps<TableProps>) => {
-          return value === "number_inventory" ? "native" : "ported";
+          return <AssignedNumber draasUserInfo={value} />;
+        },
+
+        EditComponent: (...all: any) => {
+          console.log(all, "asfasfasfasf");
+          return (
+            <Controller
+              name="assignedNumber"
+              control={control}
+              render={({ field, ...props }) => (
+                <FormSelect
+                  label={t("Select")}
+                  options={["a", "b", "c"]}
+                  {...field}
+                  {...props}
+                />
+              )}
+            />
+          );
         },
       },
       {
+        Header: t("Phone system licence"),
+        accessor: "msTeams.voiceEnabled",
+      },
+      {
         Header: t("Other licenses"),
-        accessor: "assigned",
+        accessor: "msTeams.licenses",
+        width: 100,
         Cell: ({ value }: CellProps<TableProps>) => {
-          return value ? "connected" : "free";
+          return <OtherLicenses licenses={value} />;
         },
       },
     ],
@@ -57,10 +79,9 @@ const MsTeamsUsers: FC = () => {
       title={t("My numbers")}
       columns={columns}
       data={msTeamUsersList}
-      checkbox
-      isRemovable
+      isEditable
     />
   );
 };
 
-export default MsTeamsUsers;
+export default observer(MsTeamsUsers);

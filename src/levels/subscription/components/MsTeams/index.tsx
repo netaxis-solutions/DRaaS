@@ -10,8 +10,15 @@ import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
 import O365Tenant from "./components/O365Tanant";
 import O365Admin from "./components/O365Admin";
+import { t } from "services/Translation";
+import MsTeamsUsers from "./components/MsTeamsUsers";
 
 const tabs = [
+  {
+    name: t("Users"),
+    id: "msTeamsUsers",
+    component: () => <MsTeamsUsers />,
+  },
   {
     name: "O365 Tenant",
     id: "o365tenant",
