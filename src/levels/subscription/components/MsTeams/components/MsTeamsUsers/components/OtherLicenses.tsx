@@ -5,7 +5,12 @@ import { FC, useState } from "react";
 
 import useStyles from "../styles";
 
-const OtherLicenses: FC<{ licenses: Array<any> }> = ({ licenses }) => {
+const OtherLicenses: FC<{
+  licenses: Array<{
+    skuId: string;
+    skuPartNumber: string;
+  }>;
+}> = ({ licenses }) => {
   const classes = useStyles();
   const [isShown, setShown] = useState(false);
   const toggleShow = () => {
