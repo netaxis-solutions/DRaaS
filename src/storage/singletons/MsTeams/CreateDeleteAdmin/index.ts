@@ -44,7 +44,7 @@ class MsTeamAdmin {
       });
   };
 
-  getMsTeamUsers = async (tenantID: string, subscriptionID?: string) => {
+  getMsTeamUsers = async (tenantID: string, subscriptionID: string) => {
     this.isLoading = true;
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users`,
@@ -63,7 +63,7 @@ class MsTeamAdmin {
       });
   };
 
-  getCheckMsTeamAdmin = async (tenantID: string, subscriptionID?: string) => {
+  getCheckMsTeamAdmin = async (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/check`,
       loaderName: "@getMsTeamAdmin",

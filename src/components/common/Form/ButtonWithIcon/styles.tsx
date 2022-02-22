@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
     "&.Mui-disabled": {
       background: "#C0C0C0",
-      color: "white",
+      color: theme.palette.primary.white,
       border: "none",
     },
 

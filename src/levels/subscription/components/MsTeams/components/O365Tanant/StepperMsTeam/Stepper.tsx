@@ -1,11 +1,12 @@
 import { FC, useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 // Wait changed in backend
 // import { useParams } from "react-router";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
-import { observer } from "mobx-react-lite";
 import LinearProgress from "@mui/material/LinearProgress";
 
 import { TStartMsTeamModal } from "utils/types/msTeam";
@@ -51,6 +52,8 @@ const steps = [
 ];
 
 const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
+  const { t } = useTranslation();
+
   const [modalToOpen, setModalToOpen] = useState("");
 
   const classes = EntitlementsStyle();
@@ -64,12 +67,21 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
   const {
     currentStep,
     activeStep,
+    checkOnboardingData,
     checkOnboarding,
     clearOnboardingProgress,
     isError,
   } = MsTeamOnboarding;
 
-  useEffect(() => clearOnboardingProgress, []);
+  console.log("STORE", checkOnboardingData);
+
+  useEffect(
+    () => {
+      return () => clearOnboardingProgress();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const errorInActiveStep =
     currentStep + 1 >= steps.length
@@ -88,58 +100,64 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
     <>
       <div className={classes.buttonCancel}>
         <ButtonWithIcon
-          title="Cancel"
+          title={t("Cancel")}
           icon={Cross}
           onClick={handleCancelModal}
         />
       </div>
-      <div className={classes.StepperWrapper}>
-        <Stepper
-          activeStep={activeStep}
-          orientation="vertical"
-          className={classes.StepperRoot}
-        >
-          {steps.map(step => (
-            <Step className={classes.Step} key={step.label}>
-              <StepLabel className={classes.StepperLabel}>
-                <span> {step.label}</span>
-              </StepLabel>
-              <StepContent className={classes.StepperContent}>
-                {isError ? (
-                  <div className={classes.isError}>
-                    <div className={classes.isErrorNote}>
-                      <span>
-                        {" "}
-                        Setting up the
-                        {errorInActiveStep.label.replace(/^\d+/, "")} failed.
-                        You can retry setting up.{" "}
-                      </span>
+
+      {checkOnboardingData.length > 0 ? (
+        <div className={classes.StepperWrapper}>
+          <Stepper
+            activeStep={activeStep}
+            orientation="vertical"
+            className={classes.StepperRoot}
+          >
+            {steps.map(step => (
+              <Step className={classes.Step} key={step.label}>
+                <StepLabel className={classes.StepperLabel}>
+                  <span> {step.label}</span>
+                </StepLabel>
+                <StepContent className={classes.StepperContent}>
+                  {isError ? (
+                    <div className={classes.isError}>
+                      <div className={classes.isErrorNote}>
+                        <span>
+                          {" "}
+                          {t("Setting up the")}
+                          {errorInActiveStep.label.replace(/^\d+/, "")}
+                          {t("failed")}.{t("You can retry setting up")}.{" "}
+                        </span>
+                      </div>
+                      <ButtonWithIcon
+                        title="Retry"
+                        className={classes.buttonRetry}
+                        icon={Reload}
+                        onClick={() =>
+                          checkOnboarding(
+                            "49fed14a-549a-48c4-98dd-14efe6454503",
+                            "60",
+                          )
+                        }
+                      ></ButtonWithIcon>
                     </div>
-                    <ButtonWithIcon
-                      title="Retry"
-                      className={classes.buttonRetry}
-                      icon={Reload}
-                      onClick={() =>
-                        checkOnboarding(
-                          "49fed14a-549a-48c4-98dd-14efe6454503",
-                          "60",
-                        )
-                      }
-                    ></ButtonWithIcon>
-                  </div>
-                ) : (
-                  <>
-                    <span>{step.description}</span>
-                    <div className={classes.progressIndicate}>
-                      <LinearProgress className={classes.progressIndicate} />
-                    </div>
-                  </>
-                )}
-              </StepContent>
-            </Step>
-          ))}
-        </Stepper>
-      </div>
+                  ) : (
+                    <>
+                      <span>{step.description}</span>
+                      <div className={classes.progressIndicate}>
+                        <LinearProgress className={classes.progressIndicate} />
+                      </div>
+                    </>
+                  )}
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+        </div>
+      ) : (
+        <></>
+      )}
+
       {modalToOpen === "cancel" && (
         <CancelMsTeamStepper
           handleCloseModal={handleCloseModal}

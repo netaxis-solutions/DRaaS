@@ -24,8 +24,8 @@ const CancelMsTeamStepper: FC<TCancelMsModal> = ({
       handleDelete={handleDelete}
       selectedElementName={false}
       deleteIcon={Check}
-      deleteTitle={"Yes, cancel"}
-      cancelTitle={"No, continue"}
+      deleteTitle={t("Yes, cancel")}
+      cancelTitle={t("No, continue")}
     >
       <div className={classes.text}>
         <div>{t(`Are you sure you want to cancel the setup process?`)} </div>
