@@ -80,7 +80,7 @@ export type TableSortPropsType = {
 };
 
 export type PaginationDropdownType = {
-  pageSize: number;
+  pageSize?: number;
   setPageSize: (pageSize: number) => void;
 };
 

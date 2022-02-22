@@ -48,7 +48,6 @@ const MyNumbers = () => {
 
   useEffect(() => {
     return () => clearPaginationData();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

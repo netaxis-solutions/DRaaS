@@ -309,7 +309,6 @@ const Table: FC<TableProps> = ({
       <Pagination
         selectedRows={Object.keys(state.selectedRowIds).length}
         isRadioButton={radioButton}
-        pageSize={state.pageSize}
         setPageSize={setPageSize}
         pageCount={pageCount}
         pageNumber={state.pageIndex + 1}
