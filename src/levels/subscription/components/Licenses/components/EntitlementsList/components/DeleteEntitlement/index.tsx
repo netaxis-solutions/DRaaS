@@ -17,21 +17,13 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const filteredData = entitlement.filter((el: any) => el.assigned === 0);
-  const disabledData = entitlement.filter((el: any) => el.assigned > 0);
-  const SelectedRowsDisabled = selectedRowsLength - disabledData.length;
-  const filteredRowsWithoutDisabledCheckbox =
-    selectedRowsLength >= filteredData.length
-      ? SelectedRowsDisabled
-      : selectedRowsLength;
-
   return (
     <DeleteModal
       handleCancel={handleCloseModal}
       handleDelete={handleDelete}
       selectedElementName={
         selectedRowsLength === 1 &&
-        filteredData?.reduce((prev: any, cur: any, i: any) => {
+        entitlement.reduce((prev, cur, i) => {
           selectedRows[i] && (prev = cur.name);
           return prev;
         }, "")
@@ -46,8 +38,8 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
           {t(`Are you sure you want to delete`)}{" "}
           <span className={classes.boldText}>
             {selectedRowsLength === 1
-              ? filteredData?.find((_: any, i: any) => selectedRows[i])?.name
-              : `${filteredRowsWithoutDisabledCheckbox} ${t("entitlements")}`}
+              ? entitlement.find((_, i) => selectedRows[i])?.name
+              : `${selectedRowsLength} ${t("entitlement")}`}
           </span>
           ?
         </div>
