@@ -18,9 +18,9 @@ const RangeSelection: React.FC = () => {
   const { t } = useTranslation();
   const [amountSelected, setAmountSelected] = useState(0);
   const classes = useRangeSelectionStyles();
-  const { tenantId, subscriptionId } = useParams<{
-    tenantId: string;
-    subscriptionId: string;
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
   }>();
 
   const { previousChoices } = MultiStepForm;
@@ -66,7 +66,7 @@ const RangeSelection: React.FC = () => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addNumber(tenantId, subscriptionId, {
+    addNumber(tenantID, subscriptionID, {
       countryCode: previousChoices[0].entitlements.countryCode,
       ranges: selectedRowsValues.map(row => [
         row.values.rangeStart,
