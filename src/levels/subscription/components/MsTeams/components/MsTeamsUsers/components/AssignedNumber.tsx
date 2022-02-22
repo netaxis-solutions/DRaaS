@@ -16,7 +16,7 @@ const AssignedNumber: FC<{
     <div className={classes.numberWithLabel}>
       <div>{draasUserInfo.phoneNumber}</div>
       <div className={clsx([classes.label], [classes[draasUserInfo.status]])}>
-        {draasUserInfo.status}
+        {t(draasUserInfo.status)}
       </div>
     </div>
   ) : (
