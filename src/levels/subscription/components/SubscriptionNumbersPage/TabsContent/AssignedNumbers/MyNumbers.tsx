@@ -46,7 +46,11 @@ const MyNumbers = () => {
     search,
   ]);
 
-  useEffect(() => clearPaginationData, []);
+  useEffect(() => {
+    return () => clearPaginationData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleModalClose = () => {
     setModal(false);
