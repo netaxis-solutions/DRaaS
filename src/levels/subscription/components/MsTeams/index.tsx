@@ -21,12 +21,12 @@ const tabs = [
     component: () => <MsTeamsUsers />,
   },
   {
-    name: "O365 Tenant",
+    name: t("O365 Tenant"),
     id: "o365tenant",
     component: () => <O365Tenant />,
   },
   {
-    name: "Admin account",
+    name: t("Admin account"),
     id: "o365admin",
     component: () => <O365Admin />,
   },
