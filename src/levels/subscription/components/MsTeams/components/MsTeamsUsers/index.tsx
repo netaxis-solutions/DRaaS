@@ -1,24 +1,46 @@
 import { FC, useEffect, useMemo } from "react";
-import { CellProps } from "react-table";
-
-import { TableProps } from "utils/types/tableConfig";
-
-import Table from "components/Table";
-import MsTeamsStore from "storage/singletons/MsTeams";
+import { CellProps, Row } from "react-table";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
-import OtherLicenses from "./components/OtherLicenses";
 import { Controller, useForm } from "react-hook-form";
+
+import NumbersStore from "storage/singletons/Numbers";
+import MsTeamsStore from "storage/singletons/MsTeams";
+
+import { TableData, TableProps } from "utils/types/tableConfig";
+
+import Table from "components/Table";
+import OtherLicenses from "./components/OtherLicenses";
 import FormSelect from "components/common/Form/FormSelect";
 import AssignedNumber from "./components/AssignedNumber";
 
+import useStyles from "./styles";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string } from "yup";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+
+const defaultValues = {
+  assignedNumber: "",
+};
+
 const MsTeamsUsers: FC = () => {
   const { t } = useTranslation();
-
-  const { control } = useForm<any>({});
-  const { msTeamUsersList, getMsTeamUsers } = MsTeamsStore;
-
+  const classes = useStyles();
+  const { control, handleSubmit } = useForm<{ assignedNumber: string }>({
+    resolver: yupResolver(
+      object().shape({
+        assignedNumber: string().required(),
+      }),
+    ),
+    defaultValues,
+  });
+  const {
+    msTeamUsersList,
+    getMsTeamUsers,
+    editMsTeamsUserNumber,
+  } = MsTeamsStore;
+  const { getFreeNumbers } = NumbersStore;
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
@@ -26,6 +48,8 @@ const MsTeamsUsers: FC = () => {
 
   useEffect(() => {
     getMsTeamUsers(tenantID, subscriptionID);
+    getFreeNumbers(tenantID, subscriptionID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const columns = useMemo(
@@ -41,21 +65,28 @@ const MsTeamsUsers: FC = () => {
           return <AssignedNumber draasUserInfo={value} />;
         },
 
-        EditComponent: (...all: any) => {
-          console.log(all, "asfasfasfasf");
+        EditComponent: ({ cell }: CellProps<TableProps>) => {
+          useEffect(() => {
+            TableSelectedRowsStore.setSelectedRowsValues([cell.row]);
+            return () => TableSelectedRowsStore.setSelectedRowsValues([]);
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+          }, []);
           return (
-            <Controller
-              name="assignedNumber"
-              control={control}
-              render={({ field, ...props }) => (
-                <FormSelect
-                  label={t("Select")}
-                  options={["a", "b", "c"]}
-                  {...field}
-                  {...props}
-                />
-              )}
-            />
+            <div className={classes.selectController}>
+              <Controller
+                name="assignedNumber"
+                control={control}
+                render={({ field, ...props }) => (
+                  <FormSelect
+                    label={t("Select")}
+                    options={["Unselect number", ...NumbersStore.freeNumbers]}
+                    {...field}
+                    {...props}
+                    className={classes.selectNumber}
+                  />
+                )}
+              />
+            </div>
           );
         },
       },
@@ -72,15 +103,34 @@ const MsTeamsUsers: FC = () => {
         },
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
+
+  const onSubmit = (values: { assignedNumber: string }) => {
+    editMsTeamsUserNumber(
+      tenantID,
+      subscriptionID,
+      TableSelectedRowsStore.selectedRowsValues[0].original.msTeams.id,
+      values.assignedNumber === "Unselect number"
+        ? null
+        : values.assignedNumber,
+      () => getFreeNumbers(tenantID, subscriptionID),
+    );
+  };
+
   return (
-    <Table
-      title={t("My numbers")}
-      columns={columns}
-      data={msTeamUsersList}
-      isEditable
-    />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Table
+        title={t("My numbers")}
+        columns={columns}
+        data={msTeamUsersList}
+        editDisabledCondition={(row: Row<TableData>) => {
+          return !(row.original.msTeams.voiceEnabled === "yes");
+        }}
+        isEditable
+      />
+    </form>
   );
 };
 

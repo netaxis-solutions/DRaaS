@@ -58,6 +58,8 @@ export type TableProps = {
     isChecked: boolean,
     row: Row<TableData>,
   ) => boolean | number;
+  editDisabledCondition?: (rowData: Row<TableData>) => boolean;
+  deleteDisabledCondition?: (rowData: Row<TableData>) => boolean;
 };
 
 export type ToolbarType = {

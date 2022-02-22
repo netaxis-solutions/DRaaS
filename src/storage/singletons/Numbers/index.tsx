@@ -23,6 +23,7 @@ class NumbersStore {
   numberInventoryRanges: Array<NumberRangesType> = [];
   numberSuggestions: NumberSuggestionsType = [];
   reservedNumbers: ReservedNumbers[] = [];
+  freeNumbers: Array<string> = [];
   constructor() {
     makeObservable(this, {
       numbers: observable.ref,
@@ -30,6 +31,7 @@ class NumbersStore {
       numberInventoryRanges: observable.ref,
       numberSuggestions: observable.ref,
       reservedNumbers: observable.ref,
+      freeNumbers: observable.ref,
     });
   }
 
@@ -48,6 +50,21 @@ class NumbersStore {
       this.clearNumbers();
       errorNotification(e);
     }
+  };
+
+  getFreeNumbers = (tenantID: string, subscriptionID: string) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/free_numbers`,
+      loaderName: "@getFreeNumbers",
+    })
+      .then((data: AxiosResponse<any>) => {
+        runInAction(() => {
+          this.freeNumbers = data.data.freeNumbers;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
   };
 
   getNumbersInventoryRanges = async () => {

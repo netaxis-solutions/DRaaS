@@ -3,19 +3,22 @@ import IconButton from "@material-ui/core/IconButton";
 import clsx from "clsx";
 import { Row } from "react-table";
 
-import { Edit, Trash, Cross, Check } from "components/Icons";
 import {
   CustomActionType,
   TableActionsType,
   TableData,
 } from "utils/types/tableConfig";
 
+import { Edit, Trash, Cross, Check } from "components/Icons";
+
 import { useStyles } from "./styles";
 
 const TableActions: FC<
   TableActionsType & {
     customActions?: CustomActionType[];
-    rowData?: Row<TableData>;
+    rowData: Row<TableData>;
+    editDisabled?: (row: Row<TableData>) => boolean;
+    deleteDisabled?: (row: Row<TableData>) => boolean;
   }
 > = ({
   edit,
@@ -24,16 +27,29 @@ const TableActions: FC<
   cancel,
   customActions,
   rowData,
+  editDisabled = _ => false,
+  deleteDisabled = _ => false,
   onEdit,
   onDelete,
   onCancel,
 }) => {
   const classes = useStyles();
-
+  const isEditDisabled = editDisabled(rowData);
+  const isDeleteDisabled = deleteDisabled(rowData);
   return (
     <div className={classes.tableActionsWrapper}>
-      {edit && <Edit onClick={onEdit} />}
-      {del && <Trash onClick={onDelete} />}
+      {edit && (
+        <div className={clsx({ [classes.disabled]: isEditDisabled })}>
+          <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+        </div>
+      )}
+
+      {del && (
+        <div className={clsx({ [classes.disabled]: isDeleteDisabled })}>
+          <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+        </div>
+      )}
+
       {customActions &&
         customActions.map(({ isShown, onClick, iconComponent, disabled }) => (
           <div

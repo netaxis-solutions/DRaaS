@@ -50,4 +50,34 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.primary.white,
     textTransform: "uppercase",
   },
+  selectNumber: {
+    "&": {
+      margin: 0,
+      width: 180,
+      height: 34,
+      "&>*>div": {
+        height: 34,
+        background: theme.palette.primary.white,
+        "&>input": {
+          height: "100%",
+          position: "absolute",
+          top: "0px",
+          left: "20px",
+          width: "69%!important",
+        },
+      },
+      "&>*>label": {
+        top: -4,
+      },
+    },
+  },
+  selectController: {
+    "&>div": {
+      margin: 0,
+      height: 46,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  },
 }));
