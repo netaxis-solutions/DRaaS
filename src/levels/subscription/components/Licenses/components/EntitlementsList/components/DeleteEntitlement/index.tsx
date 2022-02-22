@@ -39,7 +39,7 @@ const DeleteTenantModal: FC<TDeleteEntitlementModalProps> = ({
           <span className={classes.boldText}>
             {selectedRowsLength === 1
               ? entitlement.find((_, i) => selectedRows[i])?.name
-              : `${selectedRowsLength} ${t("entitlement")}`}
+              : `${selectedRowsLength} ${t("entitlements")}`}
           </span>
           ?
         </div>

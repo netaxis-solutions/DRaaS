@@ -48,7 +48,7 @@ const EntitlementList: FC = () => {
     setSelectedRows,
   } = TableSelectedRowsStore;
 
-  const { control, setValue, handleSubmit } = useForm<any>({
+  const { control, setValue, handleSubmit } = useForm<EditEntitlementType>({
     resolver: yupResolver(editEntitlementSchema()),
     defaultValues,
   });
@@ -194,7 +194,10 @@ const EntitlementList: FC = () => {
       return row.original.assigned ? prev : ++prev;
     }, 0);
 
-    return maxSelectedAmount === TableSelectedRowsStore.selectedRowsLength;
+    return (
+      maxSelectedAmount === TableSelectedRowsStore.selectedRowsLength &&
+      TableSelectedRowsStore.selectedRowsLength !== 0
+    );
   };
 
   const selectAllRowCondition = (_: any, row: Row<TableData>) => {
