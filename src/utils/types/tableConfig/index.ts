@@ -113,6 +113,5 @@ export type TablePaginationType = PaginationDropdownType &
     selectedRows: number;
     pageCount: number;
     pageNumber: number;
-    disabledData: any;
     checkbox: boolean;
   };
