@@ -122,7 +122,7 @@ const MsTeamsUsers: FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Table
-        title={t("My numbers")}
+        title={t("Users")}
         columns={columns}
         data={msTeamUsersList}
         editDisabledCondition={(row: Row<TableData>) => {
