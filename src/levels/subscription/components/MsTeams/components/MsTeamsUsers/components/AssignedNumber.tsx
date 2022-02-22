@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import useStyles from "../styles";
 
@@ -9,6 +10,7 @@ const AssignedNumber: FC<{
     status: "active" | "updating" | "error";
   };
 }> = ({ draasUserInfo }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   return draasUserInfo && draasUserInfo?.phoneNumber ? (
     <div className={classes.numberWithLabel}>
@@ -18,7 +20,7 @@ const AssignedNumber: FC<{
       </div>
     </div>
   ) : (
-    <div>no phonenumber</div>
+    <div>{t("no number")}</div>
   );
 };
 

@@ -4,9 +4,12 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string } from "yup";
 
 import NumbersStore from "storage/singletons/Numbers";
 import MsTeamsStore from "storage/singletons/MsTeams";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 
@@ -16,9 +19,6 @@ import FormSelect from "components/common/Form/FormSelect";
 import AssignedNumber from "./components/AssignedNumber";
 
 import useStyles from "./styles";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string } from "yup";
-import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 
 const defaultValues = {
   assignedNumber: "",

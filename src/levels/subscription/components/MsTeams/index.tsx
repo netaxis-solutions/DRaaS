@@ -4,13 +4,14 @@ import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import createLink from "services/createLink";
+
 import { Tab } from "utils/types/tabs";
+import { t } from "services/Translation";
 
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
 import O365Tenant from "./components/O365Tanant";
 import O365Admin from "./components/O365Admin";
-import { t } from "services/Translation";
 import MsTeamsUsers from "./components/MsTeamsUsers";
 
 const tabs = [

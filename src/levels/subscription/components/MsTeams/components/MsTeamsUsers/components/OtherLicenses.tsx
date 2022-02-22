@@ -1,7 +1,7 @@
-import IconButton from "@material-ui/core/IconButton";
-// import IconButton from "components/common/Form/IconButton";
-import { EyeClosed, EyeOpened, Minus } from "components/Icons";
 import { FC, useState } from "react";
+import IconButton from "@material-ui/core/IconButton";
+
+import { EyeClosed, EyeOpened, Minus } from "components/Icons";
 
 import useStyles from "../styles";
 
