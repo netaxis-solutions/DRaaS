@@ -396,7 +396,6 @@ const Table: FC<TableProps> = ({
         pageCount={pageCount}
         pageNumber={state.pageIndex + 1}
         previousPage={previousPage}
-        disabledData={page}
         checkbox={checkbox}
         nextPage={nextPage}
         canNextPage={canNextPage}
