@@ -20,7 +20,12 @@ const MyNumbers = () => {
   const classes = styles();
   const [isModalOpened, setModal] = useState(false);
 
-  const { tablePageCounter, tablePageSize, search } = TablePagination;
+  const {
+    tablePageCounter,
+    tablePageSize,
+    search,
+    clearPaginationData,
+  } = TablePagination;
 
   const { history } = RoutingConfig;
   const { numbers, getNumbersData, clearNumbers } = NumbersStore;
@@ -40,6 +45,8 @@ const MyNumbers = () => {
     tablePageSize,
     search,
   ]);
+
+  useEffect(() => clearPaginationData, []);
 
   const handleModalClose = () => {
     setModal(false);
