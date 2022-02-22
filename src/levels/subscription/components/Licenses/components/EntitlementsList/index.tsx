@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { CellProps, TableProps } from "react-table";
+import { CellProps, Row, TableProps } from "react-table";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import EntitlementsStore from "storage/singletons/Entitlements";
@@ -12,6 +12,7 @@ import EntitlementsStore from "storage/singletons/Entitlements";
 import { editEntitlementSchema } from "utils/schemas/entitlements";
 import { Country } from "utils/functions/countryConfig";
 import { EditEntitlementType } from "utils/types/entitlements";
+import { TableData } from "utils/types/tableConfig";
 
 import { Plus, Trash } from "components/Icons";
 import Table from "components/Table";
@@ -184,6 +185,22 @@ const EntitlementList: FC = () => {
     },
   ];
 
+  const isAvailable = (row: Row<TableData>) => {
+    return !row.original.assigned;
+  };
+
+  const selectAllCondition = (page: Row<TableData>[]) => {
+    const maxSelectedAmount = page.reduce((prev, row) => {
+      return row.original.assigned ? prev : ++prev;
+    }, 0);
+
+    return maxSelectedAmount === TableSelectedRowsStore.selectedRowsLength;
+  };
+
+  const selectAllRowCondition = (_: any, row: Row<TableData>) => {
+    return !row.original.assigned;
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -199,6 +216,9 @@ const EntitlementList: FC = () => {
           handleDeleteItem={handleDeleteItem}
           toolbarActions={toolbarActions}
           handleEditItem={handleEditItem}
+          isCheckboxAvailable={isAvailable}
+          selectAllRowCondition={selectAllRowCondition}
+          isGeneralCheckboxSelected={selectAllCondition}
         />
       </form>
       {modalToOpen === "add" && (
