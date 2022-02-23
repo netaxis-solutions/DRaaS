@@ -11,7 +11,10 @@ import EntitlementsStore from "storage/singletons/Entitlements";
 
 import { editEntitlementSchema } from "utils/schemas/entitlements";
 import { Country } from "utils/functions/countryConfig";
-import { EditEntitlementType } from "utils/types/entitlements";
+import {
+  EditEntitlementType,
+  EntitlementsListType,
+} from "utils/types/entitlements";
 import { TableData } from "utils/types/tableConfig";
 
 import { Plus, Trash } from "components/Icons";
@@ -134,8 +137,8 @@ const EntitlementList: FC = () => {
     setModalToOpen("");
   };
 
-  const setDefaultValues = (entitlement: any) => {
-    setValue("entitlement", entitlement.entitlement);
+  const setDefaultValues = (entitlement: EntitlementsListType) => {
+    setValue("entitlement", String(entitlement.entitlement));
     setValue("entitlementID", entitlement.id);
   };
 
