@@ -222,6 +222,9 @@ const EntitlementList: FC = () => {
           isCheckboxAvailable={isAvailable}
           selectAllRowCondition={selectAllRowCondition}
           isGeneralCheckboxSelected={selectAllCondition}
+          deleteDisabledCondition={(row: Row<TableData>) => {
+            return !(row.original.assigned === 0);
+          }}
         />
       </form>
       {modalToOpen === "add" && (
