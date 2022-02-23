@@ -1,18 +1,29 @@
 import clsx from "clsx";
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
+import { t } from "services/Translation";
 
 import useStyles from "../styles";
+
+type statusType =
+  | "active"
+  | "deleting"
+  | "activating"
+  | "activation_error"
+  | "deletion_error";
+
+const statuses = {
+  active: t("active"),
+  deleting: t("deleting"),
+  activating: t("activating"),
+  activation_error: t("activation error"),
+  deletion_error: t("deletion error"),
+};
 
 const AssignedNumber: FC<{
   draasUserInfo: {
     [key: string]: any;
-    status:
-      | "active"
-      | "deleting"
-      | "activating"
-      | "activation_error"
-      | "deletion_error";
+    status: statusType;
   };
 }> = ({ draasUserInfo }) => {
   const { t } = useTranslation();
@@ -31,7 +42,7 @@ const AssignedNumber: FC<{
             draasUserInfo.status === "deletion_error",
         })}
       >
-        {t(draasUserInfo.status)}
+        {statuses[draasUserInfo.status]}
       </div>
     </div>
   ) : (
