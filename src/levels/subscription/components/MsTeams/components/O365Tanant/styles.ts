@@ -66,4 +66,31 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
   },
+  StatusWrapper: {
+    maxWidth: 453,
+  },
+  InfoStatus: {
+    display: "flex",
+    flexDirection: "column",
+    border: "1px solid gray",
+    borderRadius: 10,
+    "& > div": {
+      display: "flex",
+      flexDirection: "row",
+      alignItem: "center",
+      gap: "20px",
+      padding: 20,
+      "& div": {
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
+        "& span": {
+          display: "flex",
+        },
+      },
+    },
+  },
+  SuccessIcon: {
+    paddingTop: 5,
+  },
 }));

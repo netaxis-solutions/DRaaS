@@ -11,7 +11,7 @@ import {
 
 class MsTeamAdmin {
   msTeamAdmin: TMsTeamAdmins = { id: null, msUsername: "" };
-  checkMsTeamAdmin: TMsTeamCheck | {} = {};
+  checkMsTeamAdmin!: TMsTeamCheck;
   checkMsTeamUsersList: TMsTeamUserList | [] = [];
   isLoading: boolean = false;
 
@@ -65,18 +65,18 @@ class MsTeamAdmin {
 
   getCheckMsTeamAdmin = async (tenantID: string, subscriptionID: string) => {
     request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/check`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/status`,
       loaderName: "@getMsTeamAdmin",
     })
       .then((data: AxiosResponse<any>) => {
-        const checkMsTeamAdmin = data?.data;
+        const checkMsTeamAdmin = data.data;
 
         runInAction(() => {
           this.checkMsTeamAdmin = checkMsTeamAdmin;
         });
       })
       .catch(e => {
-        console.log(e);
+        console.error(e);
       });
   };
 

@@ -11,6 +11,8 @@ import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { MsTeamLimk } from "components/Icons";
 import StepperMsTeam from "./StepperMsTeam";
+// Wait Backend
+// import InfoPage from "./InfoPage";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -20,6 +22,9 @@ const O365Tenant: FC = () => {
     getMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
+    getCheckMsTeamAdmin,
+    // Wait backend
+    // checkMsTeamAdmin,
   } = MsTeamAdminStorage;
   const [modalToOpen, setModalToOpen] = useState("");
 
@@ -34,12 +39,14 @@ const O365Tenant: FC = () => {
 
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
+    getCheckMsTeamAdmin("49fed14a-549a-48c4-98dd-14efe6454503", "60");
+
     return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const goToStep = () => {
-    startOnboarding("49fed14a-549a-48c4-98dd-14efe6454503", "60");
+    startOnboarding(tenantID, subscriptionID);
     setModalToOpen("startStep");
   };
 
@@ -118,6 +125,8 @@ const O365Tenant: FC = () => {
           </div>
         </div>
       </div>
+
+      {/* <InfoPage /> */}
       {modalToOpen === "startStep" && (
         <StepperMsTeam handleCancel={handleCloseModal} />
       )}

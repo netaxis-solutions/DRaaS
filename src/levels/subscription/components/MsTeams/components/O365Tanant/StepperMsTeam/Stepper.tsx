@@ -73,8 +73,6 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
     isError,
   } = MsTeamOnboarding;
 
-  console.log("STORE", checkOnboardingData);
-
   useEffect(
     () => {
       return () => clearOnboardingProgress();
