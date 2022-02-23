@@ -1,8 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
-// Wait changed in backend
-// import { useParams } from "react-router";
+import { useParams } from "react-router";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
@@ -11,6 +10,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 import { TStartMsTeamModal } from "utils/types/msTeam";
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
+import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Cross, Reload } from "components/Icons";
@@ -51,11 +51,12 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
 
   const classes = EntitlementsStyle();
 
-  // Wait changed in backend
-  // const { tenantID, subscriptionID } = useParams<{
-  //   tenantID: string;
-  //   subscriptionID: string;
-  // }>();
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
+
+  const { getCheckMsTeamAdmin } = MsTeamAdminStorage;
 
   const {
     currentStep,
@@ -68,10 +69,16 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
 
   useEffect(
     () => {
-      return () => clearOnboardingProgress();
+      return () => {
+        if (MsTeamOnboarding.activeStep >= 7) {
+          handleCancel();
+          getCheckMsTeamAdmin(tenantID, subscriptionID);
+          clearOnboardingProgress();
+        }
+      };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [activeStep],
   );
 
   const errorInActiveStep =

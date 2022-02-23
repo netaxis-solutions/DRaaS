@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { FC, useEffect } from "react";
 import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
+import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import createLink from "services/createLink";
 
@@ -40,6 +41,13 @@ const MSTeams: FC = () => {
     tabID?: string;
   }>();
 
+  const { getCheckMsTeamAdmin, checkMsTeamAdmin } = MsTeamAdminStorage;
+
+  const filteredTabs =
+    checkMsTeamAdmin?.status !== "onboarded"
+      ? tabs.filter(el => el.id !== "msTeamsUsers")
+      : tabs;
+
   const { allAvailvableRouting } = RoutingConfig;
 
   const handleTabClick = (tabID: string) => {
@@ -54,6 +62,7 @@ const MSTeams: FC = () => {
   };
 
   useEffect(() => {
+    getCheckMsTeamAdmin(params.tenantID, params.subscriptionID);
     if (params.tabID === ":tabID" && tabs && tabs.length) {
       const url = createLink({
         url: `${allAvailvableRouting.subscriptionMSTeams}/:tabID?`,
@@ -71,21 +80,23 @@ const MSTeams: FC = () => {
   return (
     <>
       <Tabs
-        tabs={tabs}
+        tabs={filteredTabs}
         url={allAvailvableRouting.subscriptionMSTeams}
         onTabChange={handleTabClick}
         active={params.tabID}
       />
       <Switch>
-        {tabs.map(({ id, component: Component }: Tab) => (
-          <Route
-            exact
-            key={id}
-            path={`${allAvailvableRouting.subscriptionMSTeams}/${id}`}
-          >
-            <Component />
-          </Route>
-        ))}
+        {filteredTabs.map(({ id, component: Component }: Tab) => {
+          return (
+            <Route
+              exact
+              key={id}
+              path={`${allAvailvableRouting.subscriptionMSTeams}/${id}`}
+            >
+              <Component />
+            </Route>
+          );
+        })}
         <Route path="*" />
       </Switch>
     </>
