@@ -4,6 +4,8 @@ export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
 export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
 export { default as TenantLevelIcon } from "./TenantLevelIcon";
 export { default as AlertTriangle } from "./AlertTriangle";
+export { default as InfoIcon } from "./InfoIcon";
+export { default as Minus } from "./Minus";
 export { default as ArrowLeft } from "./ArrowLeft";
 export { default as ArrowRight } from "./ArrowRight";
 export { default as Back } from "./Back";
