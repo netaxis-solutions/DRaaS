@@ -19,7 +19,7 @@ const TableHead: React.FC<TableHeadType> = ({ headerGroups }) => {
               {...column.getHeaderProps(column.getSortByToggleProps())}
               className={clsx({
                 [classes.tableHeadCheckboxRow]: column.id === "selection",
-                [classes.tableHeadActionRow]: column.id === "actions"
+                [classes.tableHeadActionRow]: column.id === "actions",
               })}
             >
               {column.render("Header")}

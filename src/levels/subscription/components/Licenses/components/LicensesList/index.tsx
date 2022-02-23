@@ -83,10 +83,6 @@ const LicensesList: FC = () => {
     setValue("name", `${license.name}`);
   };
 
-  const handleEditItem = (props: { row: { original: MsTeamsUsersType } }) => {
-    setDefaultValues(props.row.original);
-  };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Table
@@ -95,7 +91,6 @@ const LicensesList: FC = () => {
         data={licenses}
         isEditable
         setDefaultValues={setDefaultValues}
-        handleEditItem={handleEditItem}
       />
     </form>
   );

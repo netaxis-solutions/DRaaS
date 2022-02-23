@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableActionsWrapper: {
     display: "flex",
     justifyContent: "flex-end",
+    textAlign: "end",
     "& svg": {
       fill: theme.palette.icon.main,
       width: 16,
@@ -15,6 +16,11 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "& svg:last-child": {
       marginLeft: theme.direction === "ltr" ? `${theme.spacing(2)}px` : 0,
       marginRight: theme.direction === "ltr" ? 0 : `${theme.spacing(2)}px`,
+    },
+  },
+  tableActionTrash: {
+    "&>path": {
+      fill: theme.palette.table.iconDisabled,
     },
   },
   iconButton: {
@@ -36,11 +42,12 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableHeadActionRow: {
-    textAlign: "center",
+    textAlign: "end",
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
     paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
   },
   tableHeadCheckboxRow: {
+    textAlign: "end",
     paddingLeft: theme.direction === "ltr" ? 30 : 0,
     paddingRight: theme.direction === "ltr" ? 0 : 30,
     width: 60,

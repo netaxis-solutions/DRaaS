@@ -12,6 +12,7 @@ export type TableActionsType = {
   del?: boolean;
   save?: boolean;
   cancel?: boolean;
+  disabled?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
   onCancel?: () => void;
@@ -40,7 +41,7 @@ export type TableProps = {
   data: TableData[];
   checkbox?: boolean;
   toolbarActions?: Array<ToolbarActionType>;
-  setModalToOpen?: (s: string) => void;
+  setModalToOpen?: (s: string, props?: any) => void;
   setDefaultValues?: any;
   handleDeleteItem?: (props: any) => void;
   handleEditItem?: (props: any) => void;
@@ -110,4 +111,5 @@ export type TablePaginationType = PaginationDropdownType &
     selectedRows: number;
     pageCount: number;
     pageNumber: number;
+    checkbox: boolean;
   };

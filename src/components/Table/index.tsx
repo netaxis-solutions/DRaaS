@@ -24,7 +24,6 @@ import Toolbar from "./components/Toolbar";
 import Pagination from "./components/Pagination";
 import TableActions from "components/Table/components/TableActions";
 import { RadioButton } from "components/common/Form/FormRadioButton";
-
 import { useStyles } from "./styles";
 
 const Table: FC<TableProps> = ({
@@ -236,9 +235,14 @@ const Table: FC<TableProps> = ({
                   },
                   ...columns,
                   {
-                    Header: () => t("Actions"),
+                    Header: () => (
+                      <div className={classes.actionsHeader}>
+                        {t("Actions")}
+                      </div>
+                    ),
                     accessor: "actions",
                     disableSortBy: true,
+
                     Cell: (props: any) => {
                       if (props.state.rowState[props.row.index]?.isEditing) {
                         return (
@@ -289,7 +293,11 @@ const Table: FC<TableProps> = ({
               : [
                   ...columns,
                   {
-                    Header: () => t("Actions"),
+                    Header: () => (
+                      <div className={classes.actionsHeader}>
+                        {t("Actions")}
+                      </div>
+                    ),
                     accessor: "actions",
                     disableSortBy: true,
                     Cell: (props: any) => {
@@ -321,7 +329,8 @@ const Table: FC<TableProps> = ({
                             customActions
                           }
                           onDelete={() => {
-                            setModalToOpen && setModalToOpen("delete");
+                            setModalToOpen &&
+                              setModalToOpen("delete", props.row.original);
                             setSelectedRows({ [props.row.index]: true });
                           }}
                           onEdit={() => {
@@ -391,6 +400,7 @@ const Table: FC<TableProps> = ({
         pageCount={pageCount}
         pageNumber={state.pageIndex + 1}
         previousPage={previousPage}
+        checkbox={checkbox}
         nextPage={nextPage}
         canNextPage={canNextPage}
         canPreviousPage={canPreviousPage}

@@ -2,7 +2,6 @@ import { computed, makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
-import { request } from "services/api";
 import {
   EntitlementsListType,
   EntitlementData,
@@ -10,13 +9,20 @@ import {
   CreateNewEntitlement,
   AvailableEntitlements,
 } from "utils/types/entitlements";
-import { errorNotification } from "utils/functions/notifications";
+import {
+  deleteNotification,
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
+import { t } from "services/Translation/index";
+import { request } from "services/api";
 
 class SubscriptionEntitlementsStore {
   entitlements: Array<EntitlementsListType> = [];
   entitlementTypes: Array<EntitlementsTypeListType> = [];
   filteredDataEntitlementTypes: Array<EntitlementsTypeListType> = [];
   availableEntitlements: AvailableEntitlements = {};
+  entitlementDeleteModalData!: EntitlementsListType;
 
   constructor() {
     makeObservable(this, {
@@ -24,8 +30,13 @@ class SubscriptionEntitlementsStore {
       entitlementTypes: observable.ref,
       filteredDataEntitlementTypes: observable.ref,
       getAvailableEntitlements: computed,
+      entitlementDeleteModalData: observable.ref,
     });
   }
+
+  setEntitlementDeleteModalData = (payload: EntitlementsListType) => {
+    this.entitlementDeleteModalData = payload;
+  };
 
   getEntitlements = (tenantID: string, subscriptionID: string) => {
     request({
@@ -70,17 +81,61 @@ class SubscriptionEntitlementsStore {
     subscriptionID: string,
     payload: CreateNewEntitlement,
   ) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements`,
-        loaderName: "@getSubscriptionEntitlementsData",
-        method: "post",
-        payload,
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements`,
+      loaderName: "@getSubscriptionEntitlementsData",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Entitlement was successfully created!"));
+        this.getEntitlementTypes();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
-      this.getEntitlementTypes();
-    } catch (e) {
-      console.log(e);
-    }
+  };
+
+  editEntitlement = (
+    tenantID: string,
+    subscriptionID: string,
+    entitlementID: string,
+    payload: { entitlement: string; entitlementID: string },
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements/${entitlementID}`,
+      loaderName: "@putEntitlementData",
+      method: "put",
+      payload: { entitlement: Number(payload.entitlement) },
+    })
+      .then(() => {
+        successNotification(t("Entitlement was successfully edited!"));
+        this.getEntitlements(tenantID, subscriptionID);
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  deleteEntitlement = (
+    tenantID: string,
+    subscriptionID: string,
+    selectedEntitlementsIds: string[],
+    callback?: () => void,
+  ) => {
+    Promise.all(
+      selectedEntitlementsIds.map(id =>
+        request({
+          route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements/${id}`,
+          loaderName: "@deleteEntitlements",
+          method: "delete",
+        }).catch(e => errorNotification(e)),
+      ),
+    ).then(() => {
+      deleteNotification(t("Entitlements were successfully deleted!"));
+      this.getEntitlements(tenantID, subscriptionID);
+      callback && callback();
+    });
   };
 
   getEntitlementTypes = async () => {
@@ -99,7 +154,7 @@ class SubscriptionEntitlementsStore {
         this.entitlementTypes = entitlementTypes;
       });
     } catch (e) {
-      console.log(e, "e");
+      errorNotification(e);
     }
   };
 
