@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 
 import Login from "../Login";
 import configStore from "../Config";
+import TablePagination from "../TablePagination";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -28,10 +29,18 @@ class DistributorsStore {
       const data: AxiosResponse<DistributorsDataType> = await request({
         route: `${configStore.config.draasInstance}/distributors`,
         loaderName: "@getDistributorsData",
+        payload: {
+          params: {
+            page: TablePagination.tablePageCounter,
+            page_size: TablePagination.tablePageSize,
+            search: TablePagination.search,
+          },
+        },
       });
       const distributors = data.data.distributors;
 
       runInAction(() => {
+        TablePagination.getTableConfig(data?.data);
         this.distributors = distributors;
       });
     } catch (e) {

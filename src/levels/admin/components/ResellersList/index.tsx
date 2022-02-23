@@ -7,6 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Resellers from "storage/singletons/Resellers";
 import ResellerStore from "storage/singletons/Reseller";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
+
 import { ResellerItemType } from "utils/types/resellers";
 import { editResellerSchema } from "utils/schemas/resellers";
 import { TEditResellerPayload } from "utils/types/resellers";
@@ -26,6 +28,14 @@ const defaultValues = {
 const ResellersList: FC = () => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
+
+  const {
+    tablePageCounter,
+    tablePageSize,
+    clearPaginationData,
+    search,
+  } = TablePagination;
+
   const { control, setValue, handleSubmit } = useForm<TEditResellerPayload>({
     resolver: yupResolver(editResellerSchema(t)),
     defaultValues,
@@ -105,6 +115,11 @@ const ResellersList: FC = () => {
 
   useEffect(() => {
     getResellersData({});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tablePageCounter, tablePageSize, search]);
+
+  useEffect(() => {
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

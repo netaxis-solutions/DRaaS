@@ -1,7 +1,9 @@
 import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
-import { request } from "services/api";
 import configStore from "../Config";
+import TablePagination from "../TablePagination";
+import { request } from "services/api";
+import { t } from "services/Translation";
 import {
   errorNotification,
   successNotification,
@@ -15,7 +17,6 @@ import {
   PhoneNumberType,
   ReservedNumbers,
 } from "utils/types/numbers";
-import { t } from "services/Translation";
 
 class NumbersStore {
   numbers: Array<PhoneNumberType> = [];
@@ -40,10 +41,18 @@ class NumbersStore {
       const data: AxiosResponse<any> = await request({
         route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
         loaderName: "@getNumbersData",
+        payload: {
+          params: {
+            page: TablePagination.tablePageCounter,
+            page_size: TablePagination.tablePageSize,
+            search: TablePagination.search,
+          },
+        },
       });
       const numbers = data.data.numbers;
 
       runInAction(() => {
+        TablePagination.getTableConfig(data.data);
         this.numbers = numbers;
       });
     } catch (e) {

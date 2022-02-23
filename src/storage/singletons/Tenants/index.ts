@@ -3,6 +3,7 @@ import { makeAutoObservable, observable, runInAction } from "mobx";
 import Login from "../Login";
 import configStore from "../Config";
 import PendingQueries from "../PendingQueries";
+import TablePagination from "../TablePagination";
 import { t } from "services/Translation";
 import { request } from "services/api";
 import { TenantItemType } from "utils/types/tenant";
@@ -13,7 +14,11 @@ import {
 
 type TTenantsData = {
   tenants: Array<TenantItemType>;
+  page: number;
+  pages: number;
+  results: number;
 };
+
 class TenantsStore {
   tenants: Array<TenantItemType> = [];
 
@@ -25,11 +30,20 @@ class TenantsStore {
 
   getTenantsData = async () => {
     const queryID = PendingQueries.add("@getTenantsData", null);
+
     request({
       route: `${configStore.config.draasInstance}/tenants`,
+      payload: {
+        params: {
+          page: TablePagination.tablePageCounter,
+          page_size: TablePagination.tablePageSize,
+          search: TablePagination.search,
+        },
+      },
     })
       .then((data: { data: TTenantsData }) => {
         runInAction(() => {
+          TablePagination.getTableConfig(data.data);
           this.tenants = data.data.tenants;
         });
       })

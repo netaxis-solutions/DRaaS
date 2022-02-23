@@ -89,7 +89,7 @@ class SubscriptionEntitlementsStore {
        *  Type any was used for improve the flexibility of using this feature
        */
       const { data }: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/ref_data/entitlement_types`,
+        route: `${configStore.config.draasInstance}/public/entitlement_types`,
         loaderName: "@getEntitlementsTypeData",
       });
 

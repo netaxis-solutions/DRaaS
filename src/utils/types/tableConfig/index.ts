@@ -64,8 +64,6 @@ export type TableProps = {
 
 export type ToolbarType = {
   toolbarActions: Array<ToolbarActionType>;
-  setGlobalFilter: (object: string) => void;
-  value: string;
   title: string;
 };
 
@@ -87,7 +85,7 @@ export type TableSortPropsType = {
 };
 
 export type PaginationDropdownType = {
-  pageSize: number;
+  pageSize?: number;
   setPageSize: (pageSize: number) => void;
 };
 

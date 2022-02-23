@@ -10,6 +10,7 @@ import TenantStore from "storage/singletons/Tenant";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import TenantsStore from "storage/singletons/Tenants";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { TenantItemType } from "utils/types/tenant";
 import { editTenantSchema } from "utils/schemas/tenant";
@@ -37,6 +38,13 @@ const TenantsList: FC = () => {
     resolver: yupResolver(editTenantSchema()),
     defaultValues,
   });
+
+  const {
+    tablePageCounter,
+    tablePageSize,
+    clearPaginationData,
+    search,
+  } = TablePagination;
 
   const {
     getTenantsData,
@@ -133,6 +141,12 @@ const TenantsList: FC = () => {
 
   useEffect(() => {
     getTenantsData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tablePageCounter, tablePageSize, search]);
+
+  useEffect(() => {
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

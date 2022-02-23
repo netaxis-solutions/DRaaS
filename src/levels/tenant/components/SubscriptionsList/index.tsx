@@ -8,6 +8,8 @@ import { useParams, Link } from "react-router-dom";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import Subscriptions from "storage/singletons/Subscriptions";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
+
 import createLink from "services/createLink";
 import { SubscriptionItemType } from "utils/types/subscriptions";
 import Table from "components/Table";
@@ -27,6 +29,13 @@ const SubscriptionsList: FC = () => {
   const { loggedInUserLevel, allAvailvableRouting } = RoutingConfig;
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
+
+  const {
+    tablePageCounter,
+    tablePageSize,
+    clearPaginationData,
+    search,
+  } = TablePagination;
 
   const {
     subscriptions,
@@ -74,6 +83,11 @@ const SubscriptionsList: FC = () => {
     getSubscriptionsData(params.tenantID);
     return () => cleanSubscriptionHistory();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tablePageCounter, tablePageSize, search]);
+
+  useEffect(() => {
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
