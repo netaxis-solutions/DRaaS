@@ -3,6 +3,50 @@ export type TMsTeamUserLicenses = {
   skuPartNumber: string;
 };
 
+export type TDeleteAdminModalProps = {
+  handleCloseModal: () => void;
+  handleDelete: () => void;
+  admin: TMsTeamAdmins;
+};
+
+export type TCreateUpdateMsAdmin = {
+  payload: {
+    msUsername: string;
+    msPassword: string;
+    agree?: boolean;
+    privacy?: boolean;
+  };
+};
+
+export type TCreateMsAdmin = {
+  msUsername: string;
+  msPassword: string;
+  agree?: boolean;
+  privacy?: boolean;
+};
+
+export type TMsTeamAdmins = {
+  id: number | null;
+  msUsername: string;
+};
+
+export type TMsTeamCheck = {
+  msTenantId: string;
+  status: string;
+  powershell: {
+    msUserName: string;
+    active: boolean;
+  };
+  msGraph: {
+    msApplicationId: string;
+    active: boolean;
+  };
+  domain: {
+    name: string;
+    verified: boolean;
+  };
+};
+
 export type TMsTeamUser = {
   id: string;
   userPrincipalName: string;
