@@ -6,7 +6,6 @@ import { useParams } from "react-router";
 
 import Resellers from "storage/singletons/Resellers";
 import Table from "components/Table";
-import TableActions from "components/Table/components/TableActions";
 import { Plus, Trash } from "components/Icons";
 
 const getTranslatedColumns = (t: TFunction) => [
@@ -25,12 +24,6 @@ const getTranslatedColumns = (t: TFunction) => [
   {
     Header: t("Markup, %"),
     accessor: "markup",
-  },
-  {
-    Header: t("Actions"),
-    accessor: "actions",
-    disableSortBy: true,
-    Cell: () => <TableActions edit del />,
   },
 ];
 
@@ -76,6 +69,8 @@ const ResellersList: FC = () => {
         data={resellers}
         toolbarActions={toolbarActions}
         checkbox
+        isEditable
+        isRemovable
       />
     </>
   );

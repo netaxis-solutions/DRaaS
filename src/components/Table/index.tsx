@@ -45,6 +45,8 @@ const Table: FC<TableProps> = ({
   isCheckboxAvailable,
   isGeneralCheckboxSelected,
   selectAllRowCondition,
+  editDisabledCondition,
+  deleteDisabledCondition,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -244,6 +246,7 @@ const Table: FC<TableProps> = ({
                           <TableActions
                             save
                             cancel
+                            rowData={props.row}
                             onCancel={() => {
                               setRowState([props.row.index], {
                                 isEditing: false,
@@ -257,13 +260,15 @@ const Table: FC<TableProps> = ({
                         <TableActions
                           edit={isEditable}
                           del={isRemovable}
+                          rowData={props.row}
+                          editDisabled={editDisabledCondition}
+                          deleteDisabled={deleteDisabledCondition}
                           customActions={
                             (actionsDataFormatter &&
                               customActions &&
                               actionsDataFormatter(props.row, customActions)) ||
                             customActions
                           }
-                          rowData={props.row}
                           onDelete={() =>
                             handleDeleteItem && handleDeleteItem(props)
                           }
@@ -294,6 +299,7 @@ const Table: FC<TableProps> = ({
                           <TableActions
                             save
                             cancel
+                            rowData={props.row}
                             onCancel={() => {
                               setRowState([props.row.index], {
                                 isEditing: false,
@@ -306,13 +312,15 @@ const Table: FC<TableProps> = ({
                         <TableActions
                           edit={isEditable}
                           del={isRemovable}
+                          rowData={props.row}
+                          editDisabled={editDisabledCondition}
+                          deleteDisabled={deleteDisabledCondition}
                           customActions={
                             (actionsDataFormatter &&
                               customActions &&
                               actionsDataFormatter(props.row, customActions)) ||
                             customActions
                           }
-                          rowData={props.row}
                           onDelete={() => {
                             setModalToOpen && setModalToOpen("delete");
                             setSelectedRows({ [props.row.index]: true });
