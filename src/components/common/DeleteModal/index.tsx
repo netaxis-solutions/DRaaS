@@ -13,6 +13,9 @@ type Props = {
   handleCancel: () => void;
   handleDelete: () => void;
   selectedElementName?: string | false;
+  cancelTitle?: string;
+  deleteIcon?: React.FC;
+  deleteTitle?: string;
 };
 
 const DeleteModal: React.FC<Props> = ({
@@ -20,6 +23,9 @@ const DeleteModal: React.FC<Props> = ({
   handleDelete,
   children,
   selectedElementName,
+  deleteTitle,
+  cancelTitle,
+  deleteIcon,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -47,13 +53,13 @@ const DeleteModal: React.FC<Props> = ({
             <ButtonWithIcon
               onClick={handleCancel}
               icon={Cross}
-              title={t("Cancel")}
+              title={cancelTitle || t("Cancel")}
               className={classes.cancelButton}
             />
             <ButtonWithIcon
               onClick={handleDelete}
-              icon={Trash}
-              title={t("Delete")}
+              icon={deleteIcon || Trash}
+              title={deleteTitle || t("Delete")}
               variant="contained"
             />
           </div>

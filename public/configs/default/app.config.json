@@ -14,5 +14,6 @@
       "enabled": false,
       "route": "/forgot-password"
     }
-  }
+  },
+  "msTeamInterval": 15000
 }

@@ -14,4 +14,5 @@ export const backupConfig: ConfigType = {
       route: "/forgot-password",
     },
   },
+  msTeamInterval: 17000,
 };

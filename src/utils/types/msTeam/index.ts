@@ -9,6 +9,25 @@ export type TDeleteAdminModalProps = {
   admin: TMsTeamAdmins;
 };
 
+export type TCreateMsAdmin = {
+  msUsername: string;
+  msPassword: string;
+  agree?: boolean;
+  privacy?: boolean;
+};
+
+export type TMsTeamUserDraas = {
+  id: number;
+  connectionId: number;
+  numberId: number;
+  phoneNumber: string;
+  status: string;
+};
+
+export type TMsTeamUserList = {
+  users: TMsTeamUserType[];
+};
+
 export type TCreateUpdateMsAdmin = {
   payload: {
     msUsername: string;
@@ -16,13 +35,6 @@ export type TCreateUpdateMsAdmin = {
     agree?: boolean;
     privacy?: boolean;
   };
-};
-
-export type TCreateMsAdmin = {
-  msUsername: string;
-  msPassword: string;
-  agree?: boolean;
-  privacy?: boolean;
 };
 
 export type TMsTeamAdmins = {
@@ -55,18 +67,22 @@ export type TMsTeamUser = {
   voiceEnabled: string;
 };
 
-export type TMsTeamUserDraas = {
-  id: number;
-  connectionId: number;
-  numberId: number;
-  phoneNumber: string;
-  status: string;
-};
 export type TMsTeamUserType = {
   msTeams: TMsTeamUser;
   draas?: TMsTeamUserDraas;
 };
 
-export type TMsTeamUserList = {
-  users: TMsTeamUserType[];
+export type TStartMsTeamModal = {
+  handleCancel: () => void;
+};
+
+export type TMsTeamOnboardingSteps = {
+  step: number;
+  text: string;
+  executed: boolean;
+};
+
+export type TMsTeamOnboarding = {
+  running: boolean;
+  wizardSteps: TMsTeamOnboardingSteps[];
 };
