@@ -21,33 +21,26 @@ import { EntitlementsStyle } from "./styles";
 const steps = [
   {
     label: "1 Provide credentials of tenant admin",
-    description: `Provide credentials of tenant admin.`,
   },
   {
     label: "2 Initiate MS Teams tenant in our system",
-    description: `API is adding new subdomain to your tenant. Normally it takes 2 minutes.`,
   },
   {
     label: "3 Create service principal and set MS Graph gateway",
-    description: `Microsoft is  in process of verifying your domain. Normally it takes 30 minutes.`,
   },
   {
     label: "4 Set a domain for the tenant and validate it against Microsoft",
-    description: `Our backend is creating a temporary teams user and assigning it to new subdomain. It can take around 5 minutes.`,
   },
   {
     label:
       "5 Add an e-mail service to the domain together with its related DNS entries",
-    description: `User is created. Waiting until Microsoft activates the domain. It can take up to 24 hours.`,
   },
   {
     label:
       "6 Create a dummy account and associate an E1 / E3 / E5 license to it",
-    description: `Voice routing is setting up. It can take up to 30 seconds.`,
   },
   {
     label: "7 Create a SBC and remove associated license from the dummy user",
-    description: `Voice routing is setting up. It can take up to 30 seconds.`,
   },
 ];
 
@@ -141,7 +134,6 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
                     </div>
                   ) : (
                     <>
-                      <span>{step.description}</span>
                       <div className={classes.progressIndicate}>
                         <LinearProgress className={classes.progressIndicate} />
                       </div>
