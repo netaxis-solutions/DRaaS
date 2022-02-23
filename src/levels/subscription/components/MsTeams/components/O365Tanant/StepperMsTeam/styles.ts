@@ -23,7 +23,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
 
   StepperRoot: {
     "& .MuiStepConnector-root": {
-      marginLeft: 8,
+      marginLeft: theme.spacing(1),
       borderLeftStyle: "solid",
       borderLeftWidth: 1,
       borderColor: theme.palette.input.border,
@@ -32,7 +32,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       borderLeftStyle: "solid",
       borderLeftWidth: 2,
       borderColor: theme.palette.input.border,
-      marginLeft: 8,
+      marginLeft: theme.spacing(1),
     },
   },
   Step: {
@@ -40,7 +40,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       paddingTop: 0,
       paddingBottom: 0,
       "& > span:last-child": {
-        paddingLeft: 9,
+        paddingLeft: theme.spacing(1.1),
       },
       "& > span:first-child": {
         "& svg": {
@@ -72,20 +72,20 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
 
   StepperLabel: {
     "& .MuiStepLabel-label": {
-      fontSize: 14,
+      fontSize: "1.4rem",
       fontWeight: 300,
     },
   },
   StepperContent: {
     "& .MuiCollapse-wrapperInner": {
-      paddingTop: 12,
+      paddingTop: theme.spacing(1.5),
     },
 
-    fontSize: 14,
+    fontSize: "1.4rem",
     fontWeight: 300,
   },
   StepperWrapper: {
-    border: "1px solid #EBEBF7",
+    border: `1px solid ${theme.palette.primary.light}`,
     maxWidth: 644,
     padding: "16px 31px",
     borderRadius: 10,
@@ -99,9 +99,9 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     borderRadius: 10,
     backgroundColor: theme.palette.secondary.alertBackground,
     width: "100%",
-    fontSize: 14,
-    padding: 10,
-    margin: 10,
+    fontSize: "1.4rem",
+    padding: theme.spacing(1.25),
+    margin: theme.spacing(1.25),
   },
   buttonRetry: {
     backgroundColor: theme.palette.primary.main,

@@ -8,9 +8,10 @@ import StepLabel from "@mui/material/StepLabel";
 import StepContent from "@mui/material/StepContent";
 import LinearProgress from "@mui/material/LinearProgress";
 
-import { TStartMsTeamModal } from "utils/types/msTeam";
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
+
+import { TStartMsTeamModal } from "utils/types/msTeam";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Cross, Reload } from "components/Icons";
@@ -128,7 +129,7 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
                         </span>
                       </div>
                       <ButtonWithIcon
-                        title="Retry"
+                        title={t("Retry")}
                         className={classes.buttonRetry}
                         icon={Reload}
                         onClick={() =>

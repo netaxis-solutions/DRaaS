@@ -6,12 +6,12 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     maxWidth: 793,
     display: "flex",
     flexDirection: "column",
-    gap: 34,
+    gap: theme.spacing(4.25),
   },
   title: {
     display: "flex",
-    gap: 14,
-    paddingLeft: 5,
+    gap: theme.spacing(1.75),
+    paddingLeft: theme.spacing(0.65),
     fontSize: "16px",
   },
   iconTriangle: {
@@ -25,7 +25,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
 
     "& > span": {
       display: "block",
-      paddingRight: 107,
+      paddingRight: theme.spacing(13.375),
     },
     "& div": {
       display: "flex",
@@ -33,7 +33,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   listTitle: {
-    paddingTop: 35,
+    paddingTop: theme.spacing(4.375),
   },
   Link: {
     color: "#4975E5",
@@ -43,7 +43,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.primary.white,
     width: 250,
-    marginTop: 20,
+    marginTop: theme.spacing(2.5),
     display: "flex",
 
     "&:hover": {
@@ -72,18 +72,18 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   InfoStatus: {
     display: "flex",
     flexDirection: "column",
-    border: "1px solid gray",
+    border: `1px solid ${theme.palette.primary.light}`,
     borderRadius: 10,
     "& > div": {
       display: "flex",
       flexDirection: "row",
       alignItem: "center",
-      gap: "20px",
-      padding: 20,
+      gap: theme.spacing(2.5),
+      padding: theme.spacing(2.5),
       "& div": {
         display: "flex",
         flexDirection: "column",
-        gap: 10,
+        gap: theme.spacing(1.25),
         "& span": {
           display: "flex",
         },
@@ -91,6 +91,6 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   SuccessIcon: {
-    paddingTop: 5,
+    paddingTop: theme.spacing(0.65),
   },
 }));

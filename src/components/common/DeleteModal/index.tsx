@@ -14,7 +14,7 @@ type Props = {
   handleDelete: () => void;
   selectedElementName?: string | false;
   cancelTitle?: string;
-  deleteIcon?: any;
+  deleteIcon?: React.FC;
   deleteTitle?: string;
 };
 

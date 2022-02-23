@@ -1,11 +1,13 @@
 import { makeObservable, observable, runInAction, reaction } from "mobx";
 
 import configStore from "../../Config";
+
 import { request } from "services/api";
 import { t } from "services/Translation";
-import { successNotification } from "utils/functions/notifications";
 
+import { successNotification } from "utils/functions/notifications";
 import { TMsTeamOnboardingSteps } from "utils/types/msTeam";
+import { AxiosResponse } from "axios";
 
 const DEFAULT_STEPS_INTERVAL = 10000;
 const HARDCODED_ID = "49fed14a-549a-48c4-98dd-14efe6454503";
@@ -71,11 +73,11 @@ class MsTeamOnboarding {
     return this.currentStep + (this.isRunning ? 1 : 5);
   }
 
-  checkOnboarding = async (tenantID: string, subscriptionID?: string) => {
+  checkOnboarding = async (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
     })
-      .then((data: any) => {
+      .then((data: AxiosResponse<any>) => {
         const isRunning = data?.data.running;
         const checkOnboardingData = data?.data.wizardSteps;
 
@@ -96,12 +98,12 @@ class MsTeamOnboarding {
       });
   };
 
-  startOnboarding = (tenantID: string, subscriptionID?: string) => {
+  startOnboarding = (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
       method: "post",
-    }).then((resp: any) => {
-      const transactionID = resp.data.id;
+    }).then((data: AxiosResponse<any>) => {
+      const transactionID = data.data.id;
       runInAction(() => {
         this.transactionID = transactionID;
       });

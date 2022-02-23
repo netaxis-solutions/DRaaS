@@ -37,7 +37,6 @@ const O365Tenant: FC = () => {
 
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
-    // getCheckMsTeamAdmin("49fed14a-549a-48c4-98dd-14efe6454503", "60");
     getCheckMsTeamAdmin(tenantID, subscriptionID);
 
     return () => clearCashMsTeamAdmin();
@@ -60,74 +59,87 @@ const O365Tenant: FC = () => {
       {checkMsTeamAdmin?.status === "onboarded" ? (
         <InfoPage />
       ) : (
-        <div className={classes.root}>
-          <span className={classes.title}>
-            <AlertOutline className={classes.iconTriangle} />
-            <span>
-              {t("Please first add an")}{" "}
-              <Link
-                to={`/tenants/${tenantID}/subscriptions/${subscriptionID}/ms-teams/o365admin`}
-                className={classes.Link}
-              >
-                {t("O365 admin")}.
-              </Link>{" "}
-              {t(
-                "Without this we cannot make the required changes in your account",
-              )}
-            </span>
-          </span>
-          <div className={classes.list}>
-            <span>
-              {t(
-                " Link your Microsoft Teams to our service. As soon as you link your tenant, you will be able to assign numbers to users (teams)",
-              )}
-              .
-            </span>
-            <span className={classes.listTitle}>
-              {t(
-                " Linking this service to Microsoft Teams will do following changes to you Microsoft account",
-              )}
-              :
-            </span>
-            <span>
-              <ul>
-                <li> {t("New domain will be added & activated")}</li>
-                <li>
-                  {t("we will link your teams tenant to our platform (SBC)")}
-                </li>
-                <li>
-                  {t("we will setup the voice policies and routes accordingly")}
-                </li>
-              </ul>
+        checkMsTeamAdmin?.status === "not_initiated" && (
+          <div className={classes.root}>
+            <span className={classes.title}>
+              <AlertOutline className={classes.iconTriangle} />
               <span>
-                {" "}
-                (*){" "}
+                {t("Please first add an")}{" "}
+                <Link
+                  to={`/tenants/${tenantID}/subscriptions/${subscriptionID}/ms-teams/o365admin`}
+                  className={classes.Link}
+                >
+                  {t("O365 admin")}.
+                </Link>{" "}
                 {t(
-                  "the activation process will create a dummy 0365 user and assign a spare E1, E3 and E5 license. After activation the user will be deleted again",
+                  "Without this we cannot make the required changes in your account",
+                )}
+              </span>
+            </span>
+            <div className={classes.list}>
+              <span>
+                {t(
+                  " Link your Microsoft Teams to our service. As soon as you link your tenant, you will be able to assign numbers to users (teams)",
                 )}
                 .
               </span>
-            </span>
-            <div>
-              {!!disabledButton ? (
-                <ButtonWithIcon
-                  className={classes.buttonConfirm}
-                  title="Link MS Teams"
-                  icon={MsTeamLimk}
-                  onClick={() => goToStep()}
-                />
-              ) : (
-                <ButtonWithIcon
-                  className={classes.buttonConfirm}
-                  title="Link MS Teams"
-                  icon={MsTeamLimk}
-                  disabled
-                />
-              )}
+              <span className={classes.listTitle}>
+                {t(
+                  " Linking this service to Microsoft Teams will do following changes to you Microsoft account",
+                )}
+                :
+              </span>
+              <span>
+                <ul>
+                  <li> {t("New domain will be added & activated")}</li>
+                  <li>
+                    {t("we will link your teams tenant to our platform (SBC)")}
+                  </li>
+                  <li>
+                    {t(
+                      "we will setup the voice policies and routes accordingly",
+                    )}
+                  </li>
+                </ul>
+                <span>
+                  {" "}
+                  (*){" "}
+                  {t(
+                    "the activation process will create a dummy 0365 user and assign a spare E1, E3 and E5 license. After activation the user will be deleted again",
+                  )}
+                  .
+                </span>
+              </span>
+              <div>
+                {!!disabledButton ? (
+                  <ButtonWithIcon
+                    className={classes.buttonConfirm}
+                    title={t("Link MS Teams")}
+                    icon={MsTeamLimk}
+                    onClick={() => goToStep()}
+                  />
+                ) : (
+                  <ButtonWithIcon
+                    className={classes.buttonConfirm}
+                    title={t("Link MS Teams")}
+                    icon={MsTeamLimk}
+                    disabled
+                  />
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )
       )}
+      {checkMsTeamAdmin?.status !== "onboarded" &&
+      checkMsTeamAdmin?.status !== "not_initiated" ? (
+        <ButtonWithIcon
+          className={classes.buttonConfirm}
+          title={t("See wizard status")}
+          icon={MsTeamLimk}
+          onClick={() => goToStep()}
+        />
+      ) : null}
       {modalToOpen === "startStep" && (
         <StepperMsTeam handleCancel={handleCloseModal} />
       )}
