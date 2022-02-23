@@ -104,13 +104,19 @@ const SelectNumberEntitlement: React.FC = () => {
     });
     goNext();
   };
-
+  const availableEntitlements = useMemo(
+    () =>
+      entitlements.filter(
+        entitlement => entitlement.assigned !== entitlement.entitlement,
+      ),
+    [entitlements],
+  );
   return (
     <form id={"SelectFromInventory"} onSubmit={onSubmit}>
       <Table
         title={t("Number entitlements")}
         columns={columns}
-        data={entitlements}
+        data={availableEntitlements}
         radioButton
       />
     </form>
