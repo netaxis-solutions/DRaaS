@@ -93,6 +93,14 @@ const NumberInventory: React.FC = () => {
     goNext();
   };
 
+  const availableRanges = useMemo(
+    () =>
+      numberInventoryRanges.filter(
+        range => range.countryCode === entitlement.countryCode,
+      ),
+    [numberInventoryRanges, entitlement],
+  );
+
   return (
     <form id={"SelectFromInventory"} onSubmit={onSubmit}>
       <div className={classes.entitlementCard}>
@@ -108,7 +116,7 @@ const NumberInventory: React.FC = () => {
       <Table
         title={t("Numbers inventory")}
         columns={columns}
-        data={numberInventoryRanges}
+        data={availableRanges}
         radioButton
       />
     </form>
