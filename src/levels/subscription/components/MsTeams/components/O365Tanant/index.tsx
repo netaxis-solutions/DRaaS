@@ -16,7 +16,7 @@ import InfoPage from "./InfoPage";
 import { EntitlementsStyle } from "./styles";
 
 const O365Tenant: FC = () => {
-  const { startOnboarding } = MsTeamOnboarding;
+  const { startOnboarding, checkOnboarding } = MsTeamOnboarding;
   const {
     getMsTeamAdmin,
     msTeamAdmin,
@@ -50,6 +50,11 @@ const O365Tenant: FC = () => {
 
   const handleCloseModal = () => {
     setModalToOpen("");
+  };
+
+  const checkActualStep = () => {
+    checkOnboarding(tenantID, subscriptionID);
+    setModalToOpen("startStep");
   };
 
   const disabledButton = msTeamAdmin.id !== null;
@@ -137,7 +142,7 @@ const O365Tenant: FC = () => {
           className={classes.buttonConfirm}
           title={t("See wizard status")}
           icon={MsTeamLimk}
-          onClick={() => goToStep()}
+          onClick={() => checkActualStep()}
         />
       ) : null}
       {modalToOpen === "startStep" && (
