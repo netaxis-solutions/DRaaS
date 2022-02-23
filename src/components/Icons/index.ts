@@ -30,3 +30,5 @@ export { default as SuccessArrow } from "./SuccessArrow";
 export { default as Trash } from "./Trash";
 export { default as TrashNotification } from "./TrashNotification";
 export { default as World } from "./World";
+export { default as InfoIcon } from "./InfoIcon";
+export { default as Minus } from "./Minus";

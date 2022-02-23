@@ -15,6 +15,7 @@ type Props = {
   selectedElementName?: string | false;
   cancelTitle?: string;
   deleteIcon?: any;
+  deleteTitle?: string;
 };
 
 const DeleteModal: React.FC<Props> = ({
