@@ -40,7 +40,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   updating: { background: theme.palette.primary.main },
   label: {
     height: 14,
-    width: 50,
+    minWidth: 50,
     borderRadius: 4,
     display: "flex",
     justifyContent: "center",
