@@ -14,6 +14,9 @@ import {
 
 type TTenantsData = {
   tenants: Array<TenantItemType>;
+  page: number;
+  pages: number;
+  results: number;
 };
 
 class TenantsStore {
@@ -40,7 +43,7 @@ class TenantsStore {
     })
       .then((data: { data: TTenantsData }) => {
         runInAction(() => {
-          TablePagination.getTableConfig(data?.data);
+          TablePagination.getTableConfig(data.data);
           this.tenants = data.data.tenants;
         });
       })

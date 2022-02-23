@@ -58,7 +58,6 @@ export type TableProps = {
 
 export type ToolbarType = {
   toolbarActions: Array<ToolbarActionType>;
-  setGlobalFilter?: (object: string) => void;
   title: string;
 };
 

@@ -1,6 +1,8 @@
 import { observer } from "mobx-react-lite";
+
 import { ToolbarType } from "utils/types/tableConfig";
 import TablePagination from "storage/singletons/TablePagination";
+
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import SearchInput from "components/common/SearchInput";
 

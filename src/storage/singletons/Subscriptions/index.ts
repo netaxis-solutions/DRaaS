@@ -40,7 +40,7 @@ class SubscriptionsStore {
     })
       .then((data: AxiosResponse<SubscriptionsDataType>) => {
         runInAction(() => {
-          TablePagination.getTableConfig(data?.data);
+          TablePagination.getTableConfig(data.data);
           this.subscriptions = data.data.subscriptions;
         });
       })

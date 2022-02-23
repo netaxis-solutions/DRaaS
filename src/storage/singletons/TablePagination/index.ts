@@ -24,7 +24,7 @@ class TablePagination {
     }
   };
 
-  tableLiveSearch = (payload: any) => {
+  tableLiveSearch = (payload: string) => {
     runInAction(() => {
       this.liveSearch = payload;
       this.tableSearch();
@@ -42,7 +42,12 @@ class TablePagination {
     this.tablePageSize = payload;
   };
 
-  getTableConfig = (payload: any) => {
+  getTableConfig = (payload: {
+    page: number;
+    pages: number;
+    results: number;
+    [key: string]: any;
+  }) => {
     runInAction(() => {
       this.tableConfig = { page: payload.page, pages: payload.pages };
     });

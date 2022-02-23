@@ -1,7 +1,9 @@
 import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
-import { request } from "services/api";
 import configStore from "../Config";
+import TablePagination from "../TablePagination";
+import { request } from "services/api";
+import { t } from "services/Translation";
 import {
   errorNotification,
   successNotification,
@@ -13,8 +15,6 @@ import {
   NumberSuggestionsType,
   PhoneNumberType,
 } from "utils/types/numbers";
-import TablePagination from "../TablePagination";
-import { t } from "services/Translation";
 
 class NumbersStore {
   numbers: Array<PhoneNumberType> = [];
@@ -47,7 +47,7 @@ class NumbersStore {
       const numbers = data.data.numbers;
 
       runInAction(() => {
-        TablePagination.getTableConfig(data?.data);
+        TablePagination.getTableConfig(data.data);
         this.numbers = numbers;
       });
     } catch (e) {
