@@ -23,6 +23,7 @@ const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
     setSteps,
     goBack,
     clearMultiStep,
+    isSubmitButtonDisabled,
   } = MultiStepForm;
 
   useEffect(() => {
@@ -33,7 +34,10 @@ const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
       },
       { title: t("Numbers inventory"), component: <NumberInventory /> },
       { title: t("Range settings"), component: <RangeSettings /> },
-      { title: t("Range selection"), component: <RangeSelection /> },
+      {
+        title: t("Range selection"),
+        component: <RangeSelection handleCancel={handleCancel} />,
+      },
     ]);
     return () => clearMultiStep();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,6 +67,7 @@ const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         handleCancel={handlePrevious}
         top={122}
         formId={"SelectFromInventory"}
+        submitButtonDisabled={isSubmitButtonDisabled}
       />
     </>
   );

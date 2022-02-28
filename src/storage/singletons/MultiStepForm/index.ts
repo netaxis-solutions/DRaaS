@@ -7,6 +7,7 @@ class MultiStepForm {
   activeStep: number = 0;
   steps: TSteps = [];
   previousChoices: Array<{ [key: string]: any }> = [];
+  isSubmitButtonDisabled: boolean = false;
 
   get stepContent() {
     return this.steps[this.activeStep]?.component;
@@ -18,6 +19,7 @@ class MultiStepForm {
       steps: observable.ref,
       activeStep: observable.ref,
       previousChoices: observable.ref,
+      isSubmitButtonDisabled: observable.ref
     });
   }
 
@@ -37,6 +39,10 @@ class MultiStepForm {
   setSteps = (steps: TSteps) => {
     this.steps = steps;
   };
+
+  setSubmitButtonState = (state:boolean) => {
+    this.isSubmitButtonDisabled = state;
+  }
 
   setPreviousChoices = (newChoice: { [key: string]: any }) => {
     this.previousChoices[this.activeStep] = newChoice;
