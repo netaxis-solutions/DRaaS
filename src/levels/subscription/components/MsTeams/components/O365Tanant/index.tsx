@@ -16,7 +16,7 @@ import InfoPage from "./InfoPage";
 import { EntitlementsStyle } from "./styles";
 
 const O365Tenant: FC = () => {
-  const { startOnboarding, checkOnboarding } = MsTeamOnboarding;
+  const { startOnboarding, checkOnboarding, currentStepTenantData } = MsTeamOnboarding;
   const {
     getMsTeamAdmin,
     msTeamAdmin,
@@ -24,6 +24,7 @@ const O365Tenant: FC = () => {
     getCheckMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdminStorage;
+
   const [modalToOpen, setModalToOpen] = useState("");
 
   const { tenantID, subscriptionID } = useParams<{
@@ -37,6 +38,7 @@ const O365Tenant: FC = () => {
 
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
+    currentStepTenantData({tenantID, subscriptionID});
     getCheckMsTeamAdmin(tenantID, subscriptionID);
 
     return () => clearCashMsTeamAdmin();

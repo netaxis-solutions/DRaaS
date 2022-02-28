@@ -10,8 +10,7 @@ import { TMsTeamOnboardingSteps } from "utils/types/msTeam";
 import { AxiosResponse } from "axios";
 
 const DEFAULT_STEPS_INTERVAL = 10000;
-const HARDCODED_ID = "49fed14a-549a-48c4-98dd-14efe6454503";
-const HARDCODED_SUBSCRIPTION_ID = "60";
+
 
 class MsTeamOnboarding {
   transactionID: number = 0;
@@ -19,6 +18,7 @@ class MsTeamOnboarding {
   isRunning: boolean = false;
   isError: boolean = false;
   msTeamInterval: number = 0;
+  currentStepTenant: {subscriptionID: string, tenantID: string} | null = null
 
   constructor() {
     makeObservable(this, {
@@ -35,8 +35,8 @@ class MsTeamOnboarding {
     reaction(
       () => this.transactionID,
       transactionID => {
-        if (transactionID > 0) {
-          this.checkOnboarding(HARDCODED_ID, HARDCODED_SUBSCRIPTION_ID);
+        if (transactionID > 0 ) {
+          this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant?.tenantID, this.currentStepTenant?.subscriptionID);
         }
       },
     );
@@ -50,7 +50,7 @@ class MsTeamOnboarding {
       isRunning => {
         if (isRunning) {
           checkingStepsTimer = setInterval(() => {
-            this.checkOnboarding(HARDCODED_ID, HARDCODED_SUBSCRIPTION_ID);
+            this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant?.tenantID, this.currentStepTenant?.subscriptionID);
           }, this.msTeamInterval);
         } else {
           clearInterval(checkingStepsTimer);
@@ -58,6 +58,8 @@ class MsTeamOnboarding {
       },
     );
   }
+
+
 
   get currentStep() {
     const { checkOnboardingData } = this;
@@ -71,6 +73,12 @@ class MsTeamOnboarding {
 
   get activeStep() {
     return this.currentStep + (this.isRunning ? 1 : 5);
+  }
+
+  currentStepTenantData = ( payload : {subscriptionID: string, tenantID: string} )=>{
+    runInAction(()=>{
+      this.currentStepTenant = payload
+    })
   }
 
   checkOnboarding = async (tenantID: string, subscriptionID: string) => {

@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
-
+import { useParams } from "react-router-dom";
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
 import FormInput from "components/common/Form/FormInput";
@@ -14,13 +14,18 @@ const InfoPage: FC = () => {
   const classes = EntitlementsStyle();
 
   const { t } = useTranslation();
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
+
 
   const { checkMsTeamAdmin, getCheckMsTeamAdmin } = MsTeamAdminStorage;
 
   const { control } = useForm<{ domain: string; tenantID: string }>({});
 
   useEffect(() => {
-    getCheckMsTeamAdmin("49fed14a-549a-48c4-98dd-14efe6454503", "60");
+    getCheckMsTeamAdmin(tenantID, subscriptionID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,7 +41,7 @@ const InfoPage: FC = () => {
               {...field}
               {...props}
               default
-              value={checkMsTeamAdmin?.domain || "Domain"}
+              value={checkMsTeamAdmin?.domain.name || "Domain"}
             />
           )}
         />
