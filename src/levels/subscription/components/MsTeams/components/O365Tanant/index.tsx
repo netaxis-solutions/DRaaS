@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -10,8 +10,8 @@ import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { MsTeamLimk } from "components/Icons";
-import StepperMsTeam from "./StepperMsTeam";
 import InfoPage from "./InfoPage";
+import Stepper from './StepperMsTeam/Stepper'
 
 import { EntitlementsStyle } from "./styles";
 
@@ -25,7 +25,6 @@ const O365Tenant: FC = () => {
     checkMsTeamAdmin,
   } = MsTeamAdminStorage;
 
-  const [modalToOpen, setModalToOpen] = useState("");
 
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -40,6 +39,7 @@ const O365Tenant: FC = () => {
     getMsTeamAdmin(tenantID, subscriptionID);
     currentStepTenantData({tenantID, subscriptionID});
     getCheckMsTeamAdmin(tenantID, subscriptionID);
+    checkOnboarding(tenantID, subscriptionID);
 
     return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,16 +47,6 @@ const O365Tenant: FC = () => {
 
   const goToStep = () => {
     startOnboarding(tenantID, subscriptionID);
-    setModalToOpen("startStep");
-  };
-
-  const handleCloseModal = () => {
-    setModalToOpen("");
-  };
-
-  const checkActualStep = () => {
-    checkOnboarding(tenantID, subscriptionID);
-    setModalToOpen("startStep");
   };
 
   const disabledButton = msTeamAdmin.id !== null;
@@ -140,16 +130,11 @@ const O365Tenant: FC = () => {
       )}
       {checkMsTeamAdmin?.status !== "onboarded" &&
       checkMsTeamAdmin?.status !== "not_initiated" ? (
-        <ButtonWithIcon
-          className={classes.buttonConfirm}
-          title={t("See wizard status")}
-          icon={MsTeamLimk}
-          onClick={() => checkActualStep()}
-        />
-      ) : null}
-      {modalToOpen === "startStep" && (
-        <StepperMsTeam handleCancel={handleCloseModal} />
-      )}
+        <>
+          <Stepper/>
+          </>
+      ) : null }
+     
     </>
   );
 };
