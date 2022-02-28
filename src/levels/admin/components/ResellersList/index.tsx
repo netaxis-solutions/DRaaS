@@ -91,23 +91,6 @@ const ResellersList: FC = () => {
         Header: t("Owner"),
         accessor: "owner.name",
       },
-      {
-        Header: t("Tenants"),
-        accessor: "nbOfTenants",
-      },
-      {
-        Header: t("Markup, %"),
-        accessor: "markup",
-        EditComponent: () => (
-          <Controller
-            name="markup"
-            control={control}
-            render={({ field, ...props }) => (
-              <FormTableInput {...field} {...props} />
-            )}
-          />
-        ),
-      },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
