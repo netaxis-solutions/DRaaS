@@ -96,7 +96,7 @@ const NumberInventory: React.FC = () => {
   const availableRanges = useMemo(
     () =>
       numberInventoryRanges.filter(
-        range => range.countryCode === entitlement.countryCode,
+        range => (range.countryCode === entitlement.countryCode && range.numberType === entitlement.numberType)
       ),
     [numberInventoryRanges, entitlement],
   );
