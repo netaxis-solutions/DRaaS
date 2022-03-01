@@ -3,10 +3,14 @@ import { Controller, useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import Onboarding from "storage/singletons/MsTeams/Onboarding";
 
 import FormInput from "components/common/Form/FormInput";
 import { SuccessCircle } from "components/Icons";
+import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
+import { Unlink } from "components/Icons";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -19,8 +23,8 @@ const InfoPage: FC = () => {
     subscriptionID: string;
   }>();
 
-
   const { checkMsTeamAdmin, getCheckMsTeamAdmin } = MsTeamAdminStorage;
+  const { cleanUpOnboarding } = Onboarding;
 
   const { control } = useForm<{ domain: string; tenantID: string }>({});
 
@@ -80,9 +84,20 @@ const InfoPage: FC = () => {
           </span>
           <div>
             <span>{t("Microsoft graph integration")}</span>
-            <span>cdfd967f-6a92-4234-808a-5dd2047dc61a</span>
+            <span>
+              {checkMsTeamAdmin?.msGraph?.msApplicationId ||
+                "cdfd967f-6a92-4234-808a-5dd2047dc61a"}
+            </span>
           </div>
         </div>
+      </div>
+      <div className={classes.buttonUnlinkPositions}>
+        <ButtonWithIcon
+          className={classes.buttonUnlink}
+          title={t("Unlink your tenant now")}
+          icon={Unlink}
+          onClick={() => cleanUpOnboarding(tenantID, subscriptionID)}
+        />
       </div>
     </div>
   );

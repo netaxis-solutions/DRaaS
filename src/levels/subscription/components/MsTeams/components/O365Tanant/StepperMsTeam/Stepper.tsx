@@ -67,6 +67,7 @@ const StepperStart: FC = () => {
 
   useEffect(
     () => {
+      checkOnboarding(tenantID, subscriptionID);
       return () => {
         if (MsTeamOnboarding.activeStep >= 7) {
           getCheckMsTeamAdmin(tenantID, subscriptionID);

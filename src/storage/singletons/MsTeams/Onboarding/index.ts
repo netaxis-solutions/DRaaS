@@ -1,6 +1,7 @@
 import { makeObservable, observable, runInAction, reaction } from "mobx";
 
 import configStore from "../../Config";
+import CreateDeleteAdmin from "../CreateDeleteAdmin";
 
 import { request } from "services/api";
 import { t } from "services/Translation";
@@ -36,7 +37,10 @@ class MsTeamOnboarding {
       () => this.transactionID,
       transactionID => {
         if (transactionID > 0 ) {
-          this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant?.tenantID, this.currentStepTenant?.subscriptionID);
+          setTimeout(()=>{
+            this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant.tenantID, this.currentStepTenant.subscriptionID);
+            this.currentStepTenant && CreateDeleteAdmin.getCheckMsTeamAdmin(this.currentStepTenant.tenantID, this.currentStepTenant.subscriptionID);
+          }, 3000)
         }
       },
     );
@@ -50,7 +54,7 @@ class MsTeamOnboarding {
       isRunning => {
         if (isRunning) {
           checkingStepsTimer = setInterval(() => {
-            this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant?.tenantID, this.currentStepTenant?.subscriptionID);
+            this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant.tenantID, this.currentStepTenant.subscriptionID);
           }, this.msTeamInterval);
         } else {
           clearInterval(checkingStepsTimer);
@@ -86,9 +90,9 @@ class MsTeamOnboarding {
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
     })
       .then((data: AxiosResponse<any>) => {
-        const isRunning = data?.data.running;
-        const checkOnboardingData = data?.data.wizardSteps;
-
+        const isRunning = data.data.running;
+        const checkOnboardingData = data.data.wizardSteps;
+        
         runInAction(() => {
           this.isError = false;
           this.isRunning = isRunning;
@@ -109,18 +113,34 @@ class MsTeamOnboarding {
   startOnboarding = (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
+      loaderName:"@postStartOnboarding",
       method: "post",
     }).then((data: AxiosResponse<any>) => {
       const transactionID = data.data.id;
+      
       runInAction(() => {
         this.transactionID = transactionID;
       });
+      setTimeout(()=>{
+        this.checkOnboarding(tenantID, subscriptionID)
+        CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
+
+      }, 5000)
     });
   };
 
+  cleanUpOnboarding = async (tenantID: string, subscriptionID: string) => {
+   await request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/unlink`,
+      loaderName:"@unlinkOnboarding",
+      method: "post",
+    })
+  };
+  
   clearOnboardingProgress = () => {
     this.checkOnboardingData = [];
     this.isRunning = false;
+    this.isError = false;
   };
 }
 

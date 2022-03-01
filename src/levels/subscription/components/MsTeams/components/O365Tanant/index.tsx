@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -11,12 +11,20 @@ import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { MsTeamLimk } from "components/Icons";
 import InfoPage from "./InfoPage";
-import Stepper from './StepperMsTeam/Stepper'
+import Stepper from "./StepperMsTeam/Stepper";
 
 import { EntitlementsStyle } from "./styles";
 
 const O365Tenant: FC = () => {
-  const { startOnboarding, checkOnboarding, currentStepTenantData } = MsTeamOnboarding;
+  const {
+    startOnboarding,
+    currentStepTenantData,
+    isRunning,
+    checkOnboarding,
+  } = MsTeamOnboarding;
+
+  const [startOnboard, setOnboard] = useState("");
+
   const {
     getMsTeamAdmin,
     msTeamAdmin,
@@ -24,7 +32,6 @@ const O365Tenant: FC = () => {
     getCheckMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdminStorage;
-
 
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -37,7 +44,7 @@ const O365Tenant: FC = () => {
 
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
-    currentStepTenantData({tenantID, subscriptionID});
+    currentStepTenantData({ tenantID, subscriptionID });
     getCheckMsTeamAdmin(tenantID, subscriptionID);
     checkOnboarding(tenantID, subscriptionID);
 
@@ -47,6 +54,7 @@ const O365Tenant: FC = () => {
 
   const goToStep = () => {
     startOnboarding(tenantID, subscriptionID);
+    setOnboard("start");
   };
 
   const disabledButton = msTeamAdmin.id !== null;
@@ -56,7 +64,8 @@ const O365Tenant: FC = () => {
       {checkMsTeamAdmin?.status === "onboarded" ? (
         <InfoPage />
       ) : (
-        checkMsTeamAdmin?.status === "not_initiated" && (
+        startOnboard === "" ||
+        (!isRunning && checkMsTeamAdmin?.status === "not_initiated" && (
           <div className={classes.root}>
             <span className={classes.title}>
               <AlertOutline className={classes.iconTriangle} />
@@ -126,15 +135,14 @@ const O365Tenant: FC = () => {
               </div>
             </div>
           </div>
-        )
+        ))
       )}
-      {checkMsTeamAdmin?.status !== "onboarded" &&
-      checkMsTeamAdmin?.status !== "not_initiated" ? (
-        <>
-          <Stepper/>
-          </>
-      ) : null }
-     
+      {startOnboard === "start" || isRunning ? (
+        checkMsTeamAdmin?.status !== "onboarded" &&
+        checkMsTeamAdmin?.status !== "not_initiated" ? (
+          <Stepper />
+        ) : null
+      ) : null}
     </>
   );
 };
