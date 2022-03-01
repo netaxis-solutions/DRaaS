@@ -59,13 +59,14 @@ const O365Tenant: FC = () => {
 
   const disabledButton = msTeamAdmin.id !== null;
 
+
   return (
     <>
       {checkMsTeamAdmin?.status === "onboarded" ? (
         <InfoPage />
       ) : (
-        startOnboard === "" ||
-        (!isRunning && checkMsTeamAdmin?.status === "not_initiated" && (
+        !isRunning &&
+        checkMsTeamAdmin?.status === "not_initiated" && (
           <div className={classes.root}>
             <span className={classes.title}>
               <AlertOutline className={classes.iconTriangle} />
@@ -135,7 +136,7 @@ const O365Tenant: FC = () => {
               </div>
             </div>
           </div>
-        ))
+        )
       )}
       {startOnboard === "start" || isRunning ? (
         checkMsTeamAdmin?.status !== "onboarded" &&

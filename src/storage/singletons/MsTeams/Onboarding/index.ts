@@ -129,14 +129,16 @@ class MsTeamOnboarding {
     });
   };
 
-  cleanUpOnboarding = async (tenantID: string, subscriptionID: string) => {
-   await request({
+  cleanUpOnboarding =  (tenantID: string, subscriptionID: string) => {
+    request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/unlink`,
       loaderName:"@unlinkOnboarding",
       method: "post",
+    }).then(()=>{
+      CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID)
     })
   };
-  
+
   clearOnboardingProgress = () => {
     this.checkOnboardingData = [];
     this.isRunning = false;
