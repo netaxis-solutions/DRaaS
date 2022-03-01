@@ -33,9 +33,23 @@ export const useEntitlementCardStyles = makeStyles(
       display: "inline-block",
       width: 113,
     },
-    fieldValue: {},
   }),
 );
+
+export const useProgressBarStyles = makeStyles(() => ({
+  progressBar: {
+    background:
+      "linear-gradient(90deg, #8DB338 0%, #FF8800 50.02%, #E60000 100%);",
+    borderRadius: 2,
+    "& > div": {
+      background: "#C4C4C4",
+      transform: (props: { percentOfUnavailable?: string | number }) => {
+        console.log(props);
+        return `translateX(${props.percentOfUnavailable}%) !important`;
+      },
+    },
+  },
+}));
 
 export const useRangeSettingsStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
