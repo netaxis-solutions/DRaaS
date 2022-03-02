@@ -1,16 +1,19 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { LinearProgress } from "@material-ui/core";
+import { CellProps } from "react-table";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import Numbers from "storage/singletons/Numbers";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 
 import { EntitlementsListType } from "utils/types/entitlements";
+import { TableData } from "utils/types/tableConfig";
 
 import Table from "components/Table";
 
-import { useEntitlementCardStyles } from "./styles";
+import { useEntitlementCardStyles, useProgressBarStyles } from "./styles";
 
 const NumberInventory: React.FC = () => {
   const { t } = useTranslation();
@@ -61,13 +64,28 @@ const NumberInventory: React.FC = () => {
         accessor: "rangeEnd",
       },
       {
-        Header: t("Range size"),
-        accessor: "nbAvailable",
-      },
-      {
         Header: t("Available entitlements"),
         Cell: () => {
           return <div>{avilableEntitlements}</div>;
+        },
+      },
+      {
+        Header: t("Available numbers"),
+        Cell: ({ row }: CellProps<TableData>) => {
+          const percentOfUnavailable = Math.ceil(
+            100 - (row.original.nbAvailable * 100) / row.original.nbTotal,
+          );
+          const classes = useProgressBarStyles({ percentOfUnavailable });
+          return (
+            <>
+              {row.original.nbAvailable}/{row.original.nbTotal}
+              <LinearProgress
+                variant="determinate"
+                className={classes.progressBar}
+                value={percentOfUnavailable}
+              />
+            </>
+          );
         },
       },
       {
@@ -111,7 +129,7 @@ const NumberInventory: React.FC = () => {
           return (
             <div key={field.fieldName} className={classes.fieldWrapper}>
               <span className={classes.fieldName}>{field.fieldName} </span>{" "}
-              <span className={classes.fieldValue}>{field.fieldValue} </span>
+              <span>{field.fieldValue} </span>
             </div>
           );
         })}
