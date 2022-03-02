@@ -43,10 +43,8 @@ export const useProgressBarStyles = makeStyles(() => ({
     borderRadius: 2,
     "& > div": {
       background: "#C4C4C4",
-      transform: (props: { percentOfUnavailable: number }) => {
-        console.log(props);
-        return `translateX(${100 - props.percentOfUnavailable}%) !important`;
-      },
+      transform: (props: { percentOfUnavailable: number }) =>
+        `translateX(${100 - props.percentOfUnavailable}%) !important`,
     },
   },
 }));
