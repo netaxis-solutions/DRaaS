@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { CellProps } from "react-table";
 import clsx from "clsx";
 
 import Numbers from "storage/singletons/Numbers";
@@ -9,6 +10,7 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 
 import { FormattedNumberSuggestionsType } from "utils/types/numbers";
+import { TableData } from "utils/types/tableConfig";
 
 import Table from "components/Table";
 
@@ -51,11 +53,25 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     () => [
       {
         Header: t("Range from"),
-        accessor: "rangeStart",
+        Cell: ({ row }: CellProps<TableData>) => {
+          return (
+            <div>
+              {previousChoices[1].numbersRange.countryCode}
+              {row.original.rangeStart}
+            </div>
+          );
+        },
       },
       {
         Header: t("Range to"),
-        accessor: "rangeEnd",
+        Cell: ({ row }: CellProps<TableData>) => {
+          return (
+            <div>
+              {previousChoices[1].numbersRange.countryCode}
+              {row.original.rangeEnd}
+            </div>
+          );
+        },
       },
 
       {
@@ -63,6 +79,7 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
         accessor: "rangeSize",
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
 
@@ -74,8 +91,8 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
       {
         countryCode: previousChoices[0].entitlements.countryCode,
         ranges: selectedRowsValues.map(row => [
-          row.values.rangeStart,
-          row.values.rangeEnd,
+          row.original.rangeStart,
+          row.original.rangeEnd,
         ]),
       },
       handleCancel,

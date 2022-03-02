@@ -28,7 +28,7 @@ const RangeSettings: React.FC = () => {
   const { previousChoices, setPreviousChoices, goNext } = MultiStepForm;
   const { getNumberSuggestions } = NumbersStore;
   const {
-    numbersRange: { rangeStart, rangeEnd },
+    numbersRange: { rangeStart, rangeEnd, countryCode },
   } = previousChoices[1];
 
   const maxAmount =
@@ -60,8 +60,15 @@ const RangeSettings: React.FC = () => {
     >
       <div>
         {t("You want to select numbers from")}{" "}
-        <span className={classes.boldText}>{rangeStart}</span> {t("to")}{" "}
-        <span className={classes.boldText}>{rangeEnd}</span>
+        <span className={classes.boldText}>
+          {countryCode}
+          {rangeStart}
+        </span>{" "}
+        {t("to")}{" "}
+        <span className={classes.boldText}>
+          {countryCode}
+          {rangeEnd}
+        </span>
       </div>
       <div>
         {t("Amount of the numbers you can still select of this type is")}{" "}
