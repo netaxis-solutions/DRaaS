@@ -1,4 +1,6 @@
-import { makeObservable } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
+import { AxiosResponse } from "axios";
+
 
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
@@ -14,8 +16,12 @@ import {
 } from "utils/types/resellers";
 
 class ResellerStore {
+  owners: Array<any> = []
+
   constructor() {
-    makeObservable(this, {});
+    makeAutoObservable(this, {
+      owners: observable.ref,
+    });
   }
 
   createReseller = ({
@@ -40,6 +46,35 @@ class ResellerStore {
         errorNotification(e);
       });
   };
+
+  getListOwnersResellers = async () => {
+    try{
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/public/owners?level=reseller`,
+        loaderName: "@getListOwners",
+      })
+      const owners = data.data.owners
+      runInAction(()=>{
+        this.owners = owners
+      })
+    }catch(e){
+      console.error(e)
+    }
+  }
+
+  get resellerOwners() {
+    return this.owners.map((el: any) => {
+      if(el.name !== undefined){
+      return  {
+          label: el.name,
+          value: el.name
+        }
+      } else return {
+        label: '',
+        value: ''
+      }
+    });
+  }
 
   editReseller = ({
     payload: { uuid, markup, ...payload },

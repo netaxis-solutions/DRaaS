@@ -40,15 +40,16 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
 
   //TODO: Uncomment when multistep form will be impelemented
   // const { goNext, goBack } = MultiStepForm;
-  const { createReseller } = ResellerStore;
   const {
-    distributors,
-    distributorsForResellerCreation,
-    getDistributorsData,
-  } = DistributorsStore;
+    createReseller,
+    resellerOwners,
+    getListOwnersResellers,
+  } = ResellerStore;
+  const { distributors, getDistributorsData } = DistributorsStore;
 
   useEffect(() => {
     getDistributorsData();
+    getListOwnersResellers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -125,7 +126,7 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
         render={({ field, ...props }) => (
           <FormSelect
             label={t("Distributor")}
-            options={distributorsForResellerCreation}
+            options={resellerOwners}
             {...field}
             {...props}
             className={classes.createResellerInput}
