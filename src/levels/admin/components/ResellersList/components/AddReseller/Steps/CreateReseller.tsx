@@ -6,6 +6,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
 
 import ResellerStore from "storage/singletons/Reseller";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 //TODO: Uncomment when multistep form will be impelemented
 // import MultiStepForm from "storage/singletons/MultiStepForm";
 import DistributorsStore from "storage/singletons/Distributors";
@@ -45,6 +46,9 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
     resellerOwners,
     getListOwnersResellers,
   } = ResellerStore;
+
+  const { loggedInUserLevel } = RoutingConfig;
+
   const { distributors, getDistributorsData } = DistributorsStore;
 
   useEffect(() => {
@@ -120,19 +124,21 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
           />
         )}
       />
-      <Controller
-        name="distributor"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormSelect
-            label={t("Distributor")}
-            options={resellerOwners}
-            {...field}
-            {...props}
-            className={classes.createResellerInput}
-          />
-        )}
-      />
+      {loggedInUserLevel === "system" ? (
+        <Controller
+          name="distributor"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormSelect
+              label={t("Distributor")}
+              options={resellerOwners}
+              {...field}
+              {...props}
+              className={classes.createResellerInput}
+            />
+          )}
+        />
+      ) : null}
       <Controller
         name="markup"
         control={control}
