@@ -50,6 +50,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       height: 46,
       width: "100%",
       color: "#FFFFFF",
+      "& > [class*=label]":{textTransform: "none!important"},
       "&:hover": {
         color: "#FFFFFF",
       },
