@@ -60,6 +60,7 @@ const StepperStart: FC = () => {
     currentStep,
     activeStep,
     checkOnboarding,
+    startOnboarding,
     clearOnboardingProgress,
     isError,
     isRunning,
@@ -86,57 +87,47 @@ const StepperStart: FC = () => {
 
   return (
     <>
-
-
-      
-        <div className={classes.StepperWrapper}>
-          <Stepper
-            activeStep={activeStep}
-            orientation="vertical"
-            className={classes.StepperRoot}
-          >
-            {steps.map(step => (
-              <Step className={classes.Step} key={step.label}>
-                <StepLabel className={classes.StepperLabel}>
-                  <span> {step.label}</span>
-                </StepLabel>
-                <StepContent className={classes.StepperContent}>
-                  {isError || !isRunning && activeStep < 7 ? (
-                    <div className={classes.isError}>
-                      <div className={classes.isErrorNote}>
-                        <span>
-                          {" "}
-                          {t("Setting up the")}
-                          {errorInActiveStep.label.replace(/^\d+/, "")}
-                          {t("failed")}.{t("You can retry setting up")}.{" "}
-                        </span>
-                      </div>
-                      <ButtonWithIcon
-                        title={t("Retry")}
-                        className={classes.buttonRetry}
-                        icon={Reload}
-                        onClick={() =>
-                          checkOnboarding(
-                            tenantID,
-                            subscriptionID,
-                          )
-                        }
-                      ></ButtonWithIcon>
+      <div className={classes.StepperWrapper}>
+        <Stepper
+          activeStep={activeStep}
+          orientation="vertical"
+          className={classes.StepperRoot}
+        >
+          {steps.map(step => (
+            <Step className={classes.Step} key={step.label}>
+              <StepLabel className={classes.StepperLabel}>
+                <span> {step.label}</span>
+              </StepLabel>
+              <StepContent className={classes.StepperContent}>
+                {isError || (!isRunning && activeStep < 7) ? (
+                  <div className={classes.isError}>
+                    <div className={classes.isErrorNote}>
+                      <span>
+                        {" "}
+                        {t("Setting up the")}
+                        {errorInActiveStep.label.replace(/^\d+/, "")}
+                        {t("failed")}.{t("You can retry setting up")}.{" "}
+                      </span>
                     </div>
-                  ) : (
-                    <>
-                      <div className={classes.progressIndicate}>
-                        <LinearProgress className={classes.progressIndicate} />
-                      </div>
-                    </>
-                  )}
-                </StepContent>
-              </Step>
-            ))}
-          </Stepper>
-        </div>
-     
-
+                    <ButtonWithIcon
+                      title={t("Retry")}
+                      className={classes.buttonRetry}
+                      icon={Reload}
+                      onClick={() => startOnboarding(tenantID, subscriptionID)}
+                    ></ButtonWithIcon>
+                  </div>
+                ) : (
+                  <>
+                    <div className={classes.progressIndicate}>
+                      <LinearProgress className={classes.progressIndicate} />
+                    </div>
+                  </>
+                )}
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+      </div>
     </>
   );
 };

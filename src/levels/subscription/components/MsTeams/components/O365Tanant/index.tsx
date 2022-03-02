@@ -59,7 +59,6 @@ const O365Tenant: FC = () => {
 
   const disabledButton = msTeamAdmin.id !== null;
 
-
   return (
     <>
       {checkMsTeamAdmin?.status === "onboarded" ? (
@@ -118,7 +117,7 @@ const O365Tenant: FC = () => {
                 </span>
               </span>
               <div>
-                {!!disabledButton ? (
+                {!!disabledButton && startOnboard === "" ? (
                   <ButtonWithIcon
                     className={classes.buttonConfirm}
                     title={t("Link MS Teams")}

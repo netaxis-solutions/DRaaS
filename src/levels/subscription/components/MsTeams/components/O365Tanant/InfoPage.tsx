@@ -45,7 +45,7 @@ const InfoPage: FC = () => {
               {...field}
               {...props}
               default
-              value={checkMsTeamAdmin?.domain.name || "Domain"}
+              value={checkMsTeamAdmin?.domain.name || ""}
             />
           )}
         />
@@ -58,7 +58,7 @@ const InfoPage: FC = () => {
               {...field}
               {...props}
               default
-              value={checkMsTeamAdmin?.msTenantId || t("TenantID")}
+              value={checkMsTeamAdmin?.msTenantId || ""}
             />
           )}
         />
@@ -71,10 +71,7 @@ const InfoPage: FC = () => {
           </span>
           <div>
             <span>{t("Powershell integration")}</span>
-            <span>
-              {checkMsTeamAdmin?.powershell?.msUserName ||
-                "christophe.bury@netaxis.be"}
-            </span>
+            <span>{checkMsTeamAdmin?.powershell?.msUserName || ""}</span>
           </div>
         </div>
         <div>
@@ -84,10 +81,7 @@ const InfoPage: FC = () => {
           </span>
           <div>
             <span>{t("Microsoft graph integration")}</span>
-            <span>
-              {checkMsTeamAdmin?.msGraph?.msApplicationId ||
-                "cdfd967f-6a92-4234-808a-5dd2047dc61a"}
-            </span>
+            <span>{checkMsTeamAdmin?.msGraph?.msApplicationId || ""}</span>
           </div>
         </div>
       </div>
