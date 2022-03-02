@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { CellProps, TableProps } from "react-table";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import NumbersStore from "storage/singletons/Numbers";
+import EntitlementsStore from "storage/singletons/Entitlements";
 
 import { PhoneNumberType } from "utils/types/numbers";
 
@@ -14,7 +15,9 @@ import Table from "components/Table";
 import SelectFromInventory from "./components/MultistepModal";
 import DeleteNumberModal from "./components/DeleteModal";
 
-const NumbersList: FC<{ numbers: PhoneNumberType[] }> = ({ numbers }) => {
+const NumbersList: FC<{
+  numbers: PhoneNumberType[];
+}> = ({ numbers }) => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
   const { tenantID, subscriptionID } = useParams<{
@@ -31,25 +34,74 @@ const NumbersList: FC<{ numbers: PhoneNumberType[] }> = ({ numbers }) => {
   } = TableSelectedRowsStore;
 
   const { getNumbersData, deassignNumbers } = NumbersStore;
+  const {
+    getEntitlements,
+    setAvailable,
+    getAvailableEntitlements,
+  } = EntitlementsStore;
 
-  const toolbarActions = [
-    {
-      id: "delete",
-      title: t("Delete"),
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
+  useEffect(() => {
+    getEntitlements(tenantID, subscriptionID, () =>
+      setAvailable(getAvailableEntitlements),
+    );
+
+    return () => {
+      getEntitlements(tenantID, subscriptionID, () =>
+        setAvailable(getAvailableEntitlements),
+      );
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getNumbersData, subscriptionID, tenantID]);
+
+  const availableEntitlementsNumber = Object.values(
+    EntitlementsStore.availableEntitlements,
+  ).reduce(
+    (availableEntitlementsAmount: number, curr: { [key: string]: number }) => {
+      return (
+        availableEntitlementsAmount +
+        Object.values(curr).reduce(
+          (availableEntitlements: number, curr: number) => {
+            return availableEntitlements + curr;
+          },
+          0,
+        )
+      );
     },
-    {
-      id: "add",
-      title: t("Add"),
-      icon: Plus,
-      onClick: () => {
-        setModalToOpen("add");
-      },
-    },
-  ];
+    0,
+  );
+
+  console.log(availableEntitlementsNumber);
+
+  const toolbarActions = availableEntitlementsNumber
+    ? [
+        {
+          id: "delete",
+          title: t("Delete"),
+          icon: Trash,
+          onClick: () => {
+            setModalToOpen("delete");
+          },
+        },
+        {
+          id: "add",
+          title: t("Add"),
+          icon: Plus,
+          onClick: () => {
+            setModalToOpen("add");
+          },
+        },
+      ]
+    : [
+        {
+          id: "delete",
+          title: t("Delete"),
+          icon: Trash,
+          onClick: () => {
+            setModalToOpen("delete");
+          },
+        },
+      ];
 
   const columns = useMemo(
     () => [

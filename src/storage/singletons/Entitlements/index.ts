@@ -38,7 +38,11 @@ class SubscriptionEntitlementsStore {
     this.entitlementDeleteModalData = payload;
   };
 
-  getEntitlements = (tenantID: string, subscriptionID: string) => {
+  getEntitlements = (
+    tenantID: string,
+    subscriptionID: string,
+    successCallback?: () => void,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements`,
       loaderName: "@getSubscriptionEntitlementsData",
@@ -47,6 +51,7 @@ class SubscriptionEntitlementsStore {
         runInAction(() => {
           this.entitlements = data.entitlements;
         });
+        successCallback && successCallback();
       })
       .catch(e => {
         errorNotification(e);

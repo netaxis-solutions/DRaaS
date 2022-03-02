@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import NumbersStore from "storage/singletons/Numbers";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import TablePagination from "storage/singletons/TablePagination";
+import EntitlementsStore from "storage/singletons/Entitlements";
 
 import SelectFromInventory from "./components/MultistepModal";
 import MyNumbersTable from "./MyNumbersTable";
@@ -16,7 +17,10 @@ import styles from "./styles";
 
 const MyNumbers = () => {
   const { t } = useTranslation();
-  const params = useParams<{ tenantID: string; subscriptionID: string }>();
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
   const classes = styles();
   const [isModalOpened, setModal] = useState(false);
 
@@ -29,18 +33,25 @@ const MyNumbers = () => {
 
   const { history } = RoutingConfig;
   const { numbers, getNumbersData, clearNumbers } = NumbersStore;
+  const { getEntitlements, setAvailable } = EntitlementsStore;
 
   useEffect(() => {
-    getNumbersData(params.tenantID, params.subscriptionID);
+    getNumbersData(tenantID, subscriptionID);
+
+    getEntitlements(tenantID, subscriptionID, () =>
+      setAvailable(EntitlementsStore.getAvailableEntitlements),
+    );
 
     return () => {
       clearNumbers();
     };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     clearNumbers,
     getNumbersData,
-    params.subscriptionID,
-    params.tenantID,
+    subscriptionID,
+    tenantID,
     tablePageCounter,
     tablePageSize,
     search,
@@ -50,6 +61,23 @@ const MyNumbers = () => {
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const availableEntitlementsNumber = Object.values(
+    EntitlementsStore.availableEntitlements,
+  ).reduce(
+    (availableEntitlementsAmount: number, curr: { [key: string]: number }) => {
+      return (
+        availableEntitlementsAmount +
+        Object.values(curr).reduce(
+          (availableEntitlements: number, curr: number) => {
+            return availableEntitlements + curr;
+          },
+          0,
+        )
+      );
+    },
+    0,
+  );
 
   const handleModalClose = () => {
     setModal(false);
@@ -73,6 +101,7 @@ const MyNumbers = () => {
             icon={Plus}
             title={t("Add from inventory")}
             variant={"contained"}
+            disabled={!availableEntitlementsNumber}
             onClick={() => setModal(true)}
           />
         </div>
