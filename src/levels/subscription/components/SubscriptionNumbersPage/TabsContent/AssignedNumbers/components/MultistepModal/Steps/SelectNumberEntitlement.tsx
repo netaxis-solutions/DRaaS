@@ -114,6 +114,10 @@ const SelectNumberEntitlement: React.FC = () => {
 
   useEffect(() => {
     MultiStepForm.setSubmitButtonState(!Boolean(availableEntitlements.length));
+
+    return () => {
+      MultiStepForm.setSubmitButtonState(false);
+    };
   }, [availableEntitlements]);
 
   return (

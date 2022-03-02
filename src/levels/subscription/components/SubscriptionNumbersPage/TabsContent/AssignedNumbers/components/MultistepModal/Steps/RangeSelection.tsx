@@ -94,6 +94,9 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     setSubmitButtonState(
       !Boolean(amountSelected && maxSelectedAmount - amountSelected >= 0),
     );
+    return () => {
+      MultiStepForm.setSubmitButtonState(false);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amountSelected]);
 
