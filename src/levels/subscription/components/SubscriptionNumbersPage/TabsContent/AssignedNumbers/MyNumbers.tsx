@@ -24,6 +24,11 @@ const MyNumbers = () => {
   const classes = styles();
   const [isModalOpened, setModal] = useState(false);
 
+  const [
+    availableEntitlementsNumber,
+    setAvailableEntitlementsNumber,
+  ] = useState(0);
+
   const {
     tablePageCounter,
     tablePageSize,
@@ -38,9 +43,29 @@ const MyNumbers = () => {
   useEffect(() => {
     getNumbersData(tenantID, subscriptionID);
 
-    getEntitlements(tenantID, subscriptionID, () =>
-      setAvailable(EntitlementsStore.getAvailableEntitlements),
-    );
+    getEntitlements(tenantID, subscriptionID, () => {
+      setAvailable(EntitlementsStore.getAvailableEntitlements);
+      setAvailableEntitlementsNumber(
+        Object.values(EntitlementsStore.availableEntitlements).reduce(
+          (
+            availableEntitlementsAmount: number,
+            curr: { [key: string]: number },
+          ) => {
+            console.log("recalculated");
+            return (
+              availableEntitlementsAmount +
+              Object.values(curr).reduce(
+                (availableEntitlements: number, curr: number) => {
+                  return availableEntitlements + curr;
+                },
+                0,
+              )
+            );
+          },
+          0,
+        ),
+      );
+    });
 
     return () => {
       clearNumbers();
@@ -62,23 +87,7 @@ const MyNumbers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const availableEntitlementsNumber = Object.values(
-    EntitlementsStore.availableEntitlements,
-  ).reduce(
-    (availableEntitlementsAmount: number, curr: { [key: string]: number }) => {
-      return (
-        availableEntitlementsAmount +
-        Object.values(curr).reduce(
-          (availableEntitlements: number, curr: number) => {
-            return availableEntitlements + curr;
-          },
-          0,
-        )
-      );
-    },
-    0,
-  );
-
+  console.log(availableEntitlementsNumber);
   const handleModalClose = () => {
     setModal(false);
   };

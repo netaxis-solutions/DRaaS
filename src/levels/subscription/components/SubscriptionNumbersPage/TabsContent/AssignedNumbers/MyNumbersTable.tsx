@@ -25,6 +25,11 @@ const NumbersList: FC<{
     subscriptionID: string;
   }>();
 
+  const [
+    availableEntitlementsNumber,
+    setAvailableEntitlementsNumber,
+  ] = useState(0);
+
   const {
     selectedRows,
     selectedRowsLength,
@@ -41,67 +46,72 @@ const NumbersList: FC<{
   } = EntitlementsStore;
 
   useEffect(() => {
-    getEntitlements(tenantID, subscriptionID, () =>
-      setAvailable(getAvailableEntitlements),
-    );
+    getEntitlements(tenantID, subscriptionID, () => {
+      setAvailable(getAvailableEntitlements);
+      setAvailableEntitlementsNumber(
+        Object.values(EntitlementsStore.availableEntitlements).reduce(
+          (
+            availableEntitlementsAmount: number,
+            curr: { [key: string]: number },
+          ) => {
+            console.log("recalculated");
+            return (
+              availableEntitlementsAmount +
+              Object.values(curr).reduce(
+                (availableEntitlements: number, curr: number) => {
+                  return availableEntitlements + curr;
+                },
+                0,
+              )
+            );
+          },
+          0,
+        ),
+      );
+    });
 
     return () => {
-      getEntitlements(tenantID, subscriptionID, () =>
-        setAvailable(getAvailableEntitlements),
-      );
+      getEntitlements(tenantID, subscriptionID, () => {
+        setAvailable(getAvailableEntitlements);
+      });
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getNumbersData, subscriptionID, tenantID]);
+  }, [numbers]);
 
-  const availableEntitlementsNumber = Object.values(
-    EntitlementsStore.availableEntitlements,
-  ).reduce(
-    (availableEntitlementsAmount: number, curr: { [key: string]: number }) => {
-      return (
-        availableEntitlementsAmount +
-        Object.values(curr).reduce(
-          (availableEntitlements: number, curr: number) => {
-            return availableEntitlements + curr;
-          },
-          0,
-        )
-      );
-    },
-    0,
+  const toolbarActions = useMemo(
+    () =>
+      availableEntitlementsNumber
+        ? [
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
+            },
+            {
+              id: "add",
+              title: t("Add"),
+              icon: Plus,
+              onClick: () => {
+                setModalToOpen("add");
+              },
+            },
+          ]
+        : [
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
+            },
+          ],
+    [availableEntitlementsNumber],
   );
-
-  console.log(availableEntitlementsNumber);
-
-  const toolbarActions = availableEntitlementsNumber
-    ? [
-        {
-          id: "delete",
-          title: t("Delete"),
-          icon: Trash,
-          onClick: () => {
-            setModalToOpen("delete");
-          },
-        },
-        {
-          id: "add",
-          title: t("Add"),
-          icon: Plus,
-          onClick: () => {
-            setModalToOpen("add");
-          },
-        },
-      ]
-    : [
-        {
-          id: "delete",
-          title: t("Delete"),
-          icon: Trash,
-          onClick: () => {
-            setModalToOpen("delete");
-          },
-        },
-      ];
 
   const columns = useMemo(
     () => [
@@ -134,6 +144,7 @@ const NumbersList: FC<{
     ],
     [t],
   );
+
   const handleModalClose = () => {
     setModalToOpen("");
   };
