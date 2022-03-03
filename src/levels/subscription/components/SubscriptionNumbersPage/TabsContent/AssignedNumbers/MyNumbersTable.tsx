@@ -25,11 +25,6 @@ const NumbersList: FC<{
     subscriptionID: string;
   }>();
 
-  const [
-    availableEntitlementsNumber,
-    setAvailableEntitlementsNumber,
-  ] = useState(0);
-
   const {
     selectedRows,
     selectedRowsLength,
@@ -40,40 +35,20 @@ const NumbersList: FC<{
 
   const { getNumbersData, deassignNumbers } = NumbersStore;
   const {
+    availableEntitlementsNumber,
     getEntitlements,
-    setAvailable,
-    getAvailableEntitlements,
+    setAvailableEntitlementsNumber,
   } = EntitlementsStore;
 
   useEffect(() => {
-    getEntitlements(tenantID, subscriptionID, () => {
-      setAvailable(getAvailableEntitlements);
-      setAvailableEntitlementsNumber(
-        Object.values(EntitlementsStore.availableEntitlements).reduce(
-          (
-            availableEntitlementsAmount: number,
-            curr: { [key: string]: number },
-          ) => {
-            console.log("recalculated");
-            return (
-              availableEntitlementsAmount +
-              Object.values(curr).reduce(
-                (availableEntitlements: number, curr: number) => {
-                  return availableEntitlements + curr;
-                },
-                0,
-              )
-            );
-          },
-          0,
-        ),
-      );
-    });
+    getEntitlements(tenantID, subscriptionID, () =>
+      setAvailableEntitlementsNumber(),
+    );
 
     return () => {
-      getEntitlements(tenantID, subscriptionID, () => {
-        setAvailable(getAvailableEntitlements);
-      });
+      getEntitlements(tenantID, subscriptionID, () =>
+        setAvailableEntitlementsNumber(),
+      );
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -110,6 +85,7 @@ const NumbersList: FC<{
               },
             },
           ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [availableEntitlementsNumber],
   );
 

@@ -45,4 +45,15 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.primary.text,
     width: 295,
   },
+  tooltipIcon: {
+    position: "absolute",
+    height: 20,
+    width: 20,
+    top: 8,
+    right: -25,
+    fill: theme.palette.status.alert,
+  },
+  buttonContainer: {
+    position: "relative",
+  },
 }));

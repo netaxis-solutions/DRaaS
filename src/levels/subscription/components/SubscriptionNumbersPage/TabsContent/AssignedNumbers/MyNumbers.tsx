@@ -11,7 +11,8 @@ import EntitlementsStore from "storage/singletons/Entitlements";
 import SelectFromInventory from "./components/MultistepModal";
 import MyNumbersTable from "./MyNumbersTable";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Plus } from "components/Icons";
+import { InfoIcon, Plus } from "components/Icons";
+import Tooltip from "components/Tooltip";
 
 import styles from "./styles";
 
@@ -24,11 +25,6 @@ const MyNumbers = () => {
   const classes = styles();
   const [isModalOpened, setModal] = useState(false);
 
-  const [
-    availableEntitlementsNumber,
-    setAvailableEntitlementsNumber,
-  ] = useState(0);
-
   const {
     tablePageCounter,
     tablePageSize,
@@ -38,33 +34,17 @@ const MyNumbers = () => {
 
   const { history } = RoutingConfig;
   const { numbers, getNumbersData, clearNumbers } = NumbersStore;
-  const { getEntitlements, setAvailable } = EntitlementsStore;
+  const {
+    availableEntitlementsNumber,
+    getEntitlements,
+    setAvailableEntitlementsNumber,
+  } = EntitlementsStore;
 
   useEffect(() => {
     getNumbersData(tenantID, subscriptionID);
 
     getEntitlements(tenantID, subscriptionID, () => {
-      setAvailable(EntitlementsStore.getAvailableEntitlements);
-      setAvailableEntitlementsNumber(
-        Object.values(EntitlementsStore.availableEntitlements).reduce(
-          (
-            availableEntitlementsAmount: number,
-            curr: { [key: string]: number },
-          ) => {
-            console.log("recalculated");
-            return (
-              availableEntitlementsAmount +
-              Object.values(curr).reduce(
-                (availableEntitlements: number, curr: number) => {
-                  return availableEntitlements + curr;
-                },
-                0,
-              )
-            );
-          },
-          0,
-        ),
-      );
+      setAvailableEntitlementsNumber();
     });
 
     return () => {
@@ -87,7 +67,6 @@ const MyNumbers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(availableEntitlementsNumber);
   const handleModalClose = () => {
     setModal(false);
   };
@@ -106,13 +85,25 @@ const MyNumbers = () => {
           <div className={classes.cardText}>
             {t("You can add numbers from inventory")}
           </div>
-          <ButtonWithIcon
-            icon={Plus}
-            title={t("Add from inventory")}
-            variant={"contained"}
-            disabled={!availableEntitlementsNumber}
-            onClick={() => setModal(true)}
-          />
+          <div className={classes.buttonContainer}>
+            <ButtonWithIcon
+              icon={Plus}
+              title={t("Add from inventory")}
+              variant={"contained"}
+              disabled={!availableEntitlementsNumber}
+              onClick={() => setModal(true)}
+            />
+            {!availableEntitlementsNumber && (
+              <Tooltip
+                placement="right"
+                title={t(
+                  "Sorry, you cannot add any numbers because you don't have any entitlements left",
+                )}
+              >
+                <InfoIcon className={classes.tooltipIcon} />
+              </Tooltip>
+            )}
+          </div>
         </div>
         <div className={classes.card}>
           <div className={classes.cardText}>

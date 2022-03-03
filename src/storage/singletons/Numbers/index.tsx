@@ -144,7 +144,6 @@ class NumbersStore {
         runInAction(() => {
           this.getNumbersData(tenantID, subscriptionID);
         });
-        successCallback && successCallback();
         successNotification(
           t("numbers and ranges were assigned", {
             numberAmount:
@@ -153,6 +152,7 @@ class NumbersStore {
             rangesAmount: payload.ranges.length,
           }),
         );
+        successCallback && successCallback();
       })
       .catch(e => {
         errorNotification(e);
