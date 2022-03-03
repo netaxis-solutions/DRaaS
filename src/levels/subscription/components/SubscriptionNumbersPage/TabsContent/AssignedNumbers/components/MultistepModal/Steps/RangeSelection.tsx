@@ -14,7 +14,9 @@ import Table from "components/Table";
 
 import { useRangeSelectionStyles } from "./styles";
 
-const RangeSelection: React.FC = () => {
+const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
+  handleCancel,
+}) => {
   const { t } = useTranslation();
   const [amountSelected, setAmountSelected] = useState(0);
   const classes = useRangeSelectionStyles();
@@ -23,7 +25,7 @@ const RangeSelection: React.FC = () => {
     subscriptionID: string;
   }>();
 
-  const { previousChoices } = MultiStepForm;
+  const { previousChoices, setSubmitButtonState } = MultiStepForm;
 
   const maxSelectedAmount =
     previousChoices[0].entitlements.entitlement -
@@ -66,13 +68,18 @@ const RangeSelection: React.FC = () => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addNumber(tenantID, subscriptionID, {
-      countryCode: previousChoices[0].entitlements.countryCode,
-      ranges: selectedRowsValues.map(row => [
-        row.values.rangeStart,
-        row.values.rangeEnd,
-      ]),
-    });
+    addNumber(
+      tenantID,
+      subscriptionID,
+      {
+        countryCode: previousChoices[0].entitlements.countryCode,
+        ranges: selectedRowsValues.map(row => [
+          row.values.rangeStart,
+          row.values.rangeEnd,
+        ]),
+      },
+      handleCancel,
+    );
   };
   useEffect(() => {
     setAmountSelected(
@@ -82,6 +89,16 @@ const RangeSelection: React.FC = () => {
       ),
     );
   }, [selectedRowsValues, selectedRowsValues.length]);
+
+  useEffect(() => {
+    setSubmitButtonState(
+      !Boolean(amountSelected && maxSelectedAmount - amountSelected >= 0),
+    );
+    return () => {
+      MultiStepForm.setSubmitButtonState(false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amountSelected]);
 
   return (
     <form id={"SelectFromInventory"} onSubmit={onSubmit}>

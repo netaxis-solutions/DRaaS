@@ -33,6 +33,7 @@ export type TModalButtonsWrapperProps = {
   cancelIcon?: React.FC;
   formId?: string;
   top?: number | string;
+  submitButtonDisabled?: boolean
 };
 
 export type TDeleteModalProps = {

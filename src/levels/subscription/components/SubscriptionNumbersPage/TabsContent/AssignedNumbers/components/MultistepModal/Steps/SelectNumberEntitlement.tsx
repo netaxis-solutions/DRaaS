@@ -111,6 +111,15 @@ const SelectNumberEntitlement: React.FC = () => {
       ),
     [entitlements],
   );
+
+  useEffect(() => {
+    MultiStepForm.setSubmitButtonState(!Boolean(availableEntitlements.length));
+
+    return () => {
+      MultiStepForm.setSubmitButtonState(false);
+    };
+  }, [availableEntitlements]);
+
   return (
     <form id={"SelectFromInventory"} onSubmit={onSubmit}>
       <Table
