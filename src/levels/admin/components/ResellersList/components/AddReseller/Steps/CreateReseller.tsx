@@ -45,11 +45,12 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
     createReseller,
     resellerOwners,
     getListOwnersResellers,
+    owners,
   } = ResellerStore;
 
   const { loggedInUserLevel } = RoutingConfig;
 
-  const { distributors, getDistributorsData } = DistributorsStore;
+  const { getDistributorsData } = DistributorsStore;
 
   useEffect(() => {
     getDistributorsData();
@@ -68,7 +69,8 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
     if (distributor.value) {
       payload.owner = {
         type: "distributor",
-        uuid: distributors!.find(el => el.name === distributor.label)?.uuid,
+        //@ts-ignore
+        uuid: owners.find(el => el.name).uuid,
       };
     }
     //TODO: Uncomment when multistep form will be impelemented

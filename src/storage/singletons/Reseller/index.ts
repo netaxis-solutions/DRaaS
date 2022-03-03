@@ -16,7 +16,7 @@ import {
 } from "utils/types/resellers";
 
 class ResellerStore {
-  owners: Array<{id: number, name: string, uuid: string, type: string}> = []
+  owners: Array<{ id: number; name: string; uuid: string; type: string }> = [];
 
   constructor() {
     makeAutoObservable(this, {
@@ -48,34 +48,35 @@ class ResellerStore {
   };
 
   getListOwnersResellers = async () => {
-    try{
+    try {
       const data: AxiosResponse<any> = await request({
         route: `${configStore.config.draasInstance}/public/owners?level=reseller`,
         loaderName: "@getListOwners",
-      })
-      const owners = data.data.owners
-      runInAction(()=>{
-        this.owners = owners
-      })
-    }catch(e){
-      console.error(e)
+      });
+      const owners = data.data.owners;
+      runInAction(() => {
+        this.owners = owners;
+      });
+    } catch (e) {
+      console.error(e);
     }
-  }
+  };
 
   get resellerOwners() {
-    console.log(this.owners)
-    return this.owners.map((el: {id: number, name: string, uuid: string, type: string}) => {
-      
-      if(el.name !== undefined){
-      return  {
-          label: el.name,
-          value: el.name
-        }
-      } else return {
-        label: '',
-        value: ''
-      }
-    });
+    return this.owners.map(
+      (el: { id: number; name: string; uuid: string; type: string }) => {
+        if (el.name !== undefined) {
+          return {
+            label: el.name,
+            value: el.name,
+          };
+        } else
+          return {
+            label: "",
+            value: "",
+          };
+      },
+    );
   }
 
   editReseller = ({
