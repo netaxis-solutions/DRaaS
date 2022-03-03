@@ -7,7 +7,7 @@ import { CellProps, TableProps } from "react-table";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import NumbersStore from "storage/singletons/Numbers";
 import EntitlementsStore from "storage/singletons/Entitlements";
-import TablePagination from "storage/singletons/TablePagination";
+// import TablePagination from "storage/singletons/TablePagination";
 
 import { PhoneNumberType } from "utils/types/numbers";
 
@@ -25,8 +25,6 @@ const NumbersList: FC<{
     tenantID: string;
     subscriptionID: string;
   }>();
-
-  const { clearPaginationData } = TablePagination;
 
   const {
     selectedRows,
@@ -75,7 +73,7 @@ const NumbersList: FC<{
               icon: Plus,
               onClick: () => {
                 setModalToOpen("add");
-                clearPaginationData();
+                // clearPaginationData();
               },
             },
           ]

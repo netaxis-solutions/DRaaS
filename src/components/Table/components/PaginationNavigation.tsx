@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import { PaginationNavigationType } from "utils/types/tableConfig";
@@ -18,6 +19,7 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
     tablePrevPage,
     getMinPage,
     getMaxPage,
+    tableConfig,
   } = TablePagination;
 
   const nextPageStore = () => {
@@ -32,24 +34,44 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
 
   return (
     <>
-      <div
-        className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: getMinPage(),
-        })}
-        onClick={prevPageStore}
-      >
-        <ArrowLeft />
-      </div>
-      <div
-        className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: getMaxPage(),
-        })}
-        onClick={nextPageStore}
-      >
-        <ArrowRight />
-      </div>
+      {tableConfig.page !== 1 ? (
+        <div
+          className={clsx(classes.tablePaginationNavigate, {
+            [classes.tablePaginationNavigateDisabled]: getMinPage(),
+          })}
+          onClick={prevPageStore}
+        >
+          <ArrowLeft />
+        </div>
+      ) : (
+        <div
+          className={clsx(classes.tablePaginationNavigate, {
+            [classes.tablePaginationNavigateDisabled]: true,
+          })}
+        >
+          <ArrowLeft />
+        </div>
+      )}
+      {tableConfig.page !== tableConfig.pages ? (
+        <div
+          className={clsx(classes.tablePaginationNavigate, {
+            [classes.tablePaginationNavigateDisabled]: getMaxPage(),
+          })}
+          onClick={nextPageStore}
+        >
+          <ArrowRight />
+        </div>
+      ) : (
+        <div
+          className={clsx(classes.tablePaginationNavigate, {
+            [classes.tablePaginationNavigateDisabled]: true,
+          })}
+        >
+          <ArrowRight />
+        </div>
+      )}
     </>
   );
 };
 
-export default PaginationNavigation;
+export default observer(PaginationNavigation);

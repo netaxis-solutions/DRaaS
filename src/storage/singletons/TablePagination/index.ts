@@ -74,6 +74,10 @@ class TablePagination {
       this.tableConfig = { page: 1, pages: 1 };
     });
   };
+
+  clearTablePagesForModals = () => {
+    this.tableConfig = { page: 1, pages: 1 };
+  };
 }
 
 export default new TablePagination();

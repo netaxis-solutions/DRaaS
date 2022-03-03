@@ -6,6 +6,7 @@ import { TablePaginationType } from "utils/types/tableConfig";
 import PaginationDropdown from "./PaginationDropdown";
 import PaginationNavigation from "./PaginationNavigation";
 import { tablePaginationStyles } from "./styles";
+import { observer } from "mobx-react-lite";
 
 const Pagination: React.FC<TablePaginationType> = ({
   selectedRows,
@@ -51,4 +52,4 @@ const Pagination: React.FC<TablePaginationType> = ({
   );
 };
 
-export default Pagination;
+export default observer(Pagination);
