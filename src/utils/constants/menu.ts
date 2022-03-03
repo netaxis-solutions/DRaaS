@@ -12,7 +12,7 @@ const distributorMenu = [
   { key: "distributorTenants", name: "Tenants" },
   { key: "distributorLicenseConsumption", name: "License Consumption" },
   { key: "distributorRatePlan", name: "Rate Plan" },
-  { key: "distributorAdmins", name: "Admins" },
+  { key: "distributorAdmins", name: "Users" },
   { key: "distributorProfile", name: "Profile" },
 ];
 
@@ -20,7 +20,7 @@ const resellerMenu = [
   { key: "resellerTenants", name: "Tenants" },
   { key: "resellerLicenseConsumption", name: "License Consumption" },
   { key: "resellerRatePlan", name: "Rate Plan" },
-  { key: "resellerAdmins", name: "Admins" },
+  { key: "resellerAdmins", name: "Users" },
   { key: "resellerProfile", name: "Profile" },
 ];
 
