@@ -70,7 +70,7 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
       payload.owner = {
         type: "distributor",
         //@ts-ignore
-        uuid: owners.find(el => el.name).uuid,
+        uuid: owners.find(el => el.name === distributor.value).uuid,
       };
     }
     //TODO: Uncomment when multistep form will be impelemented
