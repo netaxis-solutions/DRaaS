@@ -5,5 +5,5 @@ export const numbersRangeSchema = (selectedName: number) =>
     rangeSize: string()
       .required("")
       .test("name", "", (value?: string) => selectedName >= Number(value)),
-    suggestionsAmount: string(),
+    suggestionsAmount: string().test("", "", value => Number(value) > 0),
   });
