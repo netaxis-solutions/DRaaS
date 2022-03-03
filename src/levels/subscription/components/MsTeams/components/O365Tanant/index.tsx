@@ -48,7 +48,10 @@ const O365Tenant: FC = () => {
     getCheckMsTeamAdmin(tenantID, subscriptionID);
     checkOnboarding(tenantID, subscriptionID);
 
-    return () => clearCashMsTeamAdmin();
+    return () => {
+      MsTeamOnboarding.clearOnboardingProgress();
+      clearCashMsTeamAdmin();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
