@@ -16,7 +16,7 @@ import {
 } from "utils/types/resellers";
 
 class ResellerStore {
-  owners: Array<any> = []
+  owners: Array<{id: number, name: string, uuid: string, type: string}> = []
 
   constructor() {
     makeAutoObservable(this, {
@@ -63,7 +63,9 @@ class ResellerStore {
   }
 
   get resellerOwners() {
-    return this.owners.map((el: any) => {
+    console.log(this.owners)
+    return this.owners.map((el: {id: number, name: string, uuid: string, type: string}) => {
+      
       if(el.name !== undefined){
       return  {
           label: el.name,
