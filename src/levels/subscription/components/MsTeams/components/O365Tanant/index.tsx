@@ -10,13 +10,21 @@ import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { MsTeamLimk } from "components/Icons";
-import StepperMsTeam from "./StepperMsTeam";
 import InfoPage from "./InfoPage";
+import Stepper from "./StepperMsTeam/Stepper";
 
 import { EntitlementsStyle } from "./styles";
 
 const O365Tenant: FC = () => {
-  const { startOnboarding, checkOnboarding } = MsTeamOnboarding;
+  const {
+    startOnboarding,
+    currentStepTenantData,
+    isRunning,
+    checkOnboarding,
+  } = MsTeamOnboarding;
+
+  const [startOnboard, setOnboard] = useState("");
+
   const {
     getMsTeamAdmin,
     msTeamAdmin,
@@ -24,7 +32,6 @@ const O365Tenant: FC = () => {
     getCheckMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdminStorage;
-  const [modalToOpen, setModalToOpen] = useState("");
 
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -37,24 +44,20 @@ const O365Tenant: FC = () => {
 
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
+    currentStepTenantData({ tenantID, subscriptionID });
     getCheckMsTeamAdmin(tenantID, subscriptionID);
+    checkOnboarding(tenantID, subscriptionID);
 
-    return () => clearCashMsTeamAdmin();
+    return () => {
+      MsTeamOnboarding.clearOnboardingProgress();
+      clearCashMsTeamAdmin();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const goToStep = () => {
     startOnboarding(tenantID, subscriptionID);
-    setModalToOpen("startStep");
-  };
-
-  const handleCloseModal = () => {
-    setModalToOpen("");
-  };
-
-  const checkActualStep = () => {
-    checkOnboarding(tenantID, subscriptionID);
-    setModalToOpen("startStep");
+    setOnboard("start");
   };
 
   const disabledButton = msTeamAdmin.id !== null;
@@ -64,6 +67,7 @@ const O365Tenant: FC = () => {
       {checkMsTeamAdmin?.status === "onboarded" ? (
         <InfoPage />
       ) : (
+        !isRunning &&
         checkMsTeamAdmin?.status === "not_initiated" && (
           <div className={classes.root}>
             <span className={classes.title}>
@@ -116,7 +120,7 @@ const O365Tenant: FC = () => {
                 </span>
               </span>
               <div>
-                {!!disabledButton ? (
+                {!!disabledButton && startOnboard === "" ? (
                   <ButtonWithIcon
                     className={classes.buttonConfirm}
                     title={t("Link MS Teams")}
@@ -136,18 +140,12 @@ const O365Tenant: FC = () => {
           </div>
         )
       )}
-      {checkMsTeamAdmin?.status !== "onboarded" &&
-      checkMsTeamAdmin?.status !== "not_initiated" ? (
-        <ButtonWithIcon
-          className={classes.buttonConfirm}
-          title={t("See wizard status")}
-          icon={MsTeamLimk}
-          onClick={() => checkActualStep()}
-        />
+      {startOnboard === "start" || isRunning ? (
+        checkMsTeamAdmin?.status !== "onboarded" &&
+        checkMsTeamAdmin?.status !== "not_initiated" ? (
+          <Stepper />
+        ) : null
       ) : null}
-      {modalToOpen === "startStep" && (
-        <StepperMsTeam handleCancel={handleCloseModal} />
-      )}
     </>
   );
 };

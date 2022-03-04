@@ -72,9 +72,7 @@ export type TMsTeamUserType = {
   draas?: TMsTeamUserDraas;
 };
 
-export type TStartMsTeamModal = {
-  handleCancel: () => void;
-};
+
 
 export type TMsTeamOnboardingSteps = {
   step: number;

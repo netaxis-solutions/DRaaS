@@ -1,6 +1,7 @@
 import { makeObservable, observable, runInAction, reaction } from "mobx";
 
 import configStore from "../../Config";
+import CreateDeleteAdmin from "../CreateDeleteAdmin";
 
 import { request } from "services/api";
 import { t } from "services/Translation";
@@ -10,8 +11,6 @@ import { TMsTeamOnboardingSteps } from "utils/types/msTeam";
 import { AxiosResponse } from "axios";
 
 const DEFAULT_STEPS_INTERVAL = 10000;
-const HARDCODED_ID = "49fed14a-549a-48c4-98dd-14efe6454503";
-const HARDCODED_SUBSCRIPTION_ID = "60";
 
 class MsTeamOnboarding {
   transactionID: number = 0;
@@ -19,6 +18,7 @@ class MsTeamOnboarding {
   isRunning: boolean = false;
   isError: boolean = false;
   msTeamInterval: number = 0;
+  currentStepTenant: { subscriptionID: string; tenantID: string } | null = null;
 
   constructor() {
     makeObservable(this, {
@@ -36,7 +36,18 @@ class MsTeamOnboarding {
       () => this.transactionID,
       transactionID => {
         if (transactionID > 0) {
-          this.checkOnboarding(HARDCODED_ID, HARDCODED_SUBSCRIPTION_ID);
+          setTimeout(() => {
+            this.currentStepTenant &&
+              this.checkOnboarding(
+                this.currentStepTenant.tenantID,
+                this.currentStepTenant.subscriptionID,
+              );
+            this.currentStepTenant &&
+              CreateDeleteAdmin.getCheckMsTeamAdmin(
+                this.currentStepTenant.tenantID,
+                this.currentStepTenant.subscriptionID,
+              );
+          }, 3000);
         }
       },
     );
@@ -48,9 +59,13 @@ class MsTeamOnboarding {
     reaction(
       () => this.isRunning,
       isRunning => {
-        if (isRunning) {
+        if (isRunning && !this.isError) {
           checkingStepsTimer = setInterval(() => {
-            this.checkOnboarding(HARDCODED_ID, HARDCODED_SUBSCRIPTION_ID);
+            this.currentStepTenant &&
+              this.checkOnboarding(
+                this.currentStepTenant.tenantID,
+                this.currentStepTenant.subscriptionID,
+              );
           }, this.msTeamInterval);
         } else {
           clearInterval(checkingStepsTimer);
@@ -73,13 +88,22 @@ class MsTeamOnboarding {
     return this.currentStep + (this.isRunning ? 1 : 5);
   }
 
+  currentStepTenantData = (payload: {
+    subscriptionID: string;
+    tenantID: string;
+  }) => {
+    runInAction(() => {
+      this.currentStepTenant = payload;
+    });
+  };
+
   checkOnboarding = async (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
     })
       .then((data: AxiosResponse<any>) => {
-        const isRunning = data?.data.running;
-        const checkOnboardingData = data?.data.wizardSteps;
+        const isRunning = data.data.running;
+        const checkOnboardingData = data.data.wizardSteps;
 
         runInAction(() => {
           this.isError = false;
@@ -88,7 +112,7 @@ class MsTeamOnboarding {
           this.msTeamInterval =
             configStore.config.msTeamInterval || DEFAULT_STEPS_INTERVAL;
         });
-        if (!isRunning) {
+        if (!isRunning && this.currentStep > 7) {
           successNotification(t("MS Teams was linked to the platform"));
         }
       })
@@ -101,18 +125,35 @@ class MsTeamOnboarding {
   startOnboarding = (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
+      loaderName: "@postStartOnboarding",
       method: "post",
     }).then((data: AxiosResponse<any>) => {
       const transactionID = data.data.id;
+
       runInAction(() => {
         this.transactionID = transactionID;
       });
+      setTimeout(() => {
+        this.checkOnboarding(tenantID, subscriptionID);
+        CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
+      }, 5000);
+    });
+  };
+
+  cleanUpOnboarding = (tenantID: string, subscriptionID: string) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/unlink`,
+      loaderName: "@unlinkOnboarding",
+      method: "post",
+    }).then(() => {
+      CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
     });
   };
 
   clearOnboardingProgress = () => {
     this.checkOnboardingData = [];
     this.isRunning = false;
+    this.isError = false;
   };
 }
 

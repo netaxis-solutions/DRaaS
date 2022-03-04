@@ -2,11 +2,15 @@ import { FC, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import Onboarding from "storage/singletons/MsTeams/Onboarding";
 
 import FormInput from "components/common/Form/FormInput";
 import { SuccessCircle } from "components/Icons";
+import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
+import { Unlink } from "components/Icons";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -14,13 +18,18 @@ const InfoPage: FC = () => {
   const classes = EntitlementsStyle();
 
   const { t } = useTranslation();
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
 
   const { checkMsTeamAdmin, getCheckMsTeamAdmin } = MsTeamAdminStorage;
+  const { cleanUpOnboarding } = Onboarding;
 
   const { control } = useForm<{ domain: string; tenantID: string }>({});
 
   useEffect(() => {
-    getCheckMsTeamAdmin("49fed14a-549a-48c4-98dd-14efe6454503", "60");
+    getCheckMsTeamAdmin(tenantID, subscriptionID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,7 +45,7 @@ const InfoPage: FC = () => {
               {...field}
               {...props}
               default
-              value={checkMsTeamAdmin?.domain || "Domain"}
+              value={checkMsTeamAdmin?.domain.name || ""}
             />
           )}
         />
@@ -49,7 +58,7 @@ const InfoPage: FC = () => {
               {...field}
               {...props}
               default
-              value={checkMsTeamAdmin?.msTenantId || t("TenantID")}
+              value={checkMsTeamAdmin?.msTenantId || ""}
             />
           )}
         />
@@ -62,10 +71,7 @@ const InfoPage: FC = () => {
           </span>
           <div>
             <span>{t("Powershell integration")}</span>
-            <span>
-              {checkMsTeamAdmin?.powershell?.msUserName ||
-                "christophe.bury@netaxis.be"}
-            </span>
+            <span>{checkMsTeamAdmin?.powershell?.msUserName || ""}</span>
           </div>
         </div>
         <div>
@@ -75,9 +81,17 @@ const InfoPage: FC = () => {
           </span>
           <div>
             <span>{t("Microsoft graph integration")}</span>
-            <span>cdfd967f-6a92-4234-808a-5dd2047dc61a</span>
+            <span>{checkMsTeamAdmin?.msGraph?.msApplicationId || ""}</span>
           </div>
         </div>
+      </div>
+      <div className={classes.buttonUnlinkPositions}>
+        <ButtonWithIcon
+          className={classes.buttonUnlink}
+          title={t("Unlink your tenant now")}
+          icon={Unlink}
+          onClick={() => cleanUpOnboarding(tenantID, subscriptionID)}
+        />
       </div>
     </div>
   );

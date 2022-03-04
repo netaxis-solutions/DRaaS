@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -11,11 +11,8 @@ import LinearProgress from "@mui/material/LinearProgress";
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
-import { TStartMsTeamModal } from "utils/types/msTeam";
-
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Cross, Reload } from "components/Icons";
-import CancelMsTeamStepper from "./CancelModal";
+import { Reload } from "components/Icons";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -45,10 +42,8 @@ const steps = [
   },
 ];
 
-const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
+const StepperStart: FC = () => {
   const { t } = useTranslation();
-
-  const [modalToOpen, setModalToOpen] = useState("");
 
   const classes = EntitlementsStyle();
 
@@ -62,17 +57,18 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
   const {
     currentStep,
     activeStep,
-    checkOnboardingData,
     checkOnboarding,
+    startOnboarding,
     clearOnboardingProgress,
     isError,
+    isRunning,
   } = MsTeamOnboarding;
 
   useEffect(
     () => {
+      checkOnboarding(tenantID, subscriptionID);
       return () => {
         if (MsTeamOnboarding.activeStep >= 7) {
-          handleCancel();
           getCheckMsTeamAdmin(tenantID, subscriptionID);
           clearOnboardingProgress();
         }
@@ -87,81 +83,49 @@ const StepperStart: FC<TStartMsTeamModal> = ({ handleCancel }) => {
       ? steps[steps.length - 1]
       : steps[currentStep + 1];
 
-  const handleCloseModal = () => {
-    setModalToOpen("");
-  };
-
-  const handleCancelModal = () => {
-    setModalToOpen("cancel");
-  };
-
   return (
     <>
-      <div className={classes.buttonCancel}>
-        <ButtonWithIcon
-          title={t("Cancel")}
-          icon={Cross}
-          onClick={handleCancelModal}
-        />
-      </div>
-
-      {checkOnboardingData.length > 0 ? (
-        <div className={classes.StepperWrapper}>
-          <Stepper
-            activeStep={activeStep}
-            orientation="vertical"
-            className={classes.StepperRoot}
-          >
-            {steps.map(step => (
-              <Step className={classes.Step} key={step.label}>
-                <StepLabel className={classes.StepperLabel}>
-                  <span> {step.label}</span>
-                </StepLabel>
-                <StepContent className={classes.StepperContent}>
-                  {isError ? (
-                    <div className={classes.isError}>
-                      <div className={classes.isErrorNote}>
-                        <span>
-                          {" "}
-                          {t("Setting up the")}
-                          {errorInActiveStep.label.replace(/^\d+/, "")}
-                          {t("failed")}.{t("You can retry setting up")}.{" "}
-                        </span>
-                      </div>
-                      <ButtonWithIcon
-                        title={t("Retry")}
-                        className={classes.buttonRetry}
-                        icon={Reload}
-                        onClick={() =>
-                          checkOnboarding(
-                            "49fed14a-549a-48c4-98dd-14efe6454503",
-                            "60",
-                          )
-                        }
-                      ></ButtonWithIcon>
+      <div className={classes.StepperWrapper}>
+        <Stepper
+          activeStep={activeStep}
+          orientation="vertical"
+          className={classes.StepperRoot}
+        >
+          {steps.map(step => (
+            <Step className={classes.Step} key={step.label}>
+              <StepLabel className={classes.StepperLabel}>
+                <span> {step.label}</span>
+              </StepLabel>
+              <StepContent className={classes.StepperContent}>
+                {isError || (!isRunning && activeStep < 7) ? (
+                  <div className={classes.isError}>
+                    <div className={classes.isErrorNote}>
+                      <span>
+                        {" "}
+                        {t("Setting up the")}
+                        {errorInActiveStep.label.replace(/^\d+/, "")}{" "}
+                        {t("failed")}.{t("You can retry setting up")}.{" "}
+                      </span>
                     </div>
-                  ) : (
-                    <>
-                      <div className={classes.progressIndicate}>
-                        <LinearProgress className={classes.progressIndicate} />
-                      </div>
-                    </>
-                  )}
-                </StepContent>
-              </Step>
-            ))}
-          </Stepper>
-        </div>
-      ) : (
-        <></>
-      )}
-
-      {modalToOpen === "cancel" && (
-        <CancelMsTeamStepper
-          handleCloseModal={handleCloseModal}
-          handleDelete={handleCancel}
-        />
-      )}
+                    <ButtonWithIcon
+                      title={t("Retry")}
+                      className={classes.buttonRetry}
+                      icon={Reload}
+                      onClick={() => startOnboarding(tenantID, subscriptionID)}
+                    ></ButtonWithIcon>
+                  </div>
+                ) : (
+                  <>
+                    <div className={classes.progressIndicate}>
+                      <LinearProgress className={classes.progressIndicate} />
+                    </div>
+                  </>
+                )}
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+      </div>
     </>
   );
 };
