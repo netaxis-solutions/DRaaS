@@ -86,7 +86,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
       clearSelectedRowsValue();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filteredDataEntitlementTypes.length]);
+  }, []);
 
   const onSubmit: SubmitHandler<CreateNewEntitlement> = () => {
     createEntitlement(tenantID, subscriptionID, {
