@@ -15,7 +15,8 @@
       "text": "#828282",
       "hover": "#F5F7FF",
       "alertBackground": "#FDECEB",
-      "alertBorder":"#EE594D"
+      "alertBorder":"#EE594D",
+      "progressBarBackground":"#C4C4C4"
     },
     "status": {
       "alert": "#FF8800",

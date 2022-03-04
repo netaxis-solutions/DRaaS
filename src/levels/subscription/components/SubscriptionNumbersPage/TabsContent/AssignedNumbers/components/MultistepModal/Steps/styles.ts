@@ -36,20 +36,20 @@ export const useEntitlementCardStyles = makeStyles(
   }),
 );
 
-export const useProgressBarStyles = makeStyles(() => ({
-  progressBar: {
-    background:
-      "linear-gradient(90deg, #8DB338 0%, #FF8800 50.02%, #E60000 100%);",
-    borderRadius: 2,
-    "& > div": {
-      background: "#C4C4C4",
-      transform: (props: { percentOfUnavailable?: string | number }) => {
-        console.log(props);
-        return `translateX(${props.percentOfUnavailable}%) !important`;
+export const useProgressBarStyles = makeStyles(
+  (theme: ThemeDefaultOptions) => ({
+    progressBar: {
+      background:
+        "linear-gradient(90deg, #8DB338 0%, #FF8800 50.02%, #E60000 100%);",
+      borderRadius: 2,
+      "& > div": {
+        background: theme.palette.secondary.progressBarBackground,
+        transform: (props: { percentOfUnavailable: number }) =>
+          `translateX(${100 - props.percentOfUnavailable}%) !important`,
       },
     },
-  },
-}));
+  }),
+);
 
 export const useRangeSettingsStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
