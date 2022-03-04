@@ -54,7 +54,11 @@ class MsTeamOnboarding {
       isRunning => {
         if (isRunning) {
           checkingStepsTimer = setInterval(() => {
-            this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant.tenantID, this.currentStepTenant.subscriptionID);
+            this.currentStepTenant &&
+              this.checkOnboarding(
+                this.currentStepTenant.tenantID,
+                this.currentStepTenant.subscriptionID,
+              );
           }, this.msTeamInterval);
         } else {
           clearInterval(checkingStepsTimer);
