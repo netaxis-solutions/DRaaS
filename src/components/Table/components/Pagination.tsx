@@ -18,6 +18,7 @@ const Pagination: React.FC<TablePaginationType> = ({
   canNextPage,
   canPreviousPage,
   isRadioButton,
+  data,
 }) => {
   const classes = tablePaginationStyles();
   const { t } = useTranslation();
@@ -46,7 +47,7 @@ const Pagination: React.FC<TablePaginationType> = ({
         />
         {!tableWithOutServerPagination ? (
           <span className={classes.tablePaginationPageNumber}>
-            {t("of", { page, pages })}
+            {!!data.length ? t("of", { page, pages }) : `1 ${t("of")} 1`}
           </span>
         ) : (
           <span className={classes.tablePaginationPageNumber}>

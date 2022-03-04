@@ -401,6 +401,7 @@ const Table: FC<TableProps> = ({
         isRadioButton={radioButton}
         setPageSize={setPageSize}
         pageCount={pageCount}
+        data={page}
         pageNumber={state.pageIndex + 1}
         previousPage={previousPage}
         checkbox={checkbox}

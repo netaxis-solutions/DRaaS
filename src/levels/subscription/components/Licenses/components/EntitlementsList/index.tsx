@@ -46,7 +46,7 @@ const EntitlementList: FC = () => {
     deleteEntitlement,
   } = EntitlementsStore;
 
-  const { clearTablePagesForModals, clearPaginationData } = TablePagination;
+  const { clearTablePagesForModals } = TablePagination;
 
   const {
     selectedRows,
@@ -134,11 +134,11 @@ const EntitlementList: FC = () => {
     getEntitlements(tenantID, subscriptionID);
     getEntitlementTypes();
     clearTablePagesForModals(entitlements);
-    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entitlements.length]);
 
   const handleCloseModal = () => {
+    clearTablePagesForModals(entitlements);
     setModalToOpen("");
   };
 

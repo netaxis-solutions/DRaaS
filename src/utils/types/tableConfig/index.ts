@@ -116,4 +116,5 @@ export type TablePaginationType = PaginationDropdownType &
     pageCount: number;
     pageNumber: number;
     checkbox: boolean;
+    data: Array<TableData>;
   };

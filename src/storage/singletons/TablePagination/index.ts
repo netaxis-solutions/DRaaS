@@ -40,7 +40,14 @@ class TablePagination {
   }, 1000);
 
   tableDropDown = (payload: number) => {
-    this.tablePageSize = payload;
+    runInAction(() => {
+      if (payload !== 100) {
+        this.tablePageSize = payload;
+      } else {
+        this.tablePageSize = payload;
+        this.tablePageCounter = 1;
+      }
+    });
   };
 
   getTableConfig = (payload: {
@@ -79,7 +86,6 @@ class TablePagination {
 
   clearTablePagesForModals = (params: Array<any>) => {
     const param = Math.ceil(params.length / 10);
-
     if (param) {
       this.tableWithOutServerPagination = true;
     }
