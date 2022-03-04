@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 
 import NumbersStore from "storage/singletons/Numbers";
 import RoutingConfig from "storage/singletons/RoutingConfig";
-import TablePagination from "storage/singletons/TablePagination";
 import EntitlementsStore from "storage/singletons/Entitlements";
 
 import SelectFromInventory from "./components/MultistepModal";
@@ -24,13 +23,6 @@ const MyNumbers = () => {
   }>();
   const classes = styles();
   const [isModalOpened, setModal] = useState(false);
-
-  const {
-    tablePageCounter,
-    tablePageSize,
-    search,
-    clearPaginationData,
-  } = TablePagination;
 
   const { history } = RoutingConfig;
   const { numbers, getNumbersData, clearNumbers } = NumbersStore;
@@ -52,20 +44,7 @@ const MyNumbers = () => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    clearNumbers,
-    getNumbersData,
-    subscriptionID,
-    tenantID,
-    tablePageCounter,
-    tablePageSize,
-    search,
-  ]);
-
-  useEffect(() => {
-    return () => clearPaginationData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [clearNumbers, getNumbersData, subscriptionID, tenantID]);
 
   const handleModalClose = () => {
     setModal(false);
@@ -73,7 +52,7 @@ const MyNumbers = () => {
 
   return numbers.length ? (
     <div>
-      <MyNumbersTable numbers={numbers} />
+      <MyNumbersTable />
     </div>
   ) : (
     <>
