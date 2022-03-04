@@ -57,11 +57,25 @@ const NumberInventory: React.FC = () => {
     () => [
       {
         Header: t("Range from"),
-        accessor: "rangeStart",
+        Cell: ({ row }: CellProps<TableData>) => {
+          return (
+            <div>
+              {row.original.countryCode}
+              {row.original.rangeStart}
+            </div>
+          );
+        },
       },
       {
         Header: t("Range to"),
-        accessor: "rangeEnd",
+        Cell: ({ row }: CellProps<TableData>) => {
+          return (
+            <div>
+              {row.original.countryCode}
+              {row.original.rangeEnd}
+            </div>
+          );
+        },
       },
       {
         Header: t("Available entitlements"),
@@ -115,6 +129,7 @@ const NumberInventory: React.FC = () => {
     () =>
       numberInventoryRanges.filter(
         range =>
+          range.nbAvailable > 0 &&
           range.countryCode === entitlement.countryCode &&
           (range.numberType === entitlement.numberType ||
             entitlement.numberType === "*"),
