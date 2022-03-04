@@ -6,6 +6,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
 
 import ResellerStore from "storage/singletons/Reseller";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 //TODO: Uncomment when multistep form will be impelemented
 // import MultiStepForm from "storage/singletons/MultiStepForm";
 import DistributorsStore from "storage/singletons/Distributors";
@@ -40,15 +41,20 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
 
   //TODO: Uncomment when multistep form will be impelemented
   // const { goNext, goBack } = MultiStepForm;
-  const { createReseller } = ResellerStore;
   const {
-    distributors,
-    distributorsForResellerCreation,
-    getDistributorsData,
-  } = DistributorsStore;
+    createReseller,
+    resellerOwners,
+    getListOwnersResellers,
+    owners,
+  } = ResellerStore;
+
+  const { loggedInUserLevel } = RoutingConfig;
+
+  const { getDistributorsData } = DistributorsStore;
 
   useEffect(() => {
     getDistributorsData();
+    getListOwnersResellers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,10 +67,10 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
       ? { markup: +markup, ...values }
       : { ...values };
     if (distributor.value) {
-      payload.owner = {
-        type: "distributor",
-        uuid: distributors!.find(el => el.name === distributor.label)?.uuid,
-      };
+        payload.owner = {
+          type: "distributor",
+          uuid: owners!.find(el => el.name === distributor.value)?.uuid,
+        };
     }
     //TODO: Uncomment when multistep form will be impelemented
     // createReseller({ payload, callback: goNext });
@@ -119,19 +125,21 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
           />
         )}
       />
-      <Controller
-        name="distributor"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormSelect
-            label={t("Distributor")}
-            options={distributorsForResellerCreation}
-            {...field}
-            {...props}
-            className={classes.createResellerInput}
-          />
-        )}
-      />
+      {loggedInUserLevel === "system" ? (
+        <Controller
+          name="distributor"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormSelect
+              label={t("Distributor")}
+              options={resellerOwners}
+              {...field}
+              {...props}
+              className={classes.createResellerInput}
+            />
+          )}
+        />
+      ) : null}
       <Controller
         name="markup"
         control={control}
