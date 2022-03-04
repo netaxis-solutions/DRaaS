@@ -15,61 +15,46 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
   const classes = paginationNavigationStyles();
 
   const {
+    tableWithOutServerPagination,
     tableNextPage,
     tablePrevPage,
     getMinPage,
     getMaxPage,
-    tableConfig,
   } = TablePagination;
 
   const nextPageStore = () => {
-    nextPage();
-    tableNextPage();
+    if (!tableWithOutServerPagination) {
+      nextPage();
+      tableNextPage();
+    } else return nextPage();
   };
 
   const prevPageStore = () => {
-    previousPage();
-    tablePrevPage();
+    if (!tableWithOutServerPagination) {
+      previousPage();
+      tablePrevPage();
+    } else return previousPage();
   };
 
   return (
     <>
-      {tableConfig.page !== 1 ? (
-        <div
-          className={clsx(classes.tablePaginationNavigate, {
-            [classes.tablePaginationNavigateDisabled]: getMinPage(),
-          })}
-          onClick={prevPageStore}
-        >
-          <ArrowLeft />
-        </div>
-      ) : (
-        <div
-          className={clsx(classes.tablePaginationNavigate, {
-            [classes.tablePaginationNavigateDisabled]: true,
-          })}
-        >
-          <ArrowLeft />
-        </div>
-      )}
-      {tableConfig.page !== tableConfig.pages ? (
-        <div
-          className={clsx(classes.tablePaginationNavigate, {
-            [classes.tablePaginationNavigateDisabled]: getMaxPage(),
-          })}
-          onClick={nextPageStore}
-        >
-          <ArrowRight />
-        </div>
-      ) : (
-        <div
-          className={clsx(classes.tablePaginationNavigate, {
-            [classes.tablePaginationNavigateDisabled]: true,
-          })}
-        >
-          <ArrowRight />
-        </div>
-      )}
+      <div
+        className={clsx(classes.tablePaginationNavigate, {
+          [classes.tablePaginationNavigateDisabled]: getMinPage(),
+        })}
+        onClick={prevPageStore}
+      >
+        <ArrowLeft />
+      </div>
+
+      <div
+        className={clsx(classes.tablePaginationNavigate, {
+          [classes.tablePaginationNavigateDisabled]: getMaxPage(),
+        })}
+        onClick={nextPageStore}
+      >
+        <ArrowRight />
+      </div>
     </>
   );
 };

@@ -62,6 +62,7 @@ const Table: FC<TableProps> = ({
     getTableBodyProps,
     headerGroups,
     prepareRow,
+    setGlobalFilter,
     page,
     state,
     setPageSize,
@@ -376,6 +377,8 @@ const Table: FC<TableProps> = ({
     <>
       <Toolbar
         title={title}
+        setGlobalFilter={setGlobalFilter}
+        value={state.globalFilter}
         toolbarActions={
           toolbarActions
             ? deleteAvailable

@@ -6,6 +6,7 @@ class TablePagination {
   tablePageSize: number = 10;
   search: string = "";
   liveSearch: string = "";
+  tableWithOutServerPagination: boolean = false;
   tableConfig: { page: number; pages: number } = { page: 1, pages: 1 };
 
   constructor() {
@@ -71,12 +72,19 @@ class TablePagination {
       this.tablePageSize = 10;
       this.search = "";
       this.liveSearch = "";
+      this.tableWithOutServerPagination = false;
       this.tableConfig = { page: 1, pages: 1 };
     });
   };
 
-  clearTablePagesForModals = () => {
-    this.tableConfig = { page: 1, pages: 1 };
+  clearTablePagesForModals = (params: Array<any>) => {
+    const param = Math.ceil(params.length / 10);
+
+    if (param) {
+      this.tableWithOutServerPagination = true;
+    }
+
+    this.tableConfig = { page: 1, pages: param };
   };
 }
 

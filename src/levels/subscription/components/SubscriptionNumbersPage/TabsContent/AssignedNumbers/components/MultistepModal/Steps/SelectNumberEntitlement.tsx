@@ -92,9 +92,9 @@ const SelectNumberEntitlement: React.FC = () => {
 
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID);
-    clearTablePagesForModals();
+    clearTablePagesForModals(availableEntitlements);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subscriptionID, tenantID]);
+  }, [subscriptionID, tenantID, entitlements.length]);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
