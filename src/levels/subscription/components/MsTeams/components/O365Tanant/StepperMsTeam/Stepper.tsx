@@ -11,9 +11,8 @@ import LinearProgress from "@mui/material/LinearProgress";
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
-
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import {  Reload } from "components/Icons";
+import { Reload } from "components/Icons";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -45,7 +44,6 @@ const steps = [
 
 const StepperStart: FC = () => {
   const { t } = useTranslation();
-
 
   const classes = EntitlementsStyle();
 

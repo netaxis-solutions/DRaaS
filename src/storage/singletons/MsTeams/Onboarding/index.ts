@@ -12,14 +12,13 @@ import { AxiosResponse } from "axios";
 
 const DEFAULT_STEPS_INTERVAL = 10000;
 
-
 class MsTeamOnboarding {
   transactionID: number = 0;
   checkOnboardingData: Array<TMsTeamOnboardingSteps> = [];
   isRunning: boolean = false;
   isError: boolean = false;
   msTeamInterval: number = 0;
-  currentStepTenant: {subscriptionID: string, tenantID: string} | null = null
+  currentStepTenant: { subscriptionID: string; tenantID: string } | null = null;
 
   constructor() {
     makeObservable(this, {
@@ -36,11 +35,19 @@ class MsTeamOnboarding {
     reaction(
       () => this.transactionID,
       transactionID => {
-        if (transactionID > 0 ) {
-          setTimeout(()=>{
-            this.currentStepTenant &&  this.checkOnboarding(this.currentStepTenant.tenantID, this.currentStepTenant.subscriptionID);
-            this.currentStepTenant && CreateDeleteAdmin.getCheckMsTeamAdmin(this.currentStepTenant.tenantID, this.currentStepTenant.subscriptionID);
-          }, 3000)
+        if (transactionID > 0) {
+          setTimeout(() => {
+            this.currentStepTenant &&
+              this.checkOnboarding(
+                this.currentStepTenant.tenantID,
+                this.currentStepTenant.subscriptionID,
+              );
+            this.currentStepTenant &&
+              CreateDeleteAdmin.getCheckMsTeamAdmin(
+                this.currentStepTenant.tenantID,
+                this.currentStepTenant.subscriptionID,
+              );
+          }, 3000);
         }
       },
     );
@@ -67,8 +74,6 @@ class MsTeamOnboarding {
     );
   }
 
-
-
   get currentStep() {
     const { checkOnboardingData } = this;
     for (let i = checkOnboardingData.length; i--; ) {
@@ -83,11 +88,14 @@ class MsTeamOnboarding {
     return this.currentStep + (this.isRunning ? 1 : 5);
   }
 
-  currentStepTenantData = ( payload : {subscriptionID: string, tenantID: string} )=>{
-    runInAction(()=>{
-      this.currentStepTenant = payload
-    })
-  }
+  currentStepTenantData = (payload: {
+    subscriptionID: string;
+    tenantID: string;
+  }) => {
+    runInAction(() => {
+      this.currentStepTenant = payload;
+    });
+  };
 
   checkOnboarding = async (tenantID: string, subscriptionID: string) => {
     request({
@@ -96,7 +104,7 @@ class MsTeamOnboarding {
       .then((data: AxiosResponse<any>) => {
         const isRunning = data.data.running;
         const checkOnboardingData = data.data.wizardSteps;
-        
+
         runInAction(() => {
           this.isError = false;
           this.isRunning = isRunning;
@@ -117,30 +125,29 @@ class MsTeamOnboarding {
   startOnboarding = (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
-      loaderName:"@postStartOnboarding",
+      loaderName: "@postStartOnboarding",
       method: "post",
     }).then((data: AxiosResponse<any>) => {
       const transactionID = data.data.id;
-      
+
       runInAction(() => {
         this.transactionID = transactionID;
       });
-      setTimeout(()=>{
-        this.checkOnboarding(tenantID, subscriptionID)
+      setTimeout(() => {
+        this.checkOnboarding(tenantID, subscriptionID);
         CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
-
-      }, 5000)
+      }, 5000);
     });
   };
 
-  cleanUpOnboarding =  (tenantID: string, subscriptionID: string) => {
+  cleanUpOnboarding = (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/unlink`,
-      loaderName:"@unlinkOnboarding",
+      loaderName: "@unlinkOnboarding",
       method: "post",
-    }).then(()=>{
-      CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID)
-    })
+    }).then(() => {
+      CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
+    });
   };
 
   clearOnboardingProgress = () => {

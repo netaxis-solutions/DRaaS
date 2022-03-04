@@ -39,11 +39,11 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     color: "#4975E5",
     textDecoration: "none",
   },
-  buttonUnlinkPositions:{
-    display: 'flex',
-    justifyContent: 'end',
+  buttonUnlinkPositions: {
+    display: "flex",
+    justifyContent: "end",
   },
-  buttonUnlink:{
+  buttonUnlink: {
     background: theme.palette.status.error,
     color: theme.palette.primary.white,
     width: 250,
