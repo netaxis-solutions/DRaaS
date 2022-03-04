@@ -57,6 +57,8 @@ const Pagination: React.FC<TablePaginationType> = ({
         <PaginationNavigation
           previousPage={previousPage}
           nextPage={nextPage}
+          pageCount={pageCount}
+          pageNumber={pageNumber}
           canNextPage={canNextPage}
           canPreviousPage={canPreviousPage}
         />

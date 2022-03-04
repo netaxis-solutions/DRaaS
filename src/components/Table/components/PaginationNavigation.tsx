@@ -11,6 +11,8 @@ import { paginationNavigationStyles } from "./styles";
 const PaginationNavigation: React.FC<PaginationNavigationType> = ({
   previousPage,
   nextPage,
+  pageCount,
+  pageNumber,
 }) => {
   const classes = paginationNavigationStyles();
 
@@ -40,7 +42,9 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
     <>
       <div
         className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: getMinPage(),
+          [classes.tablePaginationNavigateDisabled]:
+            (!tableWithOutServerPagination && getMinPage()) ||
+            (tableWithOutServerPagination && pageNumber === 1),
         })}
         onClick={prevPageStore}
       >
@@ -49,7 +53,9 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
 
       <div
         className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: getMaxPage(),
+          [classes.tablePaginationNavigateDisabled]:
+            (!tableWithOutServerPagination && getMaxPage()) ||
+            (tableWithOutServerPagination && pageNumber === pageCount),
         })}
         onClick={nextPageStore}
       >

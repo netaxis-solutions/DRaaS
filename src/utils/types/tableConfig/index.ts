@@ -98,6 +98,8 @@ export type PaginationNavigationType = {
   canNextPage: boolean;
   canPreviousPage: boolean;
   isRadioButton?: boolean;
+  pageNumber: number;
+  pageCount: number;
 };
 export type RadioSelectRowType = {
   /*  Note
