@@ -35,7 +35,7 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     previousChoices[0].entitlements.assigned;
 
   const { selectedRowsValues } = TableSelectedRowsStore;
-  const { clearTablePagesForModals } = TablePagination;
+  const { clearTablePagesForModals, clearPaginationData } = TablePagination;
   const { numberSuggestions, addNumber } = Numbers;
 
   const rangeSize = Number(previousChoices[2].suggestionsSetting.rangeSize);
@@ -108,6 +108,7 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
         0,
       ),
     );
+    return () => clearPaginationData();
   }, [selectedRowsValues, selectedRowsValues.length, numberSuggestions.length]);
 
   useEffect(() => {

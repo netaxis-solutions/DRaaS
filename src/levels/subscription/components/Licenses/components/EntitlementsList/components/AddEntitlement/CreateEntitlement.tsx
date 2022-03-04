@@ -38,7 +38,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     clearSelectedRowsValue,
   } = TableSelectedRowsStore;
 
-  const { clearTablePagesForModals } = TablePagination;
+  const { clearTablePagesForModals, clearPaginationData } = TablePagination;
 
   const {
     getEntitlementTypes,
@@ -84,6 +84,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     return function cleanup() {
       clearSelectedRows();
       clearSelectedRowsValue();
+      clearPaginationData();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -31,7 +31,7 @@ const NumberInventory: React.FC = () => {
   } = MultiStepForm;
   const { radioButtonValueInRow } = TableSelectedRows;
 
-  const { clearTablePagesForModals } = TablePagination;
+  const { clearTablePagesForModals, clearPaginationData } = TablePagination;
 
   const entitlement: EntitlementsListType = previousChoices[0].entitlements;
 
@@ -115,6 +115,7 @@ const NumberInventory: React.FC = () => {
   useEffect(() => {
     clearTablePagesForModals(availableRanges);
     getNumbersInventoryRanges();
+    return () => clearPaginationData();
   }, [getNumbersInventoryRanges, numberInventoryRanges.length]);
 
   const onSubmit = (event: React.FormEvent) => {
