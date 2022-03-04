@@ -69,7 +69,6 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
     if (distributor.value) {
       payload.owner = {
         type: "distributor",
-        //@ts-ignore
         uuid: owners.find(el => el.name === distributor.value).uuid,
       };
     }
