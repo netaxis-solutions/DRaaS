@@ -105,7 +105,7 @@ const StepperStart: FC = () => {
                       <span>
                         {" "}
                         {t("Setting up the")}
-                        {errorInActiveStep.label.replace(/^\d+/, "")}
+                        {errorInActiveStep.label.replace(/^\d+/, "")}{" "}
                         {t("failed")}.{t("You can retry setting up")}.{" "}
                       </span>
                     </div>

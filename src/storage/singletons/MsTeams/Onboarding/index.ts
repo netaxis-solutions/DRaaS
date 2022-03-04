@@ -52,7 +52,7 @@ class MsTeamOnboarding {
     reaction(
       () => this.isRunning,
       isRunning => {
-        if (isRunning) {
+        if (isRunning && !this.isError) {
           checkingStepsTimer = setInterval(() => {
             this.currentStepTenant &&
               this.checkOnboarding(
