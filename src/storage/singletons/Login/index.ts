@@ -177,10 +177,6 @@ class Login {
   };
 
   logout = async () => {
-    localStorage.removeItem(`${configStore.config.name}_accessToken`);
-    localStorage.removeItem(`${configStore.config.name}_refreshToken`);
-    sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
-    sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
     await publicLoginRequest({
       loaderName: "@logoutLoader",
       method: "get",
@@ -188,6 +184,12 @@ class Login {
     }).catch(e => {
       errorNotification(e);
     });
+
+    localStorage.removeItem(`${configStore.config.name}_accessToken`);
+    localStorage.removeItem(`${configStore.config.name}_refreshToken`);
+    sessionStorage.removeItem(`${configStore.config.name}_accessToken`);
+    sessionStorage.removeItem(`${configStore.config.name}_refreshToken`);
+
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };
 
@@ -205,6 +207,12 @@ class Login {
       route: "/system/users/local",
     })
       .then(({ data }: RoutingConfigType) => {
+        if (!data.admin_of.length) {
+          errorNotification(t("you don't have a valid user profile"));
+          this.logout();
+          return;
+        }
+
         const level = data.admin_of[0].level;
         RoutingConfig.setLoggedUser(level, level);
 
