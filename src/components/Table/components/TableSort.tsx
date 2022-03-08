@@ -14,8 +14,8 @@ const TableSort: React.FC<TableSortPropsType> = ({ column }) => {
       IconComponent={SortIcon}
       classes={{
         root: clsx(classes.tableSortWrapper, {
-          [classes.tableSortWrapperIsSorted]: column.isSorted
-        })
+          [classes.tableSortWrapperIsSorted]: column.isSorted,
+        }),
       }}
     />
   );

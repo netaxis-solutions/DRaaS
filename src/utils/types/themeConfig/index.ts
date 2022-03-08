@@ -20,6 +20,9 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
 export type ThemeDefaultOptions = Theme & {
   palette: PaletteDefaultOptionsType;
   spacing: SpacingOptions | ((num: number) => number);
+  body: any;
+  top_bar: any;
+  side_bar: any;
 };
 
 export type DeepCloneThemeType = (

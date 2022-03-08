@@ -49,12 +49,206 @@
       "hover": "#C2C3E8",
       "active": "#484CBA",
       "main": "#828282"
+    }
+  },
+  "body":{
+    "background":"#FFFFFF",
+    "fontFamily":"inherit",
+    "button":{
+      "disabled":{
+        "text": "#FFFFFF",
+        "background":"#C0C0C0",
+        "border":"none",
+        "icon":{
+          "color":"#FFFFFF"
+        }
+      },
+      "normal":{
+        "text": "#FFFFFF",
+        "background":"#484CBA",
+        "border":"none",
+        "icon":{
+          "color":"#FFFFFF"
+        }
+      },
+      "action":{
+        "text": "#FFFFFF",
+        "background":"#484CBA",
+        "border":"none",
+        "icon":{
+          "color":"#FFFFFF"
+        }
+      },
+      "cancel":{
+        "text": "#C0C0C0",
+        "background":"#FFFFFF",
+        "border":"1px solid #C0C0C0 ",
+        "icon":{
+          "color":"#C0C0C0"
+        }
+      },
+      "error":{
+        "text": "#FFFFFF",
+        "background":"#EC4436",
+        "border":"none",
+        "icon":{
+          "color":"#FFFFFF"
+        }
+      }
     },
-    "sidebar": {
+    "table":{
+        "header":{
+          "background": "transparent",
+          "imageColor": "#828282",
+          "imageColorWhite":"#FFFFFF",
+          "text":"#000000",
+          "active":{
+            "backgroundHover": "#F5F7FF",
+            "backgroundSelected": "#484CBA",
+            "imageColor": "#FFFFFF"
+          }
+        },
+        "actionBar":{
+          "color":"#828282",
+          "action":{
+            "color":"#828282"
+          },
+          "disabled":{
+            "color":"#B4BDC2",
+            "colorHover":"#B4BDC2"
+          }
+        },
+        "button":{
+          "borderColor":"transparent",
+          "text": "#828282",
+          "icon":"#828282",
+          "background": "#FFFFFF",
+          "action":{
+            "borderColor":"transparent",
+            "text": "#828282",
+            "icon":"#828282",
+            "background": "#F5F7FF"
+          }
+        },
+        "title": "#000000",
+        "background":"#FFFFFF",
+        "link": "#0061F1",
+        "text": "#000000",
+        "rowBorder":"none",
+        "bodyBorder": "#EBEBF7",
+        "action":{
+          "rowBackground": "#F5F7FF"
+        }
+    },
+    "tabs":{
+      "color": "#333333",
+      "border": "#C2C3E8",
+      "active":{
+        "color": "#484CBA",
+        "border": "#C2C3E8",
+        "borderBottom":"#F9F9F9"
+      }
+    },
+    "card":{
+      "background":"transparent",
+      "text":"#000000",
+      "border":"1px solid #EBEBF7"
+
+    },
+    "stepper":{
+      "stepsCircle":{
+        "active":"#484CBA",
+        "success":"#8BB439",
+        "next":""
+      },
+      "text":"#000000",
+      "secondaryText":"#000000",
+      "progressBarActive":"#484CBA",
+      "progressBarBackground":"#FFFFFF",
+      "errorNotesBackground":"#FDECEB",
+      "errorBorder":"#EE594D",
+      "errorColor":"#FFFFFF",
+      "background":"#FFFFFF",
+      "border":"#EBEBF7"
+    },
+    "universal":{
+      "secondaryText":"#828282",
+      "text":"#000000",
+      "link":"#0061F1",
+      "white":"#FFFFFF"
+    }
+  }, 
+  "top_bar":{
+    "background":"#EBEBF7",
+    "text": "#212356",
+    "activeButtonBackground": "#EBEBF7",
+    "activeButtonFont":"#212356",
+    "activeButtonBorder":"1px solid #EBEBF7",
+    "menuLinkActive": "#484CBA",
+    "fontFamily":"inherit",
+    "userProfile":{
+      "white":"#EBEBF7",
+      "primaryText": "#333333",
+      "secondaryText": "#828282",
+      "accountColor":"#0061F1",
+      "statusError":"#EC4436"
+    },
+    "icon":{
+      "background": "#EBEBF7",
+      "color": "#484CBA",
+      "action":{
+        "background": "#EBEBF7",
+        "color": "#484CBA"
+      }
+    }
+  },
+  "side_bar":{
+    "fontFamily":"inherit",
+    "accent":{
       "distributor": "#D5DCBD",
       "reseller": "#93BBCB",
       "tenant": "#E0CFD5",
       "subscription": "#F5DFBC"
+    },
+    "tenant":{
+      "avatar":{
+        "avatarLabel": "#333333",
+        "avatarSubLabel": "#333333",
+        "avatarBorder":"#C2C3E8",
+        "avatarBackground":"#FFFFFF"
+      },
+      "text": "#333333",
+      "background":"#FFFFFF"
+    },
+    "reseller":{
+      "avatar":{
+        "avatarLabel": "#333333",
+        "avatarSubLabel": "#333333",
+        "avatarBorder":"#C2C3E8",
+        "avatarBackground":"#FFFFFF"
+      },
+      "text": "#333333",
+      "background":"#FFFFFF"
+    },
+    "subscription":{
+      "avatar":{
+        "avatarLabel": "#333333",
+        "avatarSubLabel": "#333333",
+        "avatarBorder":"#C2C3E8",
+        "avatarBackground":"#FFFFFF"
+      },
+      "text": "#333333",
+      "background":"#FFFFFF"
+    },
+    "distributor":{
+      "avatar":{
+        "avatarLabel": "#333333",
+        "avatarSubLabel": "#333333",
+        "avatarBorder":"#C2C3E8",
+        "avatarBackground":"#FFFFFF"
+      },
+      "text": "#333333",
+      "background":"#FFFFFF"
     }
   }
 }

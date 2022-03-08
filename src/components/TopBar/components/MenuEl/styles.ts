@@ -10,15 +10,21 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
   },
   menuElLinkWrapperActive: {
-    borderBottom: `2px solid  ${theme.palette.menuLink.active}`,
+    borderBottom: `2px solid  ${theme.top_bar.menuLinkActive}`,
   },
   menuElLink: {
     margin: `0 ${theme.spacing(2.25)}px`,
-    color: theme.palette.menuLink.main,
+    color: theme.top_bar.text,
     textDecoration: "none",
+    border: "1px solid transparent",
+    "&:hover": {
+      color: theme.top_bar.activeButtonFont,
+      backgroundColor: theme.top_bar.activeButtonBackground,
+      border: theme.top_bar.activeButtonBorder,
+    },
   },
   menuElLinkActive: {
-    color: theme.palette.menuLink.active,
+    color: theme.top_bar.menuLinkActive,
   },
 }));
 

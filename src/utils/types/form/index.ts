@@ -8,6 +8,7 @@ export type IconWithButtonPropsType = {
   onClick?: () => void;
   className?: string | undefined;
   form?: string;
+  cancel?: boolean;
 };
 
 export type IconButtonPropsType = {

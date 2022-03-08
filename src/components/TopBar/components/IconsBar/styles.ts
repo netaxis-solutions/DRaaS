@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
         ? `0 ${theme.spacing(2.75)}px 0 auto`
         : `0 auto 0 ${theme.spacing(2.75)}px`,
     "& svg": {
-      fill: theme.palette.primary.main,
+      fill: theme.top_bar.icon.color,
       width: 16,
       height: 16,
       margin: `0 ${theme.spacing(1)}px`,
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.1)",
       borderRadius: "6px",
       "& >.MuiList-root>:not(:last-child)": {
-        borderBottom: `1px solid ${theme.palette.primary.light}`,
+        borderBottom: `1px solid ${theme.top_bar.userProfile.white}`,
       },
       "& >*": {
         width: "100%",
@@ -41,33 +41,33 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   logOut: {
-    color: theme.palette.status.error,
+    color: theme.top_bar.userProfile.statusError,
     fontWeight: 300,
     "&:hover": {
       cursor: "pointer",
     },
   },
   account: {
-    color: theme.palette.primary.link,
+    color: theme.top_bar.userProfile.accountColor,
     fontWeight: 300,
     "&:hover": {
       cursor: "pointer",
     },
   },
   userName: {
-    color: theme.palette.primary.text,
+    color: theme.top_bar.userProfile.primaryText,
     fontSize: "1.6rem",
     lineHeight: "1.8rem",
     fontWeight: 300,
   },
   userEntity: {
-    color: theme.palette.secondary.text,
+    color: theme.top_bar.userProfile.secondaryText,
     fontSize: "1.2rem",
     lineHeight: "1.4rem",
     fontWeight: 300,
   },
   userProfile: {
-    color: theme.palette.secondary.text,
+    color: theme.top_bar.userProfile.secondaryText,
     fontSize: "1rem",
     lineHeight: "1.2rem",
     fontWeight: 300,
@@ -87,7 +87,19 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     textTransform: "uppercase",
   },
   languageBarItemAction: {
-    backgroundColor: `${theme.palette.primary.light} !important`,
+    backgroundColor: `${theme.top_bar.userProfile.white} !important`,
+  },
+  icons: {
+    background: theme.top_bar.icon.background,
+    "& path": {
+      fill: theme.top_bar.icon.color,
+    },
+    "&:hover": {
+      background: theme.top_bar.icon.action.background,
+      "& path": {
+        fill: theme.top_bar.icon.action.color,
+      },
+    },
   },
 }));
 

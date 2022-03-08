@@ -4,14 +4,14 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   adminBody: {
     display: "flex",
-    color: theme.palette.secondary.text,
+    color: theme.body.universal.secondatyText,
     flexDirection: "column",
     fontSize: "1.4rem",
     lineHeight: "2rem",
     fontWeight: 400,
     "& a": {
       textDecoration: "none",
-      color: theme.palette.primary.newLink,
+      color: theme.body.universal.link,
     },
     "& ul": {
       paddingLeft: theme.spacing(2.5),
@@ -21,7 +21,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   checkboxStyling: {
     "& a": {
       textDecoration: "none",
-      color: theme.palette.primary.newLink,
+      color: theme.body.universal.link,
     },
   },
   formRoot: {
@@ -42,8 +42,6 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     flexDirection: "column",
   },
   buttonConfirm: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.white,
     width: "136px",
 
     "& span": {
@@ -55,7 +53,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
         alignItems: "center",
       },
       "& svg": {
-        fill: `${theme.palette.primary.white} !important`,
+        fill: `${theme.body.universal.white} !important`,
         width: "65%",
         height: "20px",
         paddingTop: 1,

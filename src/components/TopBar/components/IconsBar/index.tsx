@@ -7,7 +7,7 @@ const IconsBar: React.FC = () => {
 
   return (
     <div className={classes.iconsBarWrapper}>
-      <Search />
+      <Search className={classes.icons} />
       <LanguageBar />
       <ProfileButton />
     </div>

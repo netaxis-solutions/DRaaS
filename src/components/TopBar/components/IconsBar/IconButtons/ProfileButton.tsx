@@ -35,7 +35,7 @@ const ProfileButton: React.FC = () => {
 
   return (
     <>
-      <Login onClick={handleMenu} />
+      <Login onClick={handleMenu} className={classes.icons} />
       <AppMenu
         anchorReference="none"
         open={Boolean(anchorEl)}

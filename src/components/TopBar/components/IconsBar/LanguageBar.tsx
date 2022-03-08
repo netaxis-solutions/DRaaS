@@ -40,7 +40,7 @@ const LanguageBar: FC = () => {
 
   return (
     <>
-      <World onClick={handleMenu} />
+      <World onClick={handleMenu} className={classes.icons} />
       <Menu
         open={Boolean(anchorEl)}
         onClose={handleClose}
