@@ -43,13 +43,15 @@ const RangeSettings: React.FC = () => {
   const onSubmit = (values: defaultValuesType) => {
     setPreviousChoices({ suggestionsSetting: values });
 
-    getNumberSuggestions({
-      numberType: previousChoices[0].entitlements.numberType,
-      countryCode: previousChoices[0].entitlements.countryCode,
-      rangeSize: `${values.rangeSize}`,
-      numberOfResults: `${values.suggestionsAmount || 1}`,
-    });
-    goNext();
+    getNumberSuggestions(
+      {
+        numberType: previousChoices[0].entitlements.numberType,
+        countryCode: previousChoices[0].entitlements.countryCode,
+        rangeSize: `${values.rangeSize}`,
+        numberOfResults: `${values.suggestionsAmount || 1}`,
+      },
+      goNext,
+    );
   };
 
   return (

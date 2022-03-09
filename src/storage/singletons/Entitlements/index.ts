@@ -22,6 +22,7 @@ class SubscriptionEntitlementsStore {
   entitlementTypes: Array<EntitlementsTypeListType> = [];
   filteredDataEntitlementTypes: Array<EntitlementsTypeListType> = [];
   availableEntitlements: AvailableEntitlements = {};
+  availableEntitlementsNumber: number = 0;
   entitlementDeleteModalData!: EntitlementsListType;
 
   constructor() {
@@ -31,6 +32,7 @@ class SubscriptionEntitlementsStore {
       filteredDataEntitlementTypes: observable.ref,
       getAvailableEntitlements: computed,
       entitlementDeleteModalData: observable.ref,
+      availableEntitlementsNumber: observable.ref,
     });
   }
 
@@ -38,7 +40,11 @@ class SubscriptionEntitlementsStore {
     this.entitlementDeleteModalData = payload;
   };
 
-  getEntitlements = (tenantID: string, subscriptionID: string) => {
+  getEntitlements = (
+    tenantID: string,
+    subscriptionID: string,
+    successCallback?: () => void,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/entitlements`,
       loaderName: "@getSubscriptionEntitlementsData",
@@ -47,6 +53,7 @@ class SubscriptionEntitlementsStore {
         runInAction(() => {
           this.entitlements = data.entitlements;
         });
+        successCallback && successCallback();
       })
       .catch(e => {
         errorNotification(e);
@@ -168,6 +175,31 @@ class SubscriptionEntitlementsStore {
     );
     runInAction(() => {
       this.filteredDataEntitlementTypes = filteredData;
+    });
+  };
+
+  setAvailableEntitlementsNumber = () => {
+    this.setAvailable(this.getAvailableEntitlements);
+    runInAction(() => {
+      this.availableEntitlementsNumber = Object.values(
+        this.availableEntitlements,
+      ).reduce(
+        (
+          availableEntitlementsAmount: number,
+          curr: { [key: string]: number },
+        ) => {
+          return (
+            availableEntitlementsAmount +
+            Object.values(curr).reduce(
+              (availableEntitlements: number, curr: number) => {
+                return availableEntitlements + curr;
+              },
+              0,
+            )
+          );
+        },
+        0,
+      );
     });
   };
 }

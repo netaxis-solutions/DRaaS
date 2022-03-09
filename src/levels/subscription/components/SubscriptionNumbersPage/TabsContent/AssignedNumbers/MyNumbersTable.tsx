@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { CellProps, TableProps } from "react-table";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import NumbersStore from "storage/singletons/Numbers";
+import EntitlementsStore from "storage/singletons/Entitlements";
 
 import { PhoneNumberType } from "utils/types/numbers";
 
@@ -14,7 +15,9 @@ import Table from "components/Table";
 import SelectFromInventory from "./components/MultistepModal";
 import DeleteNumberModal from "./components/DeleteModal";
 
-const NumbersList: FC<{ numbers: PhoneNumberType[] }> = ({ numbers }) => {
+const NumbersList: FC<{
+  numbers: PhoneNumberType[];
+}> = ({ numbers }) => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
   const { tenantID, subscriptionID } = useParams<{
@@ -31,25 +34,60 @@ const NumbersList: FC<{ numbers: PhoneNumberType[] }> = ({ numbers }) => {
   } = TableSelectedRowsStore;
 
   const { getNumbersData, deassignNumbers } = NumbersStore;
+  const {
+    availableEntitlementsNumber,
+    getEntitlements,
+    setAvailableEntitlementsNumber,
+  } = EntitlementsStore;
 
-  const toolbarActions = [
-    {
-      id: "delete",
-      title: t("Delete"),
-      icon: Trash,
-      onClick: () => {
-        setModalToOpen("delete");
-      },
-    },
-    {
-      id: "add",
-      title: t("Add"),
-      icon: Plus,
-      onClick: () => {
-        setModalToOpen("add");
-      },
-    },
-  ];
+  useEffect(() => {
+    getEntitlements(tenantID, subscriptionID, () =>
+      setAvailableEntitlementsNumber(),
+    );
+
+    return () => {
+      getEntitlements(tenantID, subscriptionID, () =>
+        setAvailableEntitlementsNumber(),
+      );
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numbers]);
+
+  const toolbarActions = useMemo(
+    () =>
+      availableEntitlementsNumber
+        ? [
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
+            },
+            {
+              id: "add",
+              title: t("Add"),
+              icon: Plus,
+              onClick: () => {
+                setModalToOpen("add");
+              },
+            },
+          ]
+        : [
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
+            },
+          ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [availableEntitlementsNumber],
+  );
 
   const columns = useMemo(
     () => [
@@ -82,6 +120,7 @@ const NumbersList: FC<{ numbers: PhoneNumberType[] }> = ({ numbers }) => {
     ],
     [t],
   );
+
   const handleModalClose = () => {
     setModalToOpen("");
   };
