@@ -95,6 +95,8 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     getEntitlements(tenantID, subscriptionID);
   };
 
+  const disabled = !!filteredDataEntitlementTypes.length;
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -102,6 +104,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
           handleCancel={handleCancel}
           cancelButton
           submitButtonTitle={t("Add")}
+          submitButtonDisabled={!disabled}
         />
         <Table
           title={t("Entitlements")}
