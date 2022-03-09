@@ -1,4 +1,4 @@
-import { makeObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
@@ -16,14 +16,16 @@ import {
 } from "utils/functions/notifications";
 import { request } from "services/api";
 import { t } from "services/Translation/index";
+import { AxiosResponse } from "axios";
 
 const translateResellerGroupLabel = t("Reseller");
 const translateDistributorGroupLabel = t("Distributor");
 const translateDirectCustomerLabel = t("Direct customer");
 
 class TenantStore {
+  owners: Array<{ id: number; name: string; uuid: string; type: string }> = [];
   constructor() {
-    makeObservable(this, {});
+    makeAutoObservable(this, {});
   }
 
   get ownerOptions() {
@@ -43,6 +45,23 @@ class TenantStore {
         groupBy: translateResellerGroupLabel,
       })),
     ];
+  }
+
+  get tenantOwners() {
+    return this.owners.map(
+      (el: { id: number; name: string; uuid: string; type: string }) => {
+        if (el.name !== undefined) {
+          return {
+            label: el.name,
+            value: el.name,
+          };
+        } else
+          return {
+            label: "",
+            value: "",
+          };
+      },
+    );
   }
 
   createTenant = ({ payload, callback }: TCreateTenant) => {
@@ -89,6 +108,21 @@ class TenantStore {
       errorNotification(e);
     });
     return result!.data;
+  };
+
+  getListOwnersTenant = async () => {
+    try {
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/public/owners?level=tenant`,
+        loaderName: "@getListOwners",
+      });
+      const owners = data.data.owners;
+      runInAction(() => {
+        this.owners = owners;
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   editTenant = ({

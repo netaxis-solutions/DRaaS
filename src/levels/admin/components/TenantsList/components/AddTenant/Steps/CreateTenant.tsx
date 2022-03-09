@@ -8,6 +8,8 @@ import clsx from "clsx";
 import DistributorsStore from "storage/singletons/Distributors";
 import ResellersStore from "storage/singletons/Resellers";
 import TenantStore from "storage/singletons/Tenant";
+import RoutingConfig from "storage/singletons/RoutingConfig";
+
 import { TAddTenantFormProps, TAddTenantValues } from "utils/types/tenant";
 import { addTenantSchema } from "utils/schemas/tenant";
 import FormInput from "components/common/Form/FormInput";
@@ -37,11 +39,18 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
 
   const { getDistributorsData } = DistributorsStore;
   const { getResellersData } = ResellersStore;
-  const { createTenant, ownerOptions } = TenantStore;
+  const { loggedInUserLevel } = RoutingConfig;
+  const {
+    createTenant,
+    getListOwnersTenant,
+    owners,
+    tenantOwners,
+  } = TenantStore;
 
   useEffect(() => {
     getDistributorsData();
     getResellersData({});
+    getListOwnersTenant();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,9 +62,11 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
     const payload: any = markup
       ? { markup: +markup, ...values }
       : { ...values };
-    const splittedVal = owner.value.split("*");
-    if (owner.value !== "direct customer") {
-      payload.owner = { uuid: splittedVal[0], type: splittedVal[1] };
+    if (owner.value) {
+      payload.owner = {
+        type: "tenant",
+        uuid: owners!.find((el: any) => el.name === owner.value)?.uuid,
+      };
     }
 
     createTenant({ payload, callback: handleCancel });
@@ -105,19 +116,22 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
           />
         )}
       />
-      <Controller
-        name="owner"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormSelect
-            label={t("Owner")}
-            options={ownerOptions}
-            {...field}
-            {...props}
-            className={classes.createResellerInput}
-          />
-        )}
-      />
+      {loggedInUserLevel === "reseller" ? (
+        <Controller
+          name="owner"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormSelect
+              label={t("Owner")}
+              options={tenantOwners}
+              {...field}
+              {...props}
+              className={classes.createResellerInput}
+            />
+          )}
+        />
+      ) : null}
+
       <Controller
         name="markup"
         control={control}
