@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   menuItem: {
     fontSize: "1.4rem !important",
     fontWeight: "300 !important" as "bold",
+    display: "block !important",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 }));
 
