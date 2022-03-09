@@ -20,6 +20,7 @@ const O365Tenant: FC = () => {
     startOnboarding,
     currentStepTenantData,
     isRunning,
+    isError,
     checkOnboarding,
   } = MsTeamOnboarding;
 
@@ -145,6 +146,11 @@ const O365Tenant: FC = () => {
         checkMsTeamAdmin?.status !== "not_initiated" ? (
           <Stepper />
         ) : null
+      ) : !isRunning &&
+        isError &&
+        checkMsTeamAdmin?.status !== "onboarded" &&
+        checkMsTeamAdmin?.status !== "not_initiated" ? (
+        <Stepper />
       ) : null}
     </>
   );

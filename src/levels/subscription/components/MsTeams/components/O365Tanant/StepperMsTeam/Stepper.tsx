@@ -58,7 +58,7 @@ const StepperStart: FC = () => {
     currentStep,
     activeStep,
     checkOnboarding,
-    startOnboarding,
+    cleanUpOnboarding,
     clearOnboardingProgress,
     isError,
     isRunning,
@@ -68,14 +68,14 @@ const StepperStart: FC = () => {
     () => {
       checkOnboarding(tenantID, subscriptionID);
       return () => {
-        if (MsTeamOnboarding.activeStep >= 7) {
+        if (MsTeamOnboarding.activeStep >= 7 && !isRunning) {
           getCheckMsTeamAdmin(tenantID, subscriptionID);
           clearOnboardingProgress();
         }
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [activeStep],
+    [],
   );
 
   const errorInActiveStep =
@@ -97,7 +97,7 @@ const StepperStart: FC = () => {
                 <span> {step.label}</span>
               </StepLabel>
               <StepContent className={classes.StepperContent}>
-                {isError || (!isRunning && activeStep < 7) ? (
+                {isError || (!isRunning && activeStep < 8) ? (
                   <div className={classes.isError}>
                     <div className={classes.isErrorNote}>
                       <span>
@@ -111,7 +111,9 @@ const StepperStart: FC = () => {
                       title={t("Retry")}
                       className={classes.buttonRetry}
                       icon={Reload}
-                      onClick={() => startOnboarding(tenantID, subscriptionID)}
+                      onClick={() =>
+                        cleanUpOnboarding(tenantID, subscriptionID)
+                      }
                     ></ButtonWithIcon>
                   </div>
                 ) : (
