@@ -18,8 +18,8 @@ type defaultValuesType = {
 };
 
 const defaultValues: defaultValuesType = {
-  rangeSize: "",
-  suggestionsAmount: "",
+  rangeSize: "1",
+  suggestionsAmount: "1",
 };
 
 const RangeSettings: React.FC = () => {
