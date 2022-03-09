@@ -31,7 +31,6 @@ const DeleteTenantModal: FC<TDeleteAdminModalProps> = ({
               "When you delete it, we will not be able to make additional changes to your MS Teams phone system",
             )}{" "}
           </span>
-          ?
         </div>
       </div>
     </DeleteModal>
