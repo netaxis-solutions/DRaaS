@@ -76,7 +76,7 @@ const NumbersList: FC = () => {
               icon: Plus,
               onClick: () => {
                 setModalToOpen("add");
-                // clearPaginationData();
+                clearPaginationData();
               },
             },
           ]
