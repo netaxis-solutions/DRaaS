@@ -116,7 +116,7 @@ const NumberInventory: React.FC = () => {
     [t, avilableEntitlements],
   );
   useEffect(() => {
-    clearTablePagesWithoutServerPaginations(availableRanges);
+    clearTablePagesWithoutServerPaginations(availableRanges.length);
     getNumbersInventoryRanges();
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps

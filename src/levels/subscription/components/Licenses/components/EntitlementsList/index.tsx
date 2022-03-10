@@ -133,12 +133,12 @@ const EntitlementList: FC = () => {
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID);
     getEntitlementTypes();
-    clearTablePagesWithoutServerPaginations(entitlements);
+    clearTablePagesWithoutServerPaginations(entitlements.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entitlements.length]);
 
   const handleCloseModal = () => {
-    clearTablePagesWithoutServerPaginations(entitlements);
+    clearTablePagesWithoutServerPaginations(entitlements.length);
     setModalToOpen("");
   };
 

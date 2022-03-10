@@ -84,8 +84,8 @@ class TablePagination {
     });
   };
 
-  clearTablePagesWithoutServerPaginations = (params: Array<any>) => {
-    const param = Math.ceil(params.length / 10);
+  clearTablePagesWithoutServerPaginations = (dataLengths: number) => {
+    const param = Math.ceil(dataLengths / 10);
     if (param) {
       this.tableWithOutServerPagination = true;
     }

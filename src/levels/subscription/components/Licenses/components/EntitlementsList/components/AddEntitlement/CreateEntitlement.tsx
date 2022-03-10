@@ -79,7 +79,9 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
   useEffect(() => {
     getEntitlementTypes();
     filteredEntitlementType();
-    clearTablePagesWithoutServerPaginations(filteredDataEntitlementTypes);
+    clearTablePagesWithoutServerPaginations(
+      filteredDataEntitlementTypes.length,
+    );
 
     return function cleanup() {
       clearSelectedRows();

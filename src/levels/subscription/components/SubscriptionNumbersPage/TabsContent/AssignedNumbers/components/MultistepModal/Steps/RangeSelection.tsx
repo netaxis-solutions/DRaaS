@@ -104,7 +104,7 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     );
   };
   useEffect(() => {
-    clearTablePagesWithoutServerPaginations(formattedNumberSuggestions);
+    clearTablePagesWithoutServerPaginations(formattedNumberSuggestions.length);
     setAmountSelected(
       selectedRowsValues.reduce(
         (amount, row) => amount + row.values.rangeSize,

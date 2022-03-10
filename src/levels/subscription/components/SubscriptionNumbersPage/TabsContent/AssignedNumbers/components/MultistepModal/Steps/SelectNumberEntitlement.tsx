@@ -95,7 +95,7 @@ const SelectNumberEntitlement: React.FC = () => {
 
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID);
-    clearTablePagesWithoutServerPaginations(availableEntitlements);
+    clearTablePagesWithoutServerPaginations(availableEntitlements.length);
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscriptionID, tenantID, entitlements.length]);
