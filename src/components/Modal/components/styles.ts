@@ -61,9 +61,25 @@ export const modalButtonsWrapperUseStyles = makeStyles(
       },
     },
     styleCancel: {
-      color: theme.body.button.cancel.text,
-      background: theme.body.button.cancel.background,
-      border: theme.body.button.cancel.border,
+      color: `${theme.body.button.cancel.text} !important`,
+      background: `${theme.body.button.cancel.background} !important`,
+      border: `${theme.body.button.cancel.border} !important`,
+      "& svg": {
+        "& path": {
+          fill: `${theme.body.button.cancel.icon.color} !important`,
+        },
+      },
+
+      "&:hover": {
+        color: `${theme.body.button.cancel.text} !important`,
+        background: `${theme.body.button.cancel.background} !important`,
+        border: `${theme.body.button.cancel.border} !important`,
+        "& svg": {
+          "& path": {
+            fill: `${theme.body.button.cancel.icon.color} !important`,
+          },
+        },
+      },
     },
   }),
 );
