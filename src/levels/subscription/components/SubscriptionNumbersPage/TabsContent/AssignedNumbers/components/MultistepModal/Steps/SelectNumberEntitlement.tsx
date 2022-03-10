@@ -8,6 +8,7 @@ import clsx from "clsx";
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import Entitlements from "storage/singletons/Entitlements";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { TableProps } from "utils/types/tableConfig";
 
@@ -21,6 +22,10 @@ const SelectNumberEntitlement: React.FC = () => {
 
   const { setValues, goNext, setPreviousChoices } = MultiStepForm;
   const { entitlements, getEntitlements } = Entitlements;
+  const {
+    clearTablePagesWithoutServerPaginations,
+    clearPaginationData,
+  } = TablePagination;
   const { radioButtonValueInRow } = TableSelectedRows;
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -90,8 +95,10 @@ const SelectNumberEntitlement: React.FC = () => {
 
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID);
+    clearTablePagesWithoutServerPaginations(availableEntitlements.length);
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subscriptionID, tenantID]);
+  }, [subscriptionID, tenantID, entitlements.length]);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();

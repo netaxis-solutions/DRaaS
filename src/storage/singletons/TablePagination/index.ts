@@ -6,6 +6,7 @@ class TablePagination {
   tablePageSize: number = 10;
   search: string = "";
   liveSearch: string = "";
+  tableWithOutServerPagination: boolean = false;
   tableConfig: { page: number; pages: number } = { page: 1, pages: 1 };
 
   constructor() {
@@ -38,8 +39,11 @@ class TablePagination {
     });
   }, 1000);
 
-  tableDropDown = (payload: number) => {
-    this.tablePageSize = payload;
+  setTableDropDown = (payload: number) => {
+    runInAction(() => {
+      this.tablePageSize = payload;
+      this.tablePageCounter = 1;
+    });
   };
 
   getTableConfig = (payload: {
@@ -65,14 +69,28 @@ class TablePagination {
     } else return false;
   };
 
+  uploadTableConfig = (param?: boolean) => {
+    this.tableWithOutServerPagination = param || false;
+  };
+
   clearPaginationData = () => {
     runInAction(() => {
       this.tablePageCounter = 1;
       this.tablePageSize = 10;
       this.search = "";
       this.liveSearch = "";
+      this.tableWithOutServerPagination = false;
       this.tableConfig = { page: 1, pages: 1 };
     });
+  };
+
+  clearTablePagesWithoutServerPaginations = (dataLengths: number) => {
+    const param = Math.ceil(dataLengths / 10);
+    if (param) {
+      this.tableWithOutServerPagination = true;
+    }
+    const formatter = param === 0 ? 1 : param;
+    this.tableConfig = { page: 1, pages: formatter };
   };
 }
 

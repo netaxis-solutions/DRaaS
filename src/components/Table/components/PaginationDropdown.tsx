@@ -13,7 +13,7 @@ const PaginationDropdown: React.FC<PaginationDropdownType> = ({
   setPageSize,
 }) => {
   const classes = paginationDropdownStyles();
-  const { tableDropDown } = TablePagination;
+  const { setTableDropDown } = TablePagination;
 
   return (
     <Autocomplete
@@ -23,7 +23,7 @@ const PaginationDropdown: React.FC<PaginationDropdownType> = ({
       onChange={(_, value) => {
         if (value) {
           setPageSize(+value);
-          tableDropDown(+value);
+          setTableDropDown(+value);
         }
       }}
       classes={{

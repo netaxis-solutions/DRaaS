@@ -7,17 +7,14 @@ import { CellProps, TableProps } from "react-table";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import NumbersStore from "storage/singletons/Numbers";
 import EntitlementsStore from "storage/singletons/Entitlements";
-
-import { PhoneNumberType } from "utils/types/numbers";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { Plus, Trash } from "components/Icons";
 import Table from "components/Table";
 import SelectFromInventory from "./components/MultistepModal";
 import DeleteNumberModal from "./components/DeleteModal";
 
-const NumbersList: FC<{
-  numbers: PhoneNumberType[];
-}> = ({ numbers }) => {
+const NumbersList: FC = () => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
   const { tenantID, subscriptionID } = useParams<{
@@ -33,12 +30,19 @@ const NumbersList: FC<{
     setSelectedRowsValues,
   } = TableSelectedRowsStore;
 
-  const { getNumbersData, deassignNumbers } = NumbersStore;
   const {
     availableEntitlementsNumber,
     getEntitlements,
     setAvailableEntitlementsNumber,
   } = EntitlementsStore;
+  const {
+    tablePageCounter,
+    tablePageSize,
+    search,
+    clearPaginationData,
+  } = TablePagination;
+
+  const { getNumbersData, deassignNumbers, numbers } = NumbersStore;
 
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID, () =>
@@ -72,6 +76,7 @@ const NumbersList: FC<{
               icon: Plus,
               onClick: () => {
                 setModalToOpen("add");
+                clearPaginationData();
               },
             },
           ]
@@ -122,8 +127,18 @@ const NumbersList: FC<{
   );
 
   const handleModalClose = () => {
+    getNumbersData(tenantID, subscriptionID);
     setModalToOpen("");
   };
+
+  useEffect(() => {
+    getNumbersData(tenantID, subscriptionID);
+  }, [getNumbersData, tablePageCounter, tablePageSize, search]);
+
+  useEffect(() => {
+    return () => clearPaginationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleDeleteItem = (props: any) => {
     setSelectedRows({ [props.row.index]: true });

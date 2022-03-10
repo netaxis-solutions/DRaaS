@@ -66,6 +66,8 @@ export type TableProps = {
 export type ToolbarType = {
   toolbarActions: Array<ToolbarActionType>;
   title: string;
+  setGlobalFilter: (object: string) => void;
+  value: string;
 };
 
 export type TableBodyType = {
@@ -96,6 +98,8 @@ export type PaginationNavigationType = {
   canNextPage: boolean;
   canPreviousPage: boolean;
   isRadioButton?: boolean;
+  pageNumber: number;
+  pageCount: number;
 };
 export type RadioSelectRowType = {
   /*  Note
@@ -112,4 +116,5 @@ export type TablePaginationType = PaginationDropdownType &
     pageCount: number;
     pageNumber: number;
     checkbox: boolean;
+    data: Array<TableData>;
   };

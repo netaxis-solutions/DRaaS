@@ -8,22 +8,41 @@ import SearchInput from "components/common/SearchInput";
 
 import { useToolbarStyles } from "./styles";
 
-const Toolbar: React.FC<ToolbarType> = ({ toolbarActions, title }) => {
+const Toolbar: React.FC<ToolbarType> = ({
+  toolbarActions,
+  title,
+  setGlobalFilter,
+  value = "",
+}) => {
   const classes = useToolbarStyles();
 
-  const { tableLiveSearch, liveSearch } = TablePagination;
+  const {
+    tableLiveSearch,
+    liveSearch,
+    tableWithOutServerPagination,
+  } = TablePagination;
 
   return (
     <div className={classes.tableToolbarWrapper}>
       <div className={classes.tableToolbarTitle}>{title}</div>
 
       <div className={classes.tableToolbarSearchActionWrappper}>
-        <SearchInput
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            tableLiveSearch(e.target.value);
-          }}
-          value={liveSearch}
-        />
+        {!tableWithOutServerPagination ? (
+          <SearchInput
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              tableLiveSearch(e.target.value);
+            }}
+            value={liveSearch}
+          />
+        ) : (
+          <SearchInput
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setGlobalFilter(e.target.value);
+            }}
+            value={value}
+          />
+        )}
+
         <div className={classes.tableToolbarButtonsWrapper}>
           {toolbarActions.map(el => (
             <ButtonWithIcon

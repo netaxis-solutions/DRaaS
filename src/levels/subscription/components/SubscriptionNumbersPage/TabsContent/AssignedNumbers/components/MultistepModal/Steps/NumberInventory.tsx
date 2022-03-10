@@ -7,6 +7,7 @@ import { CellProps } from "react-table";
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import Numbers from "storage/singletons/Numbers";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { EntitlementsListType } from "utils/types/entitlements";
 import { TableData } from "utils/types/tableConfig";
@@ -29,6 +30,11 @@ const NumberInventory: React.FC = () => {
     setPreviousChoices,
   } = MultiStepForm;
   const { radioButtonValueInRow } = TableSelectedRows;
+
+  const {
+    clearTablePagesWithoutServerPaginations,
+    clearPaginationData,
+  } = TablePagination;
 
   const entitlement: EntitlementsListType = previousChoices[0].entitlements;
 
@@ -110,8 +116,11 @@ const NumberInventory: React.FC = () => {
     [t, avilableEntitlements],
   );
   useEffect(() => {
+    clearTablePagesWithoutServerPaginations(availableRanges.length);
     getNumbersInventoryRanges();
-  }, [getNumbersInventoryRanges]);
+    return () => clearPaginationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getNumbersInventoryRanges, numberInventoryRanges.length]);
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -135,7 +144,7 @@ const NumberInventory: React.FC = () => {
             entitlement.numberType === "*"),
       ),
     [numberInventoryRanges, entitlement],
-  );    
+  );
 
   return (
     <form id={"SelectFromInventory"} onSubmit={onSubmit}>

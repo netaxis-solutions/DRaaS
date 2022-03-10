@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useParams } from "react-router";
 
 import EntitlementStorage from "storage/singletons/Entitlements";
+import TablePagination from "storage/singletons/TablePagination";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import {
   TAddEntitlementFormProps,
@@ -36,6 +37,11 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     clearSelectedRows,
     clearSelectedRowsValue,
   } = TableSelectedRowsStore;
+
+  const {
+    clearTablePagesWithoutServerPaginations,
+    uploadTableConfig,
+  } = TablePagination;
 
   const {
     getEntitlementTypes,
@@ -76,6 +82,11 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
   useEffect(() => {
     getEntitlementTypes();
     filteredEntitlementType();
+    uploadTableConfig(true);
+    clearTablePagesWithoutServerPaginations(
+      filteredDataEntitlementTypes.length,
+    );
+
     return function cleanup() {
       clearSelectedRows();
       clearSelectedRowsValue();

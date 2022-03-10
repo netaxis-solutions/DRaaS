@@ -8,6 +8,7 @@ import { CellProps, Row, TableProps } from "react-table";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import EntitlementsStore from "storage/singletons/Entitlements";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { editEntitlementSchema } from "utils/schemas/entitlements";
 import { Country } from "utils/functions/countryConfig";
@@ -44,6 +45,11 @@ const EntitlementList: FC = () => {
     editEntitlement,
     deleteEntitlement,
   } = EntitlementsStore;
+
+  const {
+    clearTablePagesWithoutServerPaginations,
+    clearPaginationData,
+  } = TablePagination;
 
   const {
     selectedRows,
@@ -130,10 +136,17 @@ const EntitlementList: FC = () => {
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID);
     getEntitlementTypes();
+    clearTablePagesWithoutServerPaginations(entitlements.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entitlements.length]);
+
+  useEffect(() => {
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCloseModal = () => {
+    clearTablePagesWithoutServerPaginations(entitlements.length);
     setModalToOpen("");
   };
 
@@ -184,6 +197,7 @@ const EntitlementList: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
+        clearPaginationData();
       },
     },
   ];

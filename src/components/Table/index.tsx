@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 
@@ -56,12 +57,15 @@ const Table: FC<TableProps> = ({
     setSelectedRowsValues,
   } = TableSelectedRowsStore;
 
+  const { uploadTableConfig } = TablePagination;
+
   const {
     rows,
     getTableProps,
     getTableBodyProps,
     headerGroups,
     prepareRow,
+    setGlobalFilter,
     page,
     state,
     setPageSize,
@@ -366,6 +370,7 @@ const Table: FC<TableProps> = ({
   }, [selectedRows]);
 
   useEffect(() => {
+    uploadTableConfig();
     return () => {
       TableSelectedRowsStore.clearStorage();
     };
@@ -376,6 +381,8 @@ const Table: FC<TableProps> = ({
     <>
       <Toolbar
         title={title}
+        setGlobalFilter={setGlobalFilter}
+        value={state.globalFilter}
         toolbarActions={
           toolbarActions
             ? deleteAvailable
@@ -398,6 +405,7 @@ const Table: FC<TableProps> = ({
         isRadioButton={radioButton}
         setPageSize={setPageSize}
         pageCount={pageCount}
+        data={page}
         pageNumber={state.pageIndex + 1}
         previousPage={previousPage}
         checkbox={checkbox}

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
 
 import TablePagination from "storage/singletons/TablePagination";
 
@@ -12,16 +13,23 @@ const Pagination: React.FC<TablePaginationType> = ({
   setPageSize,
   previousPage,
   nextPage,
+  pageCount,
+  pageNumber,
   canNextPage,
   canPreviousPage,
   isRadioButton,
+  data,
 }) => {
   const classes = tablePaginationStyles();
   const { t } = useTranslation();
 
-  const { tableConfig, tablePageSize } = TablePagination;
-  const { page, pages } = tableConfig;
+  const {
+    tableConfig,
+    tablePageSize,
+    tableWithOutServerPagination,
+  } = TablePagination;
 
+  const { page, pages } = tableConfig;
   return (
     <div className={classes.tablePaginationWrapper}>
       <span>
@@ -37,12 +45,21 @@ const Pagination: React.FC<TablePaginationType> = ({
           pageSize={tablePageSize}
           setPageSize={setPageSize}
         />
-        <span className={classes.tablePaginationPageNumber}>
-          {t("of", { page, pages })}
-        </span>
+        {!tableWithOutServerPagination ? (
+          <span className={classes.tablePaginationPageNumber}>
+            {!!data.length ? t("of", { page, pages }) : `1 ${t("of")} 1`}
+          </span>
+        ) : (
+          <span className={classes.tablePaginationPageNumber}>
+            {pageNumber} {t("of")} {pageCount === 0 ? 1 : pageCount}
+          </span>
+        )}
+
         <PaginationNavigation
           previousPage={previousPage}
           nextPage={nextPage}
+          pageCount={pageCount === 0 ? 1 : pageCount}
+          pageNumber={pageNumber}
           canNextPage={canNextPage}
           canPreviousPage={canPreviousPage}
         />
@@ -51,4 +68,4 @@ const Pagination: React.FC<TablePaginationType> = ({
   );
 };
 
-export default Pagination;
+export default observer(Pagination);

@@ -8,6 +8,7 @@ import clsx from "clsx";
 import Numbers from "storage/singletons/Numbers";
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { FormattedNumberSuggestionsType } from "utils/types/numbers";
 import { TableData } from "utils/types/tableConfig";
@@ -34,6 +35,10 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     previousChoices[0].entitlements.assigned;
 
   const { selectedRowsValues } = TableSelectedRowsStore;
+  const {
+    clearTablePagesWithoutServerPaginations,
+    clearPaginationData,
+  } = TablePagination;
   const { numberSuggestions, addNumber } = Numbers;
 
   const rangeSize = Number(previousChoices[2].suggestionsSetting.rangeSize);
@@ -99,13 +104,16 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     );
   };
   useEffect(() => {
+    clearTablePagesWithoutServerPaginations(formattedNumberSuggestions.length);
     setAmountSelected(
       selectedRowsValues.reduce(
         (amount, row) => amount + row.values.rangeSize,
         0,
       ),
     );
-  }, [selectedRowsValues, selectedRowsValues.length]);
+    return () => clearPaginationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRowsValues, selectedRowsValues.length, numberSuggestions.length]);
 
   useEffect(() => {
     setSubmitButtonState(

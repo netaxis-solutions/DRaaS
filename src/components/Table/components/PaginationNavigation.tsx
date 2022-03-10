@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import { PaginationNavigationType } from "utils/types/tableConfig";
@@ -10,10 +11,13 @@ import { paginationNavigationStyles } from "./styles";
 const PaginationNavigation: React.FC<PaginationNavigationType> = ({
   previousPage,
   nextPage,
+  pageCount,
+  pageNumber,
 }) => {
   const classes = paginationNavigationStyles();
 
   const {
+    tableWithOutServerPagination,
     tableNextPage,
     tablePrevPage,
     getMinPage,
@@ -21,28 +25,41 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
   } = TablePagination;
 
   const nextPageStore = () => {
-    nextPage();
-    tableNextPage();
+    if (!tableWithOutServerPagination) {
+      nextPage();
+      tableNextPage();
+    } else {
+      return nextPage();
+    }
   };
 
   const prevPageStore = () => {
-    previousPage();
-    tablePrevPage();
+    if (!tableWithOutServerPagination) {
+      previousPage();
+      tablePrevPage();
+    } else {
+      return previousPage();
+    }
   };
 
   return (
     <>
       <div
         className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: getMinPage(),
+          [classes.tablePaginationNavigateDisabled]:
+            (!tableWithOutServerPagination && getMinPage()) ||
+            (tableWithOutServerPagination && pageNumber === 1),
         })}
         onClick={prevPageStore}
       >
         <ArrowLeft />
       </div>
+
       <div
         className={clsx(classes.tablePaginationNavigate, {
-          [classes.tablePaginationNavigateDisabled]: getMaxPage(),
+          [classes.tablePaginationNavigateDisabled]:
+            (!tableWithOutServerPagination && getMaxPage()) ||
+            (tableWithOutServerPagination && pageNumber === pageCount),
         })}
         onClick={nextPageStore}
       >
@@ -52,4 +69,4 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
   );
 };
 
-export default PaginationNavigation;
+export default observer(PaginationNavigation);
