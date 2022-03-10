@@ -197,6 +197,7 @@ const EntitlementList: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
+        clearPaginationData();
       },
     },
   ];

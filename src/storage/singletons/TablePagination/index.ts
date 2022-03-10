@@ -69,6 +69,10 @@ class TablePagination {
     } else return false;
   };
 
+  uploadTableConfig = (param?: boolean) => {
+    this.tableWithOutServerPagination = param || false;
+  };
+
   clearPaginationData = () => {
     runInAction(() => {
       this.tablePageCounter = 1;

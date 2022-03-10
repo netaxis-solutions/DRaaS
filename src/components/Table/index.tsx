@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 
@@ -55,6 +56,8 @@ const Table: FC<TableProps> = ({
     setRadioButtonValueInRows,
     setSelectedRowsValues,
   } = TableSelectedRowsStore;
+
+  const { uploadTableConfig } = TablePagination;
 
   const {
     rows,
@@ -367,6 +370,7 @@ const Table: FC<TableProps> = ({
   }, [selectedRows]);
 
   useEffect(() => {
+    uploadTableConfig();
     return () => {
       TableSelectedRowsStore.clearStorage();
     };

@@ -38,7 +38,10 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     clearSelectedRowsValue,
   } = TableSelectedRowsStore;
 
-  const { clearTablePagesWithoutServerPaginations } = TablePagination;
+  const {
+    clearTablePagesWithoutServerPaginations,
+    uploadTableConfig,
+  } = TablePagination;
 
   const {
     getEntitlementTypes,
@@ -79,6 +82,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
   useEffect(() => {
     getEntitlementTypes();
     filteredEntitlementType();
+    uploadTableConfig(true);
     clearTablePagesWithoutServerPaginations(
       filteredDataEntitlementTypes.length,
     );
