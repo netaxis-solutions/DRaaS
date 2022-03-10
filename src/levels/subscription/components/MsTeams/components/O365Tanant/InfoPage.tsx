@@ -45,7 +45,7 @@ const InfoPage: FC = () => {
               {...field}
               {...props}
               default
-              value={checkMsTeamAdmin?.domain.name || ""}
+              value={checkMsTeamAdmin?.domain?.name || ""}
             />
           )}
         />
