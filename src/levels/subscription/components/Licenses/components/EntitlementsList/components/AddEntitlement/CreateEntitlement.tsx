@@ -102,6 +102,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
           handleCancel={handleCancel}
           cancelButton
           submitButtonTitle={t("Add")}
+          submitButtonDisabled={!filteredDataEntitlementTypes.length}
         />
         <Table
           title={t("Entitlements")}
