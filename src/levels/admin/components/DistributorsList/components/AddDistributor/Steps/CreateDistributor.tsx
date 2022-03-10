@@ -66,7 +66,7 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
         control={control}
         render={({ field, ...props }) => (
           <FormInput
-            label={t("Email or ID")}
+            label={t("Name")}
             {...field}
             {...props}
             className={classes.createDistributorInput}
@@ -80,7 +80,7 @@ const CreateDistributor: React.FC<AddDistributorFormPropsType> = ({
           <FormInput
             label={t("Billing ID")}
             helper={t(
-              "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
+              "Use letters and digits, special characters (e.g. *,%,#)",
             )}
             {...field}
             {...props}

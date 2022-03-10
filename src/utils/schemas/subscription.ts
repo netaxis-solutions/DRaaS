@@ -3,12 +3,11 @@ import { string, object } from "yup";
 
 export const addSubscriptionSchema = (t: TFunction) =>
   object().shape({
-    name: string().required(t("Please fill this field")),
-    billingId: string()
+    name: string()
       .required(t("Please fill this field"))
       .matches(/^[aA-zZ0-9\s]+$/, {
-        message:
-          "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
+        message: t("Use only letters and digits"),
         excludeEmptyString: true,
       }),
+    billingId: string(),
   });

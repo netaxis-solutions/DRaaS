@@ -78,7 +78,7 @@ const CreateSubscription: React.FC<AddSubscriptionFormPropsType> = ({
           <FormInput
             label={t("Billing ID")}
             helper={t(
-              "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
+              "Use letters and digits, special characters (e.g. *,%,#)",
             )}
             {...field}
             {...props}
