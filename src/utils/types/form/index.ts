@@ -54,10 +54,8 @@ export type RadioButtonType = {
 };
 
 export type TSelectProps = {
-  options: Array<{ value: string; label: string; groupBy: string }>;
-  onChange: (
-    value: { value: string; label: string; groupBy: string } | null,
-  ) => void;
+  options: Array<{ value: string; label: string }>;
+  onChange: (value: { value: string; label: string } | null) => void;
   label: string;
   disabled?: boolean;
   helperText: string;

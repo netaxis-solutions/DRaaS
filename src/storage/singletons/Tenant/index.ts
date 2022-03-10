@@ -49,18 +49,10 @@ class TenantStore {
 
   get tenantOwners() {
     return this.owners.map(
-      (el: { id: number; name: string; uuid: string; type: string }) => {
-        if (el.name !== undefined) {
-          return {
-            label: el.name,
-            value: el.name,
-          };
-        } else
-          return {
-            label: "",
-            value: "",
-          };
-      },
+      (el: { id: number; name: string; uuid: string; type: string }) => ({
+        label: el.name || "",
+        value: el.name || "",
+      }),
     );
   }
 

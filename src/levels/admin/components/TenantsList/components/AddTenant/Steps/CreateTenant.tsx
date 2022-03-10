@@ -63,9 +63,10 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
       ? { markup: +markup, ...values }
       : { ...values };
     if (owner.value) {
+      const currentOwner = owners!.find((el: any) => el.name === owner.value);
       payload.owner = {
-        type: "tenant",
-        uuid: owners!.find((el: any) => el.name === owner.value)?.uuid,
+        type: currentOwner?.type,
+        uuid: currentOwner?.uuid,
       };
     }
 
