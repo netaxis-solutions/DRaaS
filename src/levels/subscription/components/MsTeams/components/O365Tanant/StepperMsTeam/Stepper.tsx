@@ -58,7 +58,7 @@ const StepperStart: FC = () => {
     currentStep,
     activeStep,
     checkOnboarding,
-    cleanUpOnboarding,
+    startOnboarding,
     clearOnboardingProgress,
     isError,
     isRunning,
@@ -111,9 +111,7 @@ const StepperStart: FC = () => {
                       title={t("Retry")}
                       className={classes.buttonRetry}
                       icon={Reload}
-                      onClick={() =>
-                        cleanUpOnboarding(tenantID, subscriptionID)
-                      }
+                      onClick={() => startOnboarding(tenantID, subscriptionID)}
                     ></ButtonWithIcon>
                   </div>
                 ) : (
