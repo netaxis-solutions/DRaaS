@@ -22,7 +22,10 @@ const SelectNumberEntitlement: React.FC = () => {
 
   const { setValues, goNext, setPreviousChoices } = MultiStepForm;
   const { entitlements, getEntitlements } = Entitlements;
-  const { clearTablePagesForModals, clearPaginationData } = TablePagination;
+  const {
+    clearTablePagesWithoutServerPaginations,
+    clearPaginationData,
+  } = TablePagination;
   const { radioButtonValueInRow } = TableSelectedRows;
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -92,7 +95,7 @@ const SelectNumberEntitlement: React.FC = () => {
 
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID);
-    clearTablePagesForModals(availableEntitlements);
+    clearTablePagesWithoutServerPaginations(availableEntitlements);
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subscriptionID, tenantID, entitlements.length]);

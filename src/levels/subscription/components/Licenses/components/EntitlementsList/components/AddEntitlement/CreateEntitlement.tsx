@@ -38,7 +38,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     clearSelectedRowsValue,
   } = TableSelectedRowsStore;
 
-  const { clearTablePagesForModals } = TablePagination;
+  const { clearTablePagesWithoutServerPaginations } = TablePagination;
 
   const {
     getEntitlementTypes,
@@ -79,7 +79,7 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
   useEffect(() => {
     getEntitlementTypes();
     filteredEntitlementType();
-    clearTablePagesForModals(filteredDataEntitlementTypes);
+    clearTablePagesWithoutServerPaginations(filteredDataEntitlementTypes);
 
     return function cleanup() {
       clearSelectedRows();

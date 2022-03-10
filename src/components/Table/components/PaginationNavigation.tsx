@@ -28,14 +28,18 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
     if (!tableWithOutServerPagination) {
       nextPage();
       tableNextPage();
-    } else return nextPage();
+    } else {
+      return nextPage();
+    }
   };
 
   const prevPageStore = () => {
     if (!tableWithOutServerPagination) {
       previousPage();
       tablePrevPage();
-    } else return previousPage();
+    } else {
+      return previousPage();
+    }
   };
 
   return (

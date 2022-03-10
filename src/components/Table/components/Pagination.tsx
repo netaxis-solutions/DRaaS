@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
 
 import TablePagination from "storage/singletons/TablePagination";
 
@@ -6,7 +7,6 @@ import { TablePaginationType } from "utils/types/tableConfig";
 import PaginationDropdown from "./PaginationDropdown";
 import PaginationNavigation from "./PaginationNavigation";
 import { tablePaginationStyles } from "./styles";
-import { observer } from "mobx-react-lite";
 
 const Pagination: React.FC<TablePaginationType> = ({
   selectedRows,

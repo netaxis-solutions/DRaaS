@@ -31,7 +31,10 @@ const NumberInventory: React.FC = () => {
   } = MultiStepForm;
   const { radioButtonValueInRow } = TableSelectedRows;
 
-  const { clearTablePagesForModals, clearPaginationData } = TablePagination;
+  const {
+    clearTablePagesWithoutServerPaginations,
+    clearPaginationData,
+  } = TablePagination;
 
   const entitlement: EntitlementsListType = previousChoices[0].entitlements;
 
@@ -113,9 +116,10 @@ const NumberInventory: React.FC = () => {
     [t, avilableEntitlements],
   );
   useEffect(() => {
-    clearTablePagesForModals(availableRanges);
+    clearTablePagesWithoutServerPaginations(availableRanges);
     getNumbersInventoryRanges();
     return () => clearPaginationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getNumbersInventoryRanges, numberInventoryRanges.length]);
 
   const onSubmit = (event: React.FormEvent) => {
