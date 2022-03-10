@@ -28,8 +28,8 @@ const Pagination: React.FC<TablePaginationType> = ({
     tablePageSize,
     tableWithOutServerPagination,
   } = TablePagination;
-  const { page, pages } = tableConfig;
 
+  const { page, pages } = tableConfig;
   return (
     <div className={classes.tablePaginationWrapper}>
       <span>
@@ -51,14 +51,14 @@ const Pagination: React.FC<TablePaginationType> = ({
           </span>
         ) : (
           <span className={classes.tablePaginationPageNumber}>
-            {pageNumber} {t("of")} {pageCount}
+            {pageNumber} {t("of")} {pageCount === 0 ? 1 : pageCount}
           </span>
         )}
 
         <PaginationNavigation
           previousPage={previousPage}
           nextPage={nextPage}
-          pageCount={pageCount}
+          pageCount={pageCount === 0 ? 1 : pageCount}
           pageNumber={pageNumber}
           canNextPage={canNextPage}
           canPreviousPage={canPreviousPage}

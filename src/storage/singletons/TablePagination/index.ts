@@ -39,14 +39,10 @@ class TablePagination {
     });
   }, 1000);
 
-  tableDropDown = (payload: number) => {
+  setTableDropDown = (payload: number) => {
     runInAction(() => {
-      if (payload !== 100) {
-        this.tablePageSize = payload;
-      } else {
-        this.tablePageSize = payload;
-        this.tablePageCounter = 1;
-      }
+      this.tablePageSize = payload;
+      this.tablePageCounter = 1;
     });
   };
 
@@ -89,8 +85,8 @@ class TablePagination {
     if (param) {
       this.tableWithOutServerPagination = true;
     }
-
-    this.tableConfig = { page: 1, pages: param };
+    const formatter = param === 0 ? 1 : param;
+    this.tableConfig = { page: 1, pages: formatter };
   };
 }
 
