@@ -116,7 +116,7 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
           />
         )}
       />
-      {loggedInUserLevel === "reseller" ? (
+      {loggedInUserLevel !== "reseller" ? (
         <Controller
           name="owner"
           control={control}

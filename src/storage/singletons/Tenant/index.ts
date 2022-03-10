@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
@@ -16,7 +17,6 @@ import {
 } from "utils/functions/notifications";
 import { request } from "services/api";
 import { t } from "services/Translation/index";
-import { AxiosResponse } from "axios";
 
 const translateResellerGroupLabel = t("Reseller");
 const translateDistributorGroupLabel = t("Distributor");
