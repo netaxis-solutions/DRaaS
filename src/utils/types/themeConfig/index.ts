@@ -20,19 +20,19 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
 export type TThemeBody = {
   background: string;
   fontFamily: string;
-  button: { [key: string]: string | { [key: string]: string } };
-  table: { [key: string]: string | { [key: string]: string } };
-  tabs: { [key: string]: string | { [key: string]: string } };
-  card: { [key: string]: string | { [key: string]: string } };
-  stepper: { [key: string]: string | { [key: string]: string } };
+  button: any;
+  table: any;
+  tabs: any;
+  card: any;
+  stepper: any;
 };
 
 export type ThemeDefaultOptions = Theme & {
   palette: PaletteDefaultOptionsType;
   spacing: SpacingOptions | ((num: number) => number);
-  body: TThemeBody;
-  top_bar: { [key: string]: string };
-  side_bar: { [key: string]: string };
+  body: any;
+  top_bar: any;
+  side_bar: any;
 };
 
 export type DeepCloneThemeType = (
