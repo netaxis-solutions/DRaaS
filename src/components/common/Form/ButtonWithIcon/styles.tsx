@@ -15,9 +15,13 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     border: theme.body.button.normal.border,
 
     "&:hover": {
-      background: `${theme.body.button.action.background} !important`,
-      color: theme.body.button.action.text,
+      color: theme.body.button.action.hover.text,
       border: theme.body.button.action.border,
+      "& svg": {
+        "& path": {
+          fill: theme.body.button.action.hover.text,
+        },
+      },
     },
 
     padding: `${theme.spacing(1.25)}px ${theme.spacing(2.5)}px`,

@@ -76,7 +76,10 @@
         "background":"#484CBA",
         "border":"none",
         "icon":{
-          "color":"#FFFFFF"
+          "color":"#C0C0C0"
+        },
+        "hover":{
+          "text":"#C0C0C0"
         }
       },
       "cancel":{
