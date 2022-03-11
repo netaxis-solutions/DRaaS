@@ -48,12 +48,12 @@ class TenantStore {
   }
 
   get tenantOwners() {
-    return this.owners.map(
-      (el: { id: number; name: string; uuid: string; type: string }) => ({
-        label: el.name || "",
-        value: el.name || "",
-      }),
+    const filteredData = this.owners.reduce(
+      (prev: any, cur: any) =>
+        cur.name ? [...prev, { label: cur.name, value: cur.uuid }] : prev,
+      [],
     );
+    return filteredData;
   }
 
   createTenant = ({ payload, callback }: TCreateTenant) => {
