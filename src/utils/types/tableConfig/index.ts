@@ -36,7 +36,7 @@ export type CustomActionType = {
   onClick: (row: Row<TableData>) => void;
 };
 export type TableProps = {
-  title: string;
+  title: string | JSX.Element;
   columns: Column<TableData>[];
   data: TableData[];
   checkbox?: boolean;
@@ -65,7 +65,7 @@ export type TableProps = {
 
 export type ToolbarType = {
   toolbarActions: Array<ToolbarActionType>;
-  title: string;
+  title: string | JSX.Element;
   setGlobalFilter: (object: string) => void;
   value: string;
 };

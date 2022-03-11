@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
+import clsx from "clsx";
 
 import NumbersStore from "storage/singletons/Numbers";
 import MsTeamsStore from "storage/singletons/MsTeams";
@@ -17,6 +18,8 @@ import Table from "components/Table";
 import OtherLicenses from "./components/OtherLicenses";
 import FormSelect from "components/common/Form/FormSelect";
 import AssignedNumber from "./components/AssignedNumber";
+import { Plus, SuccessCircle, Reload } from "components/Icons";
+import ReloadButton from "./components/ReloadButton";
 
 import useStyles from "./styles";
 
@@ -27,6 +30,12 @@ const defaultValues = {
 const MsTeamsUsers: FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
+
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
+
   const { control, handleSubmit } = useForm<{ assignedNumber: string }>({
     resolver: yupResolver(
       object().shape({
@@ -35,16 +44,10 @@ const MsTeamsUsers: FC = () => {
     ),
     defaultValues,
   });
-  const {
-    msTeamUsersList,
-    getMsTeamUsers,
-    editMsTeamsUserNumber,
-  } = MsTeamsStore;
+
+  const { getMsTeamUsers, editMsTeamsUserNumber } = MsTeamsStore;
+
   const { getFreeNumbers } = NumbersStore;
-  const { tenantID, subscriptionID } = useParams<{
-    tenantID: string;
-    subscriptionID: string;
-  }>();
 
   useEffect(() => {
     getMsTeamUsers(tenantID, subscriptionID);
@@ -64,7 +67,6 @@ const MsTeamsUsers: FC = () => {
         Cell: ({ value }: CellProps<TableProps>) => {
           return <AssignedNumber draasUserInfo={value} />;
         },
-
         EditComponent: ({ cell }: CellProps<TableProps>) => {
           useEffect(() => {
             TableSelectedRowsStore.setSelectedRowsValues([cell.row]);
@@ -91,8 +93,30 @@ const MsTeamsUsers: FC = () => {
         },
       },
       {
-        Header: t("Phone system licence"),
+        Header: t("Voice enabled"),
         accessor: "msTeams.voiceEnabled",
+        Cell: ({ cell }: CellProps<any>) => {
+          switch (cell.value) {
+            case "yes":
+              return (
+                <div
+                  className={clsx(classes.icon, classes.centred, classes.check)}
+                >
+                  <SuccessCircle />
+                </div>
+              );
+            case "no":
+              return (
+                <div
+                  className={clsx(classes.icon, classes.centred, classes.cross)}
+                >
+                  <Plus />
+                </div>
+              );
+            default:
+              return <ReloadButton id={cell.row.original.msTeams.id} />;
+          }
+        },
       },
       {
         Header: t("Other licenses"),
@@ -122,9 +146,21 @@ const MsTeamsUsers: FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Table
-        title={t("Users")}
+        title={
+          <div className={classes.tableTitle}>
+            {t("Users")}{" "}
+            <div
+              className={clsx(classes.icon, classes.reloadButton)}
+              onClick={() => {
+                getMsTeamUsers(tenantID, subscriptionID);
+              }}
+            >
+              <Reload />
+            </div>
+          </div>
+        }
         columns={columns}
-        data={msTeamUsersList}
+        data={MsTeamsStore.msTeamUsersList}
         editDisabledCondition={(row: Row<TableData>) => {
           return !(row.original.msTeams.voiceEnabled === "yes");
         }}

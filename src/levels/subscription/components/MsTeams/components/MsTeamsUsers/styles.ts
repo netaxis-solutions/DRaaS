@@ -80,4 +80,52 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
       alignItems: "center",
     },
   },
+  centred: {
+    marginLeft: 35,
+  },
+  icon: {
+    height: 20,
+    width: 20,
+    "& >svg": {
+      width: "100%",
+      height: "100%",
+      fill: "#000",
+    },
+  },
+  reloadButton: {
+    "& >svg": {
+      fill: "#000",
+    },
+    "&:hover": {
+      cursor: "pointer",
+    },
+    "&:active": {
+      transform: "scale(0.9)",
+    },
+  },
+  check: {
+    "& >svg": {
+      fill: theme.palette.primary.white,
+    },
+  },
+  cross: {
+    transform: "rotate(45deg)",
+    "& >svg": {
+      fill: theme.palette.status.error,
+    },
+  },
+  rotateAnimation: {
+    animation: `$rotating 1.5s linear infinite`,
+  },
+  "@keyframes rotating": {
+    "0%": { transform: "rotate(0deg)" },
+    "100%": {
+      transform: "rotate(360deg)",
+    },
+  },
+  tableTitle: {
+    display: "flex",
+    alignItems: "center",
+    gap: theme.spacing(1.25),
+  },
 }));

@@ -10,10 +10,11 @@ import { successNotification } from "utils/functions/notifications";
 
 class MsTeam {
   msTeamUsersList: Array<TMsTeamUserType> = [];
-
+  isChecking: boolean = false;
   constructor() {
     makeObservable(this, {
       msTeamUsersList: observable.ref,
+      isChecking: observable.ref,
     });
   }
 
@@ -59,6 +60,47 @@ class MsTeam {
       })
       .catch(e => {
         console.error(e);
+      });
+  };
+
+  refreshMSTeamsUserStatus = (
+    userId: string,
+    newData: "yes" | "no" | "maybe",
+  ) => {
+    this.msTeamUsersList = this.msTeamUsersList.map(msTeamUser =>
+      msTeamUser.msTeams.id === userId
+        ? {
+            ...msTeamUser,
+            msTeams: {
+              ...msTeamUser.msTeams,
+              voiceEnabled: newData,
+            },
+          }
+        : msTeamUser,
+    );
+  };
+
+  checkIsMSTeamsUserVoiceEnabled = (
+    tenantID: string,
+    subscriptionID: string,
+    msTeamsUID: string,
+  ) => {
+    runInAction(() => {
+      this.isChecking = true;
+    });
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users/${msTeamsUID}/check`,
+    })
+      .then((data: AxiosResponse<{ voiceEnabled: boolean }>) => {
+        this.refreshMSTeamsUserStatus(
+          msTeamsUID,
+          data.data.voiceEnabled ? "yes" : "no",
+        );
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.isChecking = false;
+        });
       });
   };
 }
