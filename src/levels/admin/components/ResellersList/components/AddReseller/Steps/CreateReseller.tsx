@@ -101,6 +101,7 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
         render={({ field, ...props }) => (
           <FormInput
             label={t("Name")}
+            helper={t("Must only allow name")}
             {...field}
             {...props}
             className={classes.createResellerInput}
@@ -113,9 +114,6 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
         render={({ field, ...props }) => (
           <FormInput
             label={t("Billing ID")}
-            helper={t(
-              "Use letters and digits, special characters (e.g. *,%,#)",
-            )}
             {...field}
             {...props}
             className={clsx(
