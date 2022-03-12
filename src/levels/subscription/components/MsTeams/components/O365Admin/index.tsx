@@ -5,6 +5,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import FormHelperText from "@mui/material/FormHelperText";
+import clsx from "clsx";
 
 import { TCreateUpdateMsAdmin, TCreateMsAdmin } from "utils/types/msTeam";
 import { msTeamCreateAdmin } from "utils/schemas/msTeamsCreateAdmin";
@@ -12,7 +17,6 @@ import { msTeamCreateAdmin } from "utils/schemas/msTeamsCreateAdmin";
 import MsTeamAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import FormCheckbox from "components/common/Form/FormCheckbox";
 import FormInput from "components/common/Form/FormInput";
 import { MsTeamLimk, Trash } from "components/Icons";
 import AcceptText from "./components/AcceptText";
@@ -25,6 +29,10 @@ const O365Admin: FC = () => {
   const { t } = useTranslation();
   const classes = EntitlementsStyle();
   const [modalToOpen, setModalToOpen] = useState("");
+  const [checkbox, setCheckbox] = useState({
+    agree: true,
+    privacy: true,
+  });
 
   const {
     getMsTeamAdmin,
@@ -51,6 +59,9 @@ const O365Admin: FC = () => {
     privacy: true,
   };
 
+  const { agree, privacy } = checkbox;
+  const checkboxValidation = [agree, privacy].filter(el => el).length !== 2;
+
   const { control, handleSubmit } = useForm<TCreateMsAdmin>({
     resolver: yupResolver(msTeamCreateAdmin(t)),
     defaultValues,
@@ -70,7 +81,9 @@ const O365Admin: FC = () => {
   };
 
   const agreeLabelCheckbox = (
-    <span>{t("I agree with processing of my personal data")}</span>
+    <span className={classes.checkboxStyling}>
+      {t("I agree with processing of my personal data")}
+    </span>
   );
 
   const privacyPolicy = (
@@ -81,6 +94,13 @@ const O365Admin: FC = () => {
       <Link to="#">{t("Privacy Policy")}</Link>{" "}
     </span>
   );
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckbox({
+      ...checkbox,
+      [event.target.name]: event.target.checked,
+    });
+  };
 
   return (
     <div>
@@ -150,25 +170,59 @@ const O365Admin: FC = () => {
             )}
           />
 
-          <div className={classes.formCheckbox}>
-            <Controller
-              name="agree"
-              control={control}
-              render={({ field, ...props }) => (
-                <FormCheckbox
-                  label={agreeLabelCheckbox}
-                  {...field}
-                  {...props}
-                />
-              )}
-            />
-            <Controller
-              name="privacy"
-              control={control}
-              render={({ field, ...props }) => (
-                <FormCheckbox label={privacyPolicy} {...field} {...props} />
-              )}
-            />
+          <div
+            className={clsx(classes.formCheckbox, {
+              [classes.errorBorderCheckbox]: checkboxValidation,
+            })}
+          >
+            <FormControl
+              required
+              error={checkboxValidation}
+              component="fieldset"
+              variant="standard"
+            >
+              <Controller
+                name="agree"
+                control={control}
+                render={({ ...props }) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={agree}
+                        onChange={handleChange}
+                        name="agree"
+                        disableRipple
+                        {...props}
+                      />
+                    }
+                    label={agreeLabelCheckbox}
+                  />
+                )}
+              />
+              <Controller
+                name="privacy"
+                control={control}
+                render={({ ...props }) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={privacy}
+                        onChange={handleChange}
+                        name="privacy"
+                        disableRipple
+                        {...props}
+                      />
+                    }
+                    label={privacyPolicy}
+                  />
+                )}
+              />
+              {checkboxValidation ? (
+                <FormHelperText className={classes.errorNotificationCheckbox}>
+                  {t("Terms and Conditions checkbox must be required")}
+                </FormHelperText>
+              ) : null}
+            </FormControl>
           </div>
 
           <div>
@@ -177,6 +231,7 @@ const O365Admin: FC = () => {
               title="confirm"
               icon={MsTeamLimk}
               type="submit"
+              disabled={checkboxValidation}
             />
           </div>
         </form>
