@@ -39,6 +39,7 @@ class Login {
   isForgotPasswordNotificationShown: string = "";
   keepUserLoggedIn: boolean = false;
   twoFactorCode: string = "";
+  isLoading: boolean = false;
 
   get customLogoutLink() {
     return (
@@ -56,6 +57,7 @@ class Login {
     makeObservable(this, {
       user: observable.ref,
       level: observable,
+      isLoading: observable.ref,
       isForgotPasswordNotificationShown: observable,
       keepUserLoggedIn: observable,
       setKeepUserLoggenIn: action,
@@ -139,13 +141,16 @@ class Login {
     );
 
     await this.getUserData();
-
-    const routeVal = RoutingConfig.availableRouting.find(
-      el => el.key === homeUrl[RoutingConfig.currentLevel],
-    );
-
-    const route = routeVal?.value?.path || "/";
-    RoutingConfig.history.push(route);
+    setTimeout(() => {
+      if (this.level) {
+        const routeVal = RoutingConfig.availableRouting.find(
+          el => el.key === homeUrl[RoutingConfig.currentLevel],
+        );
+        const route = routeVal?.value?.path || "/";
+        RoutingConfig.history.push(route);
+        this.isLoading = false;
+      }
+    }, 1000);
   };
 
   login = async ({
@@ -165,6 +170,8 @@ class Login {
       const twoFactorPayload =
         data["data" as keyof object]["2fa_payload" as keyof object] || false;
 
+      this.isLoading = true;
+
       if (twoFactorPayload) {
         this.twoFactorCode = twoFactorPayload;
         RoutingConfig.history.push("/two-factor");
@@ -172,6 +179,8 @@ class Login {
         this.successLoggedIn({ data, keepMeLoggedIn });
       }
     } catch (e) {
+      this.isLoading = false;
+
       errorNotification(t("Invalid credentials"));
     }
   };
