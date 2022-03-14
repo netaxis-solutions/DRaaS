@@ -13,6 +13,7 @@ import Loader from "components/Loader/Loader";
 
 const MyNumbers = lazy(() => import("./TabsContent/AssignedNumbers/MyNumbers"));
 const ReservedNumbers = lazy(() => import("./TabsContent/ReservedNumbers"));
+const PortingRequests = lazy(() => import("./TabsContent/PortingRequests"));
 
 const tabs: Tab[] = [
   {
@@ -33,7 +34,7 @@ const tabs: Tab[] = [
   {
     name: t("Porting"),
     id: "porting",
-    component: () => <div>Porting</div>,
+    component: () => <PortingRequests />,
   },
 ];
 
