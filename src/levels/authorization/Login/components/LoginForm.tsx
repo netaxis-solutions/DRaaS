@@ -23,7 +23,7 @@ const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const classes = useFormStyles();
 
-  const { login, keepUserLoggedIn, isLoading } = loginStore;
+  const { login, keepUserLoggedIn } = loginStore;
 
   const defaultValues = useMemo(
     () => ({ ...initialValues, keepMeLoggedIn: keepUserLoggedIn }),
@@ -83,7 +83,7 @@ const LoginForm: React.FC = () => {
           {t("Forgot password")}?
         </NavLink>
       </div>
-      <Button type="submit" variant="contained" disabled={isLoading}>
+      <Button type="submit" variant="contained">
         {t("Login")}
       </Button>
     </form>
