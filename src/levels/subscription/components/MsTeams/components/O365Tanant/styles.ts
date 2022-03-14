@@ -7,6 +7,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     flexDirection: "column",
     gap: theme.spacing(4.25),
+    color: theme.body.card.text,
   },
   title: {
     display: "flex",
@@ -18,8 +19,10 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     fill: "orange",
   },
   list: {
-    border: "1px solid #EBEBF7",
+    border: theme.body.card.border,
     padding: "32px 16px 16px 30px",
+    background: theme.body.card.background,
+
     borderRadius: 10,
     fontSize: "16px",
 
@@ -44,15 +47,15 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     justifyContent: "end",
   },
   buttonUnlink: {
-    background: theme.palette.status.error,
-    color: theme.palette.primary.white,
+    background: theme.body.button.error.background,
+    color: theme.body.button.error.text,
     width: 250,
     marginTop: theme.spacing(2.5),
     display: "flex",
 
     "&:hover": {
-      backgroundColor: `${theme.palette.primary.main} !important`,
-      color: theme.palette.primary.white,
+      backgroundColor: `${theme.body.button.action.background} !important`,
+      color: theme.body.button.action.text,
     },
 
     "& span": {
@@ -71,16 +74,9 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   buttonConfirm: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.white,
     width: 250,
     marginTop: theme.spacing(2.5),
     display: "flex",
-
-    "&:hover": {
-      backgroundColor: `${theme.palette.primary.main} !important`,
-      color: theme.palette.primary.white,
-    },
 
     "& span": {
       width: "100%",
@@ -90,7 +86,6 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
         width: "15%",
       },
       "& svg": {
-        fill: `${theme.palette.primary.white} !important`,
         width: "65%",
         height: "20px",
         paddingTop: 1,

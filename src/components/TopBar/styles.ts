@@ -6,18 +6,19 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   topbarContainer: {
     width: "100%",
     height: 40,
-    background: theme.palette.primary.light,
+    background: theme.top_bar.background,
     display: "flex",
     alignItems: "center",
+    fontFamily: theme.top_bar.fontFamily,
   },
   topBarLogoImage: {
     margin:
       theme.direction === "ltr"
         ? `${theme.spacing(0.5)}px ${theme.spacing(2.25)}px ${theme.spacing(
-            0.5
+            0.5,
           )}px ${theme.spacing(3.75)}px`
         : `${theme.spacing(0.5)}px ${theme.spacing(3.75)}px ${theme.spacing(
-            0.5
+            0.5,
           )}px ${theme.spacing(2.25)}px`,
   },
 }));

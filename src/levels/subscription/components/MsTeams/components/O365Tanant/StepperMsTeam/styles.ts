@@ -14,9 +14,9 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& span": {
       borderRadius: 10,
       height: 6,
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor: theme.body.stepper.progressBarBackground,
       "& > span": {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.body.stepper.progressBarActive,
       },
     },
   },
@@ -39,6 +39,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& > span": {
       paddingTop: 0,
       paddingBottom: 0,
+
       "& > span:last-child": {
         paddingLeft: theme.spacing(1.1),
       },
@@ -58,13 +59,13 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       "& .Mui-active": {
         width: 18,
         height: 18,
-        fill: theme.palette.primary.main,
+        fill: theme.body.stepper.stepsCircle.active,
       },
       "& svg": {
         width: 18,
         height: 18,
         "& path": {
-          fill: theme.palette.status.success,
+          fill: theme.body.stepper.stepsCircle.success,
         },
       },
     },
@@ -74,18 +75,21 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& .MuiStepLabel-label": {
       fontSize: "1.4rem",
       fontWeight: 300,
+      color: theme.body.stepper.text,
     },
   },
   StepperContent: {
     "& .MuiCollapse-wrapperInner": {
       paddingTop: theme.spacing(1.5),
+      color: theme.body.stepper.secondaryText,
     },
 
     fontSize: "1.4rem",
     fontWeight: 300,
   },
   StepperWrapper: {
-    border: `1px solid ${theme.palette.primary.light}`,
+    background: theme.body.stepper.background,
+    border: `1px solid ${theme.body.stepper.border}`,
     maxWidth: 644,
     padding: "16px 31px",
     borderRadius: 10,
@@ -95,17 +99,15 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
   },
   isErrorNote: {
-    border: `1px solid ${theme.palette.secondary.alertBorder}`,
+    border: `1px solid ${theme.body.stepper.errorBorder}`,
     borderRadius: 10,
-    backgroundColor: theme.palette.secondary.alertBackground,
+    backgroundColor: theme.body.stepper.errorNotesBackground,
     width: "100%",
     fontSize: "1.4rem",
     padding: theme.spacing(1.25),
     margin: theme.spacing(1.25),
   },
   buttonRetry: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.white,
     width: 93,
     "& span": {
       "& svg": {
@@ -113,11 +115,6 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
           fill: theme.palette.primary.white,
         },
       },
-    },
-
-    "&:hover": {
-      backgroundColor: `${theme.palette.primary.main} !important`,
-      color: theme.palette.primary.white,
     },
   },
 }));

@@ -1,7 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
+import { ThemeDefaultOptions } from "utils/types/themeConfig";
+
+const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   mainContentContainer: {
+    background: theme.body.background,
+    fontFamily: theme.body.fontFamily,
     display: "flex",
     height: "calc(100% - 40px)",
     "& > div": {

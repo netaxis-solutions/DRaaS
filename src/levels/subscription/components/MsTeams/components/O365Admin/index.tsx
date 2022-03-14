@@ -119,6 +119,7 @@ const O365Admin: FC = () => {
               onClick={() => setModalToOpen("delete")}
               title="delete"
               icon={Trash}
+              cancel
             />
             <ButtonWithIcon
               title="update"

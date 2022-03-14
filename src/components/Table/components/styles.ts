@@ -8,10 +8,13 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     justifyContent: "flex-end",
     textAlign: "end",
     "& svg": {
-      fill: theme.palette.icon.main,
+      fill: theme.body.table.actionBar.color,
       width: 16,
       height: 16,
       cursor: "pointer",
+    },
+    "& svg:hover": {
+      fill: theme.body.table.actionBar.action.color,
     },
     "& svg:last-child": {
       marginLeft: theme.direction === "ltr" ? `${theme.spacing(2)}px` : 0,
@@ -33,7 +36,13 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   disabled: {
-    "&>svg": { cursor: "default", fill: theme.palette.table.iconDisabled },
+    "&>svg": {
+      cursor: "default",
+      fill: theme.body.table.actionBar.disabled.color,
+    },
+    "&>svg:hover": {
+      fill: theme.body.table.actionBar.disabled.color,
+    },
   },
   hidden: {
     "&>svg": { visibility: "hidden" },
@@ -60,17 +69,19 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     height: 28,
     margin: `0 ${theme.spacing(0.25)}px`,
     borderRadius: 6,
+    color: "red",
+    backgroundColor: theme.body.table.header.background,
     "&:hover": {
-      backgroundColor: theme.palette.table.hover,
+      backgroundColor: theme.body.table.header.active.background,
     },
     "&:active": {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.body.table.header.active.backgroundSelected,
       "& svg": {
-        fill: "#FFFFFF",
+        fill: theme.body.table.header.active.imageColor,
       },
     },
     "& svg": {
-      fill: theme.palette.icon.main,
+      fill: theme.body.table.header.imageColor,
       margin: "0 auto",
       height: 14,
       width: 10,
@@ -78,11 +89,11 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   tableSortWrapperIsSorted: {
     "&:hover": {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.body.table.header.active.backgroundSelected,
     },
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.body.table.header.active.backgroundSelected,
     "& svg": {
-      fill: "#FFFFFF",
+      fill: theme.body.table.header.imageColorWhite,
     },
   },
 }));
@@ -125,8 +136,25 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     borderColor: theme.palette.table.border,
     borderStyle: "solid",
     borderWidth: "1px 1px 0 1px",
+    color: theme.body.table.title,
     "& button": {
-      borderColor: "transparent",
+      borderColor: theme.body.table.button.borderColor,
+      color: theme.body.table.button.text,
+      background: theme.body.table.button.background,
+      "& svg": {
+        "& path": {
+          fill: theme.body.table.button.icon,
+        },
+      },
+      "&:hover": {
+        color: theme.body.table.button.action.text,
+        background: `${theme.body.table.button.action.background} !important`,
+        "& svg": {
+          "& path": {
+            fill: theme.body.table.button.action.icon,
+          },
+        },
+      },
     },
   },
   tableToolbarTitle: {

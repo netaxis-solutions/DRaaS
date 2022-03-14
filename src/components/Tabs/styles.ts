@@ -3,7 +3,7 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
   textColorInherit: {
-    color: theme.palette.primary.text,
+    color: theme.body.tabs.color,
     textTransform: "none",
     fontSize: "1.4rem",
     fontWeight: 300,
@@ -20,12 +20,12 @@ export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
   },
   selected: {
     "&$textColorInherit": {
-      color: theme.palette.primary.main,
+      color: theme.body.tabs.active.color,
       fontWeight: "400",
     },
-    border: `1px solid ${theme.palette.icon.hover}`,
+    border: `1px solid ${theme.body.tabs.active.border}`,
     borderRadius: "6px 6px 0 0",
-    borderBottom: `1px solid ${theme.palette.primary.background}`,
+    borderBottom: `1px solid ${theme.body.tabs.active.borderBottom}`,
   },
 }));
 
@@ -38,7 +38,7 @@ export default createStyles((theme: ThemeDefaultOptions) => ({
   },
   scroller: {
     "&>*": {
-      borderBottom: "1px solid" + theme.palette.icon.hover,
+      borderBottom: "1px solid" + theme.body.tabs.border,
     },
   },
   indicator: {

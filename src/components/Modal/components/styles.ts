@@ -60,5 +60,15 @@ export const modalButtonsWrapperUseStyles = makeStyles(
         height: 10,
       },
     },
+    styleCancel: {
+      color: `${theme.body.button.cancel.text} !important`,
+      background: `${theme.body.button.cancel.background} !important`,
+      border: `${theme.body.button.cancel.border} !important`,
+      "& svg": {
+        "& path": {
+          fill: `${theme.body.button.cancel.icon.color} !important`,
+        },
+      },
+    },
   }),
 );

@@ -17,9 +17,22 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   sidebar: ColorType;
 };
 
+export type TThemeBody = {
+  background: string;
+  fontFamily: string;
+  button: any;
+  table: any;
+  tabs: any;
+  card: any;
+  stepper: any;
+};
+
 export type ThemeDefaultOptions = Theme & {
   palette: PaletteDefaultOptionsType;
   spacing: SpacingOptions | ((num: number) => number);
+  body: any;
+  top_bar: any;
+  side_bar: any;
 };
 
 export type DeepCloneThemeType = (

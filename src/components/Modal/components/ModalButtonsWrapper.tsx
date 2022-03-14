@@ -28,7 +28,7 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
           onClick={handleCancel}
           icon={IconCancel}
           title={cancelButtonTitle ? cancelButtonTitle : t("Cancel")}
-          className={classes.cancelButton}
+          className={classes.styleCancel}
         />
       )}
       <ButtonWithIcon
