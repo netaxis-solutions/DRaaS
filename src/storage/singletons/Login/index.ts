@@ -55,7 +55,7 @@ class Login {
   constructor() {
     makeObservable(this, {
       user: observable.ref,
-      level: observable,
+      level: observable.ref,
       isForgotPasswordNotificationShown: observable,
       keepUserLoggedIn: observable,
       setKeepUserLoggenIn: action,
@@ -111,6 +111,7 @@ class Login {
   setKeepUserLoggenIn = (keepUserLoggedIn: boolean) => {
     this.keepUserLoggedIn = keepUserLoggedIn;
   };
+
   successLoggedIn = async ({
     data,
     keepMeLoggedIn,
@@ -119,7 +120,6 @@ class Login {
     keepMeLoggedIn: boolean;
   }) => {
     const storage = storageToManipulate(keepMeLoggedIn);
-
     const accessToken = get(data, "data.access_token", false);
     const refreshToken = get(data, "data.refresh_token", false);
     accessToken &&
@@ -138,14 +138,15 @@ class Login {
       `${keepMeLoggedIn}`,
     );
 
-    await this.getUserData();
+    const firstCurrentRouter = () => {
+      const route =
+        RoutingConfig.availableRouting.find(
+          el => el.key === homeUrl[RoutingConfig.currentLevel],
+        )?.value?.path || "/";
+      RoutingConfig.history.push(route);
+    };
 
-    const routeVal = RoutingConfig.availableRouting.find(
-      el => el.key === homeUrl[RoutingConfig.currentLevel],
-    );
-
-    const route = routeVal?.value?.path || "/";
-    RoutingConfig.history.push(route);
+    await this.getUserData(firstCurrentRouter);
   };
 
   login = async ({
@@ -193,7 +194,9 @@ class Login {
     RoutingConfig.history.push(this.customLogoutLink || "/login");
   };
 
-  getUserData: () => Promise<void> = async () => {
+  getUserData: (
+    successCallback?: () => void,
+  ) => Promise<void> = async successCallback => {
     type RoutingConfigType = {
       data: {
         ui_profile: LoggedInUserType;
@@ -220,6 +223,7 @@ class Login {
           this.user = data;
           this.level = level;
         });
+        successCallback && successCallback();
       })
       .catch(e => {
         errorNotification(e);
