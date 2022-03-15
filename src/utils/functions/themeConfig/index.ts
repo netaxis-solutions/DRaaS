@@ -13,7 +13,7 @@ import { defaultPalette, overrides } from "utils/constants/theme.assets";
 
 export const deepClone: DeepCloneThemeType = (
   defaultPalette: PaletteDefaultOptionsType,
-  palette: PaletteOptions
+  palette: PaletteOptions,
 ) =>
   Object.keys(defaultPalette).reduce((prev, key: string) => {
     if (
@@ -37,13 +37,13 @@ export const deepClone: DeepCloneThemeType = (
 
 export const createTheme = (
   options: ThemeDefaultOptions | {},
-  defaultTheme: ThemeDefaultOptions | Theme
+  defaultTheme: ThemeDefaultOptions | Theme,
 ) => {
   const direction = document.body.dir || "ltr";
   const palette: PaletteDefaultOptionsType = get(
     options,
     "palette",
-    defaultPalette
+    defaultPalette,
   );
   const themeObj = merge({}, options, defaultTheme, {
     direction,
@@ -55,6 +55,21 @@ export const createTheme = (
         lg: 1200,
         xl: 1800,
       },
+    },
+    typography: {
+      body1: {
+        fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
+      },
+      body2: {
+        fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
+      },
+      button: {
+        fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
+      },
+      caption: {
+        fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
+      },
+      fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
     },
     palette: deepClone(defaultPalette, palette),
     overrides: overrides(palette),
