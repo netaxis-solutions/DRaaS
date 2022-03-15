@@ -4,6 +4,7 @@ import { debounce } from "lodash";
 class TablePagination {
   tablePageCounter: number = 1;
   tablePageSize: number = 10;
+  tablePageSizeWithoutPagination: number = 10;
   search: string = "";
   liveSearch: string = "";
   tableWithOutServerPagination: boolean = false;
@@ -46,6 +47,12 @@ class TablePagination {
     });
   };
 
+  setTableDropDownWithoutPagination = (payload: number) => {
+    runInAction(() => {
+      this.tablePageSizeWithoutPagination = payload;
+    });
+  };
+
   getTableConfig = (payload: {
     page: number;
     pages: number;
@@ -81,6 +88,7 @@ class TablePagination {
       this.liveSearch = "";
       this.tableWithOutServerPagination = false;
       this.tableConfig = { page: 1, pages: 1 };
+      this.tablePageSizeWithoutPagination = 10;
     });
   };
 

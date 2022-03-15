@@ -374,6 +374,7 @@ const Table: FC<TableProps> = ({
     return () => {
       TableSelectedRowsStore.clearStorage();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
 

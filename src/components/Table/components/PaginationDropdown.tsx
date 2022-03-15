@@ -1,5 +1,6 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@material-ui/core/TextField";
+import { observer } from "mobx-react-lite";
 
 import TablePagination from "storage/singletons/TablePagination";
 
@@ -13,28 +14,54 @@ const PaginationDropdown: React.FC<PaginationDropdownType> = ({
   setPageSize,
 }) => {
   const classes = paginationDropdownStyles();
-  const { setTableDropDown } = TablePagination;
+  const {
+    setTableDropDown,
+    tableWithOutServerPagination,
+    setTableDropDownWithoutPagination,
+    tablePageSizeWithoutPagination,
+  } = TablePagination;
 
   return (
-    <Autocomplete
-      options={options}
-      value={`${pageSize}`}
-      disableClearable
-      onChange={(_, value) => {
-        if (value) {
-          setPageSize(+value);
-          setTableDropDown(+value);
-        }
-      }}
-      classes={{
-        root: classes.autocompleteRoot,
-        inputRoot: classes.automcompleteInputRoot,
-        input: classes.autocompleteInput,
-        endAdornment: classes.autocompleteEndAdornment,
-      }}
-      renderInput={params => <TextField variant="outlined" {...params} />}
-    />
+    <>
+      {!tableWithOutServerPagination ? (
+        <Autocomplete
+          options={options}
+          value={`${pageSize}`}
+          disableClearable
+          onChange={(_, value) => {
+            if (value) {
+              setPageSize(+value);
+              setTableDropDown(+value);
+            }
+          }}
+          classes={{
+            root: classes.autocompleteRoot,
+            inputRoot: classes.automcompleteInputRoot,
+            input: classes.autocompleteInput,
+            endAdornment: classes.autocompleteEndAdornment,
+          }}
+          renderInput={params => <TextField variant="outlined" {...params} />}
+        />
+      ) : (
+        <Autocomplete
+          options={options}
+          value={`${tablePageSizeWithoutPagination}`}
+          disableClearable
+          onChange={(_, value) => {
+            setPageSize(Number(value));
+            setTableDropDownWithoutPagination(Number(value));
+          }}
+          classes={{
+            root: classes.autocompleteRoot,
+            inputRoot: classes.automcompleteInputRoot,
+            input: classes.autocompleteInput,
+            endAdornment: classes.autocompleteEndAdornment,
+          }}
+          renderInput={params => <TextField variant="outlined" {...params} />}
+        />
+      )}
+    </>
   );
 };
 
-export default PaginationDropdown;
+export default observer(PaginationDropdown);
