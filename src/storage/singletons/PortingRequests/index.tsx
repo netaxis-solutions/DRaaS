@@ -5,7 +5,9 @@ import { request } from "services/api";
 
 class PortingRequestsStore {
   portingRequests: Array<any> = [];
-  currentRequestId: number = 0;
+  currentRequestId: number | null = null;
+  currentPortingRequest: any = {};
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -25,8 +27,32 @@ class PortingRequestsStore {
     }
   };
 
+  getExactPortingRequest = async (
+    tenantID: string,
+    subscriptionID: string,
+    id: number | string,
+  ) => {
+    try {
+      const data = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/porting/requests/${id}`,
+        loaderName: "@getPortingRequests",
+      });
+      const currentRequest = data.data;
+      runInAction(() => {
+        this.currentPortingRequest = currentRequest;
+      });
+    } catch (e) {
+      this.currentPortingRequest = {};
+    }
+  };
+
   setCurrentRequestId = (requestId: number) => {
     this.currentRequestId = requestId;
+  };
+
+  clearCurrentRequest = () => {
+    this.currentRequestId = null;
+    this.currentPortingRequest = {};
   };
 }
 

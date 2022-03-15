@@ -29,11 +29,15 @@ const PortingRequests: FC = () => {
     portingRequests,
     getPortingRequests,
     setCurrentRequestId,
+    clearCurrentRequest,
   } = PortingRequestsStore;
 
   useEffect(() => {
     getPortingRequests(tenantID, subscriptionID);
 
+    return () => {
+      clearCurrentRequest();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
