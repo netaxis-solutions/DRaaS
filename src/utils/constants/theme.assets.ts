@@ -1,7 +1,11 @@
 import { PaletteDefaultOptionsType } from "utils/types/themeConfig";
 
-import { fontRegular, fontLight, fontBold, fontMedium } from '../functions/themeConfig/fonts'
-
+import {
+  fontRegular,
+  fontLight,
+  fontBold,
+  fontMedium,
+} from "../functions/themeConfig/fonts";
 
 const scroll = {
   "& ::-webkit-scrollbar": {
@@ -84,7 +88,7 @@ export const defaultPalette: PaletteDefaultOptionsType = {
 export const overrides = (palette: PaletteDefaultOptionsType) => ({
   MuiCssBaseline: {
     "@global": {
-      '@font-face': [fontRegular, fontLight, fontBold, fontMedium],
+      "@font-face": [fontRegular, fontLight, fontBold, fontMedium],
       html: {
         fontSize: 10,
         color: palette?.primary?.text,
