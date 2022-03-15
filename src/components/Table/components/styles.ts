@@ -69,7 +69,6 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     height: 28,
     margin: `0 ${theme.spacing(0.25)}px`,
     borderRadius: 6,
-    color: "red",
     backgroundColor: theme.body.table.header.background,
     "&:hover": {
       backgroundColor: theme.body.table.header.active.background,

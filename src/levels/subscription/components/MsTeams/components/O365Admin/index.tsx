@@ -8,7 +8,6 @@ import { observer } from "mobx-react-lite";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import FormHelperText from "@mui/material/FormHelperText";
 import clsx from "clsx";
 
 import { TCreateUpdateMsAdmin, TCreateMsAdmin } from "utils/types/msTeam";
@@ -218,11 +217,6 @@ const O365Admin: FC = () => {
                   />
                 )}
               />
-              {checkboxValidation ? (
-                <FormHelperText className={classes.errorNotificationCheckbox}>
-                  {t("Terms and Conditions checkbox must be required")}
-                </FormHelperText>
-              ) : null}
             </FormControl>
           </div>
 

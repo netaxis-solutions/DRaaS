@@ -179,6 +179,14 @@
       "text":"#000000",
       "link":"#0061F1",
       "white":"#FFFFFF"
+    },
+    "checkbox":{
+      "error":{
+        "color":"#EC4436"
+      },
+      "label":{
+        "text":"#000000"
+      }
     }
   }, 
   "top_bar":{

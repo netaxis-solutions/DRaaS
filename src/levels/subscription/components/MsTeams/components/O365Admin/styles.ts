@@ -19,7 +19,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   checkboxStyling: {
-    color: "#000000 !important",
+    color: `${theme.body.checkbox.label.text} !important`,
     fontSize: "1.4rem",
     "& a": {
       textDecoration: "none",
@@ -42,13 +42,10 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   formCheckbox: {
     display: "flex",
     flexDirection: "column",
-    padding: 10,
+    padding: theme.spacing(1.25),
     height: 110,
     "& label": {
       height: 30,
-      "& span": {
-        color: "#B4BDC2",
-      },
       "& svg": {
         width: "20px",
         height: "20px",
@@ -58,7 +55,10 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   errorBorderCheckbox: {
     "& label": {
       "& span": {
-        color: "red",
+        color: theme.body.checkbox.error.color,
+        "& svg": {
+          fontSize: "20px",
+        },
       },
     },
   },
