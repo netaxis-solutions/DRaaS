@@ -93,6 +93,11 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& button": {
       maxWidth: 90,
       width: 90,
+      "& svg": {
+        "& path": {
+          fill: theme.body.button.normal.icon.color,
+        },
+      },
     },
   },
   successLogin: {

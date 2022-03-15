@@ -39,7 +39,9 @@ const O365Admin: FC = () => {
     msTeamAdmin,
     clearCashMsTeamAdmin,
     deleteMsTeamAdmin,
+    checkMsTeamAdmin,
   } = MsTeamAdmin;
+
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
@@ -101,6 +103,10 @@ const O365Admin: FC = () => {
     });
   };
 
+  const disabledButton =
+    checkMsTeamAdmin?.status !== "onboarded" &&
+    checkMsTeamAdmin?.status !== "not_initiated";
+
   return (
     <div>
       {msTeamAdmin.id ? (
@@ -139,12 +145,14 @@ const O365Admin: FC = () => {
               title="delete"
               icon={Trash}
               cancel
+              disabled={disabledButton}
             />
             <ButtonWithIcon
               title="update"
               icon={MsTeamLimk}
               type="submit"
               className={classes.buttonConfirm}
+              disabled={disabledButton}
             />
           </div>
         </form>
