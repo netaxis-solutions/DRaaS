@@ -67,10 +67,10 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
       ? { markup: +markup, ...values }
       : { ...values };
     if (distributor.value) {
-        payload.owner = {
-          type: "distributor",
-          uuid: owners!.find(el => el.name === distributor.value)?.uuid,
-        };
+      payload.owner = {
+        type: "distributor",
+        uuid: owners!.find(el => el.name === distributor.value)?.uuid,
+      };
     }
     //TODO: Uncomment when multistep form will be impelemented
     // createReseller({ payload, callback: goNext });
@@ -101,6 +101,7 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
         render={({ field, ...props }) => (
           <FormInput
             label={t("Name")}
+            helper={t("Must only allow name")}
             {...field}
             {...props}
             className={classes.createResellerInput}
@@ -113,9 +114,6 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
         render={({ field, ...props }) => (
           <FormInput
             label={t("Billing ID")}
-            helper={t(
-              "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
-            )}
             {...field}
             {...props}
             className={clsx(

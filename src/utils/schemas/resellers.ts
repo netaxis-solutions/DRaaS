@@ -3,13 +3,13 @@ import { string, object } from "yup";
 
 export const addResellerSchema = (t: TFunction) =>
   object().shape({
-    name: string().required(t("Please fill this field")),
-    billingId: string().matches(/^[aA-zZ0-9\s]+$/, {
-      message: t(
-        "Use only letters and digits, don’t use special characters (e.g. *,%,#)",
-      ),
-      excludeEmptyString: true,
-    }),
+    name: string()
+      .required(t("Please fill this field"))
+      .matches(/^[aA-zZ0-9\s]+$/, {
+        message: t("Use only letters and digits"),
+        excludeEmptyString: true,
+      }),
+    billingId: string(),
     distributor: object().shape({
       label: string(),
       value: string().required(t("Please choose a distributor")),
