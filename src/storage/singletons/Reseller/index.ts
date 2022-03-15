@@ -1,7 +1,6 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
-
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
 import { t } from "services/Translation";
@@ -63,20 +62,12 @@ class ResellerStore {
   };
 
   get resellerOwners() {
-    return this.owners.map(
-      (el: { id: number; name: string; uuid: string; type: string }) => {
-        if (el.name !== undefined) {
-          return {
-            label: el.name,
-            value: el.name,
-          };
-        } else
-          return {
-            label: "",
-            value: "",
-          };
-      },
+    const filteredData = this.owners.reduce(
+      (prev: any, cur: any) =>
+        cur.name ? [...prev, { label: cur.name, value: cur.uuid }] : prev,
+      [],
     );
+    return filteredData;
   }
 
   editReseller = ({
