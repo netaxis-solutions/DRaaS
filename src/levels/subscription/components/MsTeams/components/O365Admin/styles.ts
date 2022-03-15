@@ -56,9 +56,6 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& label": {
       "& span": {
         color: theme.body.checkbox.error.color,
-        "& svg": {
-          fontSize: "20px",
-        },
       },
     },
   },
