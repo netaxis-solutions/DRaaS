@@ -8,6 +8,23 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   multipleNumbers: {
     cursor: "pointer",
   },
+  modalLink: {
+    cursor: "pointer",
+    color: theme.palette.primary.newLink,
+  },
+}));
+
+export const tabsStyles = makeStyles((theme: ThemeDefaultOptions) => ({
+  tooltipIcon: {
+    height: 20,
+    width: 20,
+    fill: theme.palette.status.error,
+  },
+  tab: {
+    display: "flex",
+    alignItems: "center",
+    gap: theme.spacing(0.625),
+  },
 }));
 
 export const requestInfoStyles = makeStyles((theme: ThemeDefaultOptions) => ({

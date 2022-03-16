@@ -63,6 +63,8 @@ const PortingRequestDetails: React.FC = () => {
       { fieldName: t("Donor"), fieldValue: name },
       { fieldName: t("Email address"), fieldValue: contactEmail },
     ],
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       contactEmail,
       createdOnArray,

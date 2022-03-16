@@ -11,6 +11,7 @@ import Table from "components/Table";
 
 import styles from "./styles";
 import RequestInfoModal from "./Modals/RequestInfoModal";
+import AddPortingRequestModal from "./Modals/AddPortingRequestModal";
 
 const numbersToShowFormatter = (number: Array<[number, number]> | number) => {
   return Array.isArray(number) ? `${number[0]} - ${number[1]}` : number;
@@ -47,7 +48,7 @@ const PortingRequests: FC = () => {
       title: t("Add"),
       icon: Plus,
       onClick: () => {
-        console.log("aaaaa");
+        setModalToOpen("AddPortingRequest");
       },
     },
   ];
@@ -126,16 +127,16 @@ const PortingRequests: FC = () => {
       },
       {
         Header: t("Provider"),
-        accessor: "donor.id",
+        accessor: "donor.name",
       },
       {
         Header: t("Port ID"),
-        accessor: "recipient.id",
+        accessor: "portId",
         Cell: ({
           value,
           cell: {
             row: {
-              original: { portId, id },
+              original: { id },
             },
           },
         }: CellProps<any>) => {
@@ -145,8 +146,9 @@ const PortingRequests: FC = () => {
                 setCurrentRequestId(id);
                 setModalToOpen("RequestInfo");
               }}
+              className={classes.modalLink}
             >
-              {value || portId}
+              {value}
             </div>
           );
         },
@@ -156,6 +158,7 @@ const PortingRequests: FC = () => {
         accessor: "status",
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
 
@@ -173,6 +176,9 @@ const PortingRequests: FC = () => {
       />
       {modalToOpen === "RequestInfo" && (
         <RequestInfoModal handleCancel={handleClose} />
+      )}
+      {modalToOpen === "AddPortingRequest" && (
+        <AddPortingRequestModal handleCancel={handleClose} />
       )}
     </>
   );

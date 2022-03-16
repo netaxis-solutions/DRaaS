@@ -6,40 +6,22 @@ import { useParams } from "react-router-dom";
 import PortingRequestsStore from "storage/singletons/PortingRequests";
 
 import { TAddTenantFormProps } from "utils/types/tenant";
+import { Tab } from "utils/types/tabs";
 
 import Modal from "components/Modal";
-import { t } from "services/Translation";
 import RouteIndependedTabs from "components/Tabs/RouteIndependedTabs";
-import { Tab } from "utils/types/tabs";
 import PortingRequestDetails from "./Tabs/TabsContent/PortingRequestDetails";
+import PortingNumbers from "./Tabs/TabsContent/PortingNumbers";
+import { InfoIcon } from "components/Icons";
+import Tooltip from "components/Tooltip";
 
-const requestTabs: Tab[] = [
-  {
-    name: t("Request details"),
-    id: "details",
-    component: () => <PortingRequestDetails />,
-  },
-  {
-    name: t("Enterprise info"),
-    id: "info",
-    component: () => <div>Enterprise info</div>,
-  },
-  {
-    name: t("Porting numbers"),
-    id: "numbers",
-    component: () => <div>Porting numbers</div>,
-  },
-  {
-    name: t("Documents"),
-    id: "documents",
-    component: () => <div>Documents</div>,
-  },
-];
+import { tabsStyles } from "../../styles";
 
 const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
+  const classes = tabsStyles();
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
@@ -49,6 +31,43 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
     currentPortingRequest,
     getExactPortingRequest,
   } = PortingRequestsStore;
+
+  const requestTabs: Tab[] = [
+    {
+      name: (
+        <div className={classes.tab}>
+          {t("Request details")}
+          {currentPortingRequest?.capabilities?.isError && (
+            <Tooltip
+              title={t("An error(s) occured while processing your request")}
+              placement="top-start"
+              arrow
+            >
+              <InfoIcon className={classes.tooltipIcon} />
+            </Tooltip>
+          )}
+        </div>
+      ),
+      id: "details",
+      component: () => <PortingRequestDetails />,
+    },
+    {
+      name: t("Enterprise info"),
+      id: "info",
+      component: () => <div>Enterprise info</div>,
+    },
+    {
+      name: t("Porting numbers"),
+      id: "numbers",
+      component: () => <PortingNumbers />,
+    },
+    {
+      name: t("Documents"),
+      id: "documents",
+      component: () => <div>Documents</div>,
+    },
+  ];
+
   useEffect(() => {
     currentRequestId &&
       getExactPortingRequest(tenantID, subscriptionID, currentRequestId);

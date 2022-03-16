@@ -46,6 +46,12 @@ class PortingRequestsStore {
     }
   };
 
+  getPortingIdentity = async () => {
+    await request({
+      route: `${configStore.config.draasInstance}/public/porting_identity_requirements`,
+    });
+  };
+
   setCurrentRequestId = (requestId: number) => {
     this.currentRequestId = requestId;
   };
