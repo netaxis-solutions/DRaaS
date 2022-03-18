@@ -6,6 +6,7 @@ import Menu from "storage/singletons/Menu";
 import { ChildrenInProps } from "utils/types/components";
 import TopBar from "components/TopBar";
 import Sidebar from "components/Sidebar";
+import Breadcrumbs from "components/Breadcrumbs";
 import useStyles from "./styles";
 
 const MainLayout: React.FC<ChildrenInProps> = ({ children }) => {
@@ -22,7 +23,10 @@ const MainLayout: React.FC<ChildrenInProps> = ({ children }) => {
         })}
       >
         {sidebar && <Sidebar options={sidebar} />}
-        {children}
+        <div className={classes.wrapper}>
+          {sidebar && <Breadcrumbs />}
+          {children}
+        </div>
       </div>
     </MuiContainer>
   );

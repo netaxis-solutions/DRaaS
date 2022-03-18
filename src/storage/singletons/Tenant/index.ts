@@ -108,6 +108,19 @@ class TenantStore {
     return result!.data;
   };
 
+  getSpecificTenantSubscription = async (
+    tenantID: string,
+    subscriptionID: string,
+  ): Promise<any | undefined> => {
+    const result = await request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}`,
+      loaderName: "@getSpecificTenantSubscription",
+    }).catch(e => {
+      errorNotification(e);
+    });
+    return result?.data;
+  };
+
   getListOwnersTenant = async () => {
     try {
       const data: AxiosResponse<any> = await request({

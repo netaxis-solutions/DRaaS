@@ -4,6 +4,7 @@ import { request } from "services/api";
 import { errorNotification } from "utils/functions/notifications";
 import { TAddTenantValues } from "utils/types/tenant";
 import { SubscriptionItemType } from "utils/types/subscriptions";
+import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
 
 import Tenant from "../Tenant";
 
@@ -58,6 +59,10 @@ class SidebarConfig {
     return runInAction(() => {
       this.extraLevelData = result?.data;
     });
+    BreadcrumbsStorage.setCustomerLevel([
+      this.chosenCustomerData,
+      this.extraLevelID,
+    ]);
   };
 
   setExtraLevelID = (extraLevelID: string) => {

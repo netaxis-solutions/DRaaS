@@ -183,15 +183,19 @@
     "tooltip":{
       "numbers_rangeSize":"#C0C0C0"
     },
+    "breadcrumbs":{
+      "text":"#333333",
+      "icon":"#333333"
+    },
     "checkbox":{
       "error":{
         "color":"#EC4436"
       },
       "label":{
         "text":"#000000"
-      }
-    }
-  }, 
+      } 
+  }
+},
   "top_bar":{
     "background":"#EBEBF7",
     "text": "#212356",
