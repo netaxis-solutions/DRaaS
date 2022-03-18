@@ -14,8 +14,11 @@ import NumberInventory from "./Steps/NumberInventory";
 import RangeSettings from "./Steps/RangeSettings";
 import RangeSelection from "./Steps/RangeSelection";
 
+import { useEntitlementCardStyles } from "./Steps/styles";
+
 const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   const { t } = useTranslation();
+  const classes = useEntitlementCardStyles();
   const {
     stepContent,
     activeStep,
@@ -53,10 +56,12 @@ const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         handleCancel={handleCancel}
         steps={steps}
         activeStep={activeStep}
+        className={classes.modalWrapper}
       >
         {stepContent}
       </Modal>
       <ModalButtonsWrapper
+        className={classes.modalButtonWrapper}
         cancelButton
         cancelButtonTitle={activeStep === 0 ? t("Cancel") : t("Back")}
         submitButtonTitle={

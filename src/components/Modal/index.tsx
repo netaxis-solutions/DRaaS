@@ -16,6 +16,7 @@ const Modal: React.FC<TModalProps> = ({
   steps,
   isBackIconHidden,
   styleWithSideBar,
+  className,
 }) => {
   const [container] = useState(document.createElement("div"));
   const classes = useStyles();
@@ -35,6 +36,7 @@ const Modal: React.FC<TModalProps> = ({
     <div
       className={clsx(classes.modal, {
         [classes.modalWithSideBar]: styleWithSideBar,
+        [className || ""]: className,
       })}
     >
       <ModalHeader

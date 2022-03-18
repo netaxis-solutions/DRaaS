@@ -29,6 +29,13 @@ export const useEntitlementCardStyles = makeStyles(
       display: "flex",
       gap: theme.spacing(1.25),
     },
+    modalWrapper: {
+      zIndex: 500,
+    },
+
+    modalButtonWrapper: {
+      zIndex: 501,
+    },
     fieldName: {
       display: "inline-block",
       width: 113,

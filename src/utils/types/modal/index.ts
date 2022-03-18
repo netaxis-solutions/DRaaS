@@ -17,6 +17,7 @@ export type TModalHeaderProps = {
 export type TModalProps = TModalHeaderProps & {
   children: React.ReactNode;
   styleWithSideBar?: boolean;
+  className?: string;
 };
 
 export type TStepperProps = {
@@ -33,7 +34,8 @@ export type TModalButtonsWrapperProps = {
   cancelIcon?: React.FC;
   formId?: string;
   top?: number | string;
-  submitButtonDisabled?: boolean
+  submitButtonDisabled?: boolean;
+  className?: string;
 };
 
 export type TDeleteModalProps = {
