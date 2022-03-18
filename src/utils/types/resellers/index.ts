@@ -49,3 +49,10 @@ export type TEditResellerPayload = {
 export type TGetResellersList = {
   id?: string;
 };
+
+export type TOwners = {
+  id: number;
+  name: string;
+  uuid: string;
+  type: string;
+};

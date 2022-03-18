@@ -12,10 +12,11 @@ import {
 import {
   TCreateResellerPayload,
   TEditResellerPayload,
+  TOwners,
 } from "utils/types/resellers";
 
 class ResellerStore {
-  owners: Array<{ id: number; name: string; uuid: string; type: string }> = [];
+  owners: Array<TOwners> = [];
 
   constructor() {
     makeAutoObservable(this, {
@@ -63,8 +64,13 @@ class ResellerStore {
 
   get resellerOwners() {
     const filteredData = this.owners.reduce(
-      (prev: any, cur: any) =>
-        cur.name ? [...prev, { label: cur.name, value: cur.uuid }] : prev,
+      (
+        owners: Array<{ label: string; value: string }>,
+        currentOwner: TOwners,
+      ) =>
+        currentOwner.name
+          ? [...owners, { label: currentOwner.name, value: currentOwner.uuid }]
+          : owners,
       [],
     );
     return filteredData;
