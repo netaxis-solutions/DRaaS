@@ -6,7 +6,10 @@ import CreateDeleteAdmin from "../CreateDeleteAdmin";
 import { request } from "services/api";
 import { t } from "services/Translation";
 
-import { successNotification } from "utils/functions/notifications";
+import {
+  successNotification,
+  errorNotification,
+} from "utils/functions/notifications";
 import { TMsTeamOnboardingSteps } from "utils/types/msTeam";
 import { AxiosResponse } from "axios";
 
@@ -145,9 +148,13 @@ class MsTeamOnboarding {
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/unlink`,
       loaderName: "@unlinkOnboarding",
       method: "post",
-    }).then(() => {
-      CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
-    });
+    })
+      .then(() => {
+        CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
   };
 
   clearOnboardingProgress = () => {
