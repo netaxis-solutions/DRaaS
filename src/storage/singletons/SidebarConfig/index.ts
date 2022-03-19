@@ -1,15 +1,21 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
+import configStore from "../Config";
+import { request } from "services/api";
+import { errorNotification } from "utils/functions/notifications";
+import { TAddTenantValues } from "utils/types/tenant";
+import { SubscriptionItemType } from "utils/types/subscriptions";
 
 import Tenant from "../Tenant";
-import { TAddTenantValues } from "utils/types/tenant";
 
 class SidebarConfig {
   chosenCustomerID = "";
   chosenCustomerData: TAddTenantValues | undefined = undefined;
   extraLevelID: string = "";
+  extraLevelData: SubscriptionItemType | undefined = undefined;
   isLoading = false;
 
   setChosenCustomer = async (id: string, extraLevelID?: string) => {
+    this.clearChosenCustomer();
     let chosenCustomerData = this.chosenCustomerData;
     if (this.chosenCustomerID !== id) {
       runInAction(() => {
@@ -31,6 +37,27 @@ class SidebarConfig {
         this.extraLevelID = "";
       }
     });
+    if (this.extraLevelID) {
+      this.getSpecificTenantSubscription(
+        this.chosenCustomerID,
+        this.extraLevelID,
+      );
+    }
+  };
+
+  getSpecificTenantSubscription = async (
+    tenantID: string,
+    subscriptionID: string,
+  ): Promise<any | undefined> => {
+    const result = await request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}`,
+      loaderName: "@getSpecificTenantSubscription",
+    }).catch(e => {
+      errorNotification(e);
+    });
+    return runInAction(() => {
+      this.extraLevelData = result?.data;
+    });
   };
 
   setExtraLevelID = (extraLevelID: string) => {
@@ -42,6 +69,7 @@ class SidebarConfig {
       this.chosenCustomerID = "";
       this.chosenCustomerData = undefined;
       this.extraLevelID = "";
+      this.extraLevelData = undefined;
     });
   };
 
@@ -51,6 +79,7 @@ class SidebarConfig {
       chosenCustomerData: observable,
       extraLevelID: observable,
       isLoading: observable,
+      extraLevelData: observable,
       setChosenCustomer: action,
       clearChosenCustomer: action,
       setExtraLevelID: action,

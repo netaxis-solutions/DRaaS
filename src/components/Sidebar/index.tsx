@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { observer } from "mobx-react-lite";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import clsx from "clsx";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
@@ -12,7 +12,6 @@ import {
   ResellerLevelIcon,
   TenantLevelIcon,
 } from "components/Icons";
-import SidebarDropdown from "./components/SidebarDropdown";
 import Loader from "components/Loader/Loader";
 import useStyles from "./styles";
 
@@ -28,12 +27,20 @@ const Sidebar: React.FC<{
   options: SidebarUnitType[];
 }> = ({ options }) => {
   const location = useLocation();
+  const history = useHistory();
+  const {
+    location: { pathname },
+  } = history;
+
+  const pathnames = pathname.split("/").filter(x => x);
 
   const {
     chosenCustomerID,
     chosenCustomerData,
     extraLevelID,
+    extraLevelData,
     isLoading,
+    clearChosenCustomer,
   } = SidebarConfig;
   const { currentLevel, allAvailvableRouting } = RoutingConfig;
 
@@ -49,6 +56,11 @@ const Sidebar: React.FC<{
 
   const locationArr = location.pathname.split("/");
 
+  useEffect(() => {
+    return () => clearChosenCustomer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={classes.sidebarContainer}>
       {isLoading ? (
@@ -59,11 +71,24 @@ const Sidebar: React.FC<{
             <div className={classes.titleContainer}>
               <div className={classes.iconContainer}>{levelIcon[level]}</div>
               <div className={classes.titleWrapper}>
-                <div className={classes.title}>{chosenCustomerData?.name}</div>
-                <div className={classes.level}>{level}</div>
+                <div
+                  onClick={() =>
+                    history.push(`/${pathnames.slice(0, 3).join("/")}/`)
+                  }
+                  className={classes.title}
+                >
+                  {currentLevel === "subscription"
+                    ? extraLevelData?.name
+                    : chosenCustomerData?.name}
+                </div>
+                <div className={classes.level}>
+                  {" "}
+                  {currentLevel === "subscription"
+                    ? chosenCustomerData?.name
+                    : level}
+                </div>
               </div>
             </div>
-            {currentLevel === "subscription" && <SidebarDropdown />}
           </div>
           {options.map(el => {
             const routeArr = allAvailvableRouting[el.key].split("/");

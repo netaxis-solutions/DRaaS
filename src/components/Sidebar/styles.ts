@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: 400,
     textOverflow: "ellipsis",
     overflow: "hidden",
+    cursor: "pointer",
   },
   level: {
     fontWeight: 300,
