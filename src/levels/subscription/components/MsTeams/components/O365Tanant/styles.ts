@@ -11,12 +11,20 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   title: {
     display: "flex",
-    gap: theme.spacing(1.75),
+    gap: theme.spacing(2),
     paddingLeft: theme.spacing(0.65),
-    fontSize: "16px",
+    fontSize: "1.6rem",
+    width: 800,
   },
-  iconTriangle: {
-    fill: "orange",
+  iconTriangle: {},
+  iconTriangleAlert: {
+    width: 50,
+    "& path": {
+      fill: theme.body.card.icon.triangle.error,
+    },
+  },
+  alertTitle: {
+    width: 758,
   },
   list: {
     border: theme.body.card.border,
@@ -24,7 +32,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     background: theme.body.card.background,
 
     borderRadius: 10,
-    fontSize: "16px",
+    fontSize: "1.6rem",
 
     "& > span": {
       display: "block",
@@ -39,7 +47,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     paddingTop: theme.spacing(4.375),
   },
   Link: {
-    color: "#4975E5",
+    color: theme.body.universal.link,
     textDecoration: "none",
   },
   buttonUnlinkPositions: {

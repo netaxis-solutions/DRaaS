@@ -155,8 +155,13 @@
     "card":{
       "background":"transparent",
       "text":"#000000",
-      "border":"1px solid #EBEBF7"
-
+      "border":"1px solid #EBEBF7",
+      "icon":{
+        "triangle":{
+          "error": "#FF0000",
+          "attention": "#FF8800"
+        }
+      }
     },
     "stepper":{
       "stepsCircle":{
