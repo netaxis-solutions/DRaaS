@@ -30,7 +30,7 @@ const App: React.FC = () => {
   }, [language]);
 
   useEffect(() => {
-    changeLanguage(localStorage.getItem("i18nextLng") as any);
+    changeLanguage((localStorage.getItem("i18nextLng") as any) || "en");
     formattedConfig["name" as keyof object] &&
       i18n.changeLanguage(language as string, () =>
         getSpecificLanguageTranslation({
