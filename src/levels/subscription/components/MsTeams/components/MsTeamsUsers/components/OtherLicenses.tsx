@@ -31,7 +31,9 @@ const OtherLicenses: FC<{
             <span className={classes.width100}>
               {licenses.map(license => (
                 <span key={license.skuPartNumber}>
-                  {license.skuPartNumber + ", "}
+                  {licenses.length > 1
+                    ? license.skuPartNumber + ", "
+                    : license.skuPartNumber}
                 </span>
               ))}
             </span>
