@@ -27,7 +27,7 @@ const StartedText: FC = () => {
           {t(
             "Please provide the credentials of a tenant administrator that has the",
           )}
-          <Link to="#">{t(" appropriate rights")} </Link>{" "}
+          <Link to="#">{` ${t("appropriate rights")} `}</Link>
           {t("within your tenant")}:
         </span>
         <ul>

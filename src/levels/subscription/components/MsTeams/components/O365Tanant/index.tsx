@@ -88,15 +88,14 @@ const O365Tenant: FC = () => {
             </span>
             <div className={classes.list}>
               <span>
-                {t(
-                  " Link your Microsoft Teams to our service. As soon as you link your tenant, you will be able to assign numbers to users (teams)",
-                )}
-                .
+                {`${t("Link your Microsoft Teams to our service")}. ${t(
+                  "As soon as you link your tenant, you will be able to assign numbers to users (teams)",
+                )}.`}
               </span>
               <span className={classes.listTitle}>
-                {t(
-                  " Linking this service to Microsoft Teams will do following changes to you Microsoft account",
-                )}
+                {` ${t(
+                  "Linking this service to Microsoft Teams will do following changes to you Microsoft account",
+                )}`}
                 :
               </span>
               <span>
@@ -112,12 +111,9 @@ const O365Tenant: FC = () => {
                   </li>
                 </ul>
                 <span>
-                  {" "}
-                  (*){" "}
-                  {t(
-                    "the activation process will create a dummy 0365 user and assign a spare E1, E3 and E5 license. After activation the user will be deleted again",
-                  )}
-                  .
+                  {` (*) ${t(
+                    "the activation process will create a dummy 0365 user and assign a spare E1, E3 and E5 license",
+                  )}. ${t("After activation the user will be deleted again")}.`}
                 </span>
               </span>
               <div>

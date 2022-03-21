@@ -7,9 +7,9 @@ export const editLicenseSchema = (t: TFunction) =>
   object().shape({
     assigned: string()
       .matches(/^\d+(?:\.\d+)?$/, {
-        message: t(
-          "Incorrect assigned number. Number must not be negative or greater than inUse ",
-        ),
+        message: `${t("Incorrect assigned number")}. ${t(
+          "Number must not be negative or greater than inUse",
+        )}`,
       })
       .required(),
   });
