@@ -11,6 +11,7 @@ import {
   TCreateTenant,
   TEditTenantPayload,
 } from "utils/types/tenant";
+import { TOwners } from "utils/types/resellers";
 import {
   errorNotification,
   successNotification,
@@ -23,7 +24,7 @@ const translateDistributorGroupLabel = t("Distributor");
 const translateDirectCustomerLabel = t("Direct customer");
 
 class TenantStore {
-  owners: Array<{ id: number; name: string; uuid: string; type: string }> = [];
+  owners: Array<TOwners> = [];
   constructor() {
     makeAutoObservable(this, {});
   }
@@ -48,12 +49,17 @@ class TenantStore {
   }
 
   get tenantOwners() {
-    return this.owners.map(
-      (el: { id: number; name: string; uuid: string; type: string }) => ({
-        label: el.name || "",
-        value: el.name || "",
-      }),
+    const filteredData = this.owners.reduce(
+      (
+        owners: Array<{ label: string; value: string }>,
+        currentOwner: TOwners,
+      ) =>
+        currentOwner.name
+          ? [...owners, { label: currentOwner.name, value: currentOwner.uuid }]
+          : owners,
+      [],
     );
+    return filteredData;
   }
 
   createTenant = ({ payload, callback }: TCreateTenant) => {

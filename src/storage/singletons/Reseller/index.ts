@@ -1,7 +1,6 @@
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
-
 import configStore from "../Config";
 import ResellersStore from "../Resellers";
 import { t } from "services/Translation";
@@ -13,10 +12,11 @@ import {
 import {
   TCreateResellerPayload,
   TEditResellerPayload,
+  TOwners,
 } from "utils/types/resellers";
 
 class ResellerStore {
-  owners: Array<{ id: number; name: string; uuid: string; type: string }> = [];
+  owners: Array<TOwners> = [];
 
   constructor() {
     makeAutoObservable(this, {
@@ -63,20 +63,17 @@ class ResellerStore {
   };
 
   get resellerOwners() {
-    return this.owners.map(
-      (el: { id: number; name: string; uuid: string; type: string }) => {
-        if (el.name !== undefined) {
-          return {
-            label: el.name,
-            value: el.name,
-          };
-        } else
-          return {
-            label: "",
-            value: "",
-          };
-      },
+    const filteredData = this.owners.reduce(
+      (
+        owners: Array<{ label: string; value: string }>,
+        currentOwner: TOwners,
+      ) =>
+        currentOwner.name
+          ? [...owners, { label: currentOwner.name, value: currentOwner.uuid }]
+          : owners,
+      [],
     );
+    return filteredData;
   }
 
   editReseller = ({
