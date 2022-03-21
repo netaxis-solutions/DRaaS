@@ -26,7 +26,6 @@ module.exports = {
         sourceType: "module", // defaults to 'module'
       },
     },
-    // TODO: get Languages list
     lngs: config.languages,
     ns: ["translation"],
     defaultLng: "en",

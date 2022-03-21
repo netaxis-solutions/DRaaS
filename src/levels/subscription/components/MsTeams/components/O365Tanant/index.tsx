@@ -88,7 +88,7 @@ const O365Tenant: FC = () => {
             </span>
             <div className={classes.list}>
               <span>
-                {`${t("Link your Microsoft Teams to our service")}. ${t(
+                {` ${t("Link your Microsoft Teams to our service")}. ${t(
                   "As soon as you link your tenant, you will be able to assign numbers to users (teams)",
                 )}.`}
               </span>
