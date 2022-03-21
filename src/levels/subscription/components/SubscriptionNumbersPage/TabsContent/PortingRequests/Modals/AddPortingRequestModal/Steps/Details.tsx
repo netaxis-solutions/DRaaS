@@ -1,12 +1,17 @@
 //@ts-nocheck
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
+import FormSelect from "components/common/Form/FormSelect";
+
 import { numbersRangeSchema } from "utils/schemas/numbersSchema";
+import { useEffect } from "react";
+import { countryStyles } from "../../../styles";
+import PortingRequests from "storage/singletons/PortingRequests";
 
 type defaultValuesType = {
   rangeSize: string;
@@ -21,12 +26,15 @@ const defaultValues: defaultValuesType = {
 const Details: React.FC = () => {
   const { t } = useTranslation();
   const { setPreviousChoices, goNext } = MultiStepForm;
+  const classes = countryStyles();
 
-  const { handleSubmit } = useForm<defaultValuesType>({
-    // resolver: yupResolver(numbersRangeSchema()),
+  const { control, handleSubmit, setValue } = useForm<defaultValuesType>({
     defaultValues,
   });
-
+  const { getPortingCountries } = PortingRequests;
+  useEffect(() => {
+    getPortingCountries();
+  }, []);
   const onSubmit = (values: defaultValuesType) => {
     // setPreviousChoices({ suggestionsSetting: values });
     goNext();
@@ -34,7 +42,30 @@ const Details: React.FC = () => {
 
   return (
     <form id={"CreatePortingRequest"} onSubmit={handleSubmit(onSubmit)}>
-      Details
+      <div>Country</div>
+      <div>
+        Select the country for which you would like to intiate a port request.
+        All supported countries can be found in the list below
+      </div>
+      {
+        <Controller
+          name="owner"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormSelect
+              label={t("Country")}
+              options={[{ value: "AAAAA", label: "AAAAA" }]}
+              {...field}
+              {...props}
+              className={classes.countrySelect}
+              onChange={props => {
+                console.log(props);
+                setValue(props?.value || "");
+              }}
+            />
+          )}
+        />
+      }
     </form>
   );
 };

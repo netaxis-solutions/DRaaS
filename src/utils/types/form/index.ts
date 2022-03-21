@@ -55,7 +55,7 @@ export type RadioButtonType = {
 };
 
 export type TSelectProps = {
-  options: Array<{ value: string; label: string }>;
+  options: Array<{ value: string; label: string; image?: JSX.Element }>;
   onChange: (value: { value: string; label: string } | null) => void;
   label: string;
   disabled?: boolean;

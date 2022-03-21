@@ -55,3 +55,9 @@ export const requestInfoStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.secondary.text,
   },
 }));
+
+export const countryStyles = makeStyles(() => ({
+  countrySelect: {
+    maxWidth: 400,
+  },
+}));

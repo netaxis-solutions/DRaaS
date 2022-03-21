@@ -7,10 +7,12 @@ class PortingRequestsStore {
   portingRequests: Array<any> = [];
   currentRequestId: number | null = null;
   currentPortingRequest: any = {};
+  portingRequirements: any = [];
 
   constructor() {
     makeAutoObservable(this);
   }
+
   getPortingRequests = async (tenantID: string, subscriptionID: string) => {
     try {
       const data: AxiosResponse<any> = await request({
@@ -54,6 +56,22 @@ class PortingRequestsStore {
 
   setCurrentRequestId = (requestId: number) => {
     this.currentRequestId = requestId;
+  };
+
+  getPortingRequirements = async () => {
+    request({
+      route: `${configStore.config.draasInstance}/public/porting/requirements`,
+    })
+      .then((data: AxiosResponse<any>) => {
+        runInAction(() => {
+          this.portingRequirements = data.data.countries;
+        });
+      })
+      .catch(() => {
+        runInAction(() => {
+          this.portingRequirements = [];
+        });
+      });
   };
 
   clearCurrentRequest = () => {

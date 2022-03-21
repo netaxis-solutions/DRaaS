@@ -14,6 +14,7 @@ import Country from "./Steps/Country";
 import Details from "./Steps/Details";
 import Verification from "./Steps/Verification";
 import Numbers from "./Steps/Numbers";
+import PortingRequests from "storage/singletons/PortingRequests";
 
 const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
   handleCancel,
@@ -29,6 +30,8 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
     isSubmitButtonDisabled,
   } = MultiStepForm;
 
+  const { getPortingRequirements } = PortingRequests;
+
   useEffect(() => {
     setSteps([
       {
@@ -43,6 +46,8 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
         component: <Documents />,
       },
     ]);
+    getPortingRequirements();
+
     return () => clearMultiStep();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
