@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import ConfigStore from "storage/singletons/Config";
@@ -13,7 +14,7 @@ import useStyles from "./styles";
 const LanguageBar: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const classes = useStyles();
-  const { changeLanguage } = TranslateStore;
+  const { changeLanguage, language } = TranslateStore;
 
   const { config } = ConfigStore;
 
@@ -32,7 +33,7 @@ const LanguageBar: FC = () => {
   useEffect(() => {
     changeLanguage(lang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lang]);
+  }, [lang, language]);
 
   const handleMenu = (event: any) => {
     return setAnchorEl(event.currentTarget);
@@ -66,4 +67,4 @@ const LanguageBar: FC = () => {
   );
 };
 
-export default LanguageBar;
+export default observer(LanguageBar);

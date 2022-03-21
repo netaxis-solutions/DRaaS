@@ -1,11 +1,10 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-
 class TranslateStore {
-  language: string | null = "en";
+  language: string = "en";
 
   constructor() {
     makeObservable(this, {
-      language: observable,
+      language: observable.ref,
       changeLanguage: action,
     });
   }

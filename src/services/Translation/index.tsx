@@ -56,7 +56,7 @@ i18n
     detection: {
       caches: ["localStorage"],
     },
-    react: { useSuspense: false },
+    react: { useSuspense: true },
     backend: {
       loadPath: "/locales/{{lng}}/translation.json",
     },
