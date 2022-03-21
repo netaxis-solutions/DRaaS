@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 
 import { TModalButtonsWrapperProps } from "utils/types/modal";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
@@ -15,6 +16,7 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
   top,
   formId,
   submitButtonDisabled,
+  className,
 }) => {
   const { t } = useTranslation();
   const classes = modalButtonsWrapperUseStyles({ top });
@@ -22,7 +24,11 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
   const IconCancel = cancelIcon ? cancelIcon : Cross;
 
   return (
-    <div className={classes.modalButtonsWrapper}>
+    <div
+      className={clsx(classes.modalButtonsWrapper, {
+        [className || ""]: className,
+      })}
+    >
       {cancelButton && (
         <ButtonWithIcon
           onClick={handleCancel}
