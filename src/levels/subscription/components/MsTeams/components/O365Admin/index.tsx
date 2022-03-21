@@ -103,7 +103,7 @@ const O365Admin: FC = () => {
     });
   };
 
-  const disabledButton =
+  const isDisabledButton =
     checkMsTeamAdmin?.status !== "onboarded" &&
     checkMsTeamAdmin?.status !== "not_initiated";
 
@@ -145,14 +145,14 @@ const O365Admin: FC = () => {
               title="delete"
               icon={Trash}
               cancel
-              disabled={disabledButton}
+              disabled={isDisabledButton}
             />
             <ButtonWithIcon
               title="update"
               icon={MsTeamLimk}
               type="submit"
               className={classes.buttonConfirm}
-              disabled={disabledButton}
+              disabled={isDisabledButton}
             />
           </div>
         </form>
