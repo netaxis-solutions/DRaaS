@@ -7,6 +7,8 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.4rem",
     fontWeight: 300,
     marginBottom: theme.spacing(3.75),
+    maxHeight: 250,
+    overflow: "auto",
   },
   boldText: {
     fontWeight: 400,
