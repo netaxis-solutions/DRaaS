@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import MuiContainer from "@material-ui/core/Container";
-import clsx from "clsx";
 
 import Menu from "storage/singletons/Menu";
 import { ChildrenInProps } from "utils/types/components";
@@ -17,11 +16,7 @@ const MainLayout: React.FC<ChildrenInProps> = ({ children }) => {
   return (
     <MuiContainer>
       <TopBar />
-      <div
-        className={clsx(classes.mainContentContainer, {
-          [classes.containerWithSidebar]: sidebar,
-        })}
-      >
+      <div className={classes.mainContentContainer}>
         {sidebar && <Sidebar options={sidebar} />}
         <div className={classes.wrapper}>
           {sidebar && <Breadcrumbs />}

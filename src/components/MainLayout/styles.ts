@@ -19,12 +19,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   wrapper: {
-    width: "100%",
-  },
-  containerWithSidebar: {
-    "& > div:last-child > div": {
-      width: "calc(100% - 235px) !important",
-    },
+    width: "100% ",
   },
 }));
 
