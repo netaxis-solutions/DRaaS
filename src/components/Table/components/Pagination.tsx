@@ -47,7 +47,7 @@ const Pagination: React.FC<TablePaginationType> = ({
         />
         {!tableWithOutServerPagination ? (
           <span className={classes.tablePaginationPageNumber}>
-            {!!data.length ? t("of", { page, pages }) : `1 ${t("of")} 1`}
+            {!!data.length ? `${page} ${t("of")} ${pages}` : `1 ${t("of")} 1`}
           </span>
         ) : (
           <span className={classes.tablePaginationPageNumber}>
