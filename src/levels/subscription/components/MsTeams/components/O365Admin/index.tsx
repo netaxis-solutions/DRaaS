@@ -145,6 +145,7 @@ const O365Admin: FC = () => {
               title="delete"
               icon={Trash}
               cancel
+              className={classes.deleteButton}
               disabled={isDisabledButton}
             />
             <ButtonWithIcon

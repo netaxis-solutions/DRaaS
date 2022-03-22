@@ -26,6 +26,13 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       color: theme.body.universal.link,
     },
   },
+  deleteButton: {
+    "& svg": {
+      "& path": {
+        fill: `${theme.body.button.action.icon.color} !important`,
+      },
+    },
+  },
   formRoot: {
     marginTop: theme.spacing(3.75),
     maxWidth: "690px",
