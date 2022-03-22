@@ -26,6 +26,13 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       color: theme.body.universal.link,
     },
   },
+  deleteButton: {
+    "& svg": {
+      "& path": {
+        fill: `${theme.body.button.action.icon.color} !important`,
+      },
+    },
+  },
   formRoot: {
     marginTop: theme.spacing(3.75),
     maxWidth: "690px",
@@ -93,6 +100,11 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& button": {
       maxWidth: 90,
       width: 90,
+      "& svg": {
+        "& path": {
+          fill: theme.body.button.normal.icon.color,
+        },
+      },
     },
   },
   successLogin: {
