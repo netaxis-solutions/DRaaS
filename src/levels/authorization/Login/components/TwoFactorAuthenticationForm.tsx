@@ -37,8 +37,9 @@ const TwoFactorAuthenticationForm: React.FC = () => {
       className={classes.loginFormWrapper}
     >
       <p className={classes.twoFactorHelperMessage}>
-        {/* We are trying to log in from a new device. We have sent a code to your email for safety, please enter it below: */}
-        {t("twoFactorHelpMessage")}
+        {`${t("We are trying to log in from a new device")}. ${t(
+          "We have sent a code to your email for safety, please enter it below",
+        )} :`}
       </p>
       <Controller
         name="code"
