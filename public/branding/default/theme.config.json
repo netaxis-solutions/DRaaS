@@ -180,6 +180,9 @@
       "link":"#0061F1",
       "white":"#FFFFFF"
     },
+    "tooltip":{
+      "numbers_rangeSize":"#C0C0C0"
+    },
     "checkbox":{
       "error":{
         "color":"#EC4436"
