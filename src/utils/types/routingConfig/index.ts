@@ -50,23 +50,23 @@ export type RouteType = {
 
 export type MenuElement = {
   key: string;
-  name: string;
+  name: JSX.Element;
   path?: string;
 };
 
 export type MenuType = {
-  system: { key: string; name: string }[];
-  distributor: { key: string; name: string }[];
-  reseller: { key: string; name: string }[];
-  tenant: { key: string; name: string }[];
-  subscription: { key: string; name: string }[];
+  system: { key: string; name: JSX.Element }[];
+  distributor: { key: string; name: JSX.Element }[];
+  reseller: { key: string; name: JSX.Element }[];
+  tenant: { key: string; name: JSX.Element }[];
+  subscription: { key: string; name: JSX.Element }[];
 };
 
 export type InnerSidebarMenu = {
-  distributor?: { key: string; name: string }[];
-  reseller?: { key: string; name: string }[];
-  tenant?: { key: string; name: string }[];
-  subscription?: { key: string; name: string }[];
+  distributor?: { key: string; name: JSX.Element }[];
+  reseller?: { key: string; name: JSX.Element }[];
+  tenant?: { key: string; name: JSX.Element }[];
+  subscription?: { key: string; name: JSX.Element }[];
 };
 
 export type SidebarMenuType = {

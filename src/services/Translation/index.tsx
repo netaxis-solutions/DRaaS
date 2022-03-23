@@ -52,7 +52,7 @@ i18n
   .init({
     resources: {},
     fallbackLng: localStorage.getItem("i18nextLng") || "en",
-    supportedLngs: ["en", "de"],
+    supportedLngs: ["en", "de", "fr"],
     detection: {
       caches: ["localStorage"],
     },

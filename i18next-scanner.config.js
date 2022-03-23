@@ -1,5 +1,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
+const config = require("./public/configs/default/app.config.json");
 
 module.exports = {
   input: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -25,8 +26,7 @@ module.exports = {
         sourceType: "module", // defaults to 'module'
       },
     },
-    // TODO: get Languages list
-    lngs: ["en", "de"],
+    lngs: config.languages,
     ns: ["translation"],
     defaultLng: "en",
     defaultNs: "translation",
@@ -59,17 +59,17 @@ module.exports = {
           Object.assign({}, options, {
             nsSeparator: ":",
             keySeparator: ".",
-          })
+          }),
         );
         ++count;
-      }
+      },
     );
 
     if (count > 0) {
       console.log(
         `i18n-scanner: count=${chalk.cyan(count)}, file=${chalk.yellow(
-          JSON.stringify(file.relative)
-        )}`
+          JSON.stringify(file.relative),
+        )}`,
       );
     }
 
