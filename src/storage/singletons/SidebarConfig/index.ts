@@ -4,9 +4,9 @@ import { request } from "services/api";
 import { errorNotification } from "utils/functions/notifications";
 import { TAddTenantValues } from "utils/types/tenant";
 import { SubscriptionItemType } from "utils/types/subscriptions";
-import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
 
 import Tenant from "../Tenant";
+import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
 
 class SidebarConfig {
   chosenCustomerID = "";
@@ -38,6 +38,10 @@ class SidebarConfig {
         this.extraLevelID = "";
       }
     });
+    BreadcrumbsStorage.setCustomerLevel([
+      this.chosenCustomerData,
+      this.extraLevelID,
+    ]);
     if (this.extraLevelID) {
       this.getSpecificTenantSubscription(
         this.chosenCustomerID,
@@ -56,7 +60,7 @@ class SidebarConfig {
     }).catch(e => {
       errorNotification(e);
     });
-    return runInAction(() => {
+    runInAction(() => {
       this.extraLevelData = result?.data;
     });
     BreadcrumbsStorage.setCustomerLevel([
