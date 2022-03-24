@@ -296,8 +296,9 @@ class Login {
       .then(data => {
         this.successLoggedIn({ data, keepMeLoggedIn: this.keepUserLoggedIn });
       })
-      .catch(e => {
-        errorNotification(e);
+      .catch(() => {
+        const error = t("Incorrect code");
+        errorNotification(error);
       });
   };
 }
