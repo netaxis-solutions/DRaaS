@@ -88,7 +88,10 @@ class MsTeamOnboarding {
   }
 
   get activeStep() {
-    return this.currentStep + (this.isRunning ? 1 : 5);
+    return (
+      this.currentStep +
+      (this.isRunning && !this.isError ? 1 : this.isError ? 1 : 5)
+    );
   }
 
   currentStepTenantData = (payload: {
