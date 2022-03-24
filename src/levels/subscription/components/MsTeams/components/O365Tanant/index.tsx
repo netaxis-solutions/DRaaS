@@ -63,29 +63,54 @@ const O365Tenant: FC = () => {
 
   const disabledButton = msTeamAdmin.id !== null;
 
+  const topTitleWithLink = (
+    <span className={classes.title}>
+      <AlertOutline className={classes.iconTriangle} />
+      <span>
+        {t("Please first add an")}{" "}
+        <Link
+          to={`/tenants/${tenantID}/subscriptions/${subscriptionID}/ms-teams/o365admin`}
+          className={classes.Link}
+        >
+          {t("O365 admin")}.
+        </Link>{" "}
+        {t("Without this we cannot make the required changes in your account")}
+      </span>
+    </span>
+  );
+
+  const alredyLinkedText = (
+    <span className={classes.title}>
+      <AlertOutline className={classes.iconTriangleAlert} />
+      <span className={classes.alertTitle}>
+        {t(
+          "We are sorry! We cannot link your Microsoft Tenant to this account because the tenant is already linked to another subscription. A tenant can only be used once on this platform. ",
+        )}{" "}
+        <br />
+        <br />
+        <span>{t("Please change the ")}</span>
+        <Link
+          to={`/tenants/${tenantID}/subscriptions/${subscriptionID}/ms-teams/o365admin`}
+          className={classes.Link}
+        >
+          {t("O365 admin")}.
+        </Link>{" "}
+        {t("to an admin of another tenant and try again")}
+      </span>
+    </span>
+  );
+
   return (
     <>
+      {checkMsTeamAdmin?.status === "already_linked" && alredyLinkedText}
       {checkMsTeamAdmin?.status === "onboarded" ? (
         <InfoPage />
       ) : (
         !isRunning &&
         checkMsTeamAdmin?.status === "not_initiated" && (
           <div className={classes.root}>
-            <span className={classes.title}>
-              <AlertOutline className={classes.iconTriangle} />
-              <span>
-                {t("Please first add an")}{" "}
-                <Link
-                  to={`/tenants/${tenantID}/subscriptions/${subscriptionID}/ms-teams/o365admin`}
-                  className={classes.Link}
-                >
-                  {t("O365 admin")}.
-                </Link>{" "}
-                {t(
-                  "Without this we cannot make the required changes in your account",
-                )}
-              </span>
-            </span>
+            {topTitleWithLink}
+
             <div className={classes.list}>
               <span>
                 {` ${t("Link your Microsoft Teams to our service")}. ${t(
@@ -139,12 +164,14 @@ const O365Tenant: FC = () => {
       )}
       {startOnboard === "start" || isRunning ? (
         checkMsTeamAdmin?.status !== "onboarded" &&
+        checkMsTeamAdmin?.status !== "already_linked" &&
         checkMsTeamAdmin?.status !== "not_initiated" ? (
           <Stepper />
         ) : null
       ) : !isRunning &&
         isError &&
         checkMsTeamAdmin?.status !== "onboarded" &&
+        checkMsTeamAdmin?.status !== "already_linked" &&
         checkMsTeamAdmin?.status !== "not_initiated" ? (
         <Stepper />
       ) : null}

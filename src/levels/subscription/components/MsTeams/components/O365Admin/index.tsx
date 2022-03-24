@@ -15,6 +15,7 @@ import { msTeamCreateAdmin } from "utils/schemas/msTeamsCreateAdmin";
 
 import MsTeamAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
+import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import FormInput from "components/common/Form/FormInput";
 import { MsTeamLimk, Trash } from "components/Icons";
@@ -38,6 +39,7 @@ const O365Admin: FC = () => {
     createMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
+    getCheckMsTeamAdmin,
     deleteMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdmin;
@@ -48,7 +50,7 @@ const O365Admin: FC = () => {
   }>();
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
-
+    getCheckMsTeamAdmin(tenantID, subscriptionID);
     return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -109,8 +111,17 @@ const O365Admin: FC = () => {
 
   return (
     <div>
-      {msTeamAdmin.id ? (
+      {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (
         <AcceptText userName={msTeamAdmin.msUsername} />
+      ) : checkMsTeamAdmin?.status === "already_linked" ? (
+        <span className={classes.title}>
+          <AlertOutline className={classes.iconTriangleAlert} />
+          <span className={classes.alertTitle}>
+            {t(
+              "We are sorry! The admin you provided is administrator of a tenant which is already linked to this platform (to another subscription) Please provide an admin of another tenant and try again",
+            )}{" "}
+          </span>
+        </span>
       ) : (
         <StartedText />
       )}

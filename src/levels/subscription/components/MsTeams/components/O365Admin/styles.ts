@@ -54,10 +54,27 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& label": {
       height: 30,
       "& svg": {
-        width: "20px",
-        height: "20px",
+        width: 20,
+        height: 20,
       },
     },
+  },
+  title: {
+    display: "flex",
+    gap: theme.spacing(2),
+    paddingLeft: theme.spacing(0.65),
+    fontSize: "1.6rem",
+    width: 500,
+  },
+  iconTriangle: {},
+  iconTriangleAlert: {
+    width: 25,
+    "& path": {
+      fill: theme.body.card.icon.triangle.error,
+    },
+  },
+  alertTitle: {
+    width: 500,
   },
   errorBorderCheckbox: {
     "& label": {
@@ -70,7 +87,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.4rem !important",
   },
   buttonConfirm: {
-    width: "136px",
+    width: 136,
     "& span": {
       width: "90%",
       "& span:first-child": {
