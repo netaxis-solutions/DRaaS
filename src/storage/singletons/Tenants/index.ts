@@ -116,8 +116,9 @@ class TenantsStore {
   }
 
   get isTenantsDeletable() {
-    return this.tenantRights.find((el: any) => el.name === "tenants.delete")
-      ?.allowed;
+    return this.tenantRights.find(
+      (el: any) => el.name === "tenants.instance.delete",
+    )?.allowed;
   }
 }
 
