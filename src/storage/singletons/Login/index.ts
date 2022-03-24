@@ -297,7 +297,7 @@ class Login {
         this.successLoggedIn({ data, keepMeLoggedIn: this.keepUserLoggedIn });
       })
       .catch(() => {
-        const error = t("Not correct code");
+        const error = t("Incorrect code");
         errorNotification(error);
       });
   };
