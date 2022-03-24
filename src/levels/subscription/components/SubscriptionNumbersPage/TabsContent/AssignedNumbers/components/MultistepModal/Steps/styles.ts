@@ -73,25 +73,32 @@ export const useRangeSettingsStyles = makeStyles(
         },
       },
     },
+    tooltipIcon: {
+      position: "absolute",
+      height: 20,
+      width: 20,
+      top: 118,
+      left: 452,
+      fill: theme.body.tooltip.numbers_rangeSize,
+    },
     rangeSettingsForm: {
       display: "flex",
       gap: theme.spacing(2.5),
       flexDirection: "column",
-      maxWidth: 411,
+      maxWidth: 415,
     },
     textWithInput: {
       display: "flex",
+      "& > span": {
+        width: 330,
+        height: 30,
+      },
     },
     text: {
       width: "100%",
     },
     boldText: {
       fontWeight: "bold",
-    },
-    subscriptText: {
-      fontSize: "1.2rem",
-      lineHeight: "1.4rem",
-      color: theme.palette.secondary.text,
     },
     grayText: {
       color: theme.palette.secondary.text,

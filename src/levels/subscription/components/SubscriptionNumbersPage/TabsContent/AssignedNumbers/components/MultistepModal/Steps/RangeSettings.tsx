@@ -9,6 +9,8 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 import { numbersRangeSchema } from "utils/schemas/numbersSchema";
 
 import FormInput from "components/common/Form/FormInput";
+import Tooltip from "components/Tooltip";
+import { InfoIcon } from "components/Icons";
 
 import { useRangeSettingsStyles } from "./styles";
 
@@ -80,15 +82,18 @@ const RangeSettings: React.FC = () => {
         <span>
           <div>
             {t("Range size")}{" "}
+            <Tooltip
+              placement="right"
+              title={t(
+                "The larger the range, the smaller the chance you will find a match",
+              )}
+            >
+              <InfoIcon className={classes.tooltipIcon} />
+            </Tooltip>
             <span className={classes.grayText}>
               ({maxAmount} {t("max")})
             </span>
           </div>
-          <span className={classes.subscriptText}>
-            {t(
-              "The larger the range, the smaller the chance you will find a match",
-            )}
-          </span>
         </span>
         <Controller
           name="rangeSize"
