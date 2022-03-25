@@ -409,6 +409,7 @@ const Table: FC<TableProps> = ({
         data={page}
         pageNumber={state.pageIndex + 1}
         previousPage={previousPage}
+        pageSize={state.pageSize}
         checkbox={checkbox}
         nextPage={nextPage}
         canNextPage={canNextPage}

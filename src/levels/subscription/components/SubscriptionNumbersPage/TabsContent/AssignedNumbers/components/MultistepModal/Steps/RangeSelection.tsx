@@ -35,10 +35,7 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     previousChoices[0].entitlements.assigned;
 
   const { selectedRowsValues } = TableSelectedRowsStore;
-  const {
-    clearTablePagesWithoutServerPaginations,
-    clearPaginationData,
-  } = TablePagination;
+  const { clearTablePagesWithoutServerPaginations } = TablePagination;
   const { numberSuggestions, addNumber } = Numbers;
 
   const rangeSize = Number(previousChoices[2].suggestionsSetting.rangeSize);
@@ -111,7 +108,6 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
         0,
       ),
     );
-    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRowsValues, selectedRowsValues.length, numberSuggestions.length]);
 

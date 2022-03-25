@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import LicensesStore from "storage/singletons/Licenses";
 import PendingQueries from "storage/singletons/PendingQueries";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { EditLicensesPayload } from "utils/types/licenses";
 import { editLicenseSchema } from "utils/schemas/license";
@@ -30,6 +31,10 @@ const LicensesList: FC = () => {
   }>();
   const { t } = useTranslation();
 
+  const {
+    clearTablePagesWithoutServerPaginations,
+    uploadTableConfig,
+  } = TablePagination;
   const { getSubscriptionLicensesData, licenses, editLicense } = LicensesStore;
   const { byFetchType } = PendingQueries;
 
@@ -80,6 +85,8 @@ const LicensesList: FC = () => {
 
   useEffect(() => {
     getSubscriptionLicensesData(tenantID, subscriptionID);
+    clearTablePagesWithoutServerPaginations(licenses.length);
+    uploadTableConfig(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
