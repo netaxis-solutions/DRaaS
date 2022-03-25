@@ -8,15 +8,19 @@ import Resellers from "storage/singletons/Resellers";
 import ResellerStore from "storage/singletons/Reseller";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { ResellerItemType } from "utils/types/resellers";
 import { editResellerSchema } from "utils/schemas/resellers";
 import { TEditResellerPayload } from "utils/types/resellers";
+import { getIsLoading } from "utils/functions/getIsLoading";
+
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddReseller from "./components/AddReseller";
 import DeleteResellerModal from "./components/DeleteResellerModal";
 import FormTableInput from "components/common/TableInput";
+import TableSkeleton from "components/Table/Skeleton";
 
 const defaultValues = {
   uuid: "",
@@ -52,6 +56,7 @@ const ResellersList: FC = () => {
   const { editReseller } = ResellerStore;
   const { selectedRows, selectedRowsLength } = TableSelectedRowsStore;
   const { setSelectedRows } = TableSelectedRowsStore;
+  const { byFetchType } = PendingQueries;
 
   const onSubmit: SubmitHandler<ResellerItemType> = values => {
     editReseller({
@@ -165,22 +170,32 @@ const ResellersList: FC = () => {
     setDefaultValues(props.row.original);
   };
 
+  const isLoading = getIsLoading("@getResellersData", byFetchType);
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Table
-          title={t("Resellers")}
-          columns={columns}
-          data={resellers}
-          toolbarActions={toolbarActions}
-          setModalToOpen={setModalToOpen}
-          checkbox={isResellersDeletable}
-          setDefaultValues={setDefaultValues}
-          isRemovable={isResellersDeletable}
-          handleDeleteItem={handleDeleteItem}
-          isEditable={isResellersEditable}
-          handleEditItem={handleEditItem}
-        />
+        {isLoading ? (
+          <TableSkeleton
+            columns={columns}
+            actions={toolbarActions}
+            checkbox={isResellersDeletable}
+          />
+        ) : (
+          <Table
+            title={t("Resellers")}
+            columns={columns}
+            data={resellers}
+            toolbarActions={toolbarActions}
+            setModalToOpen={setModalToOpen}
+            checkbox={isResellersDeletable}
+            setDefaultValues={setDefaultValues}
+            isRemovable={isResellersDeletable}
+            handleDeleteItem={handleDeleteItem}
+            isEditable={isResellersEditable}
+            handleEditItem={handleEditItem}
+          />
+        )}
       </form>
       {modalToOpen === "add" && <AddReseller handleCancel={handleCloseModal} />}
       {modalToOpen === "delete" && (

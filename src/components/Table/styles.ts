@@ -38,4 +38,33 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   actionsHeader: {
     textAlign: "end",
   },
+  checkboxSkeletonCell: {
+    width: 70,
+    paddingLeft: 30,
+    paddingRight: 16,
+  },
+  actionsHeaderSkeletonCell: {
+    width: "21%",
+    textAlign: "right",
+  },
+  bodySkeletonCell: {
+    border: "none",
+    height: 54,
+  },
+  actionsBodySkeletonCell: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  action: {
+    marginLeft: 10,
+  },
+  footerSkeletonCell: {
+    height: 40,
+    display: "flex",
+    width: "100%",
+  },
+  footerSkeletonCellBlock: {
+    width: "33%",
+  },
 }));

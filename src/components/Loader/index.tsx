@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import PendingQueries from "storage/singletons/PendingQueries";
-import LoaderComponent from "./Loader";
 const LOG_QUANTITY = false;
 
 const Loader = ({ children }: { children: any }) => {
@@ -20,16 +19,16 @@ const Loader = ({ children }: { children: any }) => {
                 padding: 30,
               }
             : {
-                opacity: 0,
+                opacity: 1,
                 position: "absolute",
                 width: "100%",
                 height: "100%",
+                padding: 30,
               }
         }
       >
         {children}
       </div>
-      <LoaderComponent />
     </div>
   );
 };

@@ -9,13 +9,17 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import Subscriptions from "storage/singletons/Subscriptions";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import createLink from "services/createLink";
 import { SubscriptionItemType } from "utils/types/subscriptions";
+import { getIsLoading } from "utils/functions/getIsLoading";
+
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
 import DeleteTenantSubscriptionsModal from "./components/DeleteTenantSubscriptions";
+import TableSkeleton from "components/Table/Skeleton";
 
 const getTranslatedColumns = (t: TFunction) => [
   {
@@ -52,6 +56,8 @@ const SubscriptionsList: FC = () => {
     selectedRowsLength,
     setSelectedRows,
   } = TableSelectedRowsStore;
+
+  const { byFetchType } = PendingQueries;
 
   const columns = useMemo(
     () => [
@@ -141,18 +147,30 @@ const SubscriptionsList: FC = () => {
     deleteSubscriptions(params.tenantID, selectedSubscriptionsIds, callback);
   };
 
+  const isLoading = getIsLoading("@getSubscriptionsData", byFetchType);
+
   return (
     <>
-      <Table
-        title={t("Subscriptions")}
-        columns={columns}
-        data={subscriptions}
-        toolbarActions={avilableActions}
-        checkbox={isSubscriptionsDeletable}
-        // isEditable={isSubscriptionsEditable}
-        isRemovable={loggedInUserLevel !== "tenant" && isSubscriptionsDeletable}
-        handleDeleteItem={handleDeleteItem}
-      />
+      {isLoading ? (
+        <TableSkeleton
+          columns={columns}
+          actions={avilableActions}
+          checkbox={isSubscriptionsDeletable}
+        />
+      ) : (
+        <Table
+          title={t("Subscriptions")}
+          columns={columns}
+          data={subscriptions}
+          toolbarActions={avilableActions}
+          checkbox={isSubscriptionsDeletable}
+          // isEditable={isSubscriptionsEditable}
+          isRemovable={
+            loggedInUserLevel !== "tenant" && isSubscriptionsDeletable
+          }
+          handleDeleteItem={handleDeleteItem}
+        />
+      )}
       {modalToOpen === "add" && (
         <AddTenantSubscription handleCancel={handleCloseModal} />
       )}
