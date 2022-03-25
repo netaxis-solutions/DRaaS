@@ -107,7 +107,8 @@ const O365Admin: FC = () => {
 
   const isDisabledButton =
     checkMsTeamAdmin?.status !== "onboarded" &&
-    checkMsTeamAdmin?.status !== "not_initiated";
+    checkMsTeamAdmin?.status !== "not_initiated" &&
+    checkMsTeamAdmin?.status !== "already_linked";
 
   return (
     <div>

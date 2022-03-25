@@ -109,7 +109,7 @@ const O365Tenant: FC = () => {
         !isRunning &&
         checkMsTeamAdmin?.status === "not_initiated" && (
           <div className={classes.root}>
-            {topTitleWithLink}
+            {msTeamAdmin.id ? null : topTitleWithLink}
 
             <div className={classes.list}>
               <span>
