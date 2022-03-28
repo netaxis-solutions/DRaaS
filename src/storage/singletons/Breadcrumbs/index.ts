@@ -3,6 +3,7 @@ import Tenant from "../Tenant";
 
 class BreadcrumbsStorage {
   customerLevels: any = [];
+  isLoading: boolean = false;
 
   constructor() {
     makeAutoObservable(this, {});
@@ -10,6 +11,7 @@ class BreadcrumbsStorage {
 
   setCustomerLevel = async (payload: Array<any>) => {
     this.cleanBreadcrambsStorage();
+    this.isLoading = true;
 
     const subscription = await Tenant.getSpecificTenantSubscription(
       payload[0].uuid,
@@ -30,7 +32,12 @@ class BreadcrumbsStorage {
 
     runInAction(() => {
       this.customerLevels = result;
+      this.isLoading = false;
     });
+  };
+
+  setLoader = () => {
+    this.isLoading = true;
   };
 
   cleanBreadcrambsStorage = () => {

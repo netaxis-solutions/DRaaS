@@ -63,10 +63,6 @@ class SidebarConfig {
     runInAction(() => {
       this.extraLevelData = result?.data;
     });
-    BreadcrumbsStorage.setCustomerLevel([
-      this.chosenCustomerData,
-      this.extraLevelID,
-    ]);
   };
 
   setExtraLevelID = (extraLevelID: string) => {
