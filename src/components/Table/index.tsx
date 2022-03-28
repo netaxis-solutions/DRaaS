@@ -255,22 +255,19 @@ const Table: FC<TableProps> = ({
                             cancel
                             rowData={props.row}
                             onCancel={() => {
-                              const cancelDisabled = () => {
-                                props.page.forEach(
-                                  (el: { [key: string]: any }) => {
-                                    const index: string = String(el.index);
-                                    setRowState([index], {
-                                      isDisabled: false,
-                                      isEditing: false,
-                                    });
-                                  },
-                                );
-                                setRowState([props.row.index], {
-                                  isEditing: false,
-                                  isDisabled: false,
-                                });
-                              };
-                              cancelDisabled();
+                              props.page.forEach(
+                                (el: { [key: string]: any }) => {
+                                  const index: string = String(el.index);
+                                  setRowState([index], {
+                                    isDisabled: false,
+                                    isEditing: false,
+                                  });
+                                },
+                              );
+                              setRowState([props.row.index], {
+                                isEditing: false,
+                                isDisabled: false,
+                              });
                             }}
                           />
                         );
@@ -294,22 +291,17 @@ const Table: FC<TableProps> = ({
                           }
                           onEdit={() => {
                             handleEditItem && handleEditItem(props);
-                            const startEditing = () => {
-                              props.page.forEach(
-                                (el: { [key: string]: any }) => {
-                                  const index: string = String(el.index);
-                                  setRowState([index], {
-                                    isDisabled: true,
-                                    isEditing: false,
-                                  });
-                                },
-                              );
-                              setRowState([props.row.index], {
-                                isEditing: true,
-                                isDisabled: false,
+                            props.page.forEach((el: { [key: string]: any }) => {
+                              const index: string = String(el.index);
+                              setRowState([index], {
+                                isDisabled: true,
+                                isEditing: false,
                               });
-                            };
-                            startEditing();
+                            });
+                            setRowState([props.row.index], {
+                              isEditing: true,
+                              isDisabled: false,
+                            });
                           }}
                         />
                       );
@@ -338,22 +330,19 @@ const Table: FC<TableProps> = ({
                             cancel
                             rowData={props.row}
                             onCancel={() => {
-                              const cancelDisabled = () => {
-                                props.page.forEach(
-                                  (el: { [key: string]: any }) => {
-                                    const index: string = String(el.index);
-                                    setRowState([index], {
-                                      isDisabled: false,
-                                      isEditing: false,
-                                    });
-                                  },
-                                );
-                                setRowState([props.row.index], {
-                                  isEditing: false,
-                                  isDisabled: false,
-                                });
-                              };
-                              cancelDisabled();
+                              props.page.forEach(
+                                (el: { [key: string]: any }) => {
+                                  const index: string = String(el.index);
+                                  setRowState([index], {
+                                    isDisabled: false,
+                                    isEditing: false,
+                                  });
+                                },
+                              );
+                              setRowState([props.row.index], {
+                                isEditing: false,
+                                isDisabled: false,
+                              });
                             }}
                           />
                         );
@@ -379,22 +368,17 @@ const Table: FC<TableProps> = ({
                           onEdit={() => {
                             setDefaultValues &&
                               setDefaultValues(props.row.original);
-                            const startEditing = () => {
-                              props.page.forEach(
-                                (el: { [key: string]: any }) => {
-                                  const index: string = String(el.index);
-                                  setRowState([index], {
-                                    isDisabled: true,
-                                    isEditing: false,
-                                  });
-                                },
-                              );
-                              setRowState([props.row.index], {
-                                isEditing: true,
-                                isDisabled: false,
+                            props.page.forEach((el: { [key: string]: any }) => {
+                              const index: string = String(el.index);
+                              setRowState([index], {
+                                isDisabled: true,
+                                isEditing: false,
                               });
-                            };
-                            startEditing();
+                            });
+                            setRowState([props.row.index], {
+                              isEditing: true,
+                              isDisabled: false,
+                            });
                           }}
                         />
                       );
