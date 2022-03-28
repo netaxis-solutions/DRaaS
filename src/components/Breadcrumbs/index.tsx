@@ -22,7 +22,6 @@ const Breadcrumbs: FC = () => {
     customerLevels,
     cleanBreadcrambsStorage,
     isLoading,
-    setLoader,
   } = BreadcrumbsStorage;
 
   const pathnames: any = pathname.split("/").filter(x => x);
@@ -35,11 +34,6 @@ const Breadcrumbs: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const breadcrumbsAction = (routeTo: any) => {
-    setLoader();
-    history.push(routeTo);
-  };
-
   return (
     <>
       {(customerLevels.length > 0 && !isLoading) || !isLoading ? (
@@ -51,7 +45,7 @@ const Breadcrumbs: FC = () => {
           {customerLevels.map((item: any, index: any) => {
             const routeTo = `/${pathnames.slice(0, index + 3).join("/")}/`;
             return !item?.disabled ? (
-              <Link key={item.name} onClick={() => breadcrumbsAction(routeTo)}>
+              <Link key={item.name} onClick={() => history.push(routeTo)}>
                 {item.name}
               </Link>
             ) : (

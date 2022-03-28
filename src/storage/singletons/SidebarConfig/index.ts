@@ -20,6 +20,7 @@ class SidebarConfig {
     let chosenCustomerData = this.chosenCustomerData;
     if (this.chosenCustomerID !== id) {
       runInAction(() => {
+        BreadcrumbsStorage.setIsLoading();
         this.isLoading = true;
       });
       chosenCustomerData = await Tenant.getSpecificTenant({

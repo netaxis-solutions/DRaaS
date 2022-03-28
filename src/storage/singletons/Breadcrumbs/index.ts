@@ -36,7 +36,7 @@ class BreadcrumbsStorage {
     });
   };
 
-  setLoader = () => {
+  setIsLoading = () => {
     this.isLoading = true;
   };
 
