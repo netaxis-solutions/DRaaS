@@ -11,21 +11,27 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 
-import { TableData, ToolbarActionType } from "utils/types/tableConfig";
+import { TableData } from "utils/types/tableConfig";
 
 import { useStyles } from "./styles";
 
 const TableSkeleton: FC<{
+  title: string;
   columns: Column<TableData>[];
-  actions?: ToolbarActionType[] | undefined;
+  actions?: boolean[];
   checkbox?: boolean;
-}> = ({ columns, actions = [], checkbox = false }) => {
+}> = ({ title, columns, actions = [], checkbox = false }) => {
   const { t } = useTranslation();
   const classes = useStyles();
 
   return (
     <>
-      <Skeleton variant="rectangular" height={54} />
+      <div className={classes.tableToolbarWrapper}>
+        <div className={classes.tableToolbarTitle}>{title}</div>
+        <div className={classes.tableToolbarSkeleton}>
+          <Skeleton variant="rectangular" height={54} />
+        </div>
+      </div>
       <Table>
         <TableHead>
           <TableRow>
@@ -34,8 +40,8 @@ const TableSkeleton: FC<{
                 <Skeleton variant="rectangular" height={20} width={20} />
               </TableCell>
             ) : null}
-            {columns.map(el => (
-              <TableCell>{el.Header}</TableCell>
+            {columns.map((el: Column<TableData>) => (
+              <TableCell key={`${el.accessor}`}>{el.Header}</TableCell>
             ))}
             {actions.length ? (
               <TableCell className={classes.actionsHeaderSkeletonCell}>
@@ -47,8 +53,8 @@ const TableSkeleton: FC<{
         <TableBody>
           {Array(10)
             .fill(0)
-            .map(() => (
-              <TableRow>
+            .map((_: number, index: number) => (
+              <TableRow key={index}>
                 {checkbox ? (
                   <TableCell
                     className={clsx(
@@ -59,8 +65,11 @@ const TableSkeleton: FC<{
                     <Skeleton variant="rectangular" height={20} width={20} />
                   </TableCell>
                 ) : null}
-                {columns.map(() => (
-                  <TableCell className={classes.bodySkeletonCell}>
+                {columns.map((el: Column<TableData>) => (
+                  <TableCell
+                    key={`${el.accessor}`}
+                    className={classes.bodySkeletonCell}
+                  >
                     <Skeleton />
                   </TableCell>
                 ))}
@@ -71,14 +80,17 @@ const TableSkeleton: FC<{
                       classes.bodySkeletonCell,
                     )}
                   >
-                    {actions.map(() => (
-                      <Skeleton
-                        variant="rectangular"
-                        height={20}
-                        width={20}
-                        className={classes.action}
-                      />
-                    ))}
+                    {actions
+                      .filter(el => el)
+                      .map((_: boolean, index: number) => (
+                        <Skeleton
+                          key={index}
+                          variant="rectangular"
+                          height={20}
+                          width={20}
+                          className={classes.action}
+                        />
+                      ))}
                   </TableCell>
                 ) : null}
               </TableRow>

@@ -6,12 +6,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslation } from "react-i18next";
 
 import LicensesStore from "storage/singletons/Licenses";
+import PendingQueries from "storage/singletons/PendingQueries";
+
 import { EditLicensesPayload } from "utils/types/licenses";
 import { editLicenseSchema } from "utils/schemas/license";
 import { MsTeamsUsersType } from "utils/types/licenses";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import FormTableInput from "components/common/TableInput";
 import Table from "components/Table";
+import TableSkeleton from "components/Table/Skeleton";
 
 const defaultValues = {
   assigned: "",
@@ -27,6 +31,7 @@ const LicensesList: FC = () => {
   const { t } = useTranslation();
 
   const { getSubscriptionLicensesData, licenses, editLicense } = LicensesStore;
+  const { byFetchType } = PendingQueries;
 
   const { control, setValue, handleSubmit } = useForm<EditLicensesPayload>({
     resolver: yupResolver(editLicenseSchema(t)),
@@ -83,15 +88,25 @@ const LicensesList: FC = () => {
     setValue("name", `${license.name}`);
   };
 
+  const isLoading = getIsLoading("@getSubscriptionLicensesData", byFetchType);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Table
-        title={t("Licenses")}
-        columns={columns}
-        data={licenses}
-        isEditable
-        setDefaultValues={setDefaultValues}
-      />
+      {isLoading ? (
+        <TableSkeleton
+          title={t("Licenses")}
+          columns={columns}
+          actions={[true]}
+        />
+      ) : (
+        <Table
+          title={t("Licenses")}
+          columns={columns}
+          data={licenses}
+          isEditable
+          setDefaultValues={setDefaultValues}
+        />
+      )}
     </form>
   );
 };

@@ -67,4 +67,18 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   footerSkeletonCellBlock: {
     width: "33%",
   },
+  tableToolbarWrapper: {
+    display: "flex",
+    alignItems: "center",
+    height: 52,
+    width: "100%",
+  },
+  tableToolbarTitle: {
+    fontSize: "2rem",
+    marginLeft: `${theme.spacing(3.75)}px`,
+    width: "50%",
+  },
+  tableToolbarSkeleton: {
+    width: "50%",
+  },
 }));

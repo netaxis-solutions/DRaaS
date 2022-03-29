@@ -149,12 +149,17 @@ const SubscriptionsList: FC = () => {
 
   const isLoading = getIsLoading("@getSubscriptionsData", byFetchType);
 
+  console.log(avilableActions);
+
   return (
     <>
       {isLoading ? (
         <TableSkeleton
+          title={t("Subscriptions")}
           columns={columns}
-          actions={avilableActions}
+          //NOTE: uncoment this when isSubscriptionsEditable would be needed
+          //actions={[isSubscriptionsEditable, isSubscriptionsDeletable]}
+          actions={[isSubscriptionsDeletable]}
           checkbox={isSubscriptionsDeletable}
         />
       ) : (

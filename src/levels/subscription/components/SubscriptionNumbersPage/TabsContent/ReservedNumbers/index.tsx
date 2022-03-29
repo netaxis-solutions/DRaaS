@@ -8,13 +8,16 @@ import { has } from "lodash";
 import NumbersStore from "storage/singletons/Numbers";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 import EntitlementsStore from "storage/singletons/Entitlements";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { CustomActionType, TableData } from "utils/types/tableConfig";
 import { AvailableEntitlements } from "utils/types/entitlements";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import { InfoIcon, Plus } from "components/Icons";
 import Table from "components/Table";
 import Tooltip from "components/Tooltip";
+import TableSkeleton from "components/Table/Skeleton";
 
 const ReservedNumbers: FC = () => {
   const { t } = useTranslation();
@@ -30,6 +33,8 @@ const ReservedNumbers: FC = () => {
   } = NumbersStore;
   const { getEntitlements, setAvailable } = EntitlementsStore;
   const { selectedRowsLength } = TableSelectedRows;
+  const { byFetchType } = PendingQueries;
+
   useEffect(() => {
     getReservedNumbers(tenantID, subscriptionID);
     getEntitlements(tenantID, subscriptionID);
@@ -229,7 +234,18 @@ const ReservedNumbers: FC = () => {
           available[row.original.countryCode][row.original.numberType]--;
   };
 
-  return (
+  const isLoading =
+    getIsLoading("@getReservedNumbersData", byFetchType) ||
+    getIsLoading("@getSubscriptionEntitlementsData", byFetchType);
+
+  return isLoading ? (
+    <TableSkeleton
+      title={t("Reserved numbers")}
+      columns={columns}
+      checkbox
+      actions={customActions.map(el => el.isShown)}
+    />
+  ) : (
     <Table
       title={t("Reserved numbers")}
       columns={columns}

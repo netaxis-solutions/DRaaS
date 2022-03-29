@@ -177,8 +177,9 @@ const ResellersList: FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {isLoading ? (
           <TableSkeleton
+            title={t("Resellers")}
             columns={columns}
-            actions={toolbarActions}
+            actions={[isResellersEditable, isResellersDeletable]}
             checkbox={isResellersDeletable}
           />
         ) : (

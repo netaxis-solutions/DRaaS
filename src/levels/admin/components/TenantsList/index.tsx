@@ -219,8 +219,9 @@ const TenantsList: FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {isLoading ? (
           <TableSkeleton
+            title={t("Tenants")}
             columns={columns}
-            actions={toolbarActions}
+            actions={[isTenantsEditable, isTenantsDeletable]}
             checkbox={isTenantsDeletable}
           />
         ) : (

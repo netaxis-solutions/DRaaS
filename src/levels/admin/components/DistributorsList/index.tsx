@@ -185,8 +185,9 @@ const Distributors: FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {isLoading ? (
           <TableSkeleton
+            title={t("Distributors")}
             columns={columns}
-            actions={toolbarActions}
+            actions={[isDistributorsEditable, isDistributorDeletable]}
             checkbox={isDistributorDeletable}
           />
         ) : (
