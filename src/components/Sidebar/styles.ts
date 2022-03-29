@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     color: (props: { currentLevel: LoggedInUserType }) =>
       theme.side_bar[props.currentLevel].avatar.avatarSubLabel,
     display: "flex",
+    "& svg": {
+      cursor: "pointer",
+    },
   },
   titleWithDropdown: {
     marginBottom: theme.spacing(3.75),

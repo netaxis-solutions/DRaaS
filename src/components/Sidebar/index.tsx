@@ -76,7 +76,24 @@ const Sidebar: React.FC<{
         <>
           <div className={classes.titleWithDropdown}>
             <div className={classes.titleContainer}>
-              <div className={classes.iconContainer}>{levelIcon[level]}</div>
+              <div
+                className={classes.iconContainer}
+                onClick={() => {
+                  return history.push(
+                    `/${pathnames
+                      .slice(
+                        0,
+                        locationArr.indexOf(
+                          extraLevelID ? extraLevelID : chosenCustomerID,
+                        ),
+                      )
+                      .join("/")}/profile`,
+                  );
+                }}
+              >
+                {" "}
+                {levelIcon[level]}
+              </div>
               <div className={classes.titleWrapper}>
                 <div
                   onClick={() =>
