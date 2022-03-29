@@ -29,13 +29,17 @@ const OtherLicenses: FC<{
           </IconButton>
           {isShown && (
             <span className={classes.width100}>
-              {licenses.map(license => (
-                <span key={license.skuPartNumber}>
-                  {licenses.length > 1
-                    ? license.skuPartNumber + ", "
-                    : license.skuPartNumber}
-                </span>
-              ))}
+              {licenses.map((license, i: number) => {
+                return i === licenses.length - 1 ? (
+                  <span key={license.skuPartNumber}>
+                    {license.skuPartNumber}
+                  </span>
+                ) : (
+                  <span key={license.skuPartNumber}>
+                    {license.skuPartNumber},
+                  </span>
+                );
+              })}
             </span>
           )}
         </>

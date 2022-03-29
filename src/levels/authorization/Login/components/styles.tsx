@@ -50,7 +50,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       height: 46,
       width: "100%",
       color: "#FFFFFF",
-      "& > [class*=label]":{textTransform: "none!important"},
+      "& > [class*=label]": { textTransform: "none!important" },
       "&:hover": {
         color: "#FFFFFF",
       },
@@ -101,6 +101,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     marginBottom: theme.spacing(3.75),
     fontSize: "1.6rem",
     textAlign: "center",
+    width: 410,
   },
   twoFactorSubmit: {
     margin: `${theme.spacing(1.875)}px 0`,
