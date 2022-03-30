@@ -5,4 +5,9 @@ export const EntitlementsStyle = makeStyles({
     display: "flex",
     gap: 10,
   },
+  cardWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

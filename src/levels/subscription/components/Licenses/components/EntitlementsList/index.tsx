@@ -231,8 +231,6 @@ const EntitlementList: FC = () => {
     getIsLoading("@getSubscriptionEntitlementsData", byFetchType) ||
     getIsLoading("@getEntitlementsTypeData", byFetchType);
 
-  console.log(entitlements);
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -264,7 +262,14 @@ const EntitlementList: FC = () => {
             }}
           />
         ) : (
-          <CardWithButton />
+          <div className={classes.cardWrapper}>
+            <CardWithButton
+              content={t("You have no entitlements added yet")}
+              customEvent={() => setModalToOpen("add")}
+              buttonName={t("Add new entitlement")}
+              icon={Plus}
+            />
+          </div>
         )}
       </form>
       {modalToOpen === "add" && (
