@@ -120,6 +120,7 @@ class MsTeamOnboarding {
         });
         if (!isRunning && this.currentStep > 7) {
           successNotification(t("MS Teams was linked to the platform"));
+          CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
         }
       })
       .catch(e => {
