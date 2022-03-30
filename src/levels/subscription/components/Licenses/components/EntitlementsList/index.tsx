@@ -27,6 +27,7 @@ import TableSkeleton from "components/Table/Skeleton";
 import AddEntitlement from "./components/AddEntitlement";
 import DeleteEntitlement from "./components/DeleteEntitlement";
 import { EntitlementsStyle } from "./styles";
+import CardWithButton from "components/CardForEmptyTable";
 
 const defaultValues = {
   entitlement: "",
@@ -230,6 +231,8 @@ const EntitlementList: FC = () => {
     getIsLoading("@getSubscriptionEntitlementsData", byFetchType) ||
     getIsLoading("@getEntitlementsTypeData", byFetchType);
 
+  console.log(entitlements);
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -240,7 +243,7 @@ const EntitlementList: FC = () => {
             checkbox
             actions={[true, true]}
           />
-        ) : (
+        ) : entitlements.length !== 0 ? (
           <Table
             title={t("Entitlements")}
             columns={columns}
@@ -260,6 +263,8 @@ const EntitlementList: FC = () => {
               return !(row.original.assigned === 0);
             }}
           />
+        ) : (
+          <CardWithButton />
         )}
       </form>
       {modalToOpen === "add" && (
