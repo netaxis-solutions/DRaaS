@@ -149,8 +149,6 @@ const SubscriptionsList: FC = () => {
 
   const isLoading = getIsLoading("@getSubscriptionsData", byFetchType);
 
-  console.log(avilableActions);
-
   return (
     <>
       {isLoading ? (
