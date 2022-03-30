@@ -9,6 +9,7 @@ import { CellProps, Row, TableProps } from "react-table";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import EntitlementsStore from "storage/singletons/Entitlements";
 import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { editEntitlementSchema } from "utils/schemas/entitlements";
 import { Country } from "utils/functions/countryConfig";
@@ -17,10 +18,12 @@ import {
   EntitlementsListType,
 } from "utils/types/entitlements";
 import { TableData } from "utils/types/tableConfig";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import { Plus, Trash } from "components/Icons";
 import Table from "components/Table";
 import FormTableInput from "components/common/TableInput";
+import TableSkeleton from "components/Table/Skeleton";
 import AddEntitlement from "./components/AddEntitlement";
 import DeleteEntitlement from "./components/DeleteEntitlement";
 import { EntitlementsStyle } from "./styles";
@@ -56,6 +59,8 @@ const EntitlementList: FC = () => {
     selectedRowsLength,
     setSelectedRows,
   } = TableSelectedRowsStore;
+
+  const { byFetchType } = PendingQueries;
 
   const { control, setValue, handleSubmit } = useForm<EditEntitlementType>({
     resolver: yupResolver(editEntitlementSchema()),
@@ -221,28 +226,41 @@ const EntitlementList: FC = () => {
     return !row.original.assigned;
   };
 
+  const isLoading =
+    getIsLoading("@getSubscriptionEntitlementsData", byFetchType) ||
+    getIsLoading("@getEntitlementsTypeData", byFetchType);
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Table
-          title={t("Entitlements")}
-          columns={columns}
-          data={entitlements}
-          setDefaultValues={setDefaultValues}
-          setModalToOpen={setModalToOpen}
-          isEditable
-          isRemovable
-          checkbox
-          handleDeleteItem={handleDeleteItem}
-          toolbarActions={toolbarActions}
-          handleEditItem={handleEditItem}
-          isCheckboxAvailable={isAvailable}
-          selectAllRowCondition={selectAllRowCondition}
-          isGeneralCheckboxSelected={selectAllCondition}
-          deleteDisabledCondition={(row: Row<TableData>) => {
-            return !(row.original.assigned === 0);
-          }}
-        />
+        {isLoading ? (
+          <TableSkeleton
+            title={t("Entitlements")}
+            columns={columns}
+            checkbox
+            actions={[true, true]}
+          />
+        ) : (
+          <Table
+            title={t("Entitlements")}
+            columns={columns}
+            data={entitlements}
+            setDefaultValues={setDefaultValues}
+            setModalToOpen={setModalToOpen}
+            isEditable
+            isRemovable
+            checkbox
+            handleDeleteItem={handleDeleteItem}
+            toolbarActions={toolbarActions}
+            handleEditItem={handleEditItem}
+            isCheckboxAvailable={isAvailable}
+            selectAllRowCondition={selectAllRowCondition}
+            isGeneralCheckboxSelected={selectAllCondition}
+            deleteDisabledCondition={(row: Row<TableData>) => {
+              return !(row.original.assigned === 0);
+            }}
+          />
+        )}
       </form>
       {modalToOpen === "add" && (
         <AddEntitlement handleCancel={handleCloseModal} />

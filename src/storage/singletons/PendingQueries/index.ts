@@ -9,7 +9,7 @@ class PendingQueries {
       some: false,
       i: false,
       add: action,
-      remove: action
+      remove: action,
     });
   }
 

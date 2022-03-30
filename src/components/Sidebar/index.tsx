@@ -12,7 +12,8 @@ import {
   ResellerLevelIcon,
   TenantLevelIcon,
 } from "components/Icons";
-import Loader from "components/Loader/Loader";
+import SidebarSkeleton from "./Skeleton";
+
 import useStyles from "./styles";
 
 const levelIcon: {
@@ -61,10 +62,16 @@ const Sidebar: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const isLoadingSidebar =
+    isLoading ||
+    !(currentLevel === "subscription"
+      ? extraLevelData?.name
+      : chosenCustomerData?.name);
+
   return (
     <div className={classes.sidebarContainer}>
-      {isLoading ? (
-        <Loader />
+      {isLoadingSidebar ? (
+        <SidebarSkeleton currentLevel={currentLevel} options={options} />
       ) : (
         <>
           <div className={classes.titleWithDropdown}>

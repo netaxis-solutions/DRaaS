@@ -8,15 +8,19 @@ import Distributor from "storage/singletons/Distributor";
 import DistributorsStore from "storage/singletons/Distributors";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { DistributorItemType } from "utils/types/distributors";
 import { editDistributorSchema } from "utils/schemas/distributors";
 import { TEditDistributorPayload } from "utils/types/distributors";
+import { getIsLoading } from "utils/functions/getIsLoading";
+
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
 import AddDistributor from "./components/AddDistributor";
 import DeleteDistributorModal from "./components/DeleteDistributorModal";
 import FormTableInput from "components/common/TableInput";
+import TableSkeleton from "components/Table/Skeleton";
 
 const defaultValues = {
   uuid: "",
@@ -39,6 +43,8 @@ const Distributors: FC = () => {
     clearPaginationData,
     search,
   } = TablePagination;
+
+  const { byFetchType } = PendingQueries;
 
   // TODO: Uncomment when drill down to a distributor level
   // const { allAvailvableRouting } = RoutingConfig;
@@ -172,22 +178,33 @@ const Distributors: FC = () => {
     setDefaultValues(props.row.original);
   };
 
+  const isLoading = getIsLoading("@getDistributorsData", byFetchType);
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Table
-          title={t("Distributors")}
-          columns={columns}
-          data={distributors}
-          setModalToOpen={setModalToOpen}
-          toolbarActions={toolbarActions}
-          checkbox={isDistributorDeletable}
-          setDefaultValues={setDefaultValues}
-          isRemovable={isDistributorDeletable}
-          handleDeleteItem={handleDeleteItem}
-          isEditable={isDistributorsEditable}
-          handleEditItem={handleEditItem}
-        />
+        {isLoading ? (
+          <TableSkeleton
+            title={t("Distributors")}
+            columns={columns}
+            actions={[isDistributorsEditable, isDistributorDeletable]}
+            checkbox={isDistributorDeletable}
+          />
+        ) : (
+          <Table
+            title={t("Distributors")}
+            columns={columns}
+            data={distributors}
+            setModalToOpen={setModalToOpen}
+            toolbarActions={toolbarActions}
+            checkbox={isDistributorDeletable}
+            setDefaultValues={setDefaultValues}
+            isRemovable={isDistributorDeletable}
+            handleDeleteItem={handleDeleteItem}
+            isEditable={isDistributorsEditable}
+            handleEditItem={handleEditItem}
+          />
+        )}
       </form>
       {modalToOpen === "add" && (
         <AddDistributor handleCancel={handleCloseModal} />

@@ -11,10 +11,12 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import TenantsStore from "storage/singletons/Tenants";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { TenantItemType } from "utils/types/tenant";
 import { editTenantSchema } from "utils/schemas/tenant";
 import { TEditTenantPayload } from "utils/types/tenant";
+import { getIsLoading } from "utils/functions/getIsLoading";
 import createLink from "services/createLink";
 
 import Table from "components/Table";
@@ -22,6 +24,7 @@ import FormTableInput from "components/common/TableInput";
 import { Plus, Trash } from "components/Icons";
 import AddTenant from "./components/AddTenant";
 import DeleteTenantModal from "./components/DeleteTenantModal";
+import TableSkeleton from "components/Table/Skeleton";
 
 const defaultValues = {
   uuid: "",
@@ -64,6 +67,7 @@ const TenantsList: FC = () => {
 
   const { allAvailvableRouting } = RoutingConfig;
   const { editTenant } = TenantStore;
+  const { byFetchType } = PendingQueries;
 
   const onSubmit: SubmitHandler<TenantItemType> = values => {
     editTenant({
@@ -208,22 +212,33 @@ const TenantsList: FC = () => {
     setDefaultValues(props.row.original);
   };
 
+  const isLoading = getIsLoading("@getTenantsData", byFetchType);
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Table
-          title={t("Tenants")}
-          columns={columns}
-          data={tenants}
-          toolbarActions={toolbarActions}
-          checkbox={isTenantsDeletable}
-          setModalToOpen={setModalToOpen}
-          setDefaultValues={setDefaultValues}
-          isRemovable={isTenantsDeletable}
-          handleDeleteItem={handleDeleteItem}
-          isEditable={isTenantsEditable}
-          handleEditItem={handleEditItem}
-        />
+        {isLoading ? (
+          <TableSkeleton
+            title={t("Tenants")}
+            columns={columns}
+            actions={[isTenantsEditable, isTenantsDeletable]}
+            checkbox={isTenantsDeletable}
+          />
+        ) : (
+          <Table
+            title={t("Tenants")}
+            columns={columns}
+            data={tenants}
+            toolbarActions={toolbarActions}
+            checkbox={isTenantsDeletable}
+            setModalToOpen={setModalToOpen}
+            setDefaultValues={setDefaultValues}
+            isRemovable={isTenantsDeletable}
+            handleDeleteItem={handleDeleteItem}
+            isEditable={isTenantsEditable}
+            handleEditItem={handleEditItem}
+          />
+        )}
       </form>
       {modalToOpen === "add" && <AddTenant handleCancel={handleCloseModal} />}
       {modalToOpen === "delete" && (

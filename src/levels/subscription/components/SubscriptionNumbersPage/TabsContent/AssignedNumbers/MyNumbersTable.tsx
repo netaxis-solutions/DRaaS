@@ -8,9 +8,13 @@ import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import NumbersStore from "storage/singletons/Numbers";
 import EntitlementsStore from "storage/singletons/Entitlements";
 import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
+
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import { Plus, Trash } from "components/Icons";
 import Table from "components/Table";
+import TableSkeleton from "components/Table/Skeleton";
 import SelectFromInventory from "./components/MultistepModal";
 import DeleteNumberModal from "./components/DeleteModal";
 
@@ -35,6 +39,7 @@ const NumbersList: FC = () => {
     getEntitlements,
     setAvailableEntitlementsNumber,
   } = EntitlementsStore;
+
   const {
     tablePageCounter,
     tablePageSize,
@@ -43,6 +48,8 @@ const NumbersList: FC = () => {
   } = TablePagination;
 
   const { getNumbersData, deassignNumbers, numbers } = NumbersStore;
+
+  const { byFetchType } = PendingQueries;
 
   useEffect(() => {
     getEntitlements(tenantID, subscriptionID, () =>
@@ -168,17 +175,28 @@ const NumbersList: FC = () => {
     successCallback();
   };
 
+  const isLoading = getIsLoading("@getNumbersData", byFetchType);
+
   return (
     <>
-      <Table
-        title={t("My numbers")}
-        columns={columns}
-        data={numbers}
-        toolbarActions={toolbarActions}
-        handleDeleteItem={handleDeleteItem}
-        checkbox
-        isRemovable
-      />
+      {isLoading ? (
+        <TableSkeleton
+          title={t("My numbers")}
+          columns={columns}
+          checkbox
+          actions={[true]}
+        />
+      ) : (
+        <Table
+          title={t("My numbers")}
+          columns={columns}
+          data={numbers}
+          toolbarActions={toolbarActions}
+          handleDeleteItem={handleDeleteItem}
+          checkbox
+          isRemovable
+        />
+      )}
       {modalToOpen === "add" && (
         <SelectFromInventory handleCancel={handleModalClose} />
       )}
