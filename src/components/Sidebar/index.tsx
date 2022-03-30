@@ -12,7 +12,6 @@ import {
   ResellerLevelIcon,
   TenantLevelIcon,
 } from "components/Icons";
-//import Loader from "components/Loader/Loader";
 import SidebarSkeleton from "./Skeleton";
 
 import useStyles from "./styles";
