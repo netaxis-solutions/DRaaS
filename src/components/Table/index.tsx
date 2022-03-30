@@ -374,6 +374,7 @@ const Table: FC<TableProps> = ({
     return () => {
       TableSelectedRowsStore.clearStorage();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
 
@@ -408,6 +409,7 @@ const Table: FC<TableProps> = ({
         data={page}
         pageNumber={state.pageIndex + 1}
         previousPage={previousPage}
+        pageSize={state.pageSize}
         checkbox={checkbox}
         nextPage={nextPage}
         canNextPage={canNextPage}
