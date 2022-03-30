@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 import { CellProps } from "react-table";
 import { useParams } from "react-router-dom";
-import clsx from "clsx";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import Entitlements from "storage/singletons/Entitlements";
@@ -14,11 +13,8 @@ import { TableProps } from "utils/types/tableConfig";
 
 import Table from "components/Table";
 
-import { styles } from "./styles";
-
 const SelectNumberEntitlement: React.FC = () => {
   const { t } = useTranslation();
-  const classes = styles();
 
   const { setValues, goNext, setPreviousChoices } = MultiStepForm;
   const { entitlements, getEntitlements } = Entitlements;
@@ -32,6 +28,22 @@ const SelectNumberEntitlement: React.FC = () => {
     subscriptionID: string;
   }>();
 
+  const availableEntitlements = useMemo(
+    () =>
+      entitlements.filter(
+        entitlement => entitlement.assigned !== entitlement.entitlement,
+      ),
+    [entitlements],
+  );
+
+  useEffect(() => {
+    MultiStepForm.setSubmitButtonState(!Boolean(availableEntitlements.length));
+
+    return () => {
+      MultiStepForm.setSubmitButtonState(false);
+    };
+  }, [availableEntitlements]);
+
   const columns = useMemo(
     () => [
       {
@@ -39,23 +51,15 @@ const SelectNumberEntitlement: React.FC = () => {
         accessor: "name",
       },
       {
-        Header: t("In use"),
-        accessor: "assigned",
-        Cell: ({ cell }: CellProps<TableProps>) => {
+        Header: t("Numbers Left"),
+        Cell: ({ row }: CellProps<TableProps>) => {
           return (
-            <div
-              className={clsx({
-                [classes.limitCell]: cell.value >= cell.row.values.entitlement,
-              })}
-            >
-              {cell.value}
+            <div>
+              {availableEntitlements[row.index].entitlement -
+                availableEntitlements[row.index].assigned}
             </div>
           );
         },
-      },
-      {
-        Header: t("Limited"),
-        accessor: "entitlement",
       },
       {
         Header: t("Type"),
@@ -111,21 +115,6 @@ const SelectNumberEntitlement: React.FC = () => {
     });
     goNext();
   };
-  const availableEntitlements = useMemo(
-    () =>
-      entitlements.filter(
-        entitlement => entitlement.assigned !== entitlement.entitlement,
-      ),
-    [entitlements],
-  );
-
-  useEffect(() => {
-    MultiStepForm.setSubmitButtonState(!Boolean(availableEntitlements.length));
-
-    return () => {
-      MultiStepForm.setSubmitButtonState(false);
-    };
-  }, [availableEntitlements]);
 
   return (
     <form id={"SelectFromInventory"} onSubmit={onSubmit}>
