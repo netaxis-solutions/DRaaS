@@ -26,8 +26,9 @@ import FormTableInput from "components/common/TableInput";
 import TableSkeleton from "components/Table/Skeleton";
 import AddEntitlement from "./components/AddEntitlement";
 import DeleteEntitlement from "./components/DeleteEntitlement";
-import { EntitlementsStyle } from "./styles";
 import CardWithButton from "components/CardForEmptyTable";
+
+import { EntitlementsStyle } from "./styles";
 
 const defaultValues = {
   entitlement: "",
