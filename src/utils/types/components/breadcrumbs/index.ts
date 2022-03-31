@@ -10,6 +10,6 @@ export type TCustomerLevelPayload = [
 
 export type TCustomerLevelBreadcrumbs = {
   name: string;
-  disabled: boolean;
-  link: "string";
+  disabled?: boolean;
+  link?: string;
 }[];

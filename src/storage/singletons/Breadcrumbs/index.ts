@@ -22,10 +22,16 @@ class BreadcrumbsStorage {
       payload[1],
     );
 
-    const result = payload.reduce(
+    const formatterBreadcrumbsRoute = payload.map(el => {
+      if (typeof el == "string") {
+        return { name: "", uuid: "" };
+      } else return { name: el.name, uuid: el.uuid };
+    });
+
+    const result = formatterBreadcrumbsRoute.reduce(
       (
         currentCustomers: TCustomerLevelBreadcrumbs | undefined,
-        currentCustomer: any,
+        currentCustomer: { name: string; uuid: string },
       ) => {
         currentCustomers &&
           (currentCustomers = [
