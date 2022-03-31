@@ -39,10 +39,11 @@ class SidebarConfig {
         this.extraLevelID = "";
       }
     });
-    BreadcrumbsStorage.setCustomerLevel([
-      this.chosenCustomerData,
-      this.extraLevelID,
-    ]);
+    this.chosenCustomerData &&
+      BreadcrumbsStorage.setCustomerLevel([
+        this.chosenCustomerData,
+        this.extraLevelID,
+      ]);
     if (this.extraLevelID) {
       this.getSpecificTenantSubscription(
         this.chosenCustomerID,

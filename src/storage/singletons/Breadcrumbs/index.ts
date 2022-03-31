@@ -1,15 +1,19 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import Tenant from "../Tenant";
+import {
+  TCustomerLevelPayload,
+  TCustomerLevelBreadcrumbs,
+} from "utils/types/components/breadcrumbs";
 
 class BreadcrumbsStorage {
-  customerLevels: any = [];
+  customerLevels: TCustomerLevelBreadcrumbs = [];
   isLoading: boolean = false;
 
   constructor() {
     makeAutoObservable(this, {});
   }
 
-  setCustomerLevel = async (payload: Array<any>) => {
+  setCustomerLevel = async (payload: TCustomerLevelPayload) => {
     this.cleanBreadcrambsStorage();
     this.isLoading = true;
 
@@ -18,20 +22,30 @@ class BreadcrumbsStorage {
       payload[1],
     );
 
-    const result = payload.reduce((currentCustomers, currentCustomer) => {
-      currentCustomers = [
-        ...currentCustomers,
-        {
-          name: currentCustomer.name || subscription?.name || "",
-          link: currentCustomer.uuid || subscription?.name || "",
-          disabled: currentCustomer.uuid ? false : true,
-        },
-      ];
-      return currentCustomers;
-    }, []);
+    const result = payload.reduce(
+      (
+        currentCustomers: TCustomerLevelBreadcrumbs | undefined,
+        currentCustomer: any,
+      ) => {
+        currentCustomers &&
+          (currentCustomers = [
+            ...currentCustomers,
+            {
+              name: currentCustomer.name || subscription?.name || "",
+              link: currentCustomer.uuid || subscription?.name || "",
+              disabled: currentCustomer.uuid ? false : true,
+            },
+          ]);
+
+        return currentCustomers;
+      },
+      [],
+    );
 
     runInAction(() => {
-      this.customerLevels = result;
+      if (result) {
+        this.customerLevels = result;
+      }
       this.isLoading = false;
     });
   };

@@ -8,6 +8,7 @@ export type TAddTenantValues = {
   name: string;
   billingId: string;
   markup: string;
+  uuid: string;
   owner: { value: string; label: string };
 };
 

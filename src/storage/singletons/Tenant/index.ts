@@ -11,6 +11,7 @@ import {
   TCreateTenant,
   TEditTenantPayload,
 } from "utils/types/tenant";
+import { SubscriptionItemType } from "utils/types/subscriptions";
 import { TOwners } from "utils/types/resellers";
 import {
   errorNotification,
@@ -111,7 +112,7 @@ class TenantStore {
   getSpecificTenantSubscription = async (
     tenantID: string,
     subscriptionID: string,
-  ): Promise<any | undefined> => {
+  ): Promise<SubscriptionItemType | undefined> => {
     const result = await request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}`,
       loaderName: "@getSpecificTenantSubscription",
