@@ -45,11 +45,19 @@ const Breadcrumbs: FC = () => {
           {customerLevels.map((item: any, index: any) => {
             const routeTo = `/${pathnames.slice(0, index + 3).join("/")}/`;
             return !item?.disabled ? (
-              <Link key={item.name} onClick={() => history.push(routeTo)}>
+              <Link
+                key={`${item.name}${index}`}
+                onClick={() => history.push(routeTo)}
+              >
                 {item.name}
               </Link>
             ) : (
-              <Link className={classes.disabledLink}>{item.name}</Link>
+              <Link
+                key={`${item.name}${index}`}
+                className={classes.disabledLink}
+              >
+                {item.name}
+              </Link>
             );
           })}
         </MUIBreadcrumbs>
