@@ -242,7 +242,7 @@ const EntitlementList: FC = () => {
             checkbox
             actions={[true, true]}
           />
-        ) : entitlements.length !== 0 ? (
+        ) : entitlements.length > 0 ? (
           <Table
             title={t("Entitlements")}
             columns={columns}
