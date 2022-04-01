@@ -9,9 +9,9 @@ import EntitlementsStore from "storage/singletons/Entitlements";
 
 import SelectFromInventory from "./components/MultistepModal";
 import MyNumbersTable from "./MyNumbersTable";
-import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { InfoIcon, Plus } from "components/Icons";
 import Tooltip from "components/Tooltip";
+import CardWithButton from "components/CardForEmptyTable";
 
 import styles from "./styles";
 
@@ -60,41 +60,33 @@ const MyNumbers = () => {
         {t("You have no phone numbers added yet")}
       </div>
       <div className={classes.cardsWrapper}>
-        <div className={classes.card}>
-          <div className={classes.cardText}>
-            {t("You can add numbers from inventory")}
-          </div>
-          <div className={classes.buttonContainer}>
-            <ButtonWithIcon
-              icon={Plus}
-              title={t("Add from inventory")}
-              variant={"contained"}
-              disabled={!availableEntitlementsNumber}
-              onClick={() => setModal(true)}
-            />
-            {!availableEntitlementsNumber && (
-              <Tooltip
-                placement="right"
-                title={t(
-                  "Sorry, you cannot add any numbers because you don't have any entitlements left",
-                )}
-              >
-                <InfoIcon className={classes.tooltipIcon} />
-              </Tooltip>
-            )}
-          </div>
-        </div>
-        <div className={classes.card}>
-          <div className={classes.cardText}>
-            {t("You can port your numbers by adding porting request")}
-          </div>
-          <ButtonWithIcon
-            icon={Plus}
-            title={t("Add porting request")}
-            variant={"contained"}
-            onClick={() => history.push("porting")}
-          />
-        </div>
+        <CardWithButton
+          content={t("You can add numbers from inventory")}
+          customEvent={() => setModal(true)}
+          buttonName={t("Add from inventory")}
+          icon={Plus}
+          disabled={!availableEntitlementsNumber}
+          tooltip={
+            <>
+              {!availableEntitlementsNumber && (
+                <Tooltip
+                  placement="right"
+                  title={t(
+                    "Sorry, you cannot add any numbers because you don't have any entitlements left",
+                  )}
+                >
+                  <InfoIcon className={classes.tooltipIcon} />
+                </Tooltip>
+              )}
+            </>
+          }
+        />
+        <CardWithButton
+          content={t("You can port your numbers by adding porting request")}
+          customEvent={() => history.push("porting")}
+          buttonName={t("Add porting request")}
+          icon={Plus}
+        />
         <div className={classes.card}>
           <div className={classes.cardText}>
             {t("You can add numbers from")}{" "}

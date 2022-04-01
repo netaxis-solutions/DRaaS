@@ -26,6 +26,8 @@ import FormTableInput from "components/common/TableInput";
 import TableSkeleton from "components/Table/Skeleton";
 import AddEntitlement from "./components/AddEntitlement";
 import DeleteEntitlement from "./components/DeleteEntitlement";
+import CardWithButton from "components/CardForEmptyTable";
+
 import { EntitlementsStyle } from "./styles";
 
 const defaultValues = {
@@ -240,7 +242,7 @@ const EntitlementList: FC = () => {
             checkbox
             actions={[true, true]}
           />
-        ) : (
+        ) : entitlements.length > 0 ? (
           <Table
             title={t("Entitlements")}
             columns={columns}
@@ -260,6 +262,15 @@ const EntitlementList: FC = () => {
               return !(row.original.assigned === 0);
             }}
           />
+        ) : (
+          <div className={classes.cardWrapper}>
+            <CardWithButton
+              content={t("You have no entitlements added yet")}
+              customEvent={() => setModalToOpen("add")}
+              buttonName={t("Add new entitlement")}
+              icon={Plus}
+            />
+          </div>
         )}
       </form>
       {modalToOpen === "add" && (

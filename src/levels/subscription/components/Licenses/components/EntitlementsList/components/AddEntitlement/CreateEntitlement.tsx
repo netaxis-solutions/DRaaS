@@ -14,6 +14,9 @@ import {
 
 import Table from "components/Table";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
+import CardWithButton from "components/CardForEmptyTable";
+
+import { EntitlementsStyle } from "../../styles";
 
 const defaultValues: CreateNewEntitlement = {
   entitlement: 0,
@@ -27,6 +30,8 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
     tenantID: string;
     subscriptionID: string;
   }>();
+
+  const classes = EntitlementsStyle();
 
   const { handleSubmit } = useForm<CreateNewEntitlement>({
     defaultValues,
@@ -108,20 +113,30 @@ const CreateEntitlement: FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalButtonsWrapper
-          handleCancel={handleCancel}
-          cancelButton
-          submitButtonTitle={t("Add")}
-          submitButtonDisabled={!filteredDataEntitlementTypes.length}
-        />
-        <Table
-          title={t("Entitlements")}
-          columns={columns}
-          data={filteredDataEntitlementTypes}
-          radioButton
-        />
-      </form>
+      {filteredDataEntitlementTypes.length > 0 ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalButtonsWrapper
+            handleCancel={handleCancel}
+            cancelButton
+            submitButtonTitle={t("Add")}
+            submitButtonDisabled={!filteredDataEntitlementTypes.length}
+          />
+          <Table
+            title={t("Entitlements")}
+            columns={columns}
+            data={filteredDataEntitlementTypes}
+            radioButton
+          />
+        </form>
+      ) : (
+        <div className={classes.cardWrapper}>
+          <CardWithButton
+            content={t("You have no new entitlements yet")}
+            customEvent={() => handleCancel()}
+            buttonName={t("Return to entitlements list")}
+          />
+        </div>
+      )}
     </>
   );
 };
