@@ -17,7 +17,7 @@ export const addResellerSchema = (t: TFunction) =>
     markup: string().matches(
       /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
       {
-        message: t("Only numbers and white space allowed"),
+        message: t("Only numbers from 0 to 100 allowed"),
         excludeEmptyString: true,
       },
     ),
@@ -30,7 +30,7 @@ export const editResellerSchema = (t: TFunction) =>
     markup: string().matches(
       /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
       {
-        message: t("Only numbers and white space allowed"),
+        message: t("Only numbers from 0 to 100 allowed"),
         excludeEmptyString: true,
       },
     ),
