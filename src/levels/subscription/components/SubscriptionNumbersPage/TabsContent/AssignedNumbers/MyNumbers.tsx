@@ -1,6 +1,5 @@
-// @ts-nocheck
 import { observer } from "mobx-react-lite";
-import { FC, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CellProps, TableProps } from "react-table";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
