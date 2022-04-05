@@ -3,9 +3,10 @@ export type ChildrenInProps = {
 };
 
 export type TCardForTable = {
-  content: string;
-  customEvent: () => void;
-  buttonName: string;
+  content: string | React.ReactElement;
+  customEvent?: () => void;
+  buttonName?: string;
   icon?: React.FC;
   tooltip?: React.ReactElement;
+  withOutButton?: boolean;
 };
