@@ -19,6 +19,8 @@ import Table from "components/Table";
 import Tooltip from "components/Tooltip";
 import TableSkeleton from "components/Table/Skeleton";
 
+import useStyles from "./styles";
+
 const ReservedNumbers: FC = () => {
   const { t } = useTranslation();
   const { tenantID, subscriptionID } = useParams<{
@@ -34,6 +36,8 @@ const ReservedNumbers: FC = () => {
   const { getEntitlements, setAvailable } = EntitlementsStore;
   const { selectedRowsLength } = TableSelectedRows;
   const { byFetchType } = PendingQueries;
+
+  const classes = useStyles();
 
   useEffect(() => {
     getReservedNumbers(tenantID, subscriptionID);
@@ -245,7 +249,7 @@ const ReservedNumbers: FC = () => {
       checkbox
       actions={customActions.map(el => el.isShown)}
     />
-  ) : (
+  ) : reservedNumbers.length > 0 ? (
     <Table
       title={t("Reserved numbers")}
       columns={columns}
@@ -258,6 +262,10 @@ const ReservedNumbers: FC = () => {
       isGeneralCheckboxSelected={selectAllCondition}
       selectAllRowCondition={selectAllRowCondition}
     />
+  ) : (
+    <div className={classes.emptyTableWrapper}>
+      <span>{t("You have no reserved numbers yet")}</span>
+    </div>
   );
 };
 
