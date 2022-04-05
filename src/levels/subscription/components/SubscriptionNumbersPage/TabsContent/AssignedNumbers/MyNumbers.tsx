@@ -1,103 +1,285 @@
+// @ts-nocheck
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
+import { CellProps, TableProps } from "react-table";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import NumbersStore from "storage/singletons/Numbers";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import EntitlementsStore from "storage/singletons/Entitlements";
+import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
+
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import SelectFromInventory from "./components/MultistepModal";
-import MyNumbersTable from "./MyNumbersTable";
-import { InfoIcon, Plus } from "components/Icons";
+import { InfoIcon, Plus, Trash } from "components/Icons";
 import Tooltip from "components/Tooltip";
 import CardWithButton from "components/CardForEmptyTable";
+import Table from "components/Table";
+import TableSkeleton from "components/Table/Skeleton";
+import DeleteNumberModal from "./components/DeleteModal";
 
 import styles from "./styles";
 
 const MyNumbers = () => {
   const { t } = useTranslation();
+
+  const [modalToOpen, setModalToOpen] = useState("");
+  const [isModalOpened, setModal] = useState(false);
+
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
   }>();
+
   const classes = styles();
-  const [isModalOpened, setModal] = useState(false);
 
   const { history } = RoutingConfig;
-  const { numbers, getNumbersData, clearNumbers } = NumbersStore;
+
+  const {
+    numbers,
+    getNumbersData,
+    clearNumbers,
+    deassignNumbers,
+  } = NumbersStore;
   const {
     availableEntitlementsNumber,
     getEntitlements,
     setAvailableEntitlementsNumber,
   } = EntitlementsStore;
 
+  const {
+    selectedRows,
+    selectedRowsLength,
+    selectedRowsValues,
+    setSelectedRows,
+    setSelectedRowsValues,
+  } = TableSelectedRowsStore;
+
+  const { byFetchType } = PendingQueries;
+
+  const {
+    tablePageCounter,
+    tablePageSize,
+    search,
+    clearPaginationData,
+  } = TablePagination;
+
   useEffect(() => {
     getNumbersData(tenantID, subscriptionID);
-
-    getEntitlements(tenantID, subscriptionID, () => {
-      setAvailableEntitlementsNumber();
-    });
-
     return () => {
       clearNumbers();
     };
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clearNumbers, getNumbersData, subscriptionID, tenantID]);
+  }, [
+    clearNumbers,
+    getNumbersData,
+    subscriptionID,
+    tenantID,
+    search,
+    tablePageSize,
+    tablePageCounter,
+  ]);
+
+  useEffect(() => {
+    getEntitlements(tenantID, subscriptionID, () => {
+      setAvailableEntitlementsNumber();
+    });
+    return () => clearPaginationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toolbarActions = useMemo(
+    () =>
+      availableEntitlementsNumber
+        ? [
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
+            },
+            {
+              id: "add",
+              title: t("Add"),
+              icon: Plus,
+              onClick: () => {
+                setModalToOpen("add");
+                clearPaginationData();
+              },
+            },
+          ]
+        : [
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
+            },
+          ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [availableEntitlementsNumber],
+  );
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: t("Country code"),
+        accessor: "countryCode",
+      },
+      {
+        Header: t("Number"),
+        accessor: "nsn",
+      },
+      {
+        Header: t("Number type"),
+        accessor: "numberType",
+      },
+      {
+        Header: t("Origin"),
+        accessor: "source",
+        Cell: ({ value }: CellProps<TableProps>) => {
+          return value === "number_inventory" ? "native" : "ported";
+        },
+      },
+      {
+        Header: t("Status"),
+        accessor: "assigned",
+        Cell: ({ value }: CellProps<TableProps>) => {
+          return value ? "connected" : "free";
+        },
+      },
+    ],
+    [t],
+  );
 
   const handleModalClose = () => {
+    getNumbersData(tenantID, subscriptionID);
+    setModalToOpen("");
     setModal(false);
   };
 
-  return numbers.length ? (
-    <div>
-      <MyNumbersTable />
-    </div>
-  ) : (
+  const handleDeleteItem = (props: any) => {
+    setSelectedRows({ [props.row.index]: true });
+    setSelectedRowsValues([props.row]);
+    setModalToOpen("delete");
+  };
+
+  const successCallback = () => {
+    getNumbersData(tenantID, subscriptionID);
+    handleModalClose();
+    getEntitlements(tenantID, subscriptionID, () => {
+      setAvailableEntitlementsNumber();
+    });
+  };
+
+  const handleDelete = () => {
+    const numbersToDeassign = selectedRowsValues.reduce(
+      (num: Array<{ countryCode: string; nsn: number }>, row) => [
+        ...num,
+        { countryCode: row.values.countryCode, nsn: Number(row.values.nsn) },
+      ],
+      [],
+    );
+    deassignNumbers(
+      tenantID,
+      subscriptionID,
+      numbersToDeassign,
+      successCallback,
+    );
+    successCallback();
+  };
+
+  const isLoading = getIsLoading("@getNumbersData", byFetchType);
+
+  return (
     <>
-      <div className={classes.noNumberText}>
-        {t("You have no phone numbers added yet")}
-      </div>
-      <div className={classes.cardsWrapper}>
-        <CardWithButton
-          content={t("You can add numbers from inventory")}
-          customEvent={() => setModal(true)}
-          buttonName={t("Add from inventory")}
-          icon={Plus}
-          disabled={!availableEntitlementsNumber}
-          tooltip={
-            <>
-              {!availableEntitlementsNumber && (
-                <Tooltip
-                  placement="right"
-                  title={t(
-                    "Sorry, you cannot add any numbers because you don't have any entitlements left",
-                  )}
-                >
-                  <InfoIcon className={classes.tooltipIcon} />
-                </Tooltip>
-              )}
-            </>
-          }
+      {isLoading ? (
+        <TableSkeleton
+          title={t("My numbers")}
+          columns={columns}
+          checkbox
+          actions={[true]}
         />
-        <CardWithButton
-          content={t("You can port your numbers by adding porting request")}
-          customEvent={() => history.push("porting")}
-          buttonName={t("Add porting request")}
-          icon={Plus}
-        />
-        <div className={classes.card}>
-          <div className={classes.cardText}>
-            {t("You can add numbers from")}{" "}
-            <Link to={"reservedNumbers"} className={classes.link}>
-              {t("Reserved numbers")}
-            </Link>{" "}
-            {t("tab")}.
+      ) : numbers.length ? (
+        <>
+          <Table
+            title={t("My numbers")}
+            columns={columns}
+            data={numbers}
+            toolbarActions={toolbarActions}
+            handleDeleteItem={handleDeleteItem}
+            checkbox
+            isRemovable
+          />
+        </>
+      ) : null}
+
+      {numbers.length === 0 && !isLoading && (
+        <>
+          <div className={classes.noNumberText}>
+            {t("You have no phone numbers added yet")}
           </div>
-        </div>
-      </div>
+          <div className={classes.cardsWrapper}>
+            <CardWithButton
+              content={t("You can add numbers from inventory")}
+              customEvent={() => setModal(true)}
+              buttonName={t("Add from inventory")}
+              icon={Plus}
+              disabled={!availableEntitlementsNumber}
+              tooltip={
+                <>
+                  {!availableEntitlementsNumber && (
+                    <Tooltip
+                      placement="right"
+                      title={t(
+                        "Sorry, you cannot add any numbers because you don't have any entitlements left",
+                      )}
+                    >
+                      <InfoIcon className={classes.tooltipIcon} />
+                    </Tooltip>
+                  )}
+                </>
+              }
+            />
+            <CardWithButton
+              content={t("You can port your numbers by adding porting request")}
+              customEvent={() => history.push("porting")}
+              buttonName={t("Add porting request")}
+              icon={Plus}
+            />
+            <div className={classes.card}>
+              <div className={classes.cardText}>
+                {t("You can add numbers from")}{" "}
+                <Link to={"reservedNumbers"} className={classes.link}>
+                  {t("Reserved numbers")}
+                </Link>{" "}
+                {t("tab")}.
+              </div>
+            </div>
+          </div>
+        </>
+      )}
       {isModalOpened && <SelectFromInventory handleCancel={handleModalClose} />}
+      {modalToOpen === "add" && (
+        <SelectFromInventory handleCancel={handleModalClose} />
+      )}
+      {modalToOpen === "delete" && (
+        <DeleteNumberModal
+          handleCloseModal={handleModalClose}
+          handleDelete={handleDelete}
+          selectedRows={selectedRows}
+          numbers={numbers}
+          selectedRowsLength={selectedRowsLength}
+        />
+      )}
     </>
   );
 };

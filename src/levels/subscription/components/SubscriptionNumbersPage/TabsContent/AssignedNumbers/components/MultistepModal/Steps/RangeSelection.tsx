@@ -9,6 +9,7 @@ import Numbers from "storage/singletons/Numbers";
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
+import EntitlementsStore from "storage/singletons/Entitlements";
 
 import { FormattedNumberSuggestionsType } from "utils/types/numbers";
 import { TableData } from "utils/types/tableConfig";
@@ -29,6 +30,8 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
   }>();
 
   const { previousChoices, setSubmitButtonState } = MultiStepForm;
+
+  const { getEntitlements, setAvailableEntitlementsNumber } = EntitlementsStore;
 
   const maxSelectedAmount =
     previousChoices[0].entitlements.entitlement -
@@ -117,6 +120,9 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
     );
     return () => {
       MultiStepForm.setSubmitButtonState(false);
+      getEntitlements(tenantID, subscriptionID, () => {
+        setAvailableEntitlementsNumber();
+      });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amountSelected]);
