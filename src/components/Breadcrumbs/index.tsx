@@ -24,7 +24,7 @@ const Breadcrumbs: FC = () => {
     isLoading,
   } = BreadcrumbsStorage;
 
-  const pathnames: any = pathname.split("/").filter(x => x);
+  const pathnames: Array<string> = pathname.split("/").filter(x => x);
 
   const separator =
     customerLevels[1]?.name !== "" ? <ArrowRight fontSize="small" /> : null;
@@ -42,7 +42,7 @@ const Breadcrumbs: FC = () => {
           className={classes.breadcrumbsWrapper}
           aria-label="breadcrumb"
         >
-          {customerLevels.map((item: any, index: any) => {
+          {customerLevels.map((item, index) => {
             const routeTo = `/${pathnames.slice(0, index + 3).join("/")}/`;
             return !item?.disabled ? (
               <Link
