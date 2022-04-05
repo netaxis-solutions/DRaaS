@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    minHeight: 50,
   },
   buttonWrapperWithToolTip: {
     position: "relative",

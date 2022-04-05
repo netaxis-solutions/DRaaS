@@ -252,15 +252,18 @@ const MyNumbers = () => {
               buttonName={t("Add porting request")}
               icon={Plus}
             />
-            <div className={classes.card}>
-              <div className={classes.cardText}>
-                {t("You can add numbers from")}{" "}
-                <Link to={"reservedNumbers"} className={classes.link}>
-                  {t("Reserved numbers")}
-                </Link>{" "}
-                {t("tab")}.
-              </div>
-            </div>
+            <CardWithButton
+              content={
+                <div>
+                  {t("You can add numbers from")}{" "}
+                  <Link to={"reservedNumbers"} className={classes.link}>
+                    {t("Reserved numbers")}
+                  </Link>{" "}
+                  {t("tab")}.
+                </div>
+              }
+              withOutButton
+            />
           </div>
         </>
       )}

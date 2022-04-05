@@ -17,6 +17,7 @@ const CardWithButton: FC<TCardForTable & ButtonProps> = ({
   className,
   disabled,
   tooltip: Tooltip,
+  withOutButton = false,
 }) => {
   const classes = useStyles();
 
@@ -29,16 +30,18 @@ const CardWithButton: FC<TCardForTable & ButtonProps> = ({
             [classes.buttonWrapperWithToolTip]: Tooltip,
           })}
         >
-          <Button
-            className={classes.button}
-            onClick={customEvent}
-            startIcon={Icon ? <Icon /> : null}
-            type={type}
-            variant={variant}
-            disabled={disabled}
-          >
-            {buttonName}
-          </Button>
+          {!withOutButton ? (
+            <Button
+              className={classes.button}
+              onClick={customEvent}
+              startIcon={Icon ? <Icon /> : null}
+              type={type}
+              variant={variant}
+              disabled={disabled}
+            >
+              {buttonName}
+            </Button>
+          ) : null}
           {Tooltip ? Tooltip : null}
         </div>
       </div>
