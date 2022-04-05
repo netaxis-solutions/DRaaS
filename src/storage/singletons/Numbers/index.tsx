@@ -175,6 +175,7 @@ class NumbersStore {
         runInAction(() => {
           this.getNumbersData(tenantID, subscriptionID);
         });
+        successNotification(t("Numbers successefully added"));
         successCallback && successCallback();
         this.getReservedNumbers(tenantID, subscriptionID);
       })
