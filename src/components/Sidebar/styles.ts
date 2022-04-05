@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     justifyContent: "center",
     alignItems: "center",
     marginRight: theme.spacing(1.875),
+    cursor: "pointer",
   },
   title: {
     marginBottom: theme.spacing(1),

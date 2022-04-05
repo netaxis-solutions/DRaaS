@@ -68,6 +68,10 @@ const Sidebar: React.FC<{
       ? extraLevelData?.name
       : chosenCustomerData?.name);
 
+  const currentLevelRoute = locationArr.indexOf(
+    extraLevelID ? extraLevelID : chosenCustomerID,
+  );
+
   return (
     <div className={classes.sidebarContainer}>
       {isLoadingSidebar ? (
@@ -76,7 +80,19 @@ const Sidebar: React.FC<{
         <>
           <div className={classes.titleWithDropdown}>
             <div className={classes.titleContainer}>
-              <div className={classes.iconContainer}>{levelIcon[level]}</div>
+              <div
+                className={classes.iconContainer}
+                onClick={() => {
+                  return history.push(
+                    `/${pathnames
+                      .slice(0, currentLevelRoute)
+                      .join("/")}/profile`,
+                  );
+                }}
+              >
+                {" "}
+                {levelIcon[level]}
+              </div>
               <div className={classes.titleWrapper}>
                 <div
                   onClick={() =>
