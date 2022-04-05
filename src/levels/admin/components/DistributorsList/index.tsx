@@ -33,7 +33,7 @@ const Distributors: FC = () => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
   const { control, setValue, handleSubmit } = useForm<TEditDistributorPayload>({
-    resolver: yupResolver(editDistributorSchema()),
+    resolver: yupResolver(editDistributorSchema(t)),
     defaultValues,
   });
 

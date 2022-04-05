@@ -19,14 +19,14 @@ export const addDistributorSchema = (t: TFunction) =>
     ),
   });
 
-export const editDistributorSchema = () =>
+export const editDistributorSchema = (t: TFunction) =>
   object().shape({
     name: string().required(),
     billingId: string(),
     markup: string().matches(
       /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
       {
-        message: "Only numbers from 0 to 100 allowed",
+        message: t("Only numbers from 0 to 100 allowed"),
         excludeEmptyString: true,
       },
     ),
