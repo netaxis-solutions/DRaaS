@@ -20,6 +20,9 @@ import { Plus, Trash } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
 import DeleteTenantSubscriptionsModal from "./components/DeleteTenantSubscriptions";
 import TableSkeleton from "components/Table/Skeleton";
+import CardWithButton from "components/CardForEmptyTable";
+
+import useStyles from "./styles";
 
 const getTranslatedColumns = (t: TFunction) => [
   {
@@ -33,6 +36,8 @@ const SubscriptionsList: FC = () => {
   const { loggedInUserLevel, allAvailvableRouting } = RoutingConfig;
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
+
+  const classes = useStyles();
 
   const {
     tablePageCounter,
@@ -160,7 +165,7 @@ const SubscriptionsList: FC = () => {
           actions={[isSubscriptionsDeletable]}
           checkbox={isSubscriptionsDeletable}
         />
-      ) : (
+      ) : subscriptions.length > 0 ? (
         <Table
           title={t("Subscriptions")}
           columns={columns}
@@ -173,6 +178,15 @@ const SubscriptionsList: FC = () => {
           }
           handleDeleteItem={handleDeleteItem}
         />
+      ) : (
+        <div className={classes.emptyTableWrapper}>
+          <CardWithButton
+            content={t("You have no subscriptions added yet")}
+            customEvent={() => setModalToOpen("add")}
+            buttonName={t("Add new subscription")}
+            icon={Plus}
+          />
+        </div>
       )}
       {modalToOpen === "add" && (
         <AddTenantSubscription handleCancel={handleCloseModal} />
