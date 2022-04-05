@@ -38,7 +38,7 @@ const TenantsList: FC = () => {
   const [modalToOpen, setModalToOpen] = useState("");
 
   const { control, setValue, handleSubmit } = useForm<TEditTenantPayload>({
-    resolver: yupResolver(editTenantSchema()),
+    resolver: yupResolver(editTenantSchema(t)),
     defaultValues,
   });
 
