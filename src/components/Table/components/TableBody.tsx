@@ -50,8 +50,7 @@ const TableBody: React.FC<TableBodyType> = ({
             {...row.getRowProps()}
             className={clsx({
               [classes.isEditing]: row.state.isEditing,
-              [classes.disabled]:
-                page.some(row => row.state?.isEditing) && !row.state.isEditing,
+              [classes.disabled]: row.state.isDisabled,
             })}
             key={row.id}
           >

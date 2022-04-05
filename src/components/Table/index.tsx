@@ -16,7 +16,11 @@ import { observer } from "mobx-react-lite";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
 
-import { TableData, TableProps } from "utils/types/tableConfig";
+import {
+  RadioSelectRowType,
+  TableData,
+  TableProps,
+} from "utils/types/tableConfig";
 
 import { Checkbox } from "components/common/Form/FormCheckbox";
 import TableBody from "./components/TableBody";
@@ -255,8 +259,18 @@ const Table: FC<TableProps> = ({
                             cancel
                             rowData={props.row}
                             onCancel={() => {
+                              props.page.forEach(
+                                (el: { [key: string]: RadioSelectRowType }) => {
+                                  const index: string = String(el.index);
+                                  setRowState([index], {
+                                    isDisabled: false,
+                                    isEditing: false,
+                                  });
+                                },
+                              );
                               setRowState([props.row.index], {
                                 isEditing: false,
+                                isDisabled: false,
                               });
                             }}
                           />
@@ -281,8 +295,18 @@ const Table: FC<TableProps> = ({
                           }
                           onEdit={() => {
                             handleEditItem && handleEditItem(props);
+                            props.page.forEach(
+                              (el: { [key: string]: RadioSelectRowType }) => {
+                                const index: string = String(el.index);
+                                setRowState([index], {
+                                  isDisabled: true,
+                                  isEditing: false,
+                                });
+                              },
+                            );
                             setRowState([props.row.index], {
                               isEditing: true,
+                              isDisabled: false,
                             });
                           }}
                         />
@@ -312,8 +336,18 @@ const Table: FC<TableProps> = ({
                             cancel
                             rowData={props.row}
                             onCancel={() => {
+                              props.page.forEach(
+                                (el: { [key: string]: RadioSelectRowType }) => {
+                                  const index: string = String(el.index);
+                                  setRowState([index], {
+                                    isDisabled: false,
+                                    isEditing: false,
+                                  });
+                                },
+                              );
                               setRowState([props.row.index], {
                                 isEditing: false,
+                                isDisabled: false,
                               });
                             }}
                           />
@@ -340,8 +374,18 @@ const Table: FC<TableProps> = ({
                           onEdit={() => {
                             setDefaultValues &&
                               setDefaultValues(props.row.original);
+                            props.page.forEach(
+                              (el: { [key: string]: RadioSelectRowType }) => {
+                                const index: string = String(el.index);
+                                setRowState([index], {
+                                  isDisabled: true,
+                                  isEditing: false,
+                                });
+                              },
+                            );
                             setRowState([props.row.index], {
                               isEditing: true,
+                              isDisabled: false,
                             });
                           }}
                         />
