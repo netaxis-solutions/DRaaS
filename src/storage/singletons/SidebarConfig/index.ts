@@ -6,6 +6,7 @@ import { TAddTenantValues } from "utils/types/tenant";
 import { SubscriptionItemType } from "utils/types/subscriptions";
 
 import Tenant from "../Tenant";
+import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
 
 class SidebarConfig {
   chosenCustomerID = "";
@@ -19,6 +20,7 @@ class SidebarConfig {
     let chosenCustomerData = this.chosenCustomerData;
     if (this.chosenCustomerID !== id) {
       runInAction(() => {
+        BreadcrumbsStorage.setIsLoading();
         this.isLoading = true;
       });
       chosenCustomerData = await Tenant.getSpecificTenant({
@@ -37,6 +39,11 @@ class SidebarConfig {
         this.extraLevelID = "";
       }
     });
+    this.chosenCustomerData &&
+      BreadcrumbsStorage.setCustomerLevel([
+        this.chosenCustomerData,
+        this.extraLevelID,
+      ]);
     if (this.extraLevelID) {
       this.getSpecificTenantSubscription(
         this.chosenCustomerID,
@@ -55,7 +62,7 @@ class SidebarConfig {
     }).catch(e => {
       errorNotification(e);
     });
-    return runInAction(() => {
+    runInAction(() => {
       this.extraLevelData = result?.data;
     });
   };
