@@ -9,7 +9,7 @@ export default makeStyles(() => ({
     height: 100,
     "& span": {
       fontSize: "1.6rem",
-      lineHeight: "18px",
+      lineHeight: "1.8rem",
     },
   },
 }));
