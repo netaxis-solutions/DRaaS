@@ -27,7 +27,6 @@ const MyNumbers = () => {
   const { t } = useTranslation();
 
   const [modalToOpen, setModalToOpen] = useState("");
-  const [isModalOpened, setModal] = useState(false);
 
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -162,7 +161,6 @@ const MyNumbers = () => {
   const handleModalClose = () => {
     getNumbersData(tenantID, subscriptionID);
     setModalToOpen("");
-    setModal(false);
   };
 
   const handleDeleteItem = (props: any) => {
@@ -229,7 +227,7 @@ const MyNumbers = () => {
           <div className={classes.cardsWrapper}>
             <CardWithButton
               content={t("You can add numbers from inventory")}
-              customEvent={() => setModal(true)}
+              customEvent={() => setModalToOpen("add")}
               buttonName={t("Add from inventory")}
               icon={Plus}
               disabled={!availableEntitlementsNumber}
@@ -266,7 +264,6 @@ const MyNumbers = () => {
           </div>
         </>
       )}
-      {isModalOpened && <SelectFromInventory handleCancel={handleModalClose} />}
       {modalToOpen === "add" && (
         <SelectFromInventory handleCancel={handleModalClose} />
       )}
