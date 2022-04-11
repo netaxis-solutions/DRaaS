@@ -3,21 +3,9 @@ import { AxiosResponse } from "axios";
 import configStore from "../Config";
 import { request } from "services/api";
 import { errorNotification } from "utils/functions/notifications";
+import { DocumentsType, PortingRequirements } from "utils/types/numbers";
 
-type PortingRequirements = Array<{
-  id: string;
-  name: string;
-  inputs: Array<{
-    section: string;
-    parameters: Array<{
-      name: string;
-      type: string;
-      mandatory: boolean;
-    }>;
-  }>;
-  numbering: { startsWith: string; minDigits: number; maxDigits: number };
-  documents: Array<{ name: string; allowedFormats: Array<string> }>;
-}>;
+
 
 class PortingRequestsStore {
   portingRequests: Array<any> = [];
@@ -25,7 +13,7 @@ class PortingRequestsStore {
   currentPortingRequest: any = {};
   portingRequirements: PortingRequirements = [];
   defaultOperatorId: number | null = null;
-  requiredDocuments: Array<any> = [];
+  requiredDocuments: DocumentsType = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -98,7 +86,6 @@ class PortingRequestsStore {
     subId: string,
     payload: any,
   ) => {
-    console.log(tenantId, subId, payload);
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subId}/porting/requests`,
       method: "post",

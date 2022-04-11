@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
@@ -17,7 +16,12 @@ const defaultValues: defaultValuesType = {
   suggestionsAmount: "1",
 };
 
-const checkIsNumberCorrect = (number, countryCode, minLength, maxLength) => {
+const checkIsNumberCorrect = (
+  number: string,
+  countryCode: string,
+  minLength: number,
+  maxLength: number,
+) => {
   const correctCountryCode = countryCode.replace(/\+/g, "");
 
   if (number.indexOf(correctCountryCode) !== 0) {
@@ -39,60 +43,72 @@ const checkIsNumberCorrect = (number, countryCode, minLength, maxLength) => {
 
 const parseNumbers = (
   rawNumbers: string,
-  countryCode,
-  minLength,
-  maxLength,
+  countryCode: string,
+  minLength: number,
+  maxLength: number,
 ) => {
   const splittedNumbers = rawNumbers
     .split("\n")
     .filter(number => number)
     .map(number => number.replace(/\s+/g, ""));
 
-  return splittedNumbers.reduce((resultNumbers, number, id) => {
-    const splittedSubNumbers = number.split("-");
-    if (
-      splittedSubNumbers.length === 2 &&
-      splittedSubNumbers[1].length < splittedSubNumbers[0].length
-    ) {
-      splittedSubNumbers[1] =
-        splittedSubNumbers[0].slice(
-          0,
-          splittedSubNumbers[0].length - splittedSubNumbers[1].length,
-        ) + splittedSubNumbers[1];
-    }
-    const resultNumber =
-      splittedSubNumbers.length === 2
-        ? {
-            id,
-            from: splittedSubNumbers[0],
-            to: splittedSubNumbers[1],
-            isCorrect:
-              checkIsNumberCorrect(
-                splittedSubNumbers[0],
-                countryCode,
-                minLength,
-                maxLength,
-              ) &&
-              checkIsNumberCorrect(
-                splittedSubNumbers[1],
+  return splittedNumbers.reduce(
+    (
+      resultNumbers: Array<{
+        id: number;
+        from: string;
+        to?: string;
+        isCorrect: boolean;
+      }>,
+      number,
+      id,
+    ) => {
+      const splittedSubNumbers = number.split("-");
+      if (
+        splittedSubNumbers.length === 2 &&
+        splittedSubNumbers[1].length < splittedSubNumbers[0].length
+      ) {
+        splittedSubNumbers[1] =
+          splittedSubNumbers[0].slice(
+            0,
+            splittedSubNumbers[0].length - splittedSubNumbers[1].length,
+          ) + splittedSubNumbers[1];
+      }
+      const resultNumber =
+        splittedSubNumbers.length === 2
+          ? {
+              id,
+              from: splittedSubNumbers[0],
+              to: splittedSubNumbers[1],
+              isCorrect:
+                checkIsNumberCorrect(
+                  splittedSubNumbers[0],
+                  countryCode,
+                  minLength,
+                  maxLength,
+                ) &&
+                checkIsNumberCorrect(
+                  splittedSubNumbers[1],
+                  countryCode,
+                  minLength,
+                  maxLength,
+                ),
+            }
+          : {
+              id,
+              from: number,
+              isCorrect: checkIsNumberCorrect(
+                number,
                 countryCode,
                 minLength,
                 maxLength,
               ),
-          }
-        : {
-            id,
-            from: number,
-            isCorrect: checkIsNumberCorrect(
-              number,
-              countryCode,
-              minLength,
-              maxLength,
-            ),
-          };
+            };
 
-    return [...resultNumbers, resultNumber];
-  }, []);
+      return [...resultNumbers, resultNumber];
+    },
+    [],
+  );
 };
 
 const Numbers: React.FC = () => {
@@ -107,11 +123,10 @@ const Numbers: React.FC = () => {
     maxDigits: maxLength,
   } = previousChoices[0]?.country?.numbering;
   const { handleSubmit } = useForm<defaultValuesType>({
-    // resolver: yupResolver(numbersRangeSchema()),
     defaultValues,
   });
 
-  const onSubmit = (values: defaultValuesType) => {
+  const onSubmit = () => {
     setPreviousChoices({
       portingNumbers: parseNumbers(
         textfieldValue,

@@ -83,7 +83,6 @@ export const FileInput: React.FC<Props> = ({
           }
           const file = event.target.files[0];
           if (file.size > 10485760 || !allowedFormats.includes(file.type)) {
-            console.log(file);
             setFieldState("failed");
             return;
           }

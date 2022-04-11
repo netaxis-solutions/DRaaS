@@ -55,3 +55,20 @@ export type ReservedNumbers = {
   state: string;
   stateUpdatedOn: string;
 };
+
+export type DocumentsType = Array<{ name: string; allowedFormats: Array<string> }>;
+
+export type PortingRequirements = Array<{
+  id: string;
+  name: string;
+  inputs: Array<{
+    section: string;
+    parameters: Array<{
+      name: string;
+      type: string;
+      mandatory: boolean;
+    }>;
+  }>;
+  numbering: { startsWith: string; minDigits: number; maxDigits: number };
+  documents: DocumentsType;
+}>;

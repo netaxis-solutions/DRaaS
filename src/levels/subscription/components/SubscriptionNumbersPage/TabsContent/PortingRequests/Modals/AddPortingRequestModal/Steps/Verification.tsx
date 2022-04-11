@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
@@ -12,14 +11,27 @@ import { InfoIcon } from "components/Icons";
 import { verificationStyles } from "../../../styles";
 import PortingRequests from "storage/singletons/PortingRequests";
 import { useParams } from "react-router-dom";
+import { CellProps, TableProps } from "react-table";
+
+type NumberRange = {
+  id: number;
+  from: string;
+  to?: string;
+  isCorrect: boolean;
+};
+
+type AllNumbersType = Array<NumberRange>;
 
 const Verification: React.FC = () => {
   const { t } = useTranslation();
   const classes = verificationStyles();
   const { setSpecificStepChoice, goNext, previousChoices } = MultiStepForm;
-  const { tenantID, subscriptionID } = useParams();
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
 
-  const [numbers, setNumbers] = useState(
+  const [numbers, setNumbers] = useState<AllNumbersType>(
     MultiStepForm.previousChoices[2].portingNumbers,
   );
   const { defaultOperatorId, createPortingRequest } = PortingRequests;
@@ -59,20 +71,26 @@ const Verification: React.FC = () => {
         },
       },
     ],
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
 
   const onSubmit = () => {
-    // setPreviousChoices({ suggestionsSetting: values });
     const formattedNumbers = numbers
       .filter(number => number.isCorrect)
-      .reduce((sum, curr) => [...sum, { from: curr.from, to: curr.to }], []);
-    console.log(formattedNumbers, numbers);
+      .reduce(
+        (sum: Array<{ from: string; to?: string }>, curr) => [
+          ...sum,
+          { from: curr.from, to: curr.to },
+        ],
+        [],
+      );
     const filteredRanges = formattedNumbers.filter(number => number.to);
 
     const filteredNumbers = formattedNumbers
       .filter(number => !number.to)
-      .reduce((sum, curr) => [...sum, curr.from], []);
+      .reduce((sum: Array<string>, curr) => [...sum, curr.from], []);
 
     let portingPayload = {
       donorId: defaultOperatorId,
@@ -90,15 +108,15 @@ const Verification: React.FC = () => {
     goNext();
   };
 
-  const handleDeleteItem = props => {
+  const handleDeleteItem = (props: any) => {
     setSpecificStepChoice(2, {
       portingNumbers: MultiStepForm.previousChoices[2].portingNumbers.filter(
-        number => number.id !== props.row.original.id,
+        (number: NumberRange) => number.id !== props.row.original.id,
       ),
     });
     setNumbers(
       MultiStepForm.previousChoices[2].portingNumbers.filter(
-        number => number.id !== props.row.original.id,
+        (number: NumberRange) => number.id !== props.row.original.id,
       ),
     );
   };
@@ -117,14 +135,3 @@ const Verification: React.FC = () => {
 };
 
 export default observer(Verification);
-
-// 3100000000 - 3100000001
-
-// 3100000000
-
-// 3100000000 - 31
-
-// aaaaa
-// 310000000011111111111111
-
-// 3100000f000

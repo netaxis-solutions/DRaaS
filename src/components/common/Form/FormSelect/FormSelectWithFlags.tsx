@@ -91,7 +91,6 @@ const FormSelectWithFlags = forwardRef(
   ({ fieldState, formState, ...props }: any, ref: Ref<HTMLSelectElement>) => {
     const { error } = fieldState;
     const errorMessage = error?.message;
-    console.log(error);
     return <Select inputRef={ref} helperText={errorMessage} {...props} />;
   },
 );
