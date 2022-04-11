@@ -13,6 +13,7 @@ const PortingNumbers: React.FC = () => {
     currentPortingRequest: {
       request: { ranges, numbers },
     },
+    getPortingIdentity,
   } = PortingRequestsStore;
 
   const formattedNumbers = useMemo(
@@ -35,6 +36,7 @@ const PortingNumbers: React.FC = () => {
   );
 
   useEffect(() => {
+    getPortingIdentity();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
