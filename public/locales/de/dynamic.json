@@ -1,0 +1,18 @@
+{
+  "contactDetails_title":"__NOT_TRANSLATED__",
+  "contactDetails_description":"__NOT_TRANSLATED__",
+  "earliestPortingDate_title":"__NOT_TRANSLATED__",
+  "earliestPortingDate_description":"__NOT_TRANSLATED__",
+  "accountDetails_title":"__NOT_TRANSLATED__",
+  "accountDetails_description":"__NOT_TRANSLATED__",
+  "contactEmail_label":"__NOT_TRANSLATED__",
+  "dueDate_label":"__NOT_TRANSLATED__",
+  "customerId_label":"__NOT_TRANSLATED__",
+  "companyName_label":"__NOT_TRANSLATED__",
+  "id_documentHeader": "__NOT_TRANSLATED__",
+  "loa_documentHeader": "__NOT_TRANSLATED__",
+  "lastInvoice_documentHeader": "__NOT_TRANSLATED__",
+  "id_documentDescription": "__NOT_TRANSLATED__",
+  "loa_documentDescription": "__NOT_TRANSLATED__",
+  "lastInvoice_documentDescription": "__NOT_TRANSLATED__"
+}

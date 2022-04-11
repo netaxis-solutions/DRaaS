@@ -16,10 +16,11 @@ export type RequestArgsType = {
   route?: string;
   payload?: object;
   responseType?: ResponseType;
+  customHeaders?: any;
 };
 
 export type SendRequestType = (
-  object: RequestArgsType
+  object: RequestArgsType,
 ) => Promise<AxiosResponse>;
 
 export type RequestType = (object: {
@@ -27,7 +28,7 @@ export type RequestType = (object: {
   key: string;
 }) => (
   route: string,
-  changeObject: object | undefined
+  changeObject: object | undefined,
 ) => Promise<AxiosResponse>;
 
 export type AccessTokenResponse = {

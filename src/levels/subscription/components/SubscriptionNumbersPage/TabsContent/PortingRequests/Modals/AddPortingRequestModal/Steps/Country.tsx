@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -6,66 +5,70 @@ import { observer } from "mobx-react-lite";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
-import FormSelect from "components/common/Form/FormSelect";
+import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
+import Flag from "components/common/Flag";
 
-import { numbersRangeSchema } from "utils/schemas/numbersSchema";
+import { countrySchema } from "utils/schemas/numbersPorting";
+
 import { useEffect } from "react";
 import { countryStyles } from "../../../styles";
 import PortingRequests from "storage/singletons/PortingRequests";
 
-type defaultValuesType = {
-  rangeSize: string;
-  suggestionsAmount: string;
-};
+type defaultValuesType = any;
 
 const defaultValues: defaultValuesType = {
-  rangeSize: "1",
-  suggestionsAmount: "1",
+  countryCode: "",
 };
 
 const Country: React.FC = () => {
   const { t } = useTranslation();
+
   const { setPreviousChoices, goNext } = MultiStepForm;
   const classes = countryStyles();
 
   const { control, handleSubmit, setValue } = useForm<defaultValuesType>({
+    resolver: yupResolver(countrySchema()),
     defaultValues,
   });
   const { portingRequirements } = PortingRequests;
 
   const countries = portingRequirements.map(requirement => ({
     label: requirement.name,
-    value: requirement.name,
-    image: <i>{requirement.id}_flag</i>,
+    value: requirement.id,
+    image: <Flag countryCode={requirement.id} />,
   }));
   useEffect(() => {}, []);
   const onSubmit = (values: defaultValuesType) => {
-    // setPreviousChoices({ suggestionsSetting: values });
+    setPreviousChoices({
+      country: portingRequirements.find(
+        requirement => requirement.id === values.countryCode,
+      ),
+    });
     goNext();
   };
 
   return (
     <form id={"CreatePortingRequest"} onSubmit={handleSubmit(onSubmit)}>
-      <div>Country</div>
-      <div>
-        Select the country for which you would like to intiate a port request.
-        All supported countries can be found in the list below
+      <div className={classes.countryHeader}>{t("Country")}</div>
+      <div className={classes.countryDescription}>
+        {t(
+          "Select the country for which you would like to intiate a port request",
+        )}
+        .{t("All supported countries can be found in the list below")}
       </div>
       {
         <Controller
-          name="owner"
+          name="countryCode"
           control={control}
           render={({ field, ...props }) => (
-            <FormSelect
+            <FormSelectWithFlags
               label={t("Country")}
               options={countries}
-              customRenderOptions
               {...field}
               {...props}
               className={classes.countrySelect}
-              onChange={props => {
-                console.log(props);
-                setValue(props?.value || "");
+              onChange={(props: any) => {
+                setValue("countryCode", props?.value || "");
               }}
             />
           )}

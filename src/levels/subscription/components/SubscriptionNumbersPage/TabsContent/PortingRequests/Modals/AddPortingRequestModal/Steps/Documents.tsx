@@ -1,40 +1,62 @@
 //@ts-nocheck
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { useParams } from "react-router";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
-import { numbersRangeSchema } from "utils/schemas/numbersSchema";
+import FileInput from "components/common/Form/FileInput";
+import PortingRequests from "storage/singletons/PortingRequests";
+import { documentsStyles } from "../../../styles";
 
 type defaultValuesType = {
   rangeSize: string;
   suggestionsAmount: string;
 };
 
-const defaultValues: defaultValuesType = {
-  rangeSize: "1",
-  suggestionsAmount: "1",
-};
-
 const Documents: React.FC = () => {
   const { t } = useTranslation();
-  const { setPreviousChoices, goNext } = MultiStepForm;
+  const { previousChoices, goNext } = MultiStepForm;
+  const { addAttachment } = PortingRequests;
+  const { tenantID, subscriptionID } = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+  }>();
+  const classes = documentsStyles();
 
-  const { handleSubmit } = useForm<defaultValuesType>({
+  const documents = previousChoices[0].country.documents;
+
+  const { handleSubmit, control } = useForm<defaultValuesType>({
     // resolver: yupResolver(),
-    defaultValues,
   });
 
   const onSubmit = (values: defaultValuesType) => {
-    // setPreviousChoices({ suggestionsSetting: values });
     goNext();
+    console.log(values);
   };
 
   return (
     <form id={"CreatePortingRequest"} onSubmit={handleSubmit(onSubmit)}>
-      Documents
+      <div className={classes.cardsWrapper}>
+        {documents.map(({ name, allowedFormats }) => (
+          <Controller
+            name={name}
+            control={control}
+            render={({ field, ...props }) => (
+              <FileInput
+                header={t(`dynamic:${name}_documentHeader`)}
+                description={t(`dynamic:${name}_documentDescription`)}
+                allowedFormats={allowedFormats}
+                name={name}
+                onSuccesfullChange={file => {
+                  addAttachment(tenantID, subscriptionID, 279, file);
+                }}
+              />
+            )}
+          />
+        ))}
+      </div>
     </form>
   );
 };

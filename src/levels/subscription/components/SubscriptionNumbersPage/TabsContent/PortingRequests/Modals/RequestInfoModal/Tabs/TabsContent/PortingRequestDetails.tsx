@@ -18,7 +18,7 @@ const PortingRequestDetails: React.FC = () => {
         status,
         dueDate,
         donor: { name },
-        contactEmail,
+        kind,
       },
     },
   } = PortingRequestsStore;
@@ -32,16 +32,9 @@ const PortingRequestDetails: React.FC = () => {
   const cardData = useMemo(
     () => [
       { fieldName: t("Porting ID"), fieldValue: portId },
+      { fieldName: t("Kind"), fieldValue: kind },
+
       { fieldName: t("Status"), fieldValue: status },
-      {
-        fieldName: t("Last update"),
-        fieldValue: (
-          <>
-            {updatedOnArray[0]}{" "}
-            <span className={classes.greyTime}>{updatedOnArray[1]}</span>
-          </>
-        ),
-      },
       {
         fieldName: t("Date of creation"),
         fieldValue: (
@@ -52,21 +45,20 @@ const PortingRequestDetails: React.FC = () => {
         ),
       },
       {
-        fieldName: t("Due date"),
+        fieldName: t("Last update"),
         fieldValue: (
           <>
-            {dueDateArray[0]}{" "}
-            <span className={classes.greyTime}>{dueDateArray[1]}</span>
+            {updatedOnArray[0]}{" "}
+            <span className={classes.greyTime}>{updatedOnArray[1]}</span>
           </>
         ),
       },
       { fieldName: t("Donor"), fieldValue: name },
-      { fieldName: t("Email address"), fieldValue: contactEmail },
     ],
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      contactEmail,
+      kind,
       createdOnArray,
       dueDateArray,
       name,

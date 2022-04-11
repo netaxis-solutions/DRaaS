@@ -73,6 +73,29 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     margin: "4px 0 0 20px",
     color: theme.palette.status.error,
   },
+  optionWithFlags: {
+    display: "flex",
+    gap: 10,
+    height: theme.spacing(5),
+    fontSize: "1.4rem",
+    fontWeight: 300,
+    padding: `0 ${theme.spacing(2.5)}px !important`,
+    color: theme.palette.primary.text,
+    "&:hover": {
+      backgroundColor: `${theme.palette.primary.light} !important`,
+    },
+    "&[aria-selected='true']": {
+      backgroundColor: `${theme.palette.primary.white} !important`,
+      color: theme.palette.primary.main,
+      fontWeight: 400,
+      "&:hover": {
+        backgroundColor: `${theme.palette.primary.light} !important`,
+      },
+    },
+  },
+  startAdornment: {
+    marginRight: 12,
+  },
 }));
 
 export default useStyles;

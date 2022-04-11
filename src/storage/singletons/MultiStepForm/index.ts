@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
 
 import { TSteps } from "utils/types/modal";
 
@@ -19,7 +19,7 @@ class MultiStepForm {
       steps: observable.ref,
       activeStep: observable.ref,
       previousChoices: observable.ref,
-      isSubmitButtonDisabled: observable.ref
+      isSubmitButtonDisabled: observable.ref,
     });
   }
 
@@ -40,12 +40,18 @@ class MultiStepForm {
     this.steps = steps;
   };
 
-  setSubmitButtonState = (state:boolean) => {
+  setSubmitButtonState = (state: boolean) => {
     this.isSubmitButtonDisabled = state;
-  }
+  };
 
   setPreviousChoices = (newChoice: { [key: string]: any }) => {
     this.previousChoices[this.activeStep] = newChoice;
+  };
+
+  setSpecificStepChoice = (step: number, value: { [key: string]: any }) => {
+    runInAction(() => {
+      this.previousChoices[step] = value;
+    });
   };
 
   clearMultiStep = () => {

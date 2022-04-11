@@ -125,6 +125,7 @@ export const request: SendRequestType = ({
   payload,
   responseType = "json",
   loaderName,
+  customHeaders,
 }) => {
   const token = getToken(configStore.config.name);
 
@@ -133,7 +134,7 @@ export const request: SendRequestType = ({
   }
 
   const privateInstance: AxiosInstance = axios.create({
-    headers,
+    headers: { ...headers, ...customHeaders },
   });
   const { config } = configStore;
   let queryID = 0;

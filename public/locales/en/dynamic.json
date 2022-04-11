@@ -1,0 +1,18 @@
+{
+  "contactDetails_title":"Contact information",
+  "contactDetails_description":"Provide a contact person who we can contact in case of issues and to who we can send updates on the status of this porting request.",
+  "earliestPortingDate_title":"Earliest possible porting data",
+  "earliestPortingDate_description":"Please pick a date that should be set as first possible porting date. It will not be possible to activate the port before this date.",
+  "accountDetails_title":"Account details",
+  "accountDetails_description":"Please provide information about the account you have at your current service provider",
+  "contactEmail_label":"Email",
+  "dueDate_label":"Due Date",
+  "customerId_label":"Account number",
+  "companyName_label":"Account name",
+  "id_documentHeader": "ID",
+  "loa_documentHeader": "Letter",
+  "lastInvoice_documentHeader": "Billing statement",
+  "id_documentDescription": "A copy of your national ID",
+  "loa_documentDescription": "Letter of authorization with the official company's letterhead; this is a letter telling you want to port in numbers you have added previously",
+  "lastInvoice_documentDescription": "Last (and up to date) billing statement showing that the company owns those numbers"
+}

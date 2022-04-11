@@ -3,7 +3,7 @@ import React, { ChangeEvent, FocusEvent, Ref } from "react";
 export type IconWithButtonPropsType = {
   title: string;
   type?: "button" | "reset" | "submit" | undefined;
-  icon: React.FC;
+  icon?: React.FC;
   variant?: "contained" | "outlined";
   onClick?: () => void;
   className?: string | undefined;
@@ -29,6 +29,7 @@ export type InputPropsType = {
   inputRef?: Ref<HTMLInputElement>;
   type?: string;
   helper?: string;
+  labelShrink?: boolean;
 };
 
 export type SearchInputType = {

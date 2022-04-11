@@ -12,16 +12,18 @@ import Modal from "components/Modal";
 import RouteIndependedTabs from "components/Tabs/RouteIndependedTabs";
 import PortingRequestDetails from "./Tabs/TabsContent/PortingRequestDetails";
 import PortingNumbers from "./Tabs/TabsContent/PortingNumbers";
-import { InfoIcon } from "components/Icons";
+import { Cross, InfoIcon } from "components/Icons";
 import Tooltip from "components/Tooltip";
 
-import { tabsStyles } from "../../styles";
+import { requestModalStyles } from "../../styles";
+import Documents from "./Tabs/TabsContent/Documents";
+import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 
 const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
-  const classes = tabsStyles();
+  const classes = requestModalStyles();
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
@@ -29,7 +31,11 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
   const {
     currentRequestId,
     currentPortingRequest,
+    activatePortRequest,
+    cancelPortRequest,
+    clearCurrentRequest,
     getExactPortingRequest,
+    getRequiredDocuments,
   } = PortingRequestsStore;
 
   const requestTabs: Tab[] = [
@@ -64,14 +70,15 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
     {
       name: t("Documents"),
       id: "documents",
-      component: () => <div>Documents</div>,
+      component: () => <Documents />,
     },
   ];
 
   useEffect(() => {
     currentRequestId &&
       getExactPortingRequest(tenantID, subscriptionID, currentRequestId);
-
+    getRequiredDocuments();
+    return () => clearCurrentRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,6 +93,29 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
           <RouteIndependedTabs tabs={requestTabs} />
         )}
       </Modal>
+      {currentRequestId && (
+        <div className={classes.buttonsWrapper}>
+          {currentPortingRequest?.capabilities?.canBeActivated && (
+            <ButtonWithIcon
+              onClick={() => {
+                activatePortRequest(tenantID, subscriptionID, currentRequestId);
+              }}
+              title={t("Activate")}
+              className={classes.activateButton}
+            />
+          )}
+          {currentPortingRequest?.capabilities?.canBeCancelled && (
+            <ButtonWithIcon
+              onClick={() =>
+                cancelPortRequest(tenantID, subscriptionID, currentRequestId)
+              }
+              icon={Cross}
+              title={t("Cancel")}
+              className={classes.cancelButton}
+            />
+          )}
+        </div>
+      )}
     </>
   );
 };
