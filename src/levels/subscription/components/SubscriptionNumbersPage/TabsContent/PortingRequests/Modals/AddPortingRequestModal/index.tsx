@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
-
+import PortingRequests from "storage/singletons/PortingRequests";
 import { TAddTenantFormProps } from "utils/types/tenant";
 
 import Modal from "components/Modal";
@@ -14,7 +14,6 @@ import Country from "./Steps/Country";
 import Details from "./Steps/Details";
 import Verification from "./Steps/Verification";
 import Numbers from "./Steps/Numbers";
-import PortingRequests from "storage/singletons/PortingRequests";
 
 const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
   handleCancel,
@@ -43,7 +42,7 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
       { title: t("Verification"), component: <Verification /> },
       {
         title: t("Documents"),
-        component: <Documents />,
+        component: <Documents handleCancel={handleCancel} />,
       },
     ]);
     getPortingRequirements();

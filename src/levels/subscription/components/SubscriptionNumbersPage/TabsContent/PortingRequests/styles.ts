@@ -13,6 +13,14 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.primary.newLink,
     display: "contents",
   },
+  noNumbersBlock: {
+    display: "flex",
+    margin: "auto",
+    gap: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  },
 }));
 
 export const requestModalStyles = makeStyles((theme: ThemeDefaultOptions) => ({

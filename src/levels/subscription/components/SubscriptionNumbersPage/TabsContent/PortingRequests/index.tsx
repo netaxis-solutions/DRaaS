@@ -5,13 +5,18 @@ import { useParams } from "react-router-dom";
 import { CellProps, TableProps } from "react-table";
 
 import PortingRequestsStore from "storage/singletons/PortingRequests";
+import PendingQueries from "storage/singletons/PendingQueries";
+import TablePagination from "storage/singletons/TablePagination";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import { Plus } from "components/Icons";
 import Table from "components/Table";
-
-import styles from "./styles";
+import TableSkeleton from "components/Table/Skeleton";
+import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import RequestInfoModal from "./Modals/RequestInfoModal";
 import AddPortingRequestModal from "./Modals/AddPortingRequestModal";
+
+import styles from "./styles";
 
 const numbersToShowFormatter = (number: Array<[number, number]> | number) => {
   return Array.isArray(number) ? `${number[0]} - ${number[1]}` : number;
@@ -30,15 +35,24 @@ const PortingRequests: FC = () => {
     portingRequests,
     getPortingRequests,
     setCurrentRequestId,
-    clearCurrentRequest,
   } = PortingRequestsStore;
+
+  const {
+    tablePageCounter,
+    tablePageSize,
+    search,
+    clearPaginationData,
+  } = TablePagination;
 
   useEffect(() => {
     getPortingRequests(tenantID, subscriptionID);
 
-    return () => {
-      clearCurrentRequest();
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tablePageCounter, tablePageSize, search]);
+
+  useEffect(() => {
+    return clearPaginationData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -164,18 +178,41 @@ const PortingRequests: FC = () => {
 
   const handleClose = () => {
     setModalToOpen("");
+    getPortingRequests(tenantID, subscriptionID);
   };
+  const { byFetchType } = PendingQueries;
+
+  const isLoading = getIsLoading("@getPortingRequests", byFetchType);
 
   return (
     <>
-      <Table
-        title={t("PortingRequests")}
-        columns={columns}
-        data={portingRequests}
-        toolbarActions={toolbarActions}
-      />
-      {modalToOpen === "RequestInfo" && (
-        <RequestInfoModal handleCancel={handleClose} />
+      {isLoading ? (
+        <TableSkeleton
+          title={t("Porting requests")}
+          columns={columns}
+          actions={[]}
+        />
+      ) : portingRequests.length ? (
+        <>
+          <Table
+            title={t("Porting requests")}
+            columns={columns}
+            data={portingRequests}
+            toolbarActions={toolbarActions}
+          />
+          {modalToOpen === "RequestInfo" && (
+            <RequestInfoModal handleCancel={handleClose} />
+          )}
+        </>
+      ) : (
+        <div className={classes.noNumbersBlock}>
+          <span>{t("You have no porting requests added yet")}</span>
+          <ButtonWithIcon
+            icon={Plus}
+            title={t("Add")}
+            onClick={() => setModalToOpen("AddPortingRequest")}
+          />
+        </div>
       )}
       {modalToOpen === "AddPortingRequest" && (
         <AddPortingRequestModal handleCancel={handleClose} />

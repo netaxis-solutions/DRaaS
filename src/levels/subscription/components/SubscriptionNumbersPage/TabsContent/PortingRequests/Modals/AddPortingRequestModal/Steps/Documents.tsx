@@ -4,15 +4,18 @@ import { observer } from "mobx-react-lite";
 import { useParams } from "react-router";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
-
-import FileInput from "components/common/Form/FileInput";
 import PortingRequests from "storage/singletons/PortingRequests";
-import { documentsStyles } from "../../../styles";
 import { DocumentsType } from "utils/types/numbers";
 
-const Documents: React.FC = () => {
+import FileInput from "components/common/Form/FileInput";
+
+import { documentsStyles } from "../../../styles";
+
+const Documents: React.FC<{ handleCancel: () => void }> = ({
+  handleCancel,
+}) => {
   const { t } = useTranslation();
-  const { previousChoices, goNext } = MultiStepForm;
+  const { previousChoices } = MultiStepForm;
   const { addAttachment } = PortingRequests;
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -21,13 +24,13 @@ const Documents: React.FC = () => {
   const classes = documentsStyles();
 
   const documents: DocumentsType = previousChoices[0].country.documents;
-
+  const portId = previousChoices[3].portId;
   const { handleSubmit } = useForm({
     // resolver: yupResolver(),
   });
 
   const onSubmit = () => {
-    goNext();
+    handleCancel();
   };
 
   return (
@@ -39,8 +42,17 @@ const Documents: React.FC = () => {
             description={t(`dynamic:${name}_documentDescription`)}
             allowedFormats={allowedFormats}
             name={name}
-            onSuccesfullChange={file => {
-              addAttachment(tenantID, subscriptionID, 279, file);
+            onChangeController={(file, setFieldState) => {
+              setFieldState("initiated");
+              addAttachment(
+                tenantID,
+                subscriptionID,
+                portId,
+                name,
+                file,
+                () => setFieldState("success"),
+                () => setFieldState("failed"),
+              );
             }}
           />
         ))}

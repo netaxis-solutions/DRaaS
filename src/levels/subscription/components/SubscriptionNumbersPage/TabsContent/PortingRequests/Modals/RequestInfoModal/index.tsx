@@ -4,9 +4,11 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import PortingRequestsStore from "storage/singletons/PortingRequests";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { TAddTenantFormProps } from "utils/types/tenant";
 import { Tab } from "utils/types/tabs";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import Modal from "components/Modal";
 import RouteIndependedTabs from "components/Tabs/RouteIndependedTabs";
@@ -14,10 +16,10 @@ import PortingRequestDetails from "./Tabs/TabsContent/PortingRequestDetails";
 import PortingNumbers from "./Tabs/TabsContent/PortingNumbers";
 import { Cross, InfoIcon } from "components/Icons";
 import Tooltip from "components/Tooltip";
+import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
+import Documents from "./Tabs/TabsContent/Documents";
 
 import { requestModalStyles } from "../../styles";
-import Documents from "./Tabs/TabsContent/Documents";
-import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 
 const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
   handleCancel,
@@ -35,7 +37,7 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
     cancelPortRequest,
     clearCurrentRequest,
     getExactPortingRequest,
-    getRequiredDocuments,
+    getPortingRequirements,
   } = PortingRequestsStore;
 
   const requestTabs: Tab[] = [
@@ -75,12 +77,17 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
   ];
 
   useEffect(() => {
-    currentRequestId &&
+    if (currentRequestId) {
       getExactPortingRequest(tenantID, subscriptionID, currentRequestId);
-    getRequiredDocuments();
+      getPortingRequirements();
+    }
     return () => clearCurrentRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const isLoading =
+    getIsLoading("@getExactPortingRequest", PendingQueries.byFetchType) ||
+    getIsLoading("@getPortingRequirements", PendingQueries.byFetchType);
 
   return (
     <>
@@ -89,7 +96,9 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
         handleCancel={handleCancel}
         styleWithSideBar
       >
-        {Object.values(currentPortingRequest).length && (
+        {isLoading || !Object.values(currentPortingRequest).length ? (
+          "Loading..."
+        ) : (
           <RouteIndependedTabs tabs={requestTabs} />
         )}
       </Modal>

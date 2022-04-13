@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 
 import PortingRequestsStore from "storage/singletons/PortingRequests";
+import TablePagination from "storage/singletons/TablePagination";
 
 import Table from "components/Table";
 
@@ -13,8 +14,8 @@ const PortingNumbers: React.FC = () => {
     currentPortingRequest: {
       request: { ranges, numbers },
     },
-    getPortingIdentity,
   } = PortingRequestsStore;
+  const { clearTablePagesWithoutServerPaginations } = TablePagination;
 
   const formattedNumbers = useMemo(
     () =>
@@ -36,7 +37,7 @@ const PortingNumbers: React.FC = () => {
   );
 
   useEffect(() => {
-    getPortingIdentity();
+    clearTablePagesWithoutServerPaginations(numbersRanges.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

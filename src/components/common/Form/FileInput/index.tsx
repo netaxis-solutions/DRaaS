@@ -1,16 +1,32 @@
 import { CircularProgress } from "@material-ui/core";
 import clsx from "clsx";
-import { Upload } from "components/Icons";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+
+import { Cross, Upload } from "components/Icons";
+import ButtonWithIcon from "../ButtonWithIcon";
+
 import useStyles from "./styles";
 
 type Props = {
+  fileInfo?: {
+    id: number;
+    name: string;
+    createdBy: string;
+    description: string;
+    mimeType: string;
+    sizeInBytes: number;
+    createdOn: string;
+  };
   header: string;
   description: string;
   allowedFormats: Array<string>;
   name: string;
-  onSuccesfullChange: (file: File) => void;
+  onChangeController: (
+    file: File,
+    setFieldState: (newState: FieldState) => void,
+  ) => void;
+  onDelete?: () => void;
 };
 
 type FieldState = "not_initiated" | "initiated" | "failed" | "success";
@@ -33,17 +49,27 @@ const createFileName = (name: string, size: number) => {
 };
 
 export const FileInput: React.FC<Props> = ({
+  fileInfo,
   header,
   description,
   allowedFormats,
   name,
-  onSuccesfullChange,
+  onChangeController,
+  onDelete,
 }) => {
   const [fieldState, setFieldState] = useState<FieldState>("not_initiated");
   const [fileName, setFileName] = useState("");
   const { t } = useTranslation();
 
   const classes = useStyles();
+
+  useEffect(() => {
+    if (fileInfo) {
+      setFileName(createFileName(fileInfo.name, fileInfo.sizeInBytes));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={classes.fileCard}>
@@ -57,9 +83,20 @@ export const FileInput: React.FC<Props> = ({
           [classes.notInitiatedState]: fieldState === "not_initiated",
         })}
       >
-        {fieldState === "failed"
-          ? t("an error occured while uploading file")
-          : fileName}
+        {fieldState === "failed" ? (
+          t("an error occured while uploading file")
+        ) : (
+          <div>
+            <div>{fileName}</div>
+            {onDelete && (
+              <ButtonWithIcon
+                title={t("Delete file")}
+                icon={Cross}
+                onClick={onDelete}
+              />
+            )}
+          </div>
+        )}
       </div>
       {fieldState === "initiated" ? (
         <CircularProgress />
@@ -88,7 +125,11 @@ export const FileInput: React.FC<Props> = ({
           }
           setFileName(createFileName(file.name, file.size));
           setFieldState("success");
-          onSuccesfullChange(file);
+          onChangeController(file, setFieldState);
+          // NOTE: this string a written in purpose to clear the field
+          // if user want to upload the same file after an error
+          //@ts-ignore
+          event.target.value = null;
         }}
       />
     </div>

@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
+
 import { numbersStyles } from "../../../styles";
-import { useState } from "react";
 
 type defaultValuesType = {
   rangeSize: string;

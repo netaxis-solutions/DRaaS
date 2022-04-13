@@ -1,12 +1,13 @@
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { useEffect } from "react";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
-import { useEffect } from "react";
-import { detailsStyles } from "../../../styles";
 import FormInput from "components/common/Form/FormInput";
+
+import { detailsStyles } from "../../../styles";
 
 type defaultValuesType = {
   rangeSize: string;
@@ -70,7 +71,13 @@ const Details: React.FC = () => {
               <Controller
                 name={parameter.name}
                 control={control}
-                rules={{ required: parameter.mandatory }}
+                rules={{
+                  required: parameter.mandatory,
+                  pattern:
+                    parameter.name === "contactEmail"
+                      ? /^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/
+                      : / */,
+                }}
                 render={({ field, ...props }) =>
                   parameter.type.toLocaleLowerCase() === "date" ? (
                     <FormInput

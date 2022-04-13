@@ -1,20 +1,19 @@
+import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
+import { countrySchema } from "utils/schemas/numbersPorting";
+import PortingRequests from "storage/singletons/PortingRequests";
 
 import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
 import Flag from "components/common/Flag";
 
-import { countrySchema } from "utils/schemas/numbersPorting";
-
-import { useEffect } from "react";
 import { countryStyles } from "../../../styles";
-import PortingRequests from "storage/singletons/PortingRequests";
 
-type defaultValuesType = any;
+type defaultValuesType = { countryCode: string };
 
 const defaultValues: defaultValuesType = {
   countryCode: "",

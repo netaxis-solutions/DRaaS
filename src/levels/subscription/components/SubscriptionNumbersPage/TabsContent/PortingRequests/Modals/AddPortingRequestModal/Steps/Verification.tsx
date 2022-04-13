@@ -1,17 +1,19 @@
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
-
-import MultiStepForm from "storage/singletons/MultiStepForm";
-
-import Table from "components/Table";
-import { useMemo, useState } from "react";
-import Tooltip from "components/Tooltip";
-import { InfoIcon } from "components/Icons";
-import { verificationStyles } from "../../../styles";
-import PortingRequests from "storage/singletons/PortingRequests";
 import { useParams } from "react-router-dom";
 import { CellProps, TableProps } from "react-table";
+
+import MultiStepForm from "storage/singletons/MultiStepForm";
+import TablePagination from "storage/singletons/TablePagination";
+import PortingRequests from "storage/singletons/PortingRequests";
+
+import Table from "components/Table";
+import Tooltip from "components/Tooltip";
+import { InfoIcon } from "components/Icons";
+
+import { verificationStyles } from "../../../styles";
 
 type NumberRange = {
   id: number;
@@ -25,16 +27,27 @@ type AllNumbersType = Array<NumberRange>;
 const Verification: React.FC = () => {
   const { t } = useTranslation();
   const classes = verificationStyles();
-  const { setSpecificStepChoice, goNext, previousChoices } = MultiStepForm;
+  const {
+    setSpecificStepChoice,
+    goNext,
+    setPreviousChoices,
+    previousChoices,
+  } = MultiStepForm;
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
   }>();
-
+  const { clearTablePagesWithoutServerPaginations } = TablePagination;
   const [numbers, setNumbers] = useState<AllNumbersType>(
     MultiStepForm.previousChoices[2].portingNumbers,
   );
   const { defaultOperatorId, createPortingRequest } = PortingRequests;
+
+  useEffect(() => {
+    clearTablePagesWithoutServerPaginations(numbers.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const { handleSubmit } = useForm({
     // resolver: yupResolver(numbersRangeSchema()),
   });
@@ -104,8 +117,10 @@ const Verification: React.FC = () => {
     if (filteredNumbers.length) {
       portingPayload = { ...portingPayload, numbers: filteredNumbers };
     }
-    createPortingRequest(tenantID, subscriptionID, portingPayload);
-    goNext();
+    createPortingRequest(tenantID, subscriptionID, portingPayload, response => {
+      setPreviousChoices({ portId: response.id });
+      goNext();
+    });
   };
 
   const handleDeleteItem = (props: any) => {
