@@ -16,7 +16,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   noNumbersBlock: {
     display: "flex",
     margin: "auto",
-    gap: 20,
+    gap: theme.spacing(2.5),
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
@@ -45,13 +45,13 @@ export const requestModalStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     border: "none",
 
     "&>* svg": {
-      fill: theme.palette.primary.white + "!important",
+      fill: `${theme.palette.primary.white}!important`,
     },
   },
   buttonsWrapper: {
     position: "fixed",
     display: "flex",
-    gap: 10,
+    gap: theme.spacing(1.25),
     zIndex: 1001,
     top: 70,
     right: 30,

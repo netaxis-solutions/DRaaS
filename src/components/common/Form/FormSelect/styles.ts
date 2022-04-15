@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   optionWithFlags: {
     display: "flex",
-    gap: 10,
+    gap: theme.spacing(1.25),
     height: theme.spacing(5),
     fontSize: "1.4rem",
     fontWeight: 300,

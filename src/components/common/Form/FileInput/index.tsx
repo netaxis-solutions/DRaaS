@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CircularProgress } from "@material-ui/core";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
 
 import { Cross, Upload } from "components/Icons";
 import ButtonWithIcon from "../ButtonWithIcon";
@@ -66,6 +66,7 @@ export const FileInput: React.FC<Props> = ({
   useEffect(() => {
     if (fileInfo) {
       setFileName(createFileName(fileInfo.name, fileInfo.sizeInBytes));
+      setFieldState("success");
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -114,7 +115,7 @@ export const FileInput: React.FC<Props> = ({
         className={classes.input}
         accept={allowedFormats.join(",")}
         onChange={event => {
-          if (!event?.target?.files || !event?.target?.files[0]) {
+          if (!event.target.files || !event.target.files[0]) {
             setFieldState("not_initiated");
             return;
           }

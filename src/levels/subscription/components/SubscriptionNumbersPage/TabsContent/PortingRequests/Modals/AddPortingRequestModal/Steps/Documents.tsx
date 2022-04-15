@@ -25,9 +25,7 @@ const Documents: React.FC<{ handleCancel: () => void }> = ({
 
   const documents: DocumentsType = previousChoices[0].country.documents;
   const portId = previousChoices[3].portId;
-  const { handleSubmit } = useForm({
-    // resolver: yupResolver(),
-  });
+  const { handleSubmit } = useForm();
 
   const onSubmit = () => {
     handleCancel();

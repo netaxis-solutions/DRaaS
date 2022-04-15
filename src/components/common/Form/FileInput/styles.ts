@@ -4,9 +4,9 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 export default makeStyles((theme: ThemeDefaultOptions) => ({
   fileCard: {
     display: "flex",
-    padding: "15px 30px",
+    padding: `${theme.spacing(1.875)}px ${theme.spacing(3.75)}px`,
     flexDirection: "column",
-    gap: 10,
+    gap: theme.spacing(1.25),
     maxWidth: 485,
     boxSizing: "border-box",
     border: `1px solid ${theme.palette.primary.light}`,

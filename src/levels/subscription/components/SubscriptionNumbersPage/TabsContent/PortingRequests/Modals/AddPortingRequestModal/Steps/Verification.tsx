@@ -48,9 +48,7 @@ const Verification: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { handleSubmit } = useForm({
-    // resolver: yupResolver(numbersRangeSchema()),
-  });
+  const { handleSubmit } = useForm();
 
   const columns = useMemo(
     () => [
@@ -99,6 +97,7 @@ const Verification: React.FC = () => {
         ],
         [],
       );
+
     const filteredRanges = formattedNumbers.filter(number => number.to);
 
     const filteredNumbers = formattedNumbers

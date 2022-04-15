@@ -16,7 +16,6 @@ const PortingRequestDetails: React.FC = () => {
       request: {
         portId,
         status,
-        // dueDate,
         donor: { name },
         kind,
       },

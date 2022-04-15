@@ -64,7 +64,7 @@ const PortingNumbers: React.FC = () => {
       data={numbersRanges}
     />
   ) : (
-    <div>there are no number ranges</div>
+    <div>{t("There are no number ranges")}</div>
   );
 };
 

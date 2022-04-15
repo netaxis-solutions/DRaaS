@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { withStyles } from "@material-ui/core";
 import MuiTabs from "@material-ui/core/Tabs";
 import MuiTab from "@material-ui/core/Tab";
@@ -17,9 +17,6 @@ const RouteIndependedTabs: React.FC<{ tabs: Tab[]; active?: string }> = ({
   const [activeTab, setActiveTab] = useState(active || tabs[0]?.id);
   const ActiveContent =
     tabs.find(tab => tab.id === activeTab)?.component || tabs[0].component;
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>
