@@ -6,7 +6,7 @@ import PortingRequests from "storage/singletons/PortingRequests";
 
 import FileInput from "components/common/Form/FileInput";
 
-import { documentsStyles } from "../../../../styles";
+import { documentsStyles } from "../../styles";
 
 const Documents: React.FC = () => {
   const { t } = useTranslation();
@@ -26,41 +26,43 @@ const Documents: React.FC = () => {
 
   return (
     <div className={classes.cardsWrapper}>
-      {requiredDocuments.map(({ name, allowedFormats }) => {
-        const currentFileInfo = currentPortingRequest.attachments?.find(
-          (attachment: { description: string }) =>
-            attachment?.description === name,
-        );
-        return (
-          <FileInput
-            header={t(`dynamic:${name}_documentHeader`)}
-            description={t(`dynamic:${name}_documentDescription`)}
-            allowedFormats={allowedFormats}
-            fileInfo={currentFileInfo}
-            name={name}
-            onDelete={() => {
-              deleteAttachment(
-                tenantID,
-                subscriptionID,
-                currentRequestId!,
-                name,
-              );
-            }}
-            onChangeController={(file, setFieldState) => {
-              setFieldState("initiated");
-              addAttachment(
-                tenantID,
-                subscriptionID,
-                currentRequestId!,
-                name,
-                file,
-                () => setFieldState("success"),
-                () => setFieldState("failed"),
-              );
-            }}
-          />
-        );
-      }) || t("No documents neded")}
+      {requiredDocuments.length
+        ? requiredDocuments.map(({ name, allowedFormats }) => {
+            const currentFileInfo = currentPortingRequest.attachments?.find(
+              (attachment: { description: string }) =>
+                attachment?.description === name,
+            );
+            return (
+              <FileInput
+                header={t(`dynamic:${name}_documentHeader`)}
+                description={t(`dynamic:${name}_documentDescription`)}
+                allowedFormats={allowedFormats}
+                fileInfo={currentFileInfo}
+                name={name}
+                onDelete={() => {
+                  deleteAttachment(
+                    tenantID,
+                    subscriptionID,
+                    currentRequestId!,
+                    name,
+                  );
+                }}
+                onChangeController={(file, setFieldState) => {
+                  setFieldState("initiated");
+                  addAttachment(
+                    tenantID,
+                    subscriptionID,
+                    currentRequestId!,
+                    name,
+                    file,
+                    () => setFieldState("success"),
+                    () => setFieldState("failed"),
+                  );
+                }}
+              />
+            );
+          })
+        : t("No documents neded")}
     </div>
   );
 };

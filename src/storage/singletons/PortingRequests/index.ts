@@ -4,46 +4,13 @@ import { AxiosResponse } from "axios";
 import configStore from "../Config";
 import { request } from "services/api";
 import { errorNotification } from "utils/functions/notifications";
-import { DocumentsType, PortingRequirements } from "utils/types/numbers";
+import {
+  DocumentsType,
+  PortingRequestPayload,
+  PortingRequirements,
+  RequestType,
+} from "utils/types/numbers";
 import TablePagination from "../TablePagination";
-
-type RequestType = {
-  id: number;
-  portId: string;
-  createdOn: string;
-  dueDate: string;
-  kind: string;
-  donor: {
-    id: number;
-    name: string;
-  };
-  status: string;
-  numbers: Array<string>;
-  ranges: [
-    {
-      from: string;
-      to: string;
-    },
-  ];
-};
-
-type PortingRequestPayload = {
-  numbers?: Array<string>;
-  ranges?: Array<{
-    from: string;
-    to: string;
-  }>;
-  donorId: number;
-  contactEmail: string;
-  dueDate: string;
-  lastName?: string;
-  companyName?: string;
-  houseNumber?: string;
-  houseNumberExt?: string;
-  zipCode?: string;
-  customerId?: string;
-  note?: string;
-};
 
 class PortingRequestsStore {
   portingRequests: Array<RequestType> = [];

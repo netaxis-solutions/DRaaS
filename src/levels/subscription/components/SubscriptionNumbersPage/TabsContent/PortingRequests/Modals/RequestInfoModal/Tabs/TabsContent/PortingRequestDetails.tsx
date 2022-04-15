@@ -3,8 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 
 import PortingRequestsStore from "storage/singletons/PortingRequests";
-
-import { requestInfoStyles } from "../../../../styles";
+import { requestInfoStyles } from "../../styles";
 
 const PortingRequestDetails: React.FC = () => {
   const { t } = useTranslation();

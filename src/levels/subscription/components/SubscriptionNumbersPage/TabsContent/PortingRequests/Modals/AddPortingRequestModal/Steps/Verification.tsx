@@ -13,7 +13,7 @@ import Table from "components/Table";
 import Tooltip from "components/Tooltip";
 import { InfoIcon } from "components/Icons";
 
-import { verificationStyles } from "../../../styles";
+import { verificationStyles } from "../styles";
 
 type NumberRange = {
   id: number;

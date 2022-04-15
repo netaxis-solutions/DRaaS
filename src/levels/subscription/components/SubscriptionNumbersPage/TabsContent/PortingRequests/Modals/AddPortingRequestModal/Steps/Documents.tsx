@@ -9,7 +9,7 @@ import { DocumentsType } from "utils/types/numbers";
 
 import FileInput from "components/common/Form/FileInput";
 
-import { documentsStyles } from "../../../styles";
+import { documentsStyles } from "../styles";
 
 const Documents: React.FC<{ handleCancel: () => void }> = ({
   handleCancel,

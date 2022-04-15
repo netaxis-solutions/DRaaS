@@ -42,4 +42,11 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   notInitiatedState: {
     display: "none",
   },
+  fileNameBlock: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  unattachFileButton: {
+    background: theme.palette.status.error,
+  },
 }));

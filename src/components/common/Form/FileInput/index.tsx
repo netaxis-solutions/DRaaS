@@ -57,8 +57,8 @@ export const FileInput: React.FC<Props> = ({
   onChangeController,
   onDelete,
 }) => {
-  const [fieldState, setFieldState] = useState<FieldState>("not_initiated");
-  const [fileName, setFileName] = useState("");
+  const [fieldState, setFieldState] = useState<FieldState>("success");
+  const [fileName, setFileName] = useState("sadasdasdasd");
   const { t } = useTranslation();
 
   const classes = useStyles();
@@ -76,38 +76,42 @@ export const FileInput: React.FC<Props> = ({
     <div className={classes.fileCard}>
       <div className={classes.fileCardHeader}>{header}</div>
       <div className={classes.fileCardDescription}>{description}</div>
-      <div
-        className={clsx({
-          [classes.fileCardState]: true,
-          [classes.errorState]: fieldState === "failed",
-          [classes.successState]: fieldState === "success",
-          [classes.notInitiatedState]: fieldState === "not_initiated",
-        })}
-      >
-        {fieldState === "failed" ? (
-          t("an error occured while uploading file")
-        ) : (
-          <div>
-            <div>{fileName}</div>
-            {onDelete && (
-              <ButtonWithIcon
-                title={t("Delete file")}
-                icon={Cross}
-                onClick={onDelete}
-              />
-            )}
-          </div>
-        )}
-      </div>
+
       {fieldState === "initiated" ? (
         <CircularProgress />
       ) : (
-        <label htmlFor={name} className={classes.uploadButton}>
-          <Upload />
-          {fieldState === "not_initiated" && t("Upload")}
-          {fieldState === "failed" && t("Upload once again")}
-          {fieldState === "success" && t("Upload other file")}
-        </label>
+        <>
+          <div
+            className={clsx({
+              [classes.fileCardState]: true,
+              [classes.errorState]: fieldState === "failed",
+              [classes.successState]: fieldState === "success",
+              [classes.notInitiatedState]: fieldState === "not_initiated",
+            })}
+          >
+            {fieldState === "failed" ? (
+              t("an error occured while uploading file")
+            ) : (
+              <div className={classes.fileNameBlock}>
+                <div>{fileName}</div>
+                {onDelete && (
+                  <ButtonWithIcon
+                    title={t("Delete file")}
+                    icon={Cross}
+                    onClick={onDelete}
+                    className={classes.unattachFileButton}
+                  />
+                )}
+              </div>
+            )}
+          </div>
+          <label htmlFor={name} className={classes.uploadButton}>
+            <Upload />
+            {fieldState === "not_initiated" && t("Upload")}
+            {fieldState === "failed" && t("Upload once again")}
+            {fieldState === "success" && t("Upload other file")}
+          </label>
+        </>
       )}
       <input
         type="file"

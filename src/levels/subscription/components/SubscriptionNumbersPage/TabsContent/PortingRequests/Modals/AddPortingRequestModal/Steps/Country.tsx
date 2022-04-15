@@ -11,7 +11,7 @@ import PortingRequests from "storage/singletons/PortingRequests";
 import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
 import Flag from "components/common/Flag";
 
-import { countryStyles } from "../../../styles";
+import { countryStyles } from "../styles";
 
 type defaultValuesType = { countryCode: string };
 

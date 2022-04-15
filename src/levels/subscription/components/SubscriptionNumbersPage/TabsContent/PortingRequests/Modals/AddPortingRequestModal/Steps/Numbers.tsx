@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
-import { numbersStyles } from "../../../styles";
+import { numbersStyles } from "../styles";
 
 type defaultValuesType = {
   rangeSize: string;

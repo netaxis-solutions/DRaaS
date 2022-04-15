@@ -7,7 +7,7 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 
 import FormInput from "components/common/Form/FormInput";
 
-import { detailsStyles } from "../../../styles";
+import { detailsStyles } from "../styles";
 
 type defaultValuesType = {
   rangeSize: string;

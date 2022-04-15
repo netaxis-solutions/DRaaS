@@ -18,14 +18,14 @@ import { Cross, InfoIcon } from "components/Icons";
 import Tooltip from "components/Tooltip";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import Documents from "./Tabs/TabsContent/Documents";
-
-import { requestModalStyles } from "../../styles";
+import { requestModalStyles } from "./styles";
 
 const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
   const classes = requestModalStyles();
+
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
