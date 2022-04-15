@@ -26,7 +26,7 @@ const Country: React.FC = () => {
   const classes = countryStyles();
 
   const { control, handleSubmit, setValue } = useForm<defaultValuesType>({
-    resolver: yupResolver(countrySchema()),
+    resolver: yupResolver(countrySchema(t)),
     defaultValues,
   });
   const { portingRequirements } = PortingRequests;

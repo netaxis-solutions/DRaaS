@@ -1,9 +1,10 @@
+import { TFunction } from "i18next";
 import { string, object } from "yup";
 import StringSchema from "yup/lib/string";
 
-export const countrySchema = () =>
+export const countrySchema = (t: TFunction) =>
   object().shape({
-    countryCode: string().required("Please selelct a country"),
+    countryCode: string().required(t("Please selelct a country")),
   });
 
 export const detailsSchema = (shapeObj: { [key: string]: StringSchema }) =>
