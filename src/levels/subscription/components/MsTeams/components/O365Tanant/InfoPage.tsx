@@ -8,14 +8,14 @@ import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import Onboarding from "storage/singletons/MsTeams/Onboarding";
 
 import FormInput from "components/common/Form/FormInput";
-import { SuccessCircle } from "components/Icons";
+import { InfoIcon, SuccessCircle } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Unlink } from "components/Icons";
 
-import { EntitlementsStyle } from "./styles";
+import { O365Styles } from "./styles";
 
 const InfoPage: FC = () => {
-  const classes = EntitlementsStyle();
+  const classes = O365Styles();
 
   const { t } = useTranslation();
   const { tenantID, subscriptionID } = useParams<{
@@ -67,7 +67,13 @@ const InfoPage: FC = () => {
         <div>
           <span className={classes.SuccessIcon}>
             {" "}
-            <SuccessCircle />{" "}
+            {checkMsTeamAdmin?.powershell?.active ? (
+              <SuccessCircle />
+            ) : (
+              <div className={classes.errorIcon}>
+                <InfoIcon />
+              </div>
+            )}{" "}
           </span>
           <div>
             <span>{t("Powershell integration")}</span>
@@ -77,7 +83,13 @@ const InfoPage: FC = () => {
         <div>
           <span className={classes.SuccessIcon}>
             {" "}
-            <SuccessCircle />{" "}
+            {checkMsTeamAdmin?.msGraph?.active ? (
+              <SuccessCircle />
+            ) : (
+              <div className={classes.errorIcon}>
+                <InfoIcon />
+              </div>
+            )}{" "}
           </span>
           <div>
             <span>{t("Microsoft graph integration")}</span>

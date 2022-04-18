@@ -13,7 +13,7 @@ import { MsTeamLimk } from "components/Icons";
 import InfoPage from "./InfoPage";
 import Stepper from "./StepperMsTeam/Stepper";
 
-import { EntitlementsStyle } from "./styles";
+import { O365Styles } from "./styles";
 
 const O365Tenant: FC = () => {
   const {
@@ -41,7 +41,7 @@ const O365Tenant: FC = () => {
 
   const { t } = useTranslation();
 
-  const classes = EntitlementsStyle();
+  const classes = O365Styles();
 
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
