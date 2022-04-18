@@ -11,8 +11,11 @@ import clsx from "clsx";
 import NumbersStore from "storage/singletons/Numbers";
 import MsTeamsStore from "storage/singletons/MsTeams";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TablePagination from "storage/singletons/TablePagination";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import Table from "components/Table";
 import OtherLicenses from "./components/OtherLicenses";
@@ -20,6 +23,7 @@ import FormSelect from "components/common/Form/FormSelect";
 import AssignedNumber from "./components/AssignedNumber";
 import { Plus, SuccessCircle, Reload } from "components/Icons";
 import ReloadButton from "./components/ReloadButton";
+import TableSkeleton from "components/Table/Skeleton";
 
 import useStyles from "./styles";
 
@@ -46,12 +50,21 @@ const MsTeamsUsers: FC = () => {
   });
 
   const { getMsTeamUsers, editMsTeamsUserNumber } = MsTeamsStore;
-
+  const { byFetchType } = PendingQueries;
   const { getFreeNumbers } = NumbersStore;
+
+  const {
+    clearTablePagesWithoutServerPaginations,
+    uploadTableConfig,
+  } = TablePagination;
 
   useEffect(() => {
     getMsTeamUsers(tenantID, subscriptionID);
     getFreeNumbers(tenantID, subscriptionID);
+    clearTablePagesWithoutServerPaginations(
+      MsTeamsStore.msTeamUsersList.length,
+    );
+    uploadTableConfig(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -142,13 +155,17 @@ const MsTeamsUsers: FC = () => {
       () => getFreeNumbers(tenantID, subscriptionID),
     );
   };
-
-  return (
+  const isLoading =
+    getIsLoading("@getMsTeamUsers", byFetchType) ||
+    getIsLoading("@getFreeNumbers", byFetchType);
+  return isLoading ? (
+    <TableSkeleton title={t("Users")} columns={columns} actions={[true]} />
+  ) : (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Table
         title={
           <div className={classes.tableTitle}>
-            {t("Users")}{" "}
+            {t("Users")} {`(${MsTeamsStore.msTeamUsersList.length})`}
             <div
               className={clsx(classes.icon, classes.reloadButton)}
               onClick={() => {
