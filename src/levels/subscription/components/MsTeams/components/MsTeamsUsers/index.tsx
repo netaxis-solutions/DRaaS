@@ -49,24 +49,31 @@ const MsTeamsUsers: FC = () => {
     defaultValues,
   });
 
-  const { getMsTeamUsers, editMsTeamsUserNumber } = MsTeamsStore;
+  const {
+    msTeamUsersList,
+    getMsTeamUsers,
+    editMsTeamsUserNumber,
+  } = MsTeamsStore;
   const { byFetchType } = PendingQueries;
   const { getFreeNumbers } = NumbersStore;
 
   const {
     clearTablePagesWithoutServerPaginations,
-    uploadTableConfig,
+    clearPaginationData,
   } = TablePagination;
 
   useEffect(() => {
     getMsTeamUsers(tenantID, subscriptionID);
     getFreeNumbers(tenantID, subscriptionID);
-    clearTablePagesWithoutServerPaginations(
-      MsTeamsStore.msTeamUsersList.length,
-    );
-    uploadTableConfig(true);
+
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    clearTablePagesWithoutServerPaginations(msTeamUsersList.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msTeamUsersList]);
 
   const columns = useMemo(
     () => [
@@ -165,7 +172,7 @@ const MsTeamsUsers: FC = () => {
       <Table
         title={
           <div className={classes.tableTitle}>
-            {t("Users")} {`(${MsTeamsStore.msTeamUsersList.length})`}
+            {t("Users")} {`(${msTeamUsersList.length})`}
             <div
               className={clsx(classes.icon, classes.reloadButton)}
               onClick={() => {
@@ -177,7 +184,7 @@ const MsTeamsUsers: FC = () => {
           </div>
         }
         columns={columns}
-        data={MsTeamsStore.msTeamUsersList}
+        data={msTeamUsersList}
         editDisabledCondition={(row: Row<TableData>) => {
           return !(row.original.msTeams.voiceEnabled === "yes");
         }}
