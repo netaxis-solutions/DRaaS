@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { observer } from "mobx-react-lite";
 import { FC, useEffect } from "react";
 import { useParams, useHistory, Switch, Route } from "react-router-dom";
@@ -14,6 +15,9 @@ import Loader from "components/Loader/Loader";
 import O365Tenant from "./components/O365Tanant";
 import O365Admin from "./components/O365Admin";
 import MsTeamsUsers from "./components/MsTeamsUsers";
+import PendingQueries from "storage/singletons/PendingQueries";
+import TabsSkeleton from "components/Tabs/TabsSkeleton";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 const tabs = [
   {
@@ -76,7 +80,7 @@ const MSTeams: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabs, params]);
 
-  if (params.tabID === ":tabID") return <Loader />;
+  if (params.tabID === ":tabID") return <TabsSkeleton tabs={filteredTabs} />;
   return (
     <>
       <Tabs

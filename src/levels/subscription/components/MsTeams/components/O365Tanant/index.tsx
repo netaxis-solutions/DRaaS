@@ -14,6 +14,8 @@ import InfoPage from "./InfoPage";
 import Stepper from "./StepperMsTeam/Stepper";
 
 import { EntitlementsStyle } from "./styles";
+// import PendingQueries from "storage/singletons/PendingQueries";
+import O365TenantSkeleton from "./O365TenantSkeleton";
 
 const O365Tenant: FC = () => {
   const {
@@ -23,14 +25,13 @@ const O365Tenant: FC = () => {
     isError,
     checkOnboarding,
   } = MsTeamOnboarding;
-
   const [startOnboard, setOnboard] = useState("");
 
   const {
     getMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
-    getCheckMsTeamAdmin,
+    // getCheckMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdminStorage;
 
@@ -46,9 +47,9 @@ const O365Tenant: FC = () => {
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
     currentStepTenantData({ tenantID, subscriptionID });
-    getCheckMsTeamAdmin(tenantID, subscriptionID);
+    // getCheckMsTeamAdmin(tenantID, subscriptionID);
     checkOnboarding(tenantID, subscriptionID);
-
+    console.log("getTenantData");
     return () => {
       MsTeamOnboarding.clearOnboardingProgress();
       clearCashMsTeamAdmin();
@@ -100,7 +101,9 @@ const O365Tenant: FC = () => {
     </span>
   );
 
-  return (
+  return true ? (
+    <O365TenantSkeleton />
+  ) : (
     <>
       {checkMsTeamAdmin?.status === "already_linked" && alredyLinkedText}
       {checkMsTeamAdmin?.status === "onboarded" ? (

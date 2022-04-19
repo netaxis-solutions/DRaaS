@@ -24,6 +24,8 @@ import StartedText from "./components/StartedText";
 import DeleteAdminModal from "./components/DeleteAdminModal";
 
 import { EntitlementsStyle } from "./styles";
+import PendingQueries from "storage/singletons/PendingQueries";
+import O365AdminSkeleton from "./O365AdminSkeleton";
 
 const O365Admin: FC = () => {
   const { t } = useTranslation();
@@ -39,7 +41,7 @@ const O365Admin: FC = () => {
     createMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
-    getCheckMsTeamAdmin,
+    // getCheckMsTeamAdmin,
     deleteMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdmin;
@@ -50,7 +52,7 @@ const O365Admin: FC = () => {
   }>();
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
-    getCheckMsTeamAdmin(tenantID, subscriptionID);
+    // getCheckMsTeamAdmin(tenantID, subscriptionID);
     return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -110,7 +112,9 @@ const O365Admin: FC = () => {
     checkMsTeamAdmin?.status !== "not_initiated" &&
     checkMsTeamAdmin?.status !== "already_linked";
 
-  return (
+  return PendingQueries.length ? (
+    <O365AdminSkeleton />
+  ) : (
     <div>
       {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (
         <AcceptText userName={msTeamAdmin.msUsername} />

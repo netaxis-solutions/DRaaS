@@ -23,13 +23,16 @@ const InfoPage: FC = () => {
     subscriptionID: string;
   }>();
 
-  const { checkMsTeamAdmin, getCheckMsTeamAdmin } = MsTeamAdminStorage;
+  const {
+    checkMsTeamAdmin,
+    //  getCheckMsTeamAdmin
+  } = MsTeamAdminStorage;
   const { cleanUpOnboarding } = Onboarding;
 
   const { control } = useForm<{ domain: string; tenantID: string }>({});
 
   useEffect(() => {
-    getCheckMsTeamAdmin(tenantID, subscriptionID);
+    // getCheckMsTeamAdmin(tenantID, subscriptionID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
