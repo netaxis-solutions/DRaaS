@@ -18,13 +18,7 @@ export const profileEditSchema = (t: TFunction) =>
 
 export const changePasswordSchema = (t: TFunction) =>
   object().shape({
-    password: string()
-      .label(t("Password"))
-      .when("confirmPassword", {
-        is: (value: any) => value !== "",
-        then: string().min(8),
-        otherwise: s => s.notRequired(),
-      }),
+    password: string().label(t("Password")).min(8),
     confirmPassword: string()
       .label(t("Confirm password"))
       .oneOf([ref("password"), null], t("Passwords must match")),
