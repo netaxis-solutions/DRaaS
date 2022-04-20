@@ -6,16 +6,17 @@ import { useTranslation } from "react-i18next";
 
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import PendingQueries from "storage/singletons/PendingQueries";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { MsTeamLimk } from "components/Icons";
 import InfoPage from "./InfoPage";
 import Stepper from "./StepperMsTeam/Stepper";
+import O365TenantSkeleton from "./O365TenantSkeleton";
 
 import { EntitlementsStyle } from "./styles";
-// import PendingQueries from "storage/singletons/PendingQueries";
-import O365TenantSkeleton from "./O365TenantSkeleton";
 
 const O365Tenant: FC = () => {
   const {
@@ -39,7 +40,7 @@ const O365Tenant: FC = () => {
     tenantID: string;
     subscriptionID: string;
   }>();
-
+  const { byFetchType } = PendingQueries;
   const { t } = useTranslation();
 
   const classes = EntitlementsStyle();
@@ -49,7 +50,6 @@ const O365Tenant: FC = () => {
     currentStepTenantData({ tenantID, subscriptionID });
     // getCheckMsTeamAdmin(tenantID, subscriptionID);
     checkOnboarding(tenantID, subscriptionID);
-    console.log("getTenantData");
     return () => {
       MsTeamOnboarding.clearOnboardingProgress();
       clearCashMsTeamAdmin();
@@ -101,7 +101,9 @@ const O365Tenant: FC = () => {
     </span>
   );
 
-  return true ? (
+  const isLoading = getIsLoading("@getMsTeamAdmin", byFetchType);
+
+  return isLoading ? (
     <O365TenantSkeleton />
   ) : (
     <>
