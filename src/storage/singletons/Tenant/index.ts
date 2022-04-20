@@ -56,7 +56,13 @@ class TenantStore {
         currentOwner: TOwners,
       ) =>
         currentOwner.name
-          ? [...owners, { label: currentOwner.name, value: currentOwner.uuid }]
+          ? [
+              ...owners,
+              {
+                label: `${currentOwner.name} (${currentOwner.type})`,
+                value: currentOwner.uuid,
+              },
+            ]
           : owners,
       [],
     );

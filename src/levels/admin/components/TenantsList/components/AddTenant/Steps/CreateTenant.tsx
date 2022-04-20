@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -16,12 +16,25 @@ import FormInput from "components/common/Form/FormInput";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
 import FormSelect from "components/common/Form/FormSelect";
 import { Percent } from "components/Icons";
+import FormCheckbox from "components/common/Form/FormCheckbox";
 
 import { createTenantStyles } from "./styles";
+
+type TenantPayload = {
+  name: string;
+  owner?: {
+    type: string;
+    uuid: string;
+  };
+  billingId?: string;
+  markup?: number;
+  adminEmail?: string;
+};
 
 const defaultValues = {
   name: "",
   billingId: "",
+  isDirectTenant: true,
   owner: {
     label: "",
     value: "",
@@ -30,10 +43,11 @@ const defaultValues = {
 };
 
 const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
+  const [isDirectTenant, setIsDirectTenant] = useState(true);
   const { t } = useTranslation();
   const classes = createTenantStyles();
-  const { control, handleSubmit } = useForm<TAddTenantValues>({
-    resolver: yupResolver(addTenantSchema(t)),
+  const { control, handleSubmit, setValue } = useForm<TAddTenantValues>({
+    resolver: yupResolver(addTenantSchema(t, isDirectTenant)),
     defaultValues,
   });
 
@@ -57,17 +71,22 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   const onSubmit: SubmitHandler<TAddTenantValues> = ({
     markup,
     owner,
+    isDirectTenant,
     ...values
   }) => {
-    const payload: any = markup
+    console.log(isDirectTenant);
+    const payload: TenantPayload = markup
       ? { markup: +markup, ...values }
       : { ...values };
-    if (owner.value) {
-      const currentOwner = owners!.find((el: any) => el.name === owner.label);
-      payload.owner = {
-        type: currentOwner?.type,
-        uuid: currentOwner?.uuid,
-      };
+    if (owner.value && !isDirectTenant) {
+      const currentOwner = owners!.find(el => el.uuid === owner.value);
+
+      if (currentOwner) {
+        payload.owner = {
+          type: currentOwner.type,
+          uuid: currentOwner.uuid,
+        };
+      }
     }
 
     createTenant({ payload, callback: handleCancel });
@@ -115,21 +134,6 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
           />
         )}
       />
-      {loggedInUserLevel !== "reseller" ? (
-        <Controller
-          name="owner"
-          control={control}
-          render={({ field, ...props }) => (
-            <FormSelect
-              label={t("Owner")}
-              options={tenantOwners}
-              {...field}
-              {...props}
-              className={classes.createResellerInput}
-            />
-          )}
-        />
-      ) : null}
 
       <Controller
         name="markup"
@@ -148,6 +152,43 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
           />
         )}
       />
+      {loggedInUserLevel !== "reseller" && tenantOwners.length > 0 && (
+        <>
+          <Controller
+            name="isDirectTenant"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormCheckbox
+                checked={isDirectTenant}
+                {...field}
+                {...props}
+                label={t("Direct tenant")}
+                onChange={() => {
+                  const newValue = !isDirectTenant;
+                  setIsDirectTenant(newValue);
+                  setValue("isDirectTenant", newValue);
+                }}
+              />
+            )}
+          />
+
+          {!isDirectTenant && (
+            <Controller
+              name="owner"
+              control={control}
+              render={({ field, ...props }) => (
+                <FormSelect
+                  label={t("Owner")}
+                  options={tenantOwners}
+                  {...field}
+                  {...props}
+                  className={classes.createResellerInput}
+                />
+              )}
+            />
+          )}
+        </>
+      )}
     </form>
   );
 };
