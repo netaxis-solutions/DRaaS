@@ -53,15 +53,15 @@ export const urlStartString: UrlStartStringType = {
   },
   distributor: {
     distributor: "",
-    reseller: "resellers/:resellerID",
-    tenant: "resellers/:resellerID/tenants/:tenantID",
+    reseller: "/resellers/:resellerID",
+    tenant: "/resellers/:resellerID/tenants/:tenantID",
     subscription:
-      "resellers/:resellerID/tenants/:tenantID/subscriptions/:subscriptionID",
+      "/resellers/:resellerID/tenants/:tenantID/subscriptions/:subscriptionID",
   },
   reseller: {
     reseller: "",
-    tenant: "tenants/:tenantID",
-    subscription: "tenants/:tenantID/subscriptions/:subscriptionID",
+    tenant: "/tenants/:tenantID",
+    subscription: "/tenants/:tenantID/subscriptions/:subscriptionID",
   },
   tenant: {
     tenant: "/:tenantID",
