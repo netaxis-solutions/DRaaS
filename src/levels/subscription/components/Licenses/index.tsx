@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { FC, useEffect } from "react";
+import { FC, lazy, useEffect } from "react";
 import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
@@ -8,8 +8,9 @@ import { Tab } from "utils/types/tabs";
 
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
-import LicensesList from "./components/LicensesList";
-import EntitlementList from "./components/EntitlementsList";
+
+const LicensesList = lazy(() => import("./components/LicensesList"));
+const EntitlementList = lazy(() => import("./components/EntitlementsList"));
 
 const tabs = [
   {

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { FC, useEffect } from "react";
+import { FC, lazy, useEffect } from "react";
 import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
@@ -10,9 +10,10 @@ import { Tab } from "utils/types/tabs";
 import { t } from "services/Translation";
 
 import Tabs from "components/Tabs";
-import O365Tenant from "./components/O365Tanant";
-import O365Admin from "./components/O365Admin";
-import MsTeamsUsers from "./components/MsTeamsUsers";
+
+const O365Tenant = lazy(() => import("./components/O365Tanant"));
+const O365Admin = lazy(() => import("./components/O365Admin"));
+const MsTeamsUsers = lazy(() => import("./components/MsTeamsUsers"));
 
 const tabs = [
   {

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
 import { useParams } from "react-router-dom";
@@ -6,9 +6,11 @@ import { useParams } from "react-router-dom";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
 
-import SubscriptionNumbersPage from "./components/SubscriptionNumbersPage";
-import Licenses from "./components/Licenses";
-import MsTeams from "./components/MsTeams";
+const SubscriptionNumbersPage = lazy(
+  () => import("./components/SubscriptionNumbersPage"),
+);
+const Licenses = lazy(() => import("./components/Licenses"));
+const MsTeams = lazy(() => import("./components/MsTeams"));
 
 const Subscription = () => {
   const params = useParams<{ tenantID: string; subscriptionID: string }>();
