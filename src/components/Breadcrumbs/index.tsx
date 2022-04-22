@@ -3,10 +3,10 @@ import { observer } from "mobx-react-lite";
 import { useHistory } from "react-router-dom";
 import MUIBreadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
+import { Skeleton } from "@mui/material";
 
 import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
 
-import Loader from "components/Loader/Loader";
 import { ArrowRight } from "components/Icons";
 
 import useStyles from "./styles";
@@ -62,7 +62,9 @@ const Breadcrumbs: FC = () => {
           })}
         </MUIBreadcrumbs>
       ) : (
-        <Loader />
+        <div style={{ maxWidth: 400, padding: "18px 0 0 30px" }}>
+          <Skeleton variant="text" />
+        </div>
       )}
     </>
   );
