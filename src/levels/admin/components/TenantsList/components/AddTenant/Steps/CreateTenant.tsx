@@ -74,10 +74,10 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
     isDirectTenant,
     ...values
   }) => {
-    console.log(isDirectTenant);
     const payload: TenantPayload = markup
       ? { markup: +markup, ...values }
       : { ...values };
+
     if (owner.value && !isDirectTenant) {
       const currentOwner = owners!.find(el => el.uuid === owner.value);
 
