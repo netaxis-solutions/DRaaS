@@ -1,7 +1,7 @@
 import { makeStyles } from "@material-ui/core";
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
-export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
+export const O365Styles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
     maxWidth: 793,
     display: "flex",
@@ -126,5 +126,11 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   SuccessIcon: {
     paddingTop: theme.spacing(0.65),
+  },
+  errorIcon: {
+    height: 20,
+    width: 20,
+    transform: "rotate(0.5turn)",
+    "& >svg": { fill: theme.palette.status.error },
   },
 }));
