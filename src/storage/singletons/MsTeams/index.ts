@@ -18,10 +18,14 @@ class MsTeam {
     });
   }
 
-  getMsTeamUsers = async (tenantID: string, subscriptionID: string) => {
+  getMsTeamUsers = async (
+    tenantID: string,
+    subscriptionID: string,
+    successCallback?: () => void,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users`,
-      loaderName: "@getMsTeamAdmin",
+      loaderName: "@getMsTeamUsers",
     })
       .then((data: AxiosResponse<any>) => {
         const checkMsTeamUsersList = data.data.users;
@@ -29,6 +33,7 @@ class MsTeam {
         runInAction(() => {
           this.msTeamUsersList = checkMsTeamUsersList;
         });
+        successCallback && successCallback();
       })
       .catch(e => {
         console.error(e);
@@ -45,7 +50,7 @@ class MsTeam {
   ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users/${msTeamsUID}`,
-      loaderName: "@getMsTeamAdmin",
+      loaderName: "@getMsTeamNumber",
       method: "put",
       payload: {
         phoneNumber,

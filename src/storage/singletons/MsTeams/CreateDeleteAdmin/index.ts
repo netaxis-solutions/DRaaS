@@ -48,7 +48,7 @@ class MsTeamAdmin {
     this.isLoading = true;
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users`,
-      loaderName: "@getMsTeamAdmin",
+      loaderName: "@getMsTeamUsers",
     })
       .then((data: AxiosResponse<any>) => {
         this.isLoading = false;
