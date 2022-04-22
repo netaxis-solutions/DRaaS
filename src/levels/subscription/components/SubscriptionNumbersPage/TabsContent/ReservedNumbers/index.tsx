@@ -9,6 +9,7 @@ import NumbersStore from "storage/singletons/Numbers";
 import TableSelectedRows from "storage/singletons/TableSelectedRows";
 import EntitlementsStore from "storage/singletons/Entitlements";
 import PendingQueries from "storage/singletons/PendingQueries";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { CustomActionType, TableData } from "utils/types/tableConfig";
 import { AvailableEntitlements } from "utils/types/entitlements";
@@ -37,12 +38,24 @@ const ReservedNumbers: FC = () => {
   const { selectedRowsLength } = TableSelectedRows;
   const { byFetchType } = PendingQueries;
 
+  const {
+    tablePageCounter,
+    tablePageSize,
+    clearPaginationData,
+    search,
+  } = TablePagination;
+
   const classes = useStyles();
 
   useEffect(() => {
     getReservedNumbers(tenantID, subscriptionID);
     getEntitlements(tenantID, subscriptionID);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tablePageCounter, tablePageSize, search]);
+
+  useEffect(() => {
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
