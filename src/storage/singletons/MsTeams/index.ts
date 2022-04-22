@@ -84,6 +84,7 @@ class MsTeam {
     tenantID: string,
     subscriptionID: string,
     msTeamsUID: string,
+    finalCallback?: () => void,
   ) => {
     runInAction(() => {
       this.isChecking = true;
@@ -98,9 +99,7 @@ class MsTeam {
         );
       })
       .finally(() => {
-        runInAction(() => {
-          this.isChecking = false;
-        });
+        finalCallback && finalCallback();
       });
   };
 }
