@@ -9,6 +9,7 @@ export type TAddTenantValues = {
   billingId: string;
   markup: string;
   uuid: string;
+  isDirectTenant?: boolean;
   owner: { value: string; label: string };
 };
 
@@ -16,7 +17,7 @@ export type TCreateTenant = {
   payload: {
     name: string;
     billingId?: string;
-    owner: {
+    owner?: {
       type: string;
       uuid: string;
     };

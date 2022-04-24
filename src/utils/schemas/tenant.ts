@@ -1,7 +1,7 @@
 import { TFunction } from "i18next";
-import { string, object } from "yup";
+import { string, object, boolean } from "yup";
 
-export const addTenantSchema = (t: TFunction) =>
+export const addTenantSchema = (t: TFunction, isDirect?: boolean) =>
   object().shape({
     name: string()
       .required(t("Please fill this field"))
@@ -10,9 +10,14 @@ export const addTenantSchema = (t: TFunction) =>
         excludeEmptyString: true,
       }),
     billingId: string(),
+    isDirectTenant: boolean(),
     owner: object().shape({
       label: string(),
-      value: string().required("Please choose an owner"),
+      value: string().when("isDirectTenant", {
+        is: () => !isDirect,
+        then: string().required(t("Please choose an owner")),
+        otherwise: string(),
+      }),
     }),
     markup: string().matches(
       /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
