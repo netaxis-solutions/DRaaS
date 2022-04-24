@@ -116,11 +116,19 @@ class NumbersStore {
       const data: AxiosResponse<any> = await request({
         route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/number_inventory`,
         loaderName: "@getReservedNumbersData",
-        payload: { params: { status: "reserved" } },
+        payload: {
+          params: {
+            status: "reserved",
+            page: TablePagination.tablePageCounter,
+            page_size: TablePagination.tablePageSize,
+            search: TablePagination.search,
+          },
+        },
       });
       const numbers = data.data.numbers;
 
       runInAction(() => {
+        TablePagination.getTableConfig(data.data);
         this.reservedNumbers = numbers;
       });
     } catch (e) {
