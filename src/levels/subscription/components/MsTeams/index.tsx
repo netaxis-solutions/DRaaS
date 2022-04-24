@@ -22,6 +22,11 @@ const tabs = [
     component: () => <MsTeamsUsers />,
   },
   {
+    name: t("Resource accounts"),
+    id: "resourceAccounts",
+    component: () => <>Resource accounts</>,
+  },
+  {
     name: t("O365 Tenant"),
     id: "o365tenant",
     component: () => <O365Tenant />,
@@ -45,7 +50,7 @@ const MSTeams: FC = () => {
 
   const filteredTabs =
     checkMsTeamAdmin?.status !== "onboarded"
-      ? tabs.filter(el => el.id !== "msTeamsUsers")
+      ? tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin")
       : tabs;
 
   const { allAvailvableRouting } = RoutingConfig;
