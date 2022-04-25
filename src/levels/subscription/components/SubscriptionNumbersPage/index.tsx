@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { useHistory, useParams, Switch, Route } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
@@ -10,8 +10,9 @@ import { Tab } from "utils/types/tabs";
 
 import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
-import MyNumbers from "./TabsContent/AssignedNumbers/MyNumbers";
-import ReservedNumbers from "./TabsContent/ReservedNumbers";
+
+const MyNumbers = lazy(() => import("./TabsContent/AssignedNumbers/MyNumbers"));
+const ReservedNumbers = lazy(() => import("./TabsContent/ReservedNumbers"));
 
 const tabs: Tab[] = [
   {

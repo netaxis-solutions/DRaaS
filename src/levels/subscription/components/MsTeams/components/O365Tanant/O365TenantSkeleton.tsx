@@ -1,8 +1,8 @@
 import Skeleton from "@mui/material/Skeleton";
-import { EntitlementsStyle } from "./styles";
+import { O365Styles } from "./styles";
 
 const O365TenantSkeleton: React.FC = () => {
-  const classes = EntitlementsStyle();
+  const classes = O365Styles();
   return (
     <div className={classes.root}>
       <div className={classes.list}>
