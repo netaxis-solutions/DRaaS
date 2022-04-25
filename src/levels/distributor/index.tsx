@@ -1,10 +1,11 @@
 import { observer } from "mobx-react-lite";
-// import { lazy } from "react";
+import { lazy } from "react";
 import { Route, Switch } from "react-router";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
-// const Resellers = lazy(() => import("./components/Resellers"));
+const Resellers = lazy(() => import("levels/admin/components/ResellersList"));
+const Tenants = lazy(() => import("levels/admin/components/TenantsList"));
 
 const Distributor = () => {
   const { allAvailvableRouting } = RoutingConfig;
@@ -14,13 +15,12 @@ const Distributor = () => {
       <Route
         exact
         path={allAvailvableRouting.distributorResellers}
-        // component={Resellers}
-        component={() => <div>Distributor Resellers</div>}
+        component={Resellers}
       />
       <Route
         exact
         path={allAvailvableRouting.distributorTenants}
-        component={() => <div>distributorTenants</div>}
+        component={Tenants}
       />
       <Route
         exact
