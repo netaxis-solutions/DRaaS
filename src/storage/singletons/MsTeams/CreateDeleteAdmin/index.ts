@@ -66,7 +66,7 @@ class MsTeamAdmin {
   getCheckMsTeamAdmin = async (tenantID: string, subscriptionID: string) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/status`,
-      loaderName: "@getMsTeamAdmin",
+      loaderName: "@getCheckMsTeamAdmin",
     })
       .then((data: AxiosResponse<any>) => {
         const checkMsTeamAdmin = data.data;

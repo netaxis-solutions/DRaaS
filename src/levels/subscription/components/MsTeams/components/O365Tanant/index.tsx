@@ -6,12 +6,15 @@ import { useTranslation } from "react-i18next";
 
 import MsTeamOnboarding from "storage/singletons/MsTeams/Onboarding";
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import PendingQueries from "storage/singletons/PendingQueries";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { MsTeamLimk } from "components/Icons";
 import InfoPage from "./InfoPage";
 import Stepper from "./StepperMsTeam/Stepper";
+import O365TenantSkeleton from "./O365TenantSkeleton";
 
 import { O365Styles } from "./styles";
 
@@ -23,14 +26,13 @@ const O365Tenant: FC = () => {
     isError,
     checkOnboarding,
   } = MsTeamOnboarding;
-
   const [startOnboard, setOnboard] = useState("");
 
   const {
     getMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
-    getCheckMsTeamAdmin,
+    // getCheckMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdminStorage;
 
@@ -38,7 +40,7 @@ const O365Tenant: FC = () => {
     tenantID: string;
     subscriptionID: string;
   }>();
-
+  const { byFetchType } = PendingQueries;
   const { t } = useTranslation();
 
   const classes = O365Styles();
@@ -46,9 +48,8 @@ const O365Tenant: FC = () => {
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
     currentStepTenantData({ tenantID, subscriptionID });
-    getCheckMsTeamAdmin(tenantID, subscriptionID);
+    // getCheckMsTeamAdmin(tenantID, subscriptionID);
     checkOnboarding(tenantID, subscriptionID);
-
     return () => {
       MsTeamOnboarding.clearOnboardingProgress();
       clearCashMsTeamAdmin();
@@ -100,7 +101,11 @@ const O365Tenant: FC = () => {
     </span>
   );
 
-  return (
+  const isLoading = getIsLoading("@getMsTeamAdmin", byFetchType);
+
+  return isLoading ? (
+    <O365TenantSkeleton />
+  ) : (
     <>
       {checkMsTeamAdmin?.status === "already_linked" && alredyLinkedText}
       {checkMsTeamAdmin?.status === "onboarded" ? (

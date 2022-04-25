@@ -1,4 +1,4 @@
-import { createStyles } from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core";
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
@@ -44,5 +44,15 @@ export default createStyles((theme: ThemeDefaultOptions) => ({
   indicator: {
     display: "none",
     borderBottom: "1px solid" + theme.palette.icon.hover,
+  },
+}));
+
+export const skeletonTabsStyles = makeStyles(() => ({
+  tab: {
+    borderRadius: "6px 6px 0 0",
+  },
+  tabsContainer: {
+    display: "flex",
+    gap: 1,
   },
 }));

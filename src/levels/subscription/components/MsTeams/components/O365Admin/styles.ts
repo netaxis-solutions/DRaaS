@@ -130,3 +130,23 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     gap: theme.spacing(1.15),
   },
 }));
+
+export const O365AdminSkeletonStyles = makeStyles(
+  (theme: ThemeDefaultOptions) => ({
+    buttonsWrapper: {
+      display: "flex",
+      justifyContent: "flex-end",
+      gap: theme.spacing(1.25),
+      width: 500,
+      "& >*": {
+        borderRadius: 5,
+      },
+    },
+    text: {
+      marginBottom: "20px!important",
+    },
+    rectangle: {
+      marginBottom: 15,
+    },
+  }),
+);

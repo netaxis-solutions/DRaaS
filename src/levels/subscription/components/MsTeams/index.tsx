@@ -10,7 +10,6 @@ import { Tab } from "utils/types/tabs";
 import { t } from "services/Translation";
 
 import Tabs from "components/Tabs";
-import Loader from "components/Loader/Loader";
 import O365Tenant from "./components/O365Tanant";
 import O365Admin from "./components/O365Admin";
 import MsTeamsUsers from "./components/MsTeamsUsers";
@@ -81,7 +80,6 @@ const MSTeams: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabs, params]);
 
-  if (params.tabID === ":tabID") return <Loader />;
   return (
     <>
       <Tabs

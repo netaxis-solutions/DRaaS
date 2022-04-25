@@ -12,8 +12,10 @@ import clsx from "clsx";
 
 import { TCreateUpdateMsAdmin, TCreateMsAdmin } from "utils/types/msTeam";
 import { msTeamCreateAdmin } from "utils/schemas/msTeamsCreateAdmin";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import MsTeamAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import PendingQueries from "storage/singletons/PendingQueries";
 
 import { AlertOutline } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
@@ -22,6 +24,7 @@ import { MsTeamLimk, Trash } from "components/Icons";
 import AcceptText from "./components/AcceptText";
 import StartedText from "./components/StartedText";
 import DeleteAdminModal from "./components/DeleteAdminModal";
+import O365AdminSkeleton from "./O365AdminSkeleton";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -39,10 +42,11 @@ const O365Admin: FC = () => {
     createMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
-    getCheckMsTeamAdmin,
+    // getCheckMsTeamAdmin,
     deleteMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdmin;
+  const { byFetchType } = PendingQueries;
 
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -50,7 +54,7 @@ const O365Admin: FC = () => {
   }>();
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
-    getCheckMsTeamAdmin(tenantID, subscriptionID);
+    // getCheckMsTeamAdmin(tenantID, subscriptionID);
     return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -110,7 +114,11 @@ const O365Admin: FC = () => {
     checkMsTeamAdmin?.status !== "not_initiated" &&
     checkMsTeamAdmin?.status !== "already_linked";
 
-  return (
+  const isLoading = getIsLoading("@getMsTeamAdmin", byFetchType);
+
+  return isLoading ? (
+    <O365AdminSkeleton />
+  ) : (
     <div>
       {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (
         <AcceptText userName={msTeamAdmin.msUsername} />
