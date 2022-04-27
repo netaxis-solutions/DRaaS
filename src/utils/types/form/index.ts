@@ -30,6 +30,7 @@ export type InputPropsType = {
   type?: string;
   helper?: string;
   labelShrink?: boolean;
+  InputProps?: { [key: string]: any };
 };
 
 export type SearchInputType = {

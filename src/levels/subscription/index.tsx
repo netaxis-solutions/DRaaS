@@ -11,6 +11,9 @@ const SubscriptionNumbersPage = lazy(
 );
 const Licenses = lazy(() => import("./components/Licenses"));
 const MsTeams = lazy(() => import("./components/MsTeams"));
+const SubscriptionProfile = lazy(
+  () => import("./components/SubscriptionProfile"),
+);
 
 const Subscription = () => {
   const params = useParams<{ tenantID: string; subscriptionID: string }>();
@@ -59,8 +62,8 @@ const Subscription = () => {
       />
       <Route
         exact
-        path={allAvailvableRouting.subscriptionProfile}
-        component={() => <div>subscriptionProfile</div>}
+        path={`${allAvailvableRouting.subscriptionProfile}/:tabID?`}
+        component={() => <SubscriptionProfile />}
       />
     </Switch>
   );

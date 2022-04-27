@@ -1,17 +1,19 @@
-import { useEffect, lazy } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Switch, Route } from "react-router-dom";
 
 import loginStore from "storage/singletons/Login";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import { urlStartString } from "utils/constants/routes";
-import Loader from "components/Loader";
 import MainLayout from "components/MainLayout";
 
 import Admin from "./admin";
 import Distributor from "./distributor";
 import Reseller from "./reseller";
 import Tenant from "./tenant";
+// import Subscription from "./subscription";
+import SuspenseLoader from "components/Loader/Loader";
+import Loader from "components/Loader";
 
 const Subscription = lazy(() => import("./subscription"));
 
@@ -27,32 +29,34 @@ const Content: React.FC = () => {
   return loggedInUserLevel ? (
     <MainLayout>
       <Loader>
-        <Switch>
-          <Route
-            path={urlStartString[loggedInUserLevel].subscription}
-            component={Subscription}
-          />
-          <Route
-            // @ts-ignore
-            path={urlStartString[loggedInUserLevel].tenant}
-            component={Tenant}
-          />
-          {loggedInUserLevel !== "tenant" && (
+        <Suspense fallback={<SuspenseLoader />}>
+          <Switch>
+            <Route
+              path={urlStartString[loggedInUserLevel].subscription}
+              component={Subscription}
+            />
             <Route
               // @ts-ignore
-              path={urlStartString[loggedInUserLevel].reseller}
-              component={Reseller}
+              path={urlStartString[loggedInUserLevel].tenant}
+              component={Tenant}
             />
-          )}
-          {(loggedInUserLevel === "distributor" ||
-            loggedInUserLevel === "system") && (
-            <Route
-              path={urlStartString[loggedInUserLevel].distributor}
-              component={Distributor}
-            />
-          )}
-          <Route path={""} component={Admin} />
-        </Switch>
+            {loggedInUserLevel !== "tenant" && (
+              <Route
+                // @ts-ignore
+                path={urlStartString[loggedInUserLevel].reseller}
+                component={Reseller}
+              />
+            )}
+            {(loggedInUserLevel === "distributor" ||
+              loggedInUserLevel === "system") && (
+              <Route
+                path={urlStartString[loggedInUserLevel].distributor}
+                component={Distributor}
+              />
+            )}
+            <Route path={""} component={Admin} />
+          </Switch>
+        </Suspense>
       </Loader>
     </MainLayout>
   ) : null;

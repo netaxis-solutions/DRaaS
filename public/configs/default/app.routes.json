@@ -31,12 +31,12 @@
   },
   "subscription": {
     "subscriptionLicenses": {
-       "enabled": true ,
-       "tabs":{
-         "licensesList": true,
-         "entitlementsList": true
-       }
-      },
+      "enabled": true,
+      "tabs": {
+        "licensesList": true,
+        "entitlementsList": true
+      }
+    },
     "subscriptionNumbers": {
       "enabled": true,
       "tabs": {
@@ -46,14 +46,20 @@
         "porting": true
       }
     },
-    "subscriptionMSTeams": { 
-      "enabled": true ,
-      "tabs":{
+    "subscriptionMSTeams": {
+      "enabled": true,
+      "tabs": {
         "o365tenant": true,
         "o365admin": true
       }
     },
     "subscriptionSIPTrunks": { "enabled": true },
-    "subscriptionProfile": { "enabled": true }
+    "subscriptionProfile": {
+      "enabled": true,
+      "tabs": {
+        "profile": true,
+        "locations": true
+      }
+    }
   }
 }

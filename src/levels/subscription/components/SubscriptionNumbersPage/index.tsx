@@ -72,7 +72,7 @@ const SubscriptionNumbersPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabs, params]);
-
+  console.log("numbers");
   if (params.tabID === ":tabID") return <Loader />;
   return (
     <>

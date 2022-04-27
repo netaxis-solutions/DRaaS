@@ -90,6 +90,7 @@ export const Input: React.FC<InputPropsType> = ({
   helper,
   type = "text",
   labelShrink,
+  InputProps,
   ...rest
 }) => {
   const [isPwdVisible, setPwdVisibility] = useState(false);
@@ -139,7 +140,12 @@ export const Input: React.FC<InputPropsType> = ({
         variant="outlined"
         onChange={handleChange}
         fullWidth
-        InputProps={{ ...dataError, ...iconRender, classes: inputClasses }}
+        InputProps={{
+          ...dataError,
+          ...iconRender,
+          classes: inputClasses,
+          ...InputProps,
+        }}
         InputLabelProps={{ classes: labelClasses, shrink: labelShrink }}
         type={typeOption}
         data-type={type}

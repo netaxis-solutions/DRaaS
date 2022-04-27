@@ -2,16 +2,17 @@ import Skeleton from "@mui/material/Skeleton";
 
 import { skeletonTabsStyles } from "./styles";
 
-const Tabs: React.FC<{ tabsAmount: number }> = ({ tabsAmount = 3 }) => {
+const TabsSkeleton: React.FC<{ tabsAmount: number }> = ({ tabsAmount = 3 }) => {
   const classes = skeletonTabsStyles();
   const tabs = new Array(tabsAmount).fill(true);
+
   return (
     <>
       <div className={classes.tabsContainer}>
         {tabs.map(() => (
           <Skeleton
             variant={"rectangular"}
-            width={120}
+            width={100}
             height={40}
             className={classes.tab}
           />
@@ -27,4 +28,4 @@ const Tabs: React.FC<{ tabsAmount: number }> = ({ tabsAmount = 3 }) => {
   );
 };
 
-export default Tabs;
+export default TabsSkeleton;
