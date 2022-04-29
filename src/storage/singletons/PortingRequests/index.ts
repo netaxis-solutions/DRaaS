@@ -19,6 +19,7 @@ class PortingRequestsStore {
   portingRequirements: PortingRequirements = [];
   defaultOperatorId: number | null = null;
   requiredDocuments: DocumentsType = [];
+  currentDocuments: Array<any> = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -53,18 +54,47 @@ class PortingRequestsStore {
     subscriptionID: string,
     id: number | string,
   ) => {
-    try {
-      const data = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/porting/requests/${id}`,
-        loaderName: "@getExactPortingRequest",
+    return await request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/porting/requests/${id}`,
+      loaderName: "@getExactPortingRequest",
+    })
+      .then((data: AxiosResponse<any>) => {
+        const currentRequest = data.data;
+
+        runInAction(() => {
+          this.currentPortingRequest = currentRequest;
+          this.currentDocuments = currentRequest.attachments || [];
+        });
+      })
+      .catch(() => {
+        this.currentDocuments = [];
       });
-      const currentRequest = data.data;
-      runInAction(() => {
-        this.currentPortingRequest = currentRequest;
+  };
+
+  getCurrentRequestDocuments = async (
+    tenantID: string,
+    subscriptionID: string,
+    id: number | string,
+    finalCallback?: () => void,
+  ) => {
+    await request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/porting/requests/${id}`,
+      loaderName: "@getCurrentRequestDocuments",
+    })
+      .then((data: AxiosResponse<any>) => {
+        const attachments = data.data.attachments;
+        runInAction(() => {
+          this.currentDocuments = attachments || [];
+        });
+      })
+      .catch(() => {
+        runInAction(() => {
+          this.currentDocuments = [];
+        });
+      })
+      .finally(() => {
+        finalCallback && finalCallback();
       });
-    } catch (e) {
-      this.currentPortingRequest = {};
-    }
   };
 
   setCurrentRequestId = (requestId: number) => {
@@ -72,7 +102,7 @@ class PortingRequestsStore {
   };
 
   getPortingRequirements = async () => {
-    request({
+    return await request({
       route: `${configStore.config.draasInstance}/public/porting/requirements`,
       loaderName: "@getPortingRequirements",
     })
@@ -103,6 +133,24 @@ class PortingRequestsStore {
     }).then(data => {
       successCallback && successCallback(data.data);
     });
+  };
+
+  getRequestInfoModalData = async (
+    tenantID: string,
+    subscriptionID: string,
+    currentRequestId: string | number,
+    successCallback: () => void,
+  ) => {
+    Promise.all([
+      this.getExactPortingRequest(tenantID, subscriptionID, currentRequestId),
+      this.getPortingRequirements(),
+    ])
+      .then(() => {
+        runInAction(() => {
+          successCallback && successCallback();
+        });
+      })
+      .catch(() => {});
   };
 
   getDefaultOperatorId = async () => {
@@ -136,7 +184,8 @@ class PortingRequestsStore {
     failCallback?: () => void,
   ) => {
     const file = new FormData();
-    file.append(attachmentKey, attachment);
+    file.append("description", attachmentKey);
+    file.append("content", attachment);
 
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subId}/porting/requests/${portId}/attachments`,
@@ -148,10 +197,7 @@ class PortingRequestsStore {
         Accept: "multipart/form-data",
       },
     })
-      .then((data: AxiosResponse<any>) => {
-        runInAction(() => {
-          this.requiredDocuments = data.data.documents;
-        });
+      .then(() => {
         successCallback && successCallback();
       })
       .catch(e => {
@@ -190,18 +236,31 @@ class PortingRequestsStore {
     tenantId: string,
     subId: string,
     portId: string | number,
-    documentId: string,
+    documentId: number,
+    successCallback?: () => void,
+    failCallback?: () => void,
   ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subId}/porting/requests/${portId}/attachments/${documentId}`,
       loaderName: "@deleteAttachment",
       method: "delete",
-    });
+    })
+      .then(() => {
+        successCallback && successCallback();
+      })
+      .catch(() => {
+        failCallback && failCallback();
+      });
   };
 
   clearCurrentRequest = () => {
     this.currentRequestId = null;
     this.currentPortingRequest = {};
+    this.portingRequests = [];
+    this.portingRequirements = [];
+    this.defaultOperatorId = null;
+    this.requiredDocuments = [];
+    this.currentDocuments = [];
   };
 }
 

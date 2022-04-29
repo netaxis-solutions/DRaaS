@@ -29,7 +29,11 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
     isSubmitButtonDisabled,
   } = MultiStepForm;
 
-  const { getDefaultOperatorId, getPortingRequirements } = PortingRequests;
+  const {
+    getDefaultOperatorId,
+    getPortingRequirements,
+    clearCurrentRequest,
+  } = PortingRequests;
 
   useEffect(() => {
     setSteps([
@@ -47,7 +51,10 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
     ]);
     getPortingRequirements();
     getDefaultOperatorId();
-    return () => clearMultiStep();
+    return () => {
+      clearMultiStep();
+      clearCurrentRequest();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

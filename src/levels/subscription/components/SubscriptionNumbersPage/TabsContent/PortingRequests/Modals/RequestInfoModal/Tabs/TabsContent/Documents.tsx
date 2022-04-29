@@ -1,20 +1,28 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 
 import PortingRequests from "storage/singletons/PortingRequests";
+import { errorNotification } from "utils/functions/notifications";
 
-import FileInput from "components/common/Form/FileInput";
+import DocumentsList from "../../../DocumentsList";
 
 import { documentsStyles } from "../../styles";
 
+type OnFileChange = (
+  name: string,
+) => (file: File, setIsLoading: (isLoading: boolean) => void) => void;
+
 const Documents: React.FC = () => {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
   const {
-    addAttachment,
     requiredDocuments,
+    currentDocuments,
     currentRequestId,
-    currentPortingRequest,
+    getCurrentRequestDocuments,
+    addAttachment,
     deleteAttachment,
   } = PortingRequests;
 
@@ -24,45 +32,92 @@ const Documents: React.FC = () => {
   }>();
   const classes = documentsStyles();
 
-  return (
+  useEffect(() => {
+    setLoading(true);
+
+    if (currentRequestId) {
+      getCurrentRequestDocuments(
+        tenantID,
+        subscriptionID,
+        currentRequestId,
+        () => setLoading(false),
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onFileDelete = (
+    id: number,
+    setIsLoading: (newState: boolean) => void,
+  ) => {
+    const onSuccess = () => {
+      setLoading(true);
+      getCurrentRequestDocuments(
+        tenantID,
+        subscriptionID,
+        currentRequestId!,
+        () => {
+          setIsLoading(false);
+          setLoading(false);
+        },
+      );
+    };
+
+    const onError = () => {
+      setIsLoading(false);
+      errorNotification(t("Error occurred while loading file"));
+    };
+
+    setIsLoading(true);
+
+    deleteAttachment(
+      tenantID,
+      subscriptionID,
+      currentRequestId!,
+      id,
+      onSuccess,
+      onError,
+    );
+  };
+
+  const onFileChange: OnFileChange = name => (file, setIsLoading) => {
+    setIsLoading(true);
+    addAttachment(
+      tenantID,
+      subscriptionID,
+      currentRequestId!,
+      name,
+      file,
+      () => {
+        setLoading(true);
+        getCurrentRequestDocuments(
+          tenantID,
+          subscriptionID,
+          currentRequestId!,
+          () => {
+            setIsLoading(false);
+            setLoading(false);
+          },
+        );
+      },
+      () => setIsLoading(false),
+    );
+  };
+
+  return loading ? (
+    <>Loading...</>
+  ) : (
     <div className={classes.cardsWrapper}>
-      {requiredDocuments.length
-        ? requiredDocuments.map(({ name, allowedFormats }) => {
-            const currentFileInfo = currentPortingRequest.attachments?.find(
-              (attachment: { description: string }) =>
-                attachment?.description === name,
-            );
-            return (
-              <FileInput
-                header={t(`dynamic:${name}_documentHeader`)}
-                description={t(`dynamic:${name}_documentDescription`)}
-                allowedFormats={allowedFormats}
-                fileInfo={currentFileInfo}
-                name={name}
-                onDelete={() => {
-                  deleteAttachment(
-                    tenantID,
-                    subscriptionID,
-                    currentRequestId!,
-                    name,
-                  );
-                }}
-                onChangeController={(file, setFieldState) => {
-                  setFieldState("initiated");
-                  addAttachment(
-                    tenantID,
-                    subscriptionID,
-                    currentRequestId!,
-                    name,
-                    file,
-                    () => setFieldState("success"),
-                    () => setFieldState("failed"),
-                  );
-                }}
-              />
-            );
-          })
-        : t("No documents neded")}
+      {requiredDocuments.length ? (
+        <DocumentsList
+          requiredDocuments={requiredDocuments}
+          currentDocuments={currentDocuments}
+          onFileChange={onFileChange}
+          onFileDelete={onFileDelete}
+        />
+      ) : (
+        t("No documents neded")
+      )}
     </div>
   );
 };

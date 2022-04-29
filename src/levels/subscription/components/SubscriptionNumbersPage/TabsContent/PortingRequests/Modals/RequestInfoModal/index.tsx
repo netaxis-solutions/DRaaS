@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -14,10 +14,12 @@ import Modal from "components/Modal";
 import RouteIndependedTabs from "components/Tabs/RouteIndependedTabs";
 import PortingRequestDetails from "./Tabs/TabsContent/PortingRequestDetails";
 import PortingNumbers from "./Tabs/TabsContent/PortingNumbers";
+import PortingRequestErrors from "./Tabs/TabsContent/Errors";
 import { Cross, InfoIcon } from "components/Icons";
 import Tooltip from "components/Tooltip";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import Documents from "./Tabs/TabsContent/Documents";
+
 import { requestModalStyles } from "./styles";
 
 const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
@@ -25,7 +27,6 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const classes = requestModalStyles();
-
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
     subscriptionID: string;
@@ -36,15 +37,18 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
     activatePortRequest,
     cancelPortRequest,
     clearCurrentRequest,
-    getExactPortingRequest,
-    getPortingRequirements,
   } = PortingRequestsStore;
 
   const requestTabs: Tab[] = [
     {
+      name: t("Request details"),
+      id: "details",
+      component: () => <PortingRequestDetails />,
+    },
+    {
       name: (
         <div className={classes.tab}>
-          {t("Request details")}
+          {t("Errors")}
           {currentPortingRequest?.capabilities?.isError && (
             <Tooltip
               title={t("An error(s) occured while processing your request")}
@@ -56,13 +60,8 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
           )}
         </div>
       ),
-      id: "details",
-      component: () => <PortingRequestDetails />,
-    },
-    {
-      name: t("Enterprise info"),
-      id: "info",
-      component: () => <div>Enterprise info</div>,
+      id: "errors",
+      component: () => <PortingRequestErrors />,
     },
     {
       name: t("Porting numbers"),
@@ -76,10 +75,28 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
     },
   ];
 
+  const [filteredTabs, setFilteredTabs] = useState<Tab[]>(requestTabs);
+
   useEffect(() => {
     if (currentRequestId) {
-      getExactPortingRequest(tenantID, subscriptionID, currentRequestId);
-      getPortingRequirements();
+      const tabFormatter = () => {
+        let finalTabs = [...requestTabs];
+        if (!PortingRequestsStore.requiredDocuments.length) {
+          finalTabs = finalTabs.filter(tab => tab.id !== "documents");
+        }
+        if (
+          !PortingRequestsStore.currentPortingRequest.instance.errors.length
+        ) {
+          finalTabs = finalTabs.filter(tab => tab.id !== "errors");
+        }
+        setFilteredTabs([...finalTabs]);
+      };
+      PortingRequestsStore.getRequestInfoModalData(
+        tenantID,
+        subscriptionID,
+        currentRequestId,
+        tabFormatter,
+      );
     }
     return () => clearCurrentRequest();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,7 +116,7 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
         {isLoading || !Object.values(currentPortingRequest).length ? (
           "Loading..."
         ) : (
-          <RouteIndependedTabs tabs={requestTabs} />
+          <RouteIndependedTabs tabs={filteredTabs} />
         )}
       </Modal>
       {currentRequestId && (

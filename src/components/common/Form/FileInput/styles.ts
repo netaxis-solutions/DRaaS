@@ -44,9 +44,23 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   },
   fileNameBlock: {
     display: "flex",
-    justifyContent: "space-between",
+    gap: theme.spacing(1.25),
   },
   unattachFileButton: {
     background: theme.palette.status.error,
+  },
+  crossWrapper: {
+    "& button": {
+      height: 14,
+      width: 12,
+      "&:active": {
+        background: "transparent",
+        transform: "scale(90%)",
+      },
+    },
+    "& path": {
+      fill: "red",
+      height: 14,
+    },
   },
 }));

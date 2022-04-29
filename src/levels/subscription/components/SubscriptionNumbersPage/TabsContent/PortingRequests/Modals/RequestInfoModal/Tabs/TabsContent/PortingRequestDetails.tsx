@@ -55,21 +55,23 @@ const PortingRequestDetails: React.FC = () => {
     [t],
   );
 
-  const [cardData, setCardData] = useState(defaultFields);
+  const [cardsData, setCardsData] = useState([defaultFields]);
 
   useEffect(() => {
-    setCardData([
-      ...defaultFields,
+    setCardsData([
+      ...cardsData,
       ...portingRequirements[0].inputs.reduce(
         (
-          sum: Array<{
-            fieldName: string;
-            fieldValue: any;
-          }>,
+          sections: Array<
+            Array<{
+              fieldName: string;
+              fieldValue: any;
+            }>
+          >,
           { parameters },
         ) => [
-          ...sum,
-          ...parameters.map(({ name }) => ({
+          ...sections,
+          parameters.map(({ name }) => ({
             fieldName: t(`dynamic:${name}_label`),
             fieldValue: request[name],
           })),
@@ -82,16 +84,20 @@ const PortingRequestDetails: React.FC = () => {
   }, []);
 
   return (
-    <div className={classes.portingDetails}>
-      {cardData.map(field => {
-        return (
-          <div key={field.fieldName} className={classes.fieldWrapper}>
-            <span className={classes.fieldName}>{field.fieldName} </span>{" "}
-            <span>{field.fieldValue} </span>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      {cardsData.map(cardData => (
+        <div className={classes.portingDetails}>
+          {cardData.map(field => {
+            return (
+              <div key={field.fieldName} className={classes.fieldWrapper}>
+                <span className={classes.fieldName}>{field.fieldName} </span>{" "}
+                <span>{field.fieldValue} </span>
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </>
   );
 };
 
