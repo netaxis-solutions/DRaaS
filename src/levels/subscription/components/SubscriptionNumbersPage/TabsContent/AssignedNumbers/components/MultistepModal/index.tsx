@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { TAddTenantFormProps } from "utils/types/tenant";
 
@@ -29,6 +30,10 @@ const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
     isSubmitButtonDisabled,
   } = MultiStepForm;
 
+  const {
+    clearPaginationData,
+  } = TablePagination;
+
   useEffect(() => {
     setSteps([
       {
@@ -49,11 +54,17 @@ const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   const handlePrevious = () => {
     goBack(handleCancel);
   };
+
+  const handleCalcelModal = () => {
+    clearPaginationData()
+    handleCancel()
+  }
+
   return (
     <>
       <Modal
         title={t("Add numbers from inventory")}
-        handleCancel={handleCancel}
+        handleCancel={handleCalcelModal}
         steps={steps}
         activeStep={activeStep}
         className={classes.modalWrapper}

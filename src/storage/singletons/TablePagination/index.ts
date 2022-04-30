@@ -44,6 +44,7 @@ class TablePagination {
     runInAction(() => {
       this.tablePageSize = payload;
       this.tablePageCounter = 1;
+      this.tablePageSizeWithoutPagination = this.tablePageSize;
     });
   };
 
@@ -97,6 +98,7 @@ class TablePagination {
     if (param) {
       this.tableWithOutServerPagination = true;
     }
+    this.tablePageSize = this.tablePageSizeWithoutPagination;
     const formatter = param === 0 ? 1 : param;
     this.tableConfig = { page: 1, pages: formatter };
   };
