@@ -141,7 +141,6 @@ class NumbersStore {
     subscriptionID: string,
     payload: CountryCodeWithRanges,
     successCallback?: () => void,
-    clearPagination?: () => void
   ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
@@ -150,10 +149,8 @@ class NumbersStore {
       payload,
     })
       .then(() => {
-        runInAction(() => {
-          clearPagination && clearPagination()
-          this.getNumbersData(tenantID, subscriptionID);
-        });
+        successCallback && successCallback();
+        this.getNumbersData(tenantID, subscriptionID);
         successNotification(
           t("numbers and ranges were assigned", {
             numberAmount:
@@ -162,7 +159,6 @@ class NumbersStore {
             rangesAmount: payload.ranges.length,
           }),
         );
-        successCallback && successCallback();
       })
       .catch(e => {
         errorNotification(e);

@@ -94,34 +94,34 @@ const MyNumbers = () => {
     () =>
       availableEntitlementsNumber
         ? [
-            {
-              id: "delete",
-              title: t("Delete"),
-              icon: Trash,
-              onClick: () => {
-                setModalToOpen("delete");
-              },
+          {
+            id: "delete",
+            title: t("Delete"),
+            icon: Trash,
+            onClick: () => {
+              setModalToOpen("delete");
             },
-            {
-              id: "add",
-              title: t("Add"),
-              icon: Plus,
-              onClick: () => {
-                setModalToOpen("add");
-                clearPaginationData();
-              },
+          },
+          {
+            id: "add",
+            title: t("Add"),
+            icon: Plus,
+            onClick: () => {
+              setModalToOpen("add");
+              clearPaginationData();
             },
-          ]
+          },
+        ]
         : [
-            {
-              id: "delete",
-              title: t("Delete"),
-              icon: Trash,
-              onClick: () => {
-                setModalToOpen("delete");
-              },
+          {
+            id: "delete",
+            title: t("Delete"),
+            icon: Trash,
+            onClick: () => {
+              setModalToOpen("delete");
             },
-          ],
+          },
+        ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [availableEntitlementsNumber],
   );
@@ -161,6 +161,7 @@ const MyNumbers = () => {
   const handleModalClose = () => {
     getNumbersData(tenantID, subscriptionID);
     setModalToOpen("");
+    clearPaginationData()
   };
 
   const handleDeleteItem = (props: any) => {
