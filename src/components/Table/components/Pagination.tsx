@@ -32,21 +32,19 @@ const Pagination: React.FC<TablePaginationType> = ({
 
   const { page, pages } = tableConfig;
 
-  const currentSelectRows = tablePageSize > data.length && tablePageSize > selectedRows ? selectedRows : pageSize
-
   return (
     <div className={classes.tablePaginationWrapper}>
       {!tableWithOutServerPagination ? (
         <span>
           {!!selectedRows &&
             !isRadioButton &&
-            `${t("Selected")} ${selectedRows}/${currentSelectRows}`}
+            `${t("Selected")} ${selectedRows}/${tablePageSize}`}
         </span>
       ) : (
         <span>
           {!!selectedRows &&
             !isRadioButton &&
-            `${t("Selected")} ${selectedRows}/${currentSelectRows}`}
+            `${t("Selected")} ${selectedRows}/${pageSize}`}
         </span>
       )}
       <div className={classes.tablePaginationActionsWrapper}>
