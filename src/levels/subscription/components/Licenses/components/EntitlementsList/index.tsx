@@ -154,6 +154,7 @@ const EntitlementList: FC = () => {
 
   const handleCloseModal = () => {
     clearTablePagesWithoutServerPaginations(entitlements.length);
+    getEntitlements(tenantID, subscriptionID);
     setModalToOpen("");
   };
 
