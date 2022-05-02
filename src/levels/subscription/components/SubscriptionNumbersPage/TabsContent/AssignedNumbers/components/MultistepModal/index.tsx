@@ -47,7 +47,10 @@ const SelectNumber: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
         component: <RangeSelection handleCancel={handleCancel} />,
       },
     ]);
-    return () => clearMultiStep();
+    return () => {
+      clearMultiStep();
+      clearPaginationData()
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
