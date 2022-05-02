@@ -60,7 +60,7 @@ const Documents: React.FC<{ handleCancel: () => void }> = ({
 
     const onError = () => {
       setIsLoading(false);
-      errorNotification(t("Error occurred while loading file"));
+      errorNotification(t("Error occurred while deleting file"));
     };
 
     setIsLoading(true);
