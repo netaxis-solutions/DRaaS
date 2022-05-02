@@ -10,6 +10,7 @@ import { DocumentsType } from "utils/types/numbers";
 import { errorNotification } from "utils/functions/notifications";
 
 import DocumentsList from "../../DocumentsList";
+import FileInputSkeleton from "components/common/Form/FileInput/FileInputSkeleton";
 
 import { documentsStyles } from "../styles";
 
@@ -90,7 +91,7 @@ const Documents: React.FC<{ handleCancel: () => void }> = ({
   return (
     <form id={"CreatePortingRequest"} onSubmit={handleSubmit(onSubmit)}>
       {isFilesLoading ? (
-        "Loading..."
+        documents.map(() => <FileInputSkeleton />)
       ) : (
         <div className={classes.cardsWrapper}>
           {

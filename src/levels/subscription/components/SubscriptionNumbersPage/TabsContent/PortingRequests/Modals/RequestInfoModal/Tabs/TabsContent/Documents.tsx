@@ -7,6 +7,7 @@ import PortingRequests from "storage/singletons/PortingRequests";
 import { errorNotification } from "utils/functions/notifications";
 
 import DocumentsList from "../../../DocumentsList";
+import FileInputSkeleton from "components/common/Form/FileInput/FileInputSkeleton";
 
 import { documentsStyles } from "../../styles";
 
@@ -65,7 +66,7 @@ const Documents: React.FC = () => {
 
     const onError = () => {
       setIsLoading(false);
-      errorNotification(t("Error occurred while loading file"));
+      errorNotification(t("Error occurred while deleting a file"));
     };
 
     setIsLoading(true);
@@ -105,7 +106,11 @@ const Documents: React.FC = () => {
   };
 
   return loading ? (
-    <>Loading...</>
+    <>
+      {requiredDocuments.map(() => (
+        <FileInputSkeleton />
+      ))}
+    </>
   ) : (
     <div className={classes.cardsWrapper}>
       {requiredDocuments.length ? (

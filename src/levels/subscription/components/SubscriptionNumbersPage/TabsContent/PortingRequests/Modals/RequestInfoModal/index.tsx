@@ -19,6 +19,7 @@ import { Cross, InfoIcon } from "components/Icons";
 import Tooltip from "components/Tooltip";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import Documents from "./Tabs/TabsContent/Documents";
+import TabsSkeleton from "components/Tabs/TabsSkeleton";
 
 import { requestModalStyles } from "./styles";
 
@@ -114,7 +115,7 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
         styleWithSideBar
       >
         {isLoading || !Object.values(currentPortingRequest).length ? (
-          "Loading..."
+          <TabsSkeleton tabsAmount={3} />
         ) : (
           <RouteIndependedTabs tabs={filteredTabs} />
         )}
