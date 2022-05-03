@@ -96,6 +96,7 @@ class MsTeamAdmin {
         },
       });
       this.getMsTeamAdmin(tenantID, subscriptionID);
+      this.getCheckMsTeamAdmin(tenantID, subscriptionID);
     } catch (e) {
       console.error(e);
     }

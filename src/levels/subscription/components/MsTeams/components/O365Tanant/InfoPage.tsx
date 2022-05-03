@@ -13,6 +13,7 @@ import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Unlink } from "components/Icons";
 
 import { O365Styles } from "./styles";
+import { Skeleton } from "@mui/material";
 
 const InfoPage: FC = () => {
   const classes = O365Styles();
@@ -27,7 +28,7 @@ const InfoPage: FC = () => {
     checkMsTeamAdmin,
     //  getCheckMsTeamAdmin
   } = MsTeamAdminStorage;
-  const { cleanUpOnboarding } = Onboarding;
+  const { cleanUpOnboarding, isLoadingUnlinkMsTeamTenant } = Onboarding;
 
   const { control } = useForm<{ domain: string; tenantID: string }>({});
 
@@ -36,6 +37,7 @@ const InfoPage: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (isLoadingUnlinkMsTeamTenant) return <Skeleton />
   return (
     <div className={classes.StatusWrapper}>
       <div>

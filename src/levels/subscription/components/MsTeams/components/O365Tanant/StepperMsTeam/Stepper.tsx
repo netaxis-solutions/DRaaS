@@ -18,27 +18,24 @@ import { EntitlementsStyle } from "./styles";
 
 const steps = [
   {
-    label: "1 Provide credentials of tenant admin",
+    label: "1 Initiate MS Teams tenant in our system",
   },
   {
-    label: "2 Initiate MS Teams tenant in our system",
+    label: "2 Create service principal and set MS Graph gateway",
   },
   {
-    label: "3 Create service principal and set MS Graph gateway",
-  },
-  {
-    label: "4 Set a domain for the tenant and validate it against Microsoft",
+    label: "3 Set a domain for the tenant and validate it against Microsoft",
   },
   {
     label:
-      "5 Add an e-mail service to the domain together with its related DNS entries",
+      "4 Add an e-mail service to the domain together with its related DNS entries",
   },
   {
     label:
-      "6 Create a dummy account and associate an E1 / E3 / E5 license to it",
+      "5 Create a dummy account and associate an E1 / E3 / E5 license to it",
   },
   {
-    label: "7 Create a SBC and remove associated license from the dummy user",
+    label: "6 Create a SBC and remove associated license from the dummy user",
   },
 ];
 
