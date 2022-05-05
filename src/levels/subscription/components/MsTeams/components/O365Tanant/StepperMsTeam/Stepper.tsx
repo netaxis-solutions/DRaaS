@@ -65,7 +65,7 @@ const StepperStart: FC = () => {
     () => {
       checkOnboarding(tenantID, subscriptionID);
       return () => {
-        if (MsTeamOnboarding.activeStep >= 7 && !isRunning) {
+        if (MsTeamOnboarding.activeStep >= 6 && !isRunning) {
           getCheckMsTeamAdmin(tenantID, subscriptionID);
           clearOnboardingProgress();
         }

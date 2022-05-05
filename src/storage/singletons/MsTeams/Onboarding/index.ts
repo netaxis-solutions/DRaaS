@@ -92,7 +92,7 @@ class MsTeamOnboarding {
   get activeStep() {
     return (
       this.currentStep +
-      (this.isRunning && !this.isError ? 1 : this.isError ? 1 : 2)
+      (this.isRunning && !this.isError ? 1 : this.isError ? 1 : 3)
     );
   }
 
