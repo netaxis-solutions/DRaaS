@@ -4,7 +4,10 @@ import { observer } from "mobx-react-lite";
 import { useParams } from "react-router-dom";
 
 import PortingRequests from "storage/singletons/PortingRequests";
-import { errorNotification } from "utils/functions/notifications";
+import {
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
 
 import DocumentsList from "../../../DocumentsList";
 import FileInputSkeleton from "components/common/Form/FileInput/FileInputSkeleton";
@@ -58,6 +61,7 @@ const Documents: React.FC = () => {
         subscriptionID,
         currentRequestId!,
         () => {
+          successNotification(t("Successfully deleted"));
           setIsLoading(false);
           setLoading(false);
         },
@@ -96,12 +100,16 @@ const Documents: React.FC = () => {
           subscriptionID,
           currentRequestId!,
           () => {
+            successNotification(t("Successfully added"));
             setIsLoading(false);
             setLoading(false);
           },
         );
       },
-      () => setIsLoading(false),
+      () => {
+        errorNotification(t("Error occurred while loading a file"));
+        setIsLoading(false);
+      },
     );
   };
 

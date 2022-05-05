@@ -11,6 +11,7 @@ import {
   RequestType,
 } from "utils/types/numbers";
 import TablePagination from "../TablePagination";
+import { t } from "services/Translation";
 
 class PortingRequestsStore {
   portingRequests: Array<RequestType> = [];
@@ -200,11 +201,14 @@ class PortingRequestsStore {
       .then(() => {
         successCallback && successCallback();
       })
-      .catch(e => {
-        runInAction(() => {
-          errorNotification(e);
-        });
+      .catch((...e) => {
+        console.log(e);
         failCallback && failCallback();
+        if (e) {
+          errorNotification(t("File is too big"));
+          return;
+        }
+        errorNotification(e);
       });
   };
 
