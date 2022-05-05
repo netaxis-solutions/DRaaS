@@ -16,29 +16,6 @@ import { Reload } from "components/Icons";
 
 import { EntitlementsStyle } from "./styles";
 
-const steps = [
-  {
-    label: "1 Initiate MS Teams tenant in our system",
-  },
-  {
-    label: "2 Create service principal and set MS Graph gateway",
-  },
-  {
-    label: "3 Set a domain for the tenant and validate it against Microsoft",
-  },
-  {
-    label:
-      "4 Add an e-mail service to the domain together with its related DNS entries",
-  },
-  {
-    label:
-      "5 Create a dummy account and associate an E1 / E3 / E5 license to it",
-  },
-  {
-    label: "6 Create a SBC and remove associated license from the dummy user",
-  },
-];
-
 const StepperStart: FC = () => {
   const { t } = useTranslation();
 
@@ -57,6 +34,7 @@ const StepperStart: FC = () => {
     checkOnboarding,
     startOnboarding,
     clearOnboardingProgress,
+    checkOnboardingData,
     isError,
     isRunning,
   } = MsTeamOnboarding;
@@ -76,9 +54,9 @@ const StepperStart: FC = () => {
   );
 
   const errorInActiveStep =
-    currentStep + 1 >= steps.length
-      ? steps[steps.length - 1]
-      : steps[currentStep + 1];
+    currentStep + 1 >= checkOnboardingData.length
+      ? checkOnboardingData[checkOnboardingData.length - 1]
+      : checkOnboardingData[currentStep + 1];
 
   return (
     <>
@@ -88,10 +66,10 @@ const StepperStart: FC = () => {
           orientation="vertical"
           className={classes.StepperRoot}
         >
-          {steps.map(step => (
-            <Step className={classes.Step} key={step.label}>
+          {checkOnboardingData.map(step => (
+            <Step className={classes.Step} key={step.text}>
               <StepLabel className={classes.StepperLabel}>
-                <span> {step.label}</span>
+                <span> {step.text}</span>
               </StepLabel>
               <StepContent className={classes.StepperContent}>
                 {isError || (!isRunning && activeStep < 8) ? (
@@ -100,7 +78,7 @@ const StepperStart: FC = () => {
                       <span>
                         {" "}
                         {t("Setting up the")}
-                        {errorInActiveStep.label.replace(/^\d+/, "")}{" "}
+                        {errorInActiveStep.text.replace(/^\d+/, "")}{" "}
                         {t("failed")}.{t("You can retry setting up")}.{" "}
                       </span>
                     </div>
