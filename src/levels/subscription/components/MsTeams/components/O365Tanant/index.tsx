@@ -178,7 +178,56 @@ const O365Tenant: FC = () => {
         checkMsTeamAdmin?.status !== "onboarded" &&
         checkMsTeamAdmin?.status !== "already_linked" &&
         checkMsTeamAdmin?.status !== "not_initiated" ? (
-        <Stepper />
+        <div className={classes.root}>
+          {msTeamAdmin.id ? null : topTitleWithLink}
+
+          <div className={classes.list}>
+            <span>
+              {` ${t("Link your Microsoft Teams to our service")}. ${t(
+                "As soon as you link your tenant, you will be able to assign numbers to users (teams)",
+              )}.`}
+            </span>
+            <span className={classes.listTitle}>
+              {` ${t(
+                "Linking this service to Microsoft Teams will do following changes to you Microsoft account",
+              )}`}
+              :
+            </span>
+            <span>
+              <ul>
+                <li> {t("New domain will be added & activated")}</li>
+                <li>
+                  {t("we will link your teams tenant to our platform (SBC)")}
+                </li>
+                <li>
+                  {t("we will setup the voice policies and routes accordingly")}
+                </li>
+              </ul>
+              <span>
+                {` (*) ${t(
+                  "the activation process will create a dummy 0365 user and assign a spare E1, E3 and E5 license",
+                )}. ${t("After activation the user will be deleted again")}.`}
+              </span>
+            </span>
+            <div>
+              {!!disabledButton && startOnboard === "" ? (
+                <ButtonWithIcon
+                  className={classes.buttonConfirm}
+                  title={t("Link MS Teams")}
+                  icon={MsTeamLimk}
+                  onClick={() => goToStep()}
+                />
+              ) : (
+                <ButtonWithIcon
+                  className={classes.buttonConfirm}
+                  title={t("Link MS Teams")}
+                  icon={MsTeamLimk}
+                  disabled
+                />
+              )}
+            </div>
+          </div>
+        </div>
       ) : null}
     </>
   );
