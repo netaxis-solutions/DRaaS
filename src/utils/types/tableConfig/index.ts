@@ -61,6 +61,10 @@ export type TableProps = {
   ) => boolean | number;
   editDisabledCondition?: (rowData: Row<TableData>) => boolean;
   deleteDisabledCondition?: (rowData: Row<TableData>) => boolean;
+  tooltipRemovable?: {
+    text: string;
+    callback: (rowData: Row<TableData>) => boolean;
+  };
 };
 
 export type ToolbarType = {

@@ -45,6 +45,7 @@ const Table: FC<TableProps> = ({
   isEditable = false,
   isRemovable = false,
   customActions,
+  tooltipRemovable,
   actionsDataFormatter,
   isCheckboxAvailable,
   isGeneralCheckboxSelected,
@@ -258,6 +259,7 @@ const Table: FC<TableProps> = ({
                             save
                             cancel
                             rowData={props.row}
+                            tooltipRemovable={tooltipRemovable}
                             onCancel={() => {
                               props.page.forEach(
                                 (el: { [key: string]: RadioSelectRowType }) => {
@@ -282,6 +284,7 @@ const Table: FC<TableProps> = ({
                           edit={isEditable}
                           del={isRemovable}
                           rowData={props.row}
+                          tooltipRemovable={tooltipRemovable}
                           editDisabled={editDisabledCondition}
                           deleteDisabled={deleteDisabledCondition}
                           customActions={
@@ -335,6 +338,7 @@ const Table: FC<TableProps> = ({
                             save
                             cancel
                             rowData={props.row}
+                            tooltipRemovable={tooltipRemovable}
                             onCancel={() => {
                               props.page.forEach(
                                 (el: { [key: string]: RadioSelectRowType }) => {
@@ -358,6 +362,7 @@ const Table: FC<TableProps> = ({
                           edit={isEditable}
                           del={isRemovable}
                           rowData={props.row}
+                          tooltipRemovable={tooltipRemovable}
                           editDisabled={editDisabledCondition}
                           deleteDisabled={deleteDisabledCondition}
                           customActions={

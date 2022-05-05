@@ -9,6 +9,7 @@ import {
   TableData,
 } from "utils/types/tableConfig";
 
+import Tooltip from "components/Tooltip";
 import { Edit, Trash, Cross, Check } from "components/Icons";
 
 import { useStyles } from "./styles";
@@ -19,6 +20,10 @@ const TableActions: FC<
     rowData: Row<TableData>;
     editDisabled?: (row: Row<TableData>) => boolean;
     deleteDisabled?: (row: Row<TableData>) => boolean;
+    tooltipRemovable?: {
+      text: string;
+      callback: (rowData: Row<TableData>) => boolean;
+    };
   }
 > = ({
   edit,
@@ -27,6 +32,7 @@ const TableActions: FC<
   cancel,
   customActions,
   rowData,
+  tooltipRemovable,
   editDisabled = _ => false,
   deleteDisabled = _ => false,
   onEdit,
@@ -36,6 +42,7 @@ const TableActions: FC<
   const classes = useStyles();
   const isEditDisabled = editDisabled(rowData);
   const isDeleteDisabled = deleteDisabled(rowData);
+  const tooltipValidation = tooltipRemovable?.callback(rowData);
   return (
     <div className={classes.tableActionsWrapper}>
       {edit && (
@@ -46,7 +53,17 @@ const TableActions: FC<
 
       {del && (
         <div className={clsx({ [classes.disabled]: isDeleteDisabled })}>
-          <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+          {tooltipValidation ? (
+            <Tooltip
+              arrow
+              title={tooltipRemovable?.text}
+              placement="bottom-end"
+            >
+              <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+            </Tooltip>
+          ) : (
+            <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+          )}
         </div>
       )}
 
