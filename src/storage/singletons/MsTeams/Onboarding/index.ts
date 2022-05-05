@@ -120,7 +120,7 @@ class MsTeamOnboarding {
           this.msTeamInterval =
             configStore.config.msTeamInterval || DEFAULT_STEPS_INTERVAL;
         });
-        if (!isRunning && this.currentStep >= 6) {
+        if (!isRunning && this.currentStep >= 5) {
           successNotification(t("MS Teams was linked to the platform"));
           CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
         }

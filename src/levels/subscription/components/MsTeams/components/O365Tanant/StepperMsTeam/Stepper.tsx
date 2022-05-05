@@ -54,8 +54,8 @@ const StepperStart: FC = () => {
   );
 
   const errorInActiveStep =
-    currentStep + 1 >= checkOnboardingData.length
-      ? checkOnboardingData[checkOnboardingData.length - 1]
+    currentStep + 1 >= checkOnboardingData?.length
+      ? checkOnboardingData[checkOnboardingData?.length - 1]
       : checkOnboardingData[currentStep + 1];
 
   return (
