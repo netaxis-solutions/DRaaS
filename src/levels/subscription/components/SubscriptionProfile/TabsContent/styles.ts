@@ -2,13 +2,45 @@ import { makeStyles } from "@material-ui/core";
 
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
-export const useProfileTabStyles = makeStyles(
-  (theme: ThemeDefaultOptions) => ({
-    profileWrapper: {
-      maxWidth: 400,
+export const useProfileTabStyles = makeStyles((theme: ThemeDefaultOptions) => ({
+  profileWrapper: {
+    display: "flex",
+    maxWidth: 400,
+    gap: theme.spacing(2.5),
+    flexDirection: "column",
+  },
+  warningText: {
+    color: theme.palette.status.alert,
+  },
+  greenLabel: {
+    color: theme.palette.primary.white,
+    background: theme.palette.status.success,
+    width: "100%",
+  },
+  redLabel: {
+    color: theme.palette.status.error,
+    background: theme.palette.secondary.alertBackground,
+  },
+  labelContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    maxWidth: 100,
+    maxHeight: 22,
+    "& >*": {
+      borderRadius: 6,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     },
-    warningText: {
-      color: theme.palette.status.alert,
-    },
-  }),
-);
+  },
+  boldLabel: {
+    fontSize: "1.4rem",
+    lineHeight: "1.6rem",
+    fontWeight: 700,
+  },
+  fieldWithButtonWrapper: {
+    display: "flex",
+    gap: theme.spacing(1.25),
+  },
+}));

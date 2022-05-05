@@ -45,6 +45,8 @@ export type CheckboxType = {
   disabled?: boolean;
   onChange: (e: ChangeEvent<Element>, checked: boolean) => void;
   checked: boolean;
+  helperText?: string;
+  helper?: string;
 };
 
 export type RadioButtonType = {

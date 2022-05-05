@@ -1,40 +1,91 @@
-import { lazy } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { useHistory, useParams, Switch, Route } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
-import SidebarConfig from "storage/singletons/SidebarConfig";
-import { useProfileStyles } from "./styles";
-import { useTranslation } from "react-i18next";
-import SubscriptionProfileSkeleton from "./SubscriptionProfileSkeleton";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 
-const SubscriptionTabs = lazy(() => import("./SubscriptionTabs"));
+import createLink from "services/createLink";
+import { t } from "services/Translation";
+import { Tab } from "utils/types/tabs";
 
-const SubscriptionProfile = () => {
-  const { t } = useTranslation();
-  const { extraLevelData } = SidebarConfig;
-  const classes = useProfileStyles();
+import Tabs from "components/Tabs";
+import TabsSkeleton from "components/Tabs/TabsSkeleton";
 
-  return extraLevelData ? (
+const Locations = lazy(() => import("./TabsContent/Locations"));
+const Profile = lazy(() => import("./TabsContent/Profile"));
+
+const tabs: Tab[] = [
+  {
+    name: t("Profile"),
+    id: "profile",
+    component: () => <Profile />,
+  },
+  {
+    name: t("Locations"),
+    id: "locations",
+    component: () => <Locations />,
+  },
+];
+
+const SubscriptionTabs = () => {
+  const history = useHistory();
+  const params = useParams<{
+    tenantID: string;
+    subscriptionID: string;
+    tabID?: string;
+  }>();
+
+  const { allAvailvableRouting } = RoutingConfig;
+
+  const handleTabClick = (tabID: string) => {
+    const url = createLink({
+      url: `${allAvailvableRouting.subscriptionProfile}/:tabID?`,
+      params: {
+        ...params,
+        tabID,
+      },
+    });
+    history.push(url);
+  };
+
+  useEffect(() => {
+    if (params.tabID === ":tabID" && tabs && tabs.length) {
+      const url = createLink({
+        url: `${allAvailvableRouting.subscriptionProfile}/:tabID?`,
+        params: {
+          ...params,
+          tabID: tabs[0].id,
+        },
+      });
+      history.replace(url);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabs, params]);
+
+  return (
     <>
-      <div className={classes.profileHeaderWrapper}>
-        <div className={classes.subscriptionName}>{extraLevelData?.name}</div>
-        <div className={classes.subscriptionLevel}>{t("Subscription")}</div>
-        <div className={classes.labelContainer}>
-          {extraLevelData.suspensionProfileId ? (
-            <div className={classes.redLabel}>
-              {extraLevelData.suspensionProfileId}
-            </div>
-          ) : (
-            <div className={classes.greenLabel}>{t("Active")}</div>
-          )}
-        </div>
-      </div>
-      <SubscriptionTabs />
-    </>
-  ) : (
-    <>
-      <SubscriptionProfileSkeleton />
+      <Tabs
+        tabs={tabs}
+        url={allAvailvableRouting.subscriptionProfile}
+        onTabChange={handleTabClick}
+        active={params.tabID}
+      />
+      <Suspense fallback={<TabsSkeleton tabsAmount={2} />}>
+        <Switch>
+          {tabs.map(({ id, component: Component }: any) => (
+            <Route
+              exact
+              key={id}
+              path={`${allAvailvableRouting.subscriptionProfile}/${id}`}
+            >
+              <Component />
+            </Route>
+          ))}
+          <Route path="*" />
+        </Switch>
+      </Suspense>
     </>
   );
 };
 
-export default observer(SubscriptionProfile);
+export default observer(SubscriptionTabs);

@@ -22,6 +22,7 @@ export const Checkbox: React.FC<
   onChange,
   disabled,
   checked,
+  helperText,
   isAvailable,
   row,
 }) => {
@@ -31,27 +32,32 @@ export const Checkbox: React.FC<
   };
   const isRowDisabled = (isAvailable && row && !isAvailable(row)) || disabled;
   return (
-    <FormControlLabel
-      control={
-        <MuiCheckbox
-          onChange={handleChange}
-          classes={{ root: classes.root }}
-          checked={checked}
-          icon={
-            <CheckboxIcon
-              className={clsx(classes.icon, {
-                [classes.disabled]: isRowDisabled,
-              })}
-            />
-          }
-          checkedIcon={<CheckboxCheckedIcon className={classes.iconChecked} />}
-        />
-      }
-      label={label}
-      classes={{ label: classes.label }}
-      labelPlacement={labelPlacement}
-      disabled={isRowDisabled}
-    />
+    <>
+      <FormControlLabel
+        control={
+          <MuiCheckbox
+            onChange={handleChange}
+            classes={{ root: classes.root }}
+            checked={checked}
+            icon={
+              <CheckboxIcon
+                className={clsx(classes.icon, {
+                  [classes.disabled]: isRowDisabled,
+                })}
+              />
+            }
+            checkedIcon={
+              <CheckboxCheckedIcon className={classes.iconChecked} />
+            }
+          />
+        }
+        label={label}
+        classes={{ label: classes.label }}
+        labelPlacement={labelPlacement}
+        disabled={isRowDisabled}
+      />
+      {helperText && <span>{helperText}</span>}
+    </>
   );
 };
 
@@ -63,6 +69,7 @@ const FormCheckbox = forwardRef(
       <Checkbox
         checkboxRef={ref}
         helperText={error?.message}
+        error={!!error}
         checked={props.value}
         {...props}
       />
