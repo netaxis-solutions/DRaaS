@@ -31,6 +31,7 @@ const Pagination: React.FC<TablePaginationType> = ({
   } = TablePagination;
 
   const { page, pages } = tableConfig;
+
   return (
     <div className={classes.tablePaginationWrapper}>
       {!tableWithOutServerPagination ? (
@@ -46,11 +47,6 @@ const Pagination: React.FC<TablePaginationType> = ({
             `${t("Selected")} ${selectedRows}/${pageSize}`}
         </span>
       )}
-      <span>
-        {!!selectedRows &&
-          !isRadioButton &&
-          `${t("Selected")} ${selectedRows}/${tablePageSize}`}
-      </span>
       <div className={classes.tablePaginationActionsWrapper}>
         <span className={classes.tablePaginationLinesPerPageTitle}>
           {t("Lines per page")}:

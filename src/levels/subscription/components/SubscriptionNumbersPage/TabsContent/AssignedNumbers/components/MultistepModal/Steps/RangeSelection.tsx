@@ -101,7 +101,7 @@ const RangeSelection: React.FC<{ handleCancel: () => void }> = ({
         ]),
       },
       handleCancel,
-    );
+    )
   };
   useEffect(() => {
     clearTablePagesWithoutServerPaginations(formattedNumberSuggestions.length);

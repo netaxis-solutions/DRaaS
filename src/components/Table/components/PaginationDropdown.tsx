@@ -50,6 +50,7 @@ const PaginationDropdown: React.FC<PaginationDropdownType> = ({
           onChange={(_, value) => {
             setPageSize(Number(value));
             setTableDropDownWithoutPagination(Number(value));
+            setTableDropDown(Number(value))
           }}
           classes={{
             root: classes.autocompleteRoot,

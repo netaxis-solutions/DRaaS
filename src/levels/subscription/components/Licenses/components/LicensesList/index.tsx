@@ -34,6 +34,7 @@ const LicensesList: FC = () => {
   const {
     clearTablePagesWithoutServerPaginations,
     uploadTableConfig,
+    clearPaginationData,
   } = TablePagination;
   const { getSubscriptionLicensesData, licenses, editLicense } = LicensesStore;
   const { byFetchType } = PendingQueries;
@@ -87,6 +88,7 @@ const LicensesList: FC = () => {
     getSubscriptionLicensesData(tenantID, subscriptionID);
     clearTablePagesWithoutServerPaginations(licenses.length);
     uploadTableConfig(true);
+    return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

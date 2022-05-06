@@ -61,7 +61,7 @@ const Table: FC<TableProps> = ({
     setSelectedRowsValues,
   } = TableSelectedRowsStore;
 
-  const { uploadTableConfig } = TablePagination;
+  const { tablePageSize } = TablePagination;
 
   const {
     rows,
@@ -404,20 +404,28 @@ const Table: FC<TableProps> = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.selectedRowIds]);
+
+  useEffect(() => {
+    state.pageSize = tablePageSize;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     return () => {
       if (Object.values(state.selectedRowIds).length) {
         state.selectedRowIds = {};
       }
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRows]);
 
   useEffect(() => {
-    uploadTableConfig();
     return () => {
       TableSelectedRowsStore.clearStorage();
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
