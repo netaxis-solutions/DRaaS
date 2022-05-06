@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
@@ -24,20 +24,12 @@ const InfoPage: FC = () => {
     subscriptionID: string;
   }>();
 
-  const {
-    checkMsTeamAdmin,
-    //  getCheckMsTeamAdmin
-  } = MsTeamAdminStorage;
+  const { checkMsTeamAdmin } = MsTeamAdminStorage;
   const { cleanUpOnboarding, isLoadingUnlinkMsTeamTenant } = Onboarding;
 
   const { control } = useForm<{ domain: string; tenantID: string }>({});
 
-  useEffect(() => {
-    // getCheckMsTeamAdmin(tenantID, subscriptionID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (isLoadingUnlinkMsTeamTenant) return <Skeleton />
+  if (isLoadingUnlinkMsTeamTenant) return <Skeleton />;
   return (
     <div className={classes.StatusWrapper}>
       <div>

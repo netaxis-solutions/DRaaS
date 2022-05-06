@@ -42,7 +42,6 @@ const O365Admin: FC = () => {
     createMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
-    // getCheckMsTeamAdmin,
     deleteMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdmin;
@@ -54,7 +53,6 @@ const O365Admin: FC = () => {
   }>();
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
-    // getCheckMsTeamAdmin(tenantID, subscriptionID);
     return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
