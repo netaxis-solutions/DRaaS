@@ -1,7 +1,7 @@
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 

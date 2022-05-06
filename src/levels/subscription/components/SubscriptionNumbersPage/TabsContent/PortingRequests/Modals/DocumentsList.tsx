@@ -55,9 +55,3 @@ const DocumentsList: React.FC<Props> = ({
 };
 
 export default DocumentsList;
-
-/* 
-
-
-
-*/

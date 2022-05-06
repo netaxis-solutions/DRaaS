@@ -22,8 +22,6 @@ type NumberRange = {
   isCorrect: boolean;
 };
 
-type AllNumbersType = Array<NumberRange>;
-
 const Verification: React.FC = () => {
   const { t } = useTranslation();
   const classes = verificationStyles();
@@ -38,7 +36,7 @@ const Verification: React.FC = () => {
     subscriptionID: string;
   }>();
   const { clearTablePagesWithoutServerPaginations } = TablePagination;
-  const [numbers, setNumbers] = useState<AllNumbersType>(
+  const [numbers, setNumbers] = useState<Array<NumberRange>>(
     MultiStepForm.previousChoices[2].portingNumbers,
   );
   const { defaultOperatorId, createPortingRequest } = PortingRequests;
@@ -65,10 +63,10 @@ const Verification: React.FC = () => {
         accessor: "isCorrect",
         Cell: ({ value }: CellProps<TableProps>) => {
           return value ? (
-            <div className={classes.successStatus}>Success</div>
+            <div className={classes.successStatus}>{t("Success")}</div>
           ) : (
             <div className={classes.failStatus}>
-              Error{" "}
+              {t("Error")}
               <Tooltip
                 placement={"left"}
                 title={t(
@@ -76,7 +74,7 @@ const Verification: React.FC = () => {
                 )}
               >
                 <InfoIcon className={classes.tooltipIcon} />
-              </Tooltip>{" "}
+              </Tooltip>
             </div>
           );
         },

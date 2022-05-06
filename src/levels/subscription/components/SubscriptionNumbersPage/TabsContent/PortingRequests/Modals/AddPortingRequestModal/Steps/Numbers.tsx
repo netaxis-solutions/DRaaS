@@ -152,7 +152,7 @@ const Numbers: React.FC = () => {
         className={classes.numbersTextArea}
       />
       <div className={classes.numbersDescription}>
-        {t("Please include Country Code, City/Area Code and the Local Number")}.{" "}
+        {t("Please include Country Code, City/Area Code and the Local Number")}.
         {t("For example")}:
         <br />
         <br />
