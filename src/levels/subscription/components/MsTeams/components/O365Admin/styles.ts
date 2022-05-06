@@ -130,7 +130,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     gap: theme.spacing(1.15),
   },
   errorNotification: {
-    fill: "red",
+    fill: theme.palette.status.error,
     transform: "rotate(180deg)",
     width: 20,
     height: 20,

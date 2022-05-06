@@ -35,6 +35,7 @@ const StepperStart: FC = () => {
     checkOnboardingData,
     isError,
     isRunning,
+    checkOnboarding,
   } = MsTeamOnboarding;
 
   useEffect(
@@ -43,6 +44,7 @@ const StepperStart: FC = () => {
         if (MsTeamOnboarding.activeStep >= 6 && !isRunning) {
           getCheckMsTeamAdmin(tenantID, subscriptionID);
           clearOnboardingProgress();
+          checkOnboarding(tenantID, subscriptionID, true);
         }
       };
     },

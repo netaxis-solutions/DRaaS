@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import Onboarding from "storage/singletons/MsTeams/Onboarding";
@@ -13,7 +14,6 @@ import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Unlink } from "components/Icons";
 
 import { O365Styles } from "./styles";
-import { Skeleton } from "@mui/material";
 
 const InfoPage: FC = () => {
   const classes = O365Styles();

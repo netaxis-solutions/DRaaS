@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { FC, lazy, useEffect, useMemo } from "react";
+import { FC, lazy, useEffect } from "react";
 import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
@@ -48,14 +48,10 @@ const MSTeams: FC = () => {
 
   const { getCheckMsTeamAdmin, checkMsTeamAdmin } = MsTeamAdminStorage;
 
-  const filteredTabs = useMemo(
-    () =>
-      checkMsTeamAdmin?.status !== "onboarded"
-        ? tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin")
-        : tabs,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  const filteredTabs =
+    checkMsTeamAdmin?.status !== "onboarded"
+      ? tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin")
+      : tabs;
 
   const { allAvailvableRouting } = RoutingConfig;
 

@@ -105,7 +105,11 @@ class MsTeamOnboarding {
     });
   };
 
-  checkOnboarding = async (tenantID: string, subscriptionID: string) => {
+  checkOnboarding = async (
+    tenantID: string,
+    subscriptionID: string,
+    notification?: boolean,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
     })
@@ -121,7 +125,8 @@ class MsTeamOnboarding {
             configStore.config.msTeamInterval || DEFAULT_STEPS_INTERVAL;
         });
         if (!isRunning && this.currentStep >= 5) {
-          successNotification(t("MS Teams was linked to the platform"));
+          notification &&
+            successNotification(t("MS Teams was linked to the platform"));
           CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
         }
       })
