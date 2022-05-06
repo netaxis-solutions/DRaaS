@@ -121,7 +121,10 @@ const O365Admin: FC = () => {
   ) : (
     <div>
       {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (
-        <AcceptText userName={msTeamAdmin.msUsername} />
+        <AcceptText
+          userName={msTeamAdmin.msUsername}
+          confirm={checkMsTeamAdmin?.powershell?.active}
+        />
       ) : checkMsTeamAdmin?.status === "already_linked" ? (
         <span className={classes.title}>
           <AlertOutline className={classes.iconTriangleAlert} />

@@ -29,7 +29,6 @@ const StepperStart: FC = () => {
   const { getCheckMsTeamAdmin } = MsTeamAdminStorage;
 
   const {
-    currentStep,
     activeStep,
     checkOnboarding,
     startOnboarding,
@@ -53,11 +52,6 @@ const StepperStart: FC = () => {
     [],
   );
 
-  const errorInActiveStep =
-    currentStep + 1 >= checkOnboardingData?.length
-      ? checkOnboardingData[checkOnboardingData?.length - 1]
-      : checkOnboardingData[currentStep + 1];
-
   return (
     <>
       <div className={classes.StepperWrapper}>
@@ -66,7 +60,7 @@ const StepperStart: FC = () => {
           orientation="vertical"
           className={classes.StepperRoot}
         >
-          {checkOnboardingData.map(step => (
+          {checkOnboardingData?.map(step => (
             <Step className={classes.Step} key={step.text}>
               <StepLabel className={classes.StepperLabel}>
                 <span> {step.text}</span>
@@ -76,10 +70,9 @@ const StepperStart: FC = () => {
                   <div className={classes.isError}>
                     <div className={classes.isErrorNote}>
                       <span>
-                        {" "}
-                        {t("Setting up the")}
-                        {errorInActiveStep.text.replace(/^\d+/, "")}{" "}
-                        {t("failed")}.{t("You can retry setting up")}.{" "}
+                        {`${t("Setting up the")} `}
+                        {step.text.replace(/^\d+/, "")} {t("failed")}.
+                        {t("You can retry setting up")}.
                       </span>
                     </div>
                     <ButtonWithIcon

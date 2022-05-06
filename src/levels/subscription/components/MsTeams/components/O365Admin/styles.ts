@@ -129,6 +129,12 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItem: "center",
     gap: theme.spacing(1.15),
   },
+  errorNotification: {
+    fill: "red",
+    transform: "rotate(180deg)",
+    width: 20,
+    height: 20,
+  },
 }));
 
 export const O365AdminSkeletonStyles = makeStyles(
