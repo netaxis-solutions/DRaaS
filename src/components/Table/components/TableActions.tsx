@@ -20,9 +20,9 @@ const TableActions: FC<
     rowData: Row<TableData>;
     editDisabled?: (row: Row<TableData>) => boolean;
     deleteDisabled?: (row: Row<TableData>) => boolean;
-    tooltipRemovable?: {
+    tooltipTrashButton?: {
       text: string;
-      callback: (rowData: Row<TableData>) => boolean;
+      filterCinditions: (rowData: Row<TableData>) => boolean;
     };
   }
 > = ({
@@ -32,7 +32,7 @@ const TableActions: FC<
   cancel,
   customActions,
   rowData,
-  tooltipRemovable,
+  tooltipTrashButton,
   editDisabled = _ => false,
   deleteDisabled = _ => false,
   onEdit,
@@ -42,7 +42,8 @@ const TableActions: FC<
   const classes = useStyles();
   const isEditDisabled = editDisabled(rowData);
   const isDeleteDisabled = deleteDisabled(rowData);
-  const tooltipValidation = tooltipRemovable?.callback(rowData);
+  const tooltipValidation = tooltipTrashButton?.filterCinditions(rowData);
+
   return (
     <div className={classes.tableActionsWrapper}>
       {edit && (
@@ -56,7 +57,7 @@ const TableActions: FC<
           {tooltipValidation ? (
             <Tooltip
               arrow
-              title={tooltipRemovable?.text}
+              title={tooltipTrashButton?.text}
               placement="bottom-end"
             >
               <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />

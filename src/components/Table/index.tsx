@@ -45,7 +45,7 @@ const Table: FC<TableProps> = ({
   isEditable = false,
   isRemovable = false,
   customActions,
-  tooltipRemovable,
+  tooltipTrashButton,
   actionsDataFormatter,
   isCheckboxAvailable,
   isGeneralCheckboxSelected,
@@ -259,7 +259,7 @@ const Table: FC<TableProps> = ({
                             save
                             cancel
                             rowData={props.row}
-                            tooltipRemovable={tooltipRemovable}
+                            tooltipTrashButton={tooltipTrashButton}
                             onCancel={() => {
                               props.page.forEach(
                                 (el: { [key: string]: RadioSelectRowType }) => {
@@ -284,7 +284,7 @@ const Table: FC<TableProps> = ({
                           edit={isEditable}
                           del={isRemovable}
                           rowData={props.row}
-                          tooltipRemovable={tooltipRemovable}
+                          tooltipTrashButton={tooltipTrashButton}
                           editDisabled={editDisabledCondition}
                           deleteDisabled={deleteDisabledCondition}
                           customActions={
@@ -338,7 +338,7 @@ const Table: FC<TableProps> = ({
                             save
                             cancel
                             rowData={props.row}
-                            tooltipRemovable={tooltipRemovable}
+                            tooltipTrashButton={tooltipTrashButton}
                             onCancel={() => {
                               props.page.forEach(
                                 (el: { [key: string]: RadioSelectRowType }) => {
@@ -362,7 +362,7 @@ const Table: FC<TableProps> = ({
                           edit={isEditable}
                           del={isRemovable}
                           rowData={props.row}
-                          tooltipRemovable={tooltipRemovable}
+                          tooltipTrashButton={tooltipTrashButton}
                           editDisabled={editDisabledCondition}
                           deleteDisabled={deleteDisabledCondition}
                           customActions={

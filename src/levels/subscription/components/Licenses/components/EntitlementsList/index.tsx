@@ -252,12 +252,12 @@ const EntitlementList: FC = () => {
             isEditable
             isRemovable
             checkbox
-            tooltipRemovable={{
+            tooltipTrashButton={{
               text: t(
                 "You cannot delete entitlements as long as you still have numbers assigned",
               ),
-              callback: (rowData: Row<TableData>) =>
-                rowData.original.assigned !== 0 ? true : false,
+              filterCinditions: (rowData: Row<TableData>) =>
+                rowData.original.assigned,
             }}
             handleDeleteItem={handleDeleteItem}
             toolbarActions={toolbarActions}

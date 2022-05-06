@@ -61,9 +61,9 @@ export type TableProps = {
   ) => boolean | number;
   editDisabledCondition?: (rowData: Row<TableData>) => boolean;
   deleteDisabledCondition?: (rowData: Row<TableData>) => boolean;
-  tooltipRemovable?: {
+  tooltipTrashButton?: {
     text: string;
-    callback: (rowData: Row<TableData>) => boolean;
+    filterCinditions: (rowData: Row<TableData>) => boolean;
   };
 };
 
