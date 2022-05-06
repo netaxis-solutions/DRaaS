@@ -93,324 +93,331 @@ const Table: FC<TableProps> = ({
     hooks =>
       checkbox || radioButton
         ? hooks.visibleColumns.push(columns =>
-          !isEditable && !isRemovable && !customActions
-            ? [
-              {
-                id: "selection",
-                Header: ({ toggleRowSelected, page }) => {
-                  TableSelectedRowsStore.setIsChecked(
-                    isGeneralCheckboxSelected
-                      ? isGeneralCheckboxSelected(page)
-                      : TableSelectedRowsStore.selectedRowsLength ===
-                      page.length,
-                  );
+            !isEditable && !isRemovable && !customActions
+              ? [
+                  {
+                    id: "selection",
+                    Header: ({ toggleRowSelected, page }) => {
+                      TableSelectedRowsStore.setIsChecked(
+                        isGeneralCheckboxSelected
+                          ? isGeneralCheckboxSelected(page)
+                          : TableSelectedRowsStore.selectedRowsLength ===
+                              page.length,
+                      );
 
-                  const handleChange = () => {
-                    page.forEach(row => {
-                      selectAllRowCondition
-                        ? selectAllRowCondition(
-                          TableSelectedRowsStore.isChecked,
-                          row,
-                        ) &&
-                        toggleRowSelected(
-                          row.id,
-                          !TableSelectedRowsStore.isChecked,
-                        )
-                        : toggleRowSelected(
-                          row.id,
-                          !TableSelectedRowsStore.isChecked,
-                        );
-                    });
-                  };
-
-                  return radioButton ? null : (
-                    <Checkbox
-                      checked={TableSelectedRowsStore.isChecked}
-                      onChange={handleChange}
-                    />
-                  );
-                },
-                Cell: ({
-                  toggleRowSelected,
-                  row,
-                }: CellProps<TableData>) => {
-                  const {
-                    checked = false,
-                    onChange,
-                  } = row.getToggleRowSelectedProps();
-
-                  const handleChange = () => {
-                    toggleRowSelected(String(row.index));
-                  };
-
-                  const handleChangeRadio = (
-                    e: ChangeEvent<Element>,
-                    _: boolean,
-                  ) => {
-                    setSelectedRows({ [row.index]: true });
-                    setRadioButtonValueInRows(row.original);
-                    onChange && onChange(e);
-                  };
-
-                  return radioButton ? (
-                    <RadioButton
-                      checked={checked}
-                      onChange={handleChangeRadio}
-                    />
-                  ) : (
-                    <Checkbox
-                      checked={row.isSelected}
-                      isAvailable={isCheckboxAvailable}
-                      row={row}
-                      onChange={handleChange}
-                    />
-                  );
-                },
-              },
-              ...columns,
-            ]
-            : [
-              {
-                id: "selection",
-                Header: ({ page, toggleRowSelected }) => {
-                  TableSelectedRowsStore.setIsChecked(
-                    isGeneralCheckboxSelected
-                      ? isGeneralCheckboxSelected(page)
-                      : TableSelectedRowsStore.selectedRowsLength ===
-                      page.length,
-                  );
-
-                  const handleChange = () => {
-                    page.forEach(row => {
-                      selectAllRowCondition
-                        ? selectAllRowCondition(
-                          TableSelectedRowsStore.isChecked,
-                          row,
-                        ) &&
-                        toggleRowSelected(
-                          row.id,
-                          !TableSelectedRowsStore.isChecked,
-                        )
-                        : toggleRowSelected(
-                          row.id,
-                          !TableSelectedRowsStore.isChecked,
-                        );
-                    });
-                  };
-
-                  return radioButton ? null : (
-                    <Checkbox
-                      checked={TableSelectedRowsStore.isChecked}
-                      onChange={handleChange}
-                    />
-                  );
-                },
-                Cell: ({
-                  toggleRowSelected,
-                  row,
-                }: CellProps<TableData>) => {
-                  const {
-                    checked = false,
-                    onChange,
-                  } = row.getToggleRowSelectedProps();
-
-                  const handleChange = () => {
-                    toggleRowSelected(String(row.index));
-                  };
-
-                  const handleChangeRadio = (
-                    e: ChangeEvent<Element>,
-                    _: boolean,
-                  ) => {
-                    setSelectedRows({ [row.index]: true });
-                    onChange && onChange(e);
-                  };
-
-                  return radioButton ? (
-                    <RadioButton
-                      checked={checked}
-                      onChange={handleChangeRadio}
-                    />
-                  ) : (
-                    <Checkbox
-                      checked={row.isSelected}
-                      isAvailable={isCheckboxAvailable}
-                      row={row}
-                      onChange={handleChange}
-                    />
-                  );
-                },
-              },
-              ...columns,
-              {
-                Header: () => (
-                  <div className={classes.actionsHeader}>
-                    {t("Actions")}
-                  </div>
-                ),
-                accessor: "actions",
-                disableSortBy: true,
-
-                Cell: (props: any) => {
-                  if (props.state.rowState[props.row.index]?.isEditing) {
-                    return (
-                      <TableActions
-                        save
-                        cancel
-                        rowData={props.row}
-                        onCancel={() => {
-                          props.page.forEach(
-                            (el: { [key: string]: RadioSelectRowType }) => {
-                              const index: string = String(el.index);
-                              setRowState([index], {
-                                isDisabled: false,
-                                isEditing: false,
-                              });
-                            },
-                          );
-                          setRowState([props.row.index], {
-                            isEditing: false,
-                            isDisabled: false,
-                          });
-                        }}
-                      />
-                    );
-                  }
-
-                  return (
-                    <TableActions
-                      edit={isEditable}
-                      del={isRemovable}
-                      rowData={props.row}
-                      editDisabled={editDisabledCondition}
-                      deleteDisabled={deleteDisabledCondition}
-                      customActions={
-                        (actionsDataFormatter &&
-                          customActions &&
-                          actionsDataFormatter(props.row, customActions)) ||
-                        customActions
-                      }
-                      onDelete={() =>
-                        handleDeleteItem && handleDeleteItem(props)
-                      }
-                      onEdit={() => {
-                        handleEditItem && handleEditItem(props);
-                        props.page.forEach(
-                          (el: { [key: string]: RadioSelectRowType }) => {
-                            const index: string = String(el.index);
-                            setRowState([index], {
-                              isDisabled: true,
-                              isEditing: false,
-                            });
-                          },
-                        );
-                        setRowState([props.row.index], {
-                          isEditing: true,
-                          isDisabled: false,
+                      const handleChange = () => {
+                        page.forEach(row => {
+                          selectAllRowCondition
+                            ? selectAllRowCondition(
+                                TableSelectedRowsStore.isChecked,
+                                row,
+                              ) &&
+                              toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              )
+                            : toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              );
                         });
-                      }}
-                    />
-                  );
-                },
-              },
-            ],
-        )
+                      };
+
+                      return radioButton ? null : (
+                        <Checkbox
+                          checked={TableSelectedRowsStore.isChecked}
+                          onChange={handleChange}
+                        />
+                      );
+                    },
+                    Cell: ({
+                      toggleRowSelected,
+                      row,
+                    }: CellProps<TableData>) => {
+                      const {
+                        checked = false,
+                        onChange,
+                      } = row.getToggleRowSelectedProps();
+
+                      const handleChange = () => {
+                        toggleRowSelected(String(row.index));
+                      };
+
+                      const handleChangeRadio = (
+                        e: ChangeEvent<Element>,
+                        _: boolean,
+                      ) => {
+                        setSelectedRows({ [row.index]: true });
+                        setRadioButtonValueInRows(row.original);
+                        onChange && onChange(e);
+                      };
+
+                      return radioButton ? (
+                        <RadioButton
+                          checked={checked}
+                          onChange={handleChangeRadio}
+                        />
+                      ) : (
+                        <Checkbox
+                          checked={row.isSelected}
+                          isAvailable={isCheckboxAvailable}
+                          row={row}
+                          onChange={handleChange}
+                        />
+                      );
+                    },
+                  },
+                  ...columns,
+                ]
+              : [
+                  {
+                    id: "selection",
+                    Header: ({ page, toggleRowSelected }) => {
+                      TableSelectedRowsStore.setIsChecked(
+                        isGeneralCheckboxSelected
+                          ? isGeneralCheckboxSelected(page)
+                          : TableSelectedRowsStore.selectedRowsLength ===
+                              page.length,
+                      );
+
+                      const handleChange = () => {
+                        page.forEach(row => {
+                          selectAllRowCondition
+                            ? selectAllRowCondition(
+                                TableSelectedRowsStore.isChecked,
+                                row,
+                              ) &&
+                              toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              )
+                            : toggleRowSelected(
+                                row.id,
+                                !TableSelectedRowsStore.isChecked,
+                              );
+                        });
+                      };
+
+                      return radioButton ? null : (
+                        <Checkbox
+                          checked={TableSelectedRowsStore.isChecked}
+                          onChange={handleChange}
+                        />
+                      );
+                    },
+                    Cell: ({
+                      toggleRowSelected,
+                      row,
+                    }: CellProps<TableData>) => {
+                      const {
+                        checked = false,
+                        onChange,
+                      } = row.getToggleRowSelectedProps();
+
+                      const handleChange = () => {
+                        toggleRowSelected(String(row.index));
+                      };
+
+                      const handleChangeRadio = (
+                        e: ChangeEvent<Element>,
+                        _: boolean,
+                      ) => {
+                        setSelectedRows({ [row.index]: true });
+                        onChange && onChange(e);
+                      };
+
+                      return radioButton ? (
+                        <RadioButton
+                          checked={checked}
+                          onChange={handleChangeRadio}
+                        />
+                      ) : (
+                        <Checkbox
+                          checked={row.isSelected}
+                          isAvailable={isCheckboxAvailable}
+                          row={row}
+                          onChange={handleChange}
+                        />
+                      );
+                    },
+                  },
+                  ...columns,
+                  {
+                    Header: () => (
+                      <div className={classes.actionsHeader}>
+                        {t("Actions")}
+                      </div>
+                    ),
+                    accessor: "actions",
+                    disableSortBy: true,
+
+                    Cell: (props: any) => {
+                      if (props.state.rowState[props.row.index]?.isEditing) {
+                        return (
+                          <TableActions
+                            save
+                            cancel
+                            rowData={props.row}
+                            onCancel={() => {
+                              props.page.forEach(
+                                (el: { [key: string]: RadioSelectRowType }) => {
+                                  const index: string = String(el.index);
+                                  setRowState([index], {
+                                    isDisabled: false,
+                                    isEditing: false,
+                                  });
+                                },
+                              );
+                              setRowState([props.row.index], {
+                                isEditing: false,
+                                isDisabled: false,
+                              });
+                            }}
+                          />
+                        );
+                      }
+
+                      return (
+                        <TableActions
+                          edit={isEditable}
+                          del={isRemovable}
+                          rowData={props.row}
+                          editDisabled={editDisabledCondition}
+                          deleteDisabled={deleteDisabledCondition}
+                          customActions={
+                            (actionsDataFormatter &&
+                              customActions &&
+                              actionsDataFormatter(props.row, customActions)) ||
+                            customActions
+                          }
+                          onDelete={() =>
+                            handleDeleteItem && handleDeleteItem(props)
+                          }
+                          onEdit={() => {
+                            handleEditItem && handleEditItem(props);
+                            props.page.forEach(
+                              (el: { [key: string]: RadioSelectRowType }) => {
+                                const index: string = String(el.index);
+                                setRowState([index], {
+                                  isDisabled: true,
+                                  isEditing: false,
+                                });
+                              },
+                            );
+                            setRowState([props.row.index], {
+                              isEditing: true,
+                              isDisabled: false,
+                            });
+                          }}
+                        />
+                      );
+                    },
+                  },
+                ],
+          )
         : hooks.visibleColumns.push(columns =>
-          !isEditable && !isRemovable && !customActions
-            ? [...columns]
-            : [
-              ...columns,
-              {
-                Header: () => (
-                  <div className={classes.actionsHeader}>
-                    {t("Actions")}
-                  </div>
-                ),
-                accessor: "actions",
-                disableSortBy: true,
-                Cell: (props: any) => {
-                  if (props.state.rowState[props.row.index]?.isEditing) {
-                    return (
-                      <TableActions
-                        save
-                        cancel
-                        rowData={props.row}
-                        onCancel={() => {
-                          props.page.forEach(
-                            (el: { [key: string]: RadioSelectRowType }) => {
-                              const index: string = String(el.index);
-                              setRowState([index], {
-                                isDisabled: false,
+            !isEditable && !isRemovable && !customActions
+              ? [...columns]
+              : [
+                  ...columns,
+                  {
+                    Header: () => (
+                      <div className={classes.actionsHeader}>
+                        {t("Actions")}
+                      </div>
+                    ),
+                    accessor: "actions",
+                    disableSortBy: true,
+                    Cell: (props: any) => {
+                      if (props.state.rowState[props.row.index]?.isEditing) {
+                        return (
+                          <TableActions
+                            save
+                            cancel
+                            rowData={props.row}
+                            onCancel={() => {
+                              props.page.forEach(
+                                (el: { [key: string]: RadioSelectRowType }) => {
+                                  const index: string = String(el.index);
+                                  setRowState([index], {
+                                    isDisabled: false,
+                                    isEditing: false,
+                                  });
+                                },
+                              );
+                              setRowState([props.row.index], {
                                 isEditing: false,
+                                isDisabled: false,
                               });
-                            },
-                          );
-                          setRowState([props.row.index], {
-                            isEditing: false,
-                            isDisabled: false,
-                          });
-                        }}
-                      />
-                    );
-                  }
-                  return (
-                    <TableActions
-                      edit={isEditable}
-                      del={isRemovable}
-                      rowData={props.row}
-                      editDisabled={editDisabledCondition}
-                      deleteDisabled={deleteDisabledCondition}
-                      customActions={
-                        (actionsDataFormatter &&
-                          customActions &&
-                          actionsDataFormatter(props.row, customActions)) ||
-                        customActions
-                      }
-                      onDelete={() => {
-                        setModalToOpen &&
-                          setModalToOpen("delete", props.row.original);
-                        setSelectedRows({ [props.row.index]: true });
-                      }}
-                      onEdit={() => {
-                        setDefaultValues &&
-                          setDefaultValues(props.row.original);
-                        props.page.forEach(
-                          (el: { [key: string]: RadioSelectRowType }) => {
-                            const index: string = String(el.index);
-                            setRowState([index], {
-                              isDisabled: true,
-                              isEditing: false,
-                            });
-                          },
+                            }}
+                          />
                         );
-                        setRowState([props.row.index], {
-                          isEditing: true,
-                          isDisabled: false,
-                        });
-                      }}
-                    />
-                  );
-                },
-              },
-            ],
-        ),
+                      }
+                      return (
+                        <TableActions
+                          edit={isEditable}
+                          del={isRemovable}
+                          rowData={props.row}
+                          editDisabled={editDisabledCondition}
+                          deleteDisabled={deleteDisabledCondition}
+                          customActions={
+                            (actionsDataFormatter &&
+                              customActions &&
+                              actionsDataFormatter(props.row, customActions)) ||
+                            customActions
+                          }
+                          onDelete={() => {
+                            setModalToOpen &&
+                              setModalToOpen("delete", props.row.original);
+                            setSelectedRows({ [props.row.index]: true });
+                          }}
+                          onEdit={() => {
+                            setDefaultValues &&
+                              setDefaultValues(props.row.original);
+                            props.page.forEach(
+                              (el: { [key: string]: RadioSelectRowType }) => {
+                                const index: string = String(el.index);
+                                setRowState([index], {
+                                  isDisabled: true,
+                                  isEditing: false,
+                                });
+                              },
+                            );
+                            setRowState([props.row.index], {
+                              isEditing: true,
+                              isDisabled: false,
+                            });
+                          }}
+                        />
+                      );
+                    },
+                  },
+                ],
+          ),
   );
   useEffect(() => {
     setSelectedRows(state.selectedRowIds);
     setSelectedRowsValues(rows.filter(row => row.id in state.selectedRowIds));
-    state.pageSize = tablePageSize
     return () => {
       TableSelectedRowsStore.clearSelectedRows();
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.selectedRowIds]);
+
+  useEffect(() => {
+    state.pageSize = tablePageSize;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     return () => {
       if (Object.values(state.selectedRowIds).length) {
         state.selectedRowIds = {};
       }
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedRows]);
 
@@ -418,6 +425,7 @@ const Table: FC<TableProps> = ({
     return () => {
       TableSelectedRowsStore.clearStorage();
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const deleteAvailable = Object.values(state.selectedRowIds).some(el => el);
