@@ -33,26 +33,6 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
   },
-  cancelButton: {
-    background: theme.body.button.cancel.background,
-    color: theme.body.button.cancel.text,
-    border: theme.body.button.cancel.border,
-    "& svg": {
-      "& path": {
-        fill: theme.body.button.cancel.icon.color,
-      },
-    },
-    "&:hover": {
-      background: `${theme.body.button.cancel.background} !important`,
-      color: theme.body.button.cancel.text,
-      border: theme.body.button.cancel.border,
-      "& svg": {
-        "& path": {
-          fill: theme.body.button.cancel.icon.color,
-        },
-      },
-    },
-  },
   startIcon: {
     marginTop: -theme.spacing(0.2),
   },

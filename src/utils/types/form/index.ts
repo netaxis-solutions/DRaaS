@@ -3,7 +3,7 @@ import React, { ChangeEvent, FocusEvent, Ref } from "react";
 export type IconWithButtonPropsType = {
   title: string;
   type?: "button" | "reset" | "submit" | undefined;
-  icon: React.FC;
+  icon?: React.FC;
   variant?: "contained" | "outlined";
   onClick?: () => void;
   className?: string | undefined;
@@ -29,6 +29,7 @@ export type InputPropsType = {
   inputRef?: Ref<HTMLInputElement>;
   type?: string;
   helper?: string;
+  labelShrink?: boolean;
 };
 
 export type SearchInputType = {
@@ -55,7 +56,7 @@ export type RadioButtonType = {
 };
 
 export type TSelectProps = {
-  options: Array<{ value: string; label: string }>;
+  options: Array<{ value: string; label: string; image?: JSX.Element }>;
   onChange: (value: { value: string; label: string } | null) => void;
   label: string;
   disabled?: boolean;

@@ -1,9 +1,6 @@
 export { default as AlertOutline } from "./AlertOutline";
 export { default as AlertTriangle } from "./AlertTriangle";
 export { default as ArrowLeft } from "./ArrowLeft";
-export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
-export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
-export { default as TenantLevelIcon } from "./TenantLevelIcon";
 export { default as ArrowRight } from "./ArrowRight";
 export { default as Back } from "./Back";
 export { default as BelgiumFlag } from "./BelgiumFlag";
@@ -31,4 +28,8 @@ export { default as SuccessCircle } from "./SuccessCircle";
 export { default as Trash } from "./Trash";
 export { default as TrashNotification } from "./TrashNotification";
 export { default as Unlink } from "./Unlink";
+export { default as Upload } from "./Upload";
 export { default as World } from "./World";
+export { default as DistributorLevelIcon } from "./DistributorLevelIcon";
+export { default as ResellerLevelIcon } from "./ResellerLevelIcon";
+export { default as TenantLevelIcon } from "./TenantLevelIcon";

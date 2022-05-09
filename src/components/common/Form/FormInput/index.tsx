@@ -89,6 +89,7 @@ export const Input: React.FC<InputPropsType> = ({
   helperText,
   helper,
   type = "text",
+  labelShrink,
   ...rest
 }) => {
   const [isPwdVisible, setPwdVisibility] = useState(false);
@@ -139,7 +140,7 @@ export const Input: React.FC<InputPropsType> = ({
         onChange={handleChange}
         fullWidth
         InputProps={{ ...dataError, ...iconRender, classes: inputClasses }}
-        InputLabelProps={{ classes: labelClasses }}
+        InputLabelProps={{ classes: labelClasses, shrink: labelShrink }}
         type={typeOption}
         data-type={type}
         {...rest}

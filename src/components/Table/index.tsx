@@ -370,6 +370,7 @@ const Table: FC<TableProps> = ({
                             setModalToOpen &&
                               setModalToOpen("delete", props.row.original);
                             setSelectedRows({ [props.row.index]: true });
+                            handleDeleteItem && handleDeleteItem(props);
                           }}
                           onEdit={() => {
                             setDefaultValues &&

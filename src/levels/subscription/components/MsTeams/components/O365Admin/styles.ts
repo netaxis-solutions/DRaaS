@@ -27,9 +27,22 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   deleteButton: {
+    background: theme.body.button.cancel.background,
+    color: theme.body.button.cancel.text,
+    border: theme.body.button.cancel.border,
     "& svg": {
       "& path": {
         fill: `${theme.body.button.action.icon.color} !important`,
+      },
+    },
+    "&:hover": {
+      background: `${theme.body.button.cancel.background} !important`,
+      color: theme.body.button.cancel.text,
+      border: theme.body.button.cancel.border,
+      "& svg": {
+        "& path": {
+          fill: theme.body.button.cancel.icon.color,
+        },
       },
     },
   },

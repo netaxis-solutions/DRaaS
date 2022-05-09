@@ -19,30 +19,41 @@ export const t = (str: string, options?: string | {}) => {
   return <T str={str} options={options} />;
 };
 
+const ns = ["dynamic", "translation"];
+
 export const getSpecificLanguageTranslation: GetSpecificLanguageTranslationType = async ({
   name,
   lng = "en",
   customTranslations,
 }) => {
-  const requestsToSend = [];
-
-  requestsToSend.push(fetch(`/locales/${lng}/translation.json`));
-
-  if (customTranslations) {
-    requestsToSend.push(fetch(`/locales/${name}/${lng}/translation.json`));
-  }
+  const requestsToSend: Array<Promise<any>> = [];
+  const templateNs: Array<string> = [];
+  ns.forEach(el => {
+    requestsToSend.push(fetch(`/locales/${lng}/${el}.json`));
+    if (customTranslations) {
+      requestsToSend.push(fetch(`/locales/${name}/${lng}/${el}.json`));
+    }
+    templateNs.push(el);
+  });
 
   const reqToSendResult = await Promise.all(requestsToSend);
   const jsonResult = await Promise.all(
     reqToSendResult.map(data => data.json()),
   );
 
-  const resources = jsonResult.reduce((prev, cur) => {
-    prev = { ...prev, ...cur };
-    return prev;
-  }, {});
+  const resources = templateNs.reduce(
+    (prev: { [key: string]: any }, cur, index) => {
+      prev[cur] = prev[cur]
+        ? { ...prev[cur], ...jsonResult[index] }
+        : jsonResult[index];
+      return prev;
+    },
+    {},
+  );
 
-  i18n.addResourceBundle(lng, "translation", resources, true, true);
+  Object.keys(resources).forEach(el => {
+    i18n.addResourceBundle(lng, el, resources[el], true, true);
+  });
 };
 
 i18n
