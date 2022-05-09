@@ -169,12 +169,15 @@ class MsTeamOnboarding {
       method: "post",
     })
       .then(() => {
-        this.isLoadingUnlinkMsTeamTenant = false;
         CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
       })
       .catch(e => {
-        this.isLoadingUnlinkMsTeamTenant = false;
         errorNotification(e);
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.isLoadingUnlinkMsTeamTenant = false;
+        });
       });
   };
 
