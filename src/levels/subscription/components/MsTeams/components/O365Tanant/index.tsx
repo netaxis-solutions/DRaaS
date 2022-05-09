@@ -32,7 +32,6 @@ const O365Tenant: FC = () => {
     getMsTeamAdmin,
     msTeamAdmin,
     clearCashMsTeamAdmin,
-    // getCheckMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdminStorage;
 
@@ -48,7 +47,6 @@ const O365Tenant: FC = () => {
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
     currentStepTenantData({ tenantID, subscriptionID });
-    // getCheckMsTeamAdmin(tenantID, subscriptionID);
     checkOnboarding(tenantID, subscriptionID);
     return () => {
       MsTeamOnboarding.clearOnboardingProgress();

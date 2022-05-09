@@ -18,6 +18,7 @@ const DEFAULT_STEPS_INTERVAL = 10000;
 class MsTeamOnboarding {
   transactionID: number = 0;
   checkOnboardingData: Array<TMsTeamOnboardingSteps> = [];
+  isLoadingUnlinkMsTeamTenant: boolean = false;
   isRunning: boolean = false;
   isError: boolean = false;
   msTeamInterval: number = 0;
@@ -28,6 +29,7 @@ class MsTeamOnboarding {
       checkOnboardingData: observable.ref,
       isRunning: observable.ref,
       isError: observable.ref,
+      isLoadingUnlinkMsTeamTenant: observable.ref,
       msTeamInterval: observable.ref,
       transactionID: observable.ref,
       clearOnboardingProgress: true,
@@ -79,7 +81,7 @@ class MsTeamOnboarding {
 
   get currentStep() {
     const { checkOnboardingData } = this;
-    for (let i = checkOnboardingData.length; i--; ) {
+    for (let i = checkOnboardingData?.length; i--; ) {
       if (checkOnboardingData[i].executed) {
         return checkOnboardingData[i].step;
       }
@@ -90,7 +92,7 @@ class MsTeamOnboarding {
   get activeStep() {
     return (
       this.currentStep +
-      (this.isRunning && !this.isError ? 1 : this.isError ? 2 : 5)
+      (this.isRunning && !this.isError ? 1 : this.isError ? 1 : 3)
     );
   }
 
@@ -103,7 +105,11 @@ class MsTeamOnboarding {
     });
   };
 
-  checkOnboarding = async (tenantID: string, subscriptionID: string) => {
+  checkOnboarding = async (
+    tenantID: string,
+    subscriptionID: string,
+    notification?: boolean,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
     })
@@ -118,14 +124,20 @@ class MsTeamOnboarding {
           this.msTeamInterval =
             configStore.config.msTeamInterval || DEFAULT_STEPS_INTERVAL;
         });
-        if (!isRunning && this.currentStep > 7) {
-          successNotification(t("MS Teams was linked to the platform"));
+        if (!isRunning && this.currentStep >= 5) {
+          notification &&
+            successNotification(t("MS Teams was linked to the platform"));
           CreateDeleteAdmin.getCheckMsTeamAdmin(tenantID, subscriptionID);
         }
       })
-      .catch(e => {
-        this.isError = true;
-        console.log(e);
+      .catch(({ response: { data } }) => {
+        const isRunning = data.running;
+        const checkOnboardingData = data.wizardSteps;
+        runInAction(() => {
+          this.isRunning = isRunning;
+          this.checkOnboardingData = checkOnboardingData;
+          this.isError = true;
+        });
       });
   };
 
@@ -148,6 +160,9 @@ class MsTeamOnboarding {
   };
 
   cleanUpOnboarding = (tenantID: string, subscriptionID: string) => {
+    runInAction(() => {
+      this.isLoadingUnlinkMsTeamTenant = true;
+    });
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/unlink`,
       loaderName: "@unlinkOnboarding",
@@ -158,6 +173,11 @@ class MsTeamOnboarding {
       })
       .catch(e => {
         errorNotification(e);
+      })
+      .finally(() => {
+        runInAction(() => {
+          this.isLoadingUnlinkMsTeamTenant = false;
+        });
       });
   };
 

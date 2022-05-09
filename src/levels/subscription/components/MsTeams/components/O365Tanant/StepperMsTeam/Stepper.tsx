@@ -16,32 +16,6 @@ import { Reload } from "components/Icons";
 
 import { EntitlementsStyle } from "./styles";
 
-const steps = [
-  {
-    label: "1 Provide credentials of tenant admin",
-  },
-  {
-    label: "2 Initiate MS Teams tenant in our system",
-  },
-  {
-    label: "3 Create service principal and set MS Graph gateway",
-  },
-  {
-    label: "4 Set a domain for the tenant and validate it against Microsoft",
-  },
-  {
-    label:
-      "5 Add an e-mail service to the domain together with its related DNS entries",
-  },
-  {
-    label:
-      "6 Create a dummy account and associate an E1 / E3 / E5 license to it",
-  },
-  {
-    label: "7 Create a SBC and remove associated license from the dummy user",
-  },
-];
-
 const StepperStart: FC = () => {
   const { t } = useTranslation();
 
@@ -55,33 +29,28 @@ const StepperStart: FC = () => {
   const { getCheckMsTeamAdmin } = MsTeamAdminStorage;
 
   const {
-    currentStep,
     activeStep,
-    checkOnboarding,
     startOnboarding,
     clearOnboardingProgress,
+    checkOnboardingData,
     isError,
     isRunning,
+    checkOnboarding,
   } = MsTeamOnboarding;
 
   useEffect(
     () => {
-      checkOnboarding(tenantID, subscriptionID);
       return () => {
-        if (MsTeamOnboarding.activeStep >= 7 && !isRunning) {
+        if (MsTeamOnboarding.activeStep >= 6 && !isRunning) {
           getCheckMsTeamAdmin(tenantID, subscriptionID);
           clearOnboardingProgress();
+          checkOnboarding(tenantID, subscriptionID, true);
         }
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-
-  const errorInActiveStep =
-    currentStep + 1 >= steps.length
-      ? steps[steps.length - 1]
-      : steps[currentStep + 1];
 
   return (
     <>
@@ -91,20 +60,19 @@ const StepperStart: FC = () => {
           orientation="vertical"
           className={classes.StepperRoot}
         >
-          {steps.map(step => (
-            <Step className={classes.Step} key={step.label}>
+          {checkOnboardingData?.map(step => (
+            <Step className={classes.Step} key={step.text}>
               <StepLabel className={classes.StepperLabel}>
-                <span> {step.label}</span>
+                <span> {step.text}</span>
               </StepLabel>
               <StepContent className={classes.StepperContent}>
                 {isError || (!isRunning && activeStep < 8) ? (
                   <div className={classes.isError}>
                     <div className={classes.isErrorNote}>
                       <span>
-                        {" "}
-                        {t("Setting up the")}
-                        {errorInActiveStep.label.replace(/^\d+/, "")}{" "}
-                        {t("failed")}.{t("You can retry setting up")}.{" "}
+                        {`${t("Setting up the")} `}
+                        {step.text.replace(/^\d+/, "")} {t("failed")}.
+                        {t("You can retry setting up")}.
                       </span>
                     </div>
                     <ButtonWithIcon

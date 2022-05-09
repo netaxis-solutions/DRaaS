@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, lazy } from "react";
 import { observer } from "mobx-react-lite";
 import { Switch, Route } from "react-router-dom";
 
@@ -12,7 +12,8 @@ import Admin from "./admin";
 import Distributor from "./distributor";
 import Reseller from "./reseller";
 import Tenant from "./tenant";
-import Subscription from "./subscription";
+
+const Subscription = lazy(() => import("./subscription"));
 
 const Content: React.FC = () => {
   const { getUserData, user } = loginStore;

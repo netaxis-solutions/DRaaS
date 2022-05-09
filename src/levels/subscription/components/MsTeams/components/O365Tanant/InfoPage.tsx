@@ -1,8 +1,9 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import Onboarding from "storage/singletons/MsTeams/Onboarding";
@@ -23,19 +24,12 @@ const InfoPage: FC = () => {
     subscriptionID: string;
   }>();
 
-  const {
-    checkMsTeamAdmin,
-    //  getCheckMsTeamAdmin
-  } = MsTeamAdminStorage;
-  const { cleanUpOnboarding } = Onboarding;
+  const { checkMsTeamAdmin } = MsTeamAdminStorage;
+  const { cleanUpOnboarding, isLoadingUnlinkMsTeamTenant } = Onboarding;
 
   const { control } = useForm<{ domain: string; tenantID: string }>({});
 
-  useEffect(() => {
-    // getCheckMsTeamAdmin(tenantID, subscriptionID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  if (isLoadingUnlinkMsTeamTenant) return <Skeleton />;
   return (
     <div className={classes.StatusWrapper}>
       <div>
