@@ -63,7 +63,7 @@ export type TableProps = {
   deleteDisabledCondition?: (rowData: Row<TableData>) => boolean;
   tooltipTrashButton?: {
     text: string;
-    filterCinditions: (rowData: Row<TableData>) => boolean;
+    filterConditions: (rowData: Row<TableData>) => boolean;
   };
 };
 

@@ -22,7 +22,7 @@ const TableActions: FC<
     deleteDisabled?: (row: Row<TableData>) => boolean;
     tooltipTrashButton?: {
       text: string;
-      filterCinditions: (rowData: Row<TableData>) => boolean;
+      filterConditions: (rowData: Row<TableData>) => boolean;
     };
   }
 > = ({
@@ -42,7 +42,7 @@ const TableActions: FC<
   const classes = useStyles();
   const isEditDisabled = editDisabled(rowData);
   const isDeleteDisabled = deleteDisabled(rowData);
-  const tooltipValidation = tooltipTrashButton?.filterCinditions(rowData);
+  const tooltipValidation = tooltipTrashButton?.filterConditions(rowData);
 
   return (
     <div className={classes.tableActionsWrapper}>

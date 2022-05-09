@@ -256,7 +256,7 @@ const EntitlementList: FC = () => {
               text: t(
                 "You cannot delete entitlements as long as you still have numbers assigned",
               ),
-              filterCinditions: (rowData: Row<TableData>) =>
+              filterConditions: (rowData: Row<TableData>) =>
                 rowData.original.assigned,
             }}
             handleDeleteItem={handleDeleteItem}
