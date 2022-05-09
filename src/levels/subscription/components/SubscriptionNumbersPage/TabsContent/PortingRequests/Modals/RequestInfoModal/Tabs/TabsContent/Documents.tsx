@@ -107,7 +107,6 @@ const Documents: React.FC = () => {
         );
       },
       () => {
-        errorNotification(t("Error occurred while loading a file"));
         setIsLoading(false);
       },
     );

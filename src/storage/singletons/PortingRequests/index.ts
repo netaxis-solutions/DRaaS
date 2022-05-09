@@ -201,14 +201,13 @@ class PortingRequestsStore {
       .then(() => {
         successCallback && successCallback();
       })
-      .catch((...e) => {
-        console.log(e);
+      .catch(e => {
         failCallback && failCallback();
-        if (e) {
+        if (e?.response?.status === 413) {
           errorNotification(t("File is too big"));
           return;
         }
-        errorNotification(e);
+        errorNotification(t("An error occured while uploading a file"));
       });
   };
 
