@@ -1,21 +1,18 @@
 import { forwardRef, Ref, SyntheticEvent } from "react";
-import { Box, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import Autocomplete from "@mui/material/Autocomplete";
 import clsx from "clsx";
 
 import { TSelectProps } from "utils/types/form";
 import useStyles from "./styles";
 
-export const Select: React.FC<
-  TSelectProps & { customRenderOptions?: boolean }
-> = ({
+export const Select: React.FC<TSelectProps> = ({
   options,
   onChange,
   label,
   disabled,
   className,
   helperText,
-  customRenderOptions,
 }) => {
   const classes = useStyles();
 
@@ -65,17 +62,6 @@ export const Select: React.FC<
             <span className={classes.errorHelperText}>{helperText}</span>
           )}
         </>
-      )}
-      renderOption={(props, option) => (
-        <Box {...props}>
-          {customRenderOptions ? (
-            <>
-              {option.image} {option.value}
-            </>
-          ) : (
-            option.value
-          )}
-        </Box>
       )}
     />
   );
