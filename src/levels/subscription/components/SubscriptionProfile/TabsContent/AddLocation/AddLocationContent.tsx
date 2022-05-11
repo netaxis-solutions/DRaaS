@@ -38,7 +38,7 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
   }>();
   const { control, handleSubmit } = useForm({
     defaultValues,
-    resolver: yupResolver(addLocationSchema()),
+    resolver: yupResolver(addLocationSchema(t)),
   });
 
   const {
@@ -65,16 +65,25 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
     [postalCodes],
   );
 
-  const onSubmit = ({ agreement, postalCodeId, ...values }: any) => {
+  const onSubmit = ({ agreement, postalCodeId, postbox, ...values }: any) => {
     if (!isLoading) {
       setIsLoading(true);
+
+      const payload = postbox
+        ? {
+            postalCodeId: +postalCodeId.value,
+            postbox,
+            ...values,
+          }
+        : {
+            postalCodeId: +postalCodeId.value,
+            ...values,
+          };
+
       postSubscriptionLocation(
         tenantID,
         subscriptionID,
-        {
-          postalCodeId: +postalCodeId.value,
-          ...values,
-        },
+        payload,
         () => {
           handleCancel();
           getSubscriptionLocations(tenantID, subscriptionID);

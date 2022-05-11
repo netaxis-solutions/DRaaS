@@ -44,3 +44,56 @@ export const useProfileTabStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     gap: theme.spacing(1.25),
   },
 }));
+
+export const useLocationTableStyles = makeStyles(
+  (theme: ThemeDefaultOptions) => ({
+    countryCellWrapper: {
+      display: "flex",
+      alignItems: "center",
+      gap: theme.spacing(0.5),
+    },
+    selectPostalCode: {
+      "&": {
+        margin: 0,
+        width: 180,
+        height: 34,
+        "&>*>div": {
+          height: 34,
+          background: theme.palette.primary.white,
+          "&>input": {
+            height: "100%",
+            position: "absolute",
+            top: "0px",
+            left: "20px",
+            width: "69%!important",
+          },
+        },
+        "&>*>label": {
+          top: -4,
+        },
+      },
+    },
+    selectController: {
+      "&>div": {
+        margin: 0,
+        height: 46,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+    },
+    emptyTableWrapper: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      gap: theme.spacing(2.5),
+      alignItems: "center",
+      height: 100,
+      "& span": {
+        fontSize: "1.6rem",
+        lineHeight: "1.8rem",
+      },
+    },
+  }),
+);

@@ -1,14 +1,15 @@
 import { forwardRef, Ref, ChangeEvent } from "react";
-import clsx from "clsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MuiCheckbox from "@material-ui/core/Checkbox";
 import { Row } from "react-table";
+import clsx from "clsx";
 
 import { CheckboxType } from "utils/types/form";
 import { TableData } from "utils/types/tableConfig";
 
 import CheckboxIcon from "components/common/Form/FormCheckbox/CheckboxIcon";
 import CheckboxCheckedIcon from "components/common/Form/FormCheckbox/CheckboxCheckedIcon";
+
 import useStyles from "./styles";
 
 export const Checkbox: React.FC<
@@ -51,12 +52,18 @@ export const Checkbox: React.FC<
             }
           />
         }
-        label={label}
+        label={
+          <>
+            {label}
+            {helperText && (
+              <div className={classes.helperText}>{helperText}</div>
+            )}
+          </>
+        }
         classes={{ label: classes.label }}
         labelPlacement={labelPlacement}
         disabled={isRowDisabled}
       />
-      {helperText && <span>{helperText}</span>}
     </>
   );
 };

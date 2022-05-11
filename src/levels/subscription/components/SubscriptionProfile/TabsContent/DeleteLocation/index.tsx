@@ -6,7 +6,7 @@ import { TDeleteModalProps } from "utils/types/modal";
 import DeleteModal from "components/common/DeleteModal";
 import useStyles from "./styles";
 
-const DeleteLocationModal: FC<TDeleteModalProps> = ({
+const DeleteLocationModal: FC<Omit<TDeleteModalProps, "selectedRows">> = ({
   handleCloseModal,
   handleDelete,
   selectedRowsLength,

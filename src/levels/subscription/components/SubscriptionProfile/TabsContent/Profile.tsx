@@ -1,17 +1,19 @@
-import { observer } from "mobx-react-lite";
 import { FC, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { observer } from "mobx-react-lite";
 
 import SidebarConfig from "storage/singletons/SidebarConfig";
 import SubscriptionProfileStore from "storage/singletons/SubscriptionProfile";
+import SubscriptionsStore from "storage/singletons/Subscriptions";
 
 import FormInput from "components/common/Form/FormInput";
 
-import { useProfileTabStyles } from "./styles";
-import { Controller, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Plus } from "components/Icons";
+
+import { useProfileTabStyles } from "./styles";
 
 const Profile: FC = () => {
   const { t } = useTranslation();
@@ -27,9 +29,11 @@ const Profile: FC = () => {
   }>();
 
   const { extraLevelData, setChosenCustomer } = SidebarConfig;
+  const { subscriptionRights } = SubscriptionsStore;
 
   useEffect(() => {
     setValue("name", extraLevelData?.name || "");
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extraLevelData]);
 
@@ -54,7 +58,7 @@ const Profile: FC = () => {
   return (
     <form className={classes.profileWrapper} onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <span className={classes.boldLabel}>{t("Billing ID")}:</span>{" "}
+        <span className={classes.boldLabel}>{t("Billing ID")}:</span>
         {extraLevelData?.billingId}
       </div>
       <div className={classes.labelContainer}>
@@ -74,7 +78,10 @@ const Profile: FC = () => {
             <FormInput label={t("Name")} {...field} {...props} />
           )}
         />
-        <ButtonWithIcon icon={Plus} title={t("save")} type={"submit"} />
+        {subscriptionRights.find(
+          ({ name }: { name: string }) =>
+            name === "tenants.instance.subscriptions.instance.edit",
+        ) && <ButtonWithIcon icon={Plus} title={t("save")} type={"submit"} />}
       </div>
     </form>
   );

@@ -2,33 +2,21 @@ import { makeAutoObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
-import { request } from "services/api";
 
+import { request } from "services/api";
+import { t } from "services/Translation";
 import {
   deleteNotification,
   errorNotification,
   successNotification,
 } from "utils/functions/notifications";
-import { t } from "services/Translation";
-
-type PostalCode = {
-  id: number;
-  code: string;
-  city: string;
-  state: string;
-  region?: {
-    id: number;
-    name: string;
-  };
-  country?: {
-    id: number;
-    name: string;
-  };
-};
+import { PostalCode, Location } from "utils/types/locations";
 
 class SubscriptionProfileStore {
-  subscriptionLocations: any = [];
+  subscriptionLocations: Array<Location> = [];
   postalCodes: Array<PostalCode> = [];
+  postalCodesOptions: Array<{ value: number; label: string }> = [];
+
   constructor() {
     makeAutoObservable(this, {
       subscriptionLocations: observable.ref,
@@ -84,8 +72,16 @@ class SubscriptionProfileStore {
       route: `${configStore.config.draasInstance}/public/postal_codes`,
       loaderName: "@getPostalCodes",
     })
-      .then(({ data: { postalCodes } }) => {
-        this.postalCodes = postalCodes;
+      .then((data: AxiosResponse<{ postalCodes: Array<PostalCode> }>) => {
+        const postalCodes = data.data.postalCodes;
+
+        runInAction(() => {
+          this.postalCodes = postalCodes;
+          this.postalCodesOptions = postalCodes.map(({ code, city, id }) => ({
+            value: id,
+            label: `${city} ${code}`,
+          }));
+        });
       })
       .catch(() => {
         this.postalCodes = [];
@@ -126,7 +122,6 @@ class SubscriptionProfileStore {
     selectedLocationsIds: number[],
     callback?: () => void,
   ) => {
-    console.log(selectedLocationsIds);
     Promise.all(
       selectedLocationsIds.map(locationId =>
         request({
@@ -138,6 +133,31 @@ class SubscriptionProfileStore {
     )
       .then(() => {
         deleteNotification(t("Locations were successfully deleted!"));
+        callback && callback();
+      })
+      .catch(e => errorNotification(e));
+  };
+
+  modifySubscriptionLocations = (
+    tenantId: string,
+    subscriptionId: string,
+    locationId: number,
+    payload: Partial<{
+      street: string;
+      number: string;
+      postbox: string;
+      postalCodeId: number;
+    }>,
+    callback?: () => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionId}/locations/${locationId}`,
+      loaderName: "@modifySubscriptionLocations",
+      method: "put",
+      payload,
+    })
+      .then(() => {
+        successNotification(t("Location were successfully changed!"));
         callback && callback();
       })
       .catch(e => errorNotification(e));

@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   label: {
     fontSize: "1.4rem",
   },
+
+  helperText: {
+    fontSize: "1.2rem",
+    color: theme.palette.status.error,
+  },
 }));
 
 export default useStyles;
