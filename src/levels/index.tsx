@@ -11,7 +11,6 @@ import Admin from "./admin";
 import Distributor from "./distributor";
 import Reseller from "./reseller";
 import Tenant from "./tenant";
-// import Subscription from "./subscription";
 import SuspenseLoader from "components/Loader/Loader";
 import Loader from "components/Loader";
 

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
 import SubscriptionProfile from "storage/singletons/SubscriptionProfile";
 
@@ -12,7 +13,6 @@ import FormCheckbox from "components/common/Form/FormCheckbox";
 import { addLocationSchema } from "utils/schemas/addLocationSchema";
 
 import { useAddLocationStyles } from "./styles";
-import { useParams } from "react-router-dom";
 
 const defaultValues = {
   street: "",
@@ -65,7 +65,21 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
     [postalCodes],
   );
 
-  const onSubmit = ({ agreement, postalCodeId, postbox, ...values }: any) => {
+  const onSubmit = ({
+    agreement,
+    postalCodeId,
+    postbox,
+    ...values
+  }: {
+    street: string;
+    number: string;
+    postbox: string;
+    postalCodeId: {
+      label: string;
+      value: string;
+    };
+    agreement: boolean;
+  }) => {
     if (!isLoading) {
       setIsLoading(true);
 

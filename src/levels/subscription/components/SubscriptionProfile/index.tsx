@@ -1,6 +1,8 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useMemo } from "react";
 import { useHistory, useParams, Switch, Route } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { TFunction } from "i18next";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
@@ -9,10 +11,41 @@ import { t } from "services/Translation";
 import { Tab } from "utils/types/tabs";
 
 import Tabs from "components/Tabs";
-import TabsSkeleton from "components/Tabs/TabsSkeleton";
+import TableSkeleton from "components/Table/Skeleton";
 
 const Locations = lazy(() => import("./TabsContent/Locations"));
 const Profile = lazy(() => import("./TabsContent/Profile"));
+
+const getTranslatedColumns = (t: TFunction) => [
+  {
+    Header: t("Country"),
+    accessor: "Country",
+  },
+  {
+    Header: t("City"),
+    accessor: "City",
+  },
+  {
+    Header: t("Street"),
+    accessor: "Street",
+  },
+  {
+    Header: t("Number"),
+    accessor: "Number",
+  },
+  {
+    Header: t("Postbox"),
+    accessor: "Postbox",
+  },
+  {
+    Header: t("Postal code"),
+    accessor: "Postal code",
+  },
+  {
+    Header: t("Region"),
+    accessor: "Region",
+  },
+];
 
 const tabs: Tab[] = [
   {
@@ -35,7 +68,10 @@ const SubscriptionTabs = () => {
     tabID?: string;
   }>();
 
+  const { t } = useTranslation();
   const { allAvailvableRouting } = RoutingConfig;
+
+  const skeletonColumns = useMemo(() => getTranslatedColumns(t), [t]);
 
   const handleTabClick = (tabID: string) => {
     const url = createLink({
@@ -70,7 +106,12 @@ const SubscriptionTabs = () => {
         onTabChange={handleTabClick}
         active={params.tabID}
       />
-      <Suspense fallback={<TabsSkeleton tabsAmount={2} />}>
+
+      <Suspense
+        fallback={
+          <TableSkeleton title={t("Locations")} columns={skeletonColumns} />
+        }
+      >
         <Switch>
           {tabs.map(({ id, component: Component }: any) => (
             <Route

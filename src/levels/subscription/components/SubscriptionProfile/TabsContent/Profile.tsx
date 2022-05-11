@@ -37,7 +37,7 @@ const Profile: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [extraLevelData]);
 
-  const onSubmit = (value: any) => {
+  const onSubmit = (value: { name: string }) => {
     setRequestPending(true);
     if (!isRequestPending) {
       SubscriptionProfileStore.changeSubscriptionProfile(
