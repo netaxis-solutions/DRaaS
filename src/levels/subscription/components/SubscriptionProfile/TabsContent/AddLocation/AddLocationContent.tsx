@@ -5,12 +5,13 @@ import { Controller, useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 
 import SubscriptionProfile from "storage/singletons/SubscriptionProfile";
+import MultiStepForm from "storage/singletons/MultiStepForm";
+
+import { addLocationSchema } from "utils/schemas/addLocationSchema";
 
 import FormInput from "components/common/Form/FormInput";
-import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
 import FormSelect from "components/common/Form/FormSelect";
 import FormCheckbox from "components/common/Form/FormCheckbox";
-import { addLocationSchema } from "utils/schemas/addLocationSchema";
 
 import { useAddLocationStyles } from "./styles";
 
@@ -40,6 +41,7 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
     defaultValues,
     resolver: yupResolver(addLocationSchema(t)),
   });
+  const { previousChoices } = MultiStepForm;
 
   const {
     postalCodes,
@@ -47,9 +49,11 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
     getSubscriptionLocations,
   } = SubscriptionProfile;
 
-  const postalCodeOptions = useMemo(
-    () =>
-      postalCodes.reduce(
+  const postalCodeOptions = useMemo(() => {
+    const currentCountry = previousChoices[0].selectedCountryName;
+    return postalCodes
+      .filter(({ country }) => country?.name === currentCountry)
+      .reduce(
         (
           formattedCodes: Array<{ label: string; value: string }>,
           currentPostalCode,
@@ -61,9 +65,10 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
           },
         ],
         [],
-      ),
-    [postalCodes],
-  );
+      );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postalCodes]);
 
   const onSubmit = ({
     agreement,
@@ -110,16 +115,12 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
     }
   };
 
-  const onCancel = () => {
-    handleCancel();
-  };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.formWrapper}>
-      <ModalButtonsWrapper
-        handleCancel={onCancel}
-        cancelButton
-        submitButtonTitle={t("Add")}
-      />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={classes.formWrapper}
+      id={"addLocation"}
+    >
       <Controller
         name="postalCodeId"
         control={control}
