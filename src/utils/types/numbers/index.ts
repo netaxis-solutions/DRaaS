@@ -46,7 +46,7 @@ export type AssignReservedPayload = {
   numbers: Array<number>;
 };
 
-export type ReservedNumbers = {
+export type InventoryNumber = {
   countryCode: string;
   id: number;
   nsn: string;
