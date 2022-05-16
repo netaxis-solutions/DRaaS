@@ -8,17 +8,14 @@ import LicensesStore from "../Licenses";
 
 import { t } from "services/Translation";
 import { request } from "services/api";
-import {
-  SubscriptionLicenseType,
-  MsTeamsUsersType,
-} from "utils/types/licenses";
+import { LicenseType } from "utils/types/licenses";
 import {
   errorNotification,
   successNotification,
 } from "utils/functions/notifications";
 
 class SubscriptionLicensesStore {
-  licenses: SubscriptionLicenseType[] | MsTeamsUsersType[] = [];
+  licenses: LicenseType[] = [];
 
   constructor() {
     makeObservable(this, {
@@ -26,6 +23,8 @@ class SubscriptionLicensesStore {
     });
   }
 
+  // https://docs.netaxis.solutions/draas/provisioning/api/06_licenses.html#get-the-licenses-of-a-subscription
+  // Get All Licenses in Subscription. Subscription level -> Licenses table
   getSubscriptionLicensesData = async (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID?: string,
@@ -37,7 +36,7 @@ class SubscriptionLicensesStore {
       .then((data: AxiosResponse<any>) => {
         const licenses = data?.data;
 
-        const formatLicenses: MsTeamsUsersType[] = chain(licenses)
+        const formatLicenses: LicenseType[] = chain(licenses)
           .map((value, key) => ({
             name: String(key),
             inUse:
@@ -60,6 +59,8 @@ class SubscriptionLicensesStore {
       });
   };
 
+  // https://docs.netaxis.solutions/draas/provisioning/api/06_licenses.html#update-the-license-limits-of-a-subscription
+  // Update Licenses in Subscription Licenses table
   editLicense = async ({
     tenantID = Login.getExactLevelReference("tenant"),
     subscriptionID,
@@ -67,7 +68,7 @@ class SubscriptionLicensesStore {
   }: {
     tenantID: string;
     subscriptionID: string;
-    payload: MsTeamsUsersType;
+    payload: LicenseType;
   }) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/licenses`,

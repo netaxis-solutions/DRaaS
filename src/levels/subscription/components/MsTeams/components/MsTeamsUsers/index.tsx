@@ -13,6 +13,7 @@ import MsTeamsStore from "storage/singletons/MsTeams";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
+import SubscriptionLicensesStore from "storage/singletons/Licenses";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 import { getIsLoading } from "utils/functions/getIsLoading";
@@ -162,6 +163,7 @@ const MsTeamsUsers: FC = () => {
       () => getFreeNumbers(tenantID, subscriptionID),
     );
   };
+
   const isLoading =
     getIsLoading("@getMsTeamUsers", byFetchType) ||
     getIsLoading("@getFreeNumbers", byFetchType);
@@ -185,9 +187,11 @@ const MsTeamsUsers: FC = () => {
         }
         columns={columns}
         data={msTeamUsersList}
-        editDisabledCondition={(row: Row<TableData>) => {
-          return !(row.original.msTeams.voiceEnabled === "yes");
-        }}
+        editDisabledCondition={(row: Row<TableData>) =>
+          !(row.original.msTeams.voiceEnabled === "yes") ||
+          SubscriptionLicensesStore.licenses[0].inUse >=
+            SubscriptionLicensesStore.licenses[0].assigned
+        }
         isEditable
       />
     </form>

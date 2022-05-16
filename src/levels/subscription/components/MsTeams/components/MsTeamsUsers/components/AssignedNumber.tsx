@@ -10,14 +10,18 @@ type statusType =
   | "deleting"
   | "activating"
   | "activation_error"
-  | "deletion_error";
+  | "deletion_error"
+  | "updating"
+  | "update_error";
 
 const statuses = {
   active: t("active"),
   deleting: t("deleting"),
   activating: t("activating"),
+  updating: t("updating"),
   activation_error: t("activation error"),
   deletion_error: t("deletion error"),
+  update_error: t("update_error"),
 };
 
 const AssignedNumber: FC<{
@@ -36,9 +40,11 @@ const AssignedNumber: FC<{
           [classes.active]: draasUserInfo.status === "active",
           [classes.updating]:
             draasUserInfo.status === "deleting" ||
+            draasUserInfo.status === "updating" ||
             draasUserInfo.status === "activating",
           [classes.error]:
             draasUserInfo.status === "activation_error" ||
+            draasUserInfo.status === "update_error" ||
             draasUserInfo.status === "deletion_error",
         })}
       >

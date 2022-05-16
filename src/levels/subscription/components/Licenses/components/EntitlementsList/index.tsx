@@ -12,7 +12,6 @@ import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
 
 import { editEntitlementSchema } from "utils/schemas/entitlements";
-import { Country } from "utils/functions/countryConfig";
 import {
   EditEntitlementType,
   EntitlementsListType,
@@ -27,6 +26,7 @@ import TableSkeleton from "components/Table/Skeleton";
 import AddEntitlement from "./components/AddEntitlement";
 import DeleteEntitlement from "./components/DeleteEntitlement";
 import CardWithButton from "components/CardForEmptyTable";
+import Flag from "components/common/Flag";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -80,11 +80,11 @@ const EntitlementList: FC = () => {
       {
         Header: t("Country code"),
         accessor: "countryCode",
-        Cell: ({ cell }: CellProps<TableProps>) => {
+        Cell: ({ row }: CellProps<TableData>) => {
           return (
             <div className={classes.root}>
-              {cell.value}
-              {Country[cell.value]}
+              {row.original.countryCode}
+              <Flag countryCode={row.original.isoCode} />
             </div>
           );
         },

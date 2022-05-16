@@ -1,14 +1,17 @@
-import { NetherlandFlag } from "components/Icons";
-
-const flagsList = [{ countryCode: "nl", flag: <NetherlandFlag /> }];
+import ReactCountryFlag from "react-country-flag";
 
 const Flag: React.FC<{ countryCode: string }> = ({ countryCode }) => {
-  const lowerCaseCountryCode = countryCode.toLocaleLowerCase();
-
   return (
-    <>
-      {flagsList.find(flag => flag.countryCode === lowerCaseCountryCode)?.flag}
-    </>
+    <ReactCountryFlag
+      countryCode={countryCode}
+      svg
+      style={{
+        width: "20px",
+        height: "15px !important",
+        objectFit: "cover",
+        borderRadius: "3px",
+      }}
+    />
   );
 };
 

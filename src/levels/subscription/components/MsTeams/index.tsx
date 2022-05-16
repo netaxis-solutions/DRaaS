@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { FC, lazy, useEffect } from "react";
 import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
+import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import createLink from "services/createLink";
@@ -14,6 +15,7 @@ import Tabs from "components/Tabs";
 const O365Tenant = lazy(() => import("./components/O365Tanant"));
 const O365Admin = lazy(() => import("./components/O365Admin"));
 const MsTeamsUsers = lazy(() => import("./components/MsTeamsUsers"));
+const ResourceAccount = lazy(() => import("./components/ResourceAccount"));
 
 const tabs = [
   {
@@ -24,7 +26,7 @@ const tabs = [
   {
     name: t("Resource accounts"),
     id: "resourceAccounts",
-    component: () => <>Resource accounts</>,
+    component: () => <ResourceAccount />,
   },
   {
     name: t("O365 Tenant"),
@@ -46,6 +48,7 @@ const MSTeams: FC = () => {
     tabID?: string;
   }>();
 
+  const { getSubscriptionLicensesData } = SubscriptionLicensesStore;
   const { getCheckMsTeamAdmin, checkMsTeamAdmin } = MsTeamAdminStorage;
 
   const filteredTabs =
@@ -67,6 +70,7 @@ const MSTeams: FC = () => {
   };
 
   useEffect(() => {
+    getSubscriptionLicensesData(params.tenantID, params.subscriptionID);
     getCheckMsTeamAdmin(params.tenantID, params.subscriptionID);
     if (params.tabID === ":tabID" && tabs && tabs.length) {
       const url = createLink({

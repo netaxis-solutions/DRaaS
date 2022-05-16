@@ -9,14 +9,14 @@ export type LicensesUserType = {
   inUse: number | string;
 };
 
-export type MsTeamsUsersType = LicensesUserType & {
+export type LicenseType = LicensesUserType & {
   name: string;
 };
 
 export type LicensesSubmitEditItem = {
   tenantID: string;
   subscriptionID: number;
-  payload: MsTeamsUsersType;
+  payload: LicenseType;
 };
 
 export type SipTrunkChannels = {
@@ -24,7 +24,7 @@ export type SipTrunkChannels = {
 };
 
 export type SubscriptionLicenseType = {
-  msTeamsUsers: MsTeamsUsersType;
+  msTeamsUsers: LicenseType;
   sipTrunkChannels: SipTrunkChannels;
 };
 
