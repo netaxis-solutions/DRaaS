@@ -301,7 +301,6 @@ const ResourceAccount: FC = () => {
   const handleDeleteItem = (props: any) => {
     setSelectedRows({ [props.row.index]: true });
     setModalToOpen("delete");
-    setSelectedRows({ [props.row.index]: true });
   };
 
   // Function in delete modal -> button "Delete"

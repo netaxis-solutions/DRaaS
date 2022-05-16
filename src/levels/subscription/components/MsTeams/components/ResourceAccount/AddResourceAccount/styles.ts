@@ -13,7 +13,6 @@ export const createResourceAccountStyles = makeStyles(
           height: 34,
           background: theme.palette.primary.white,
           "& button[aria-label='Clear']": {
-            border: "1px solid red",
             display: "none",
           },
           "&>input": {
@@ -35,7 +34,7 @@ export const createResourceAccountStyles = makeStyles(
     createResourceAccountForm: {
       display: "flex",
       flexDirection: "column",
-      gap: 20,
+      gap: theme.spacing(2.5),
     },
     createSubscriptionForm: {
       display: "flex",
@@ -75,7 +74,7 @@ export const createResourceAccountStyles = makeStyles(
       display: "flex",
       justifyContent: "start",
       alignItem: "center",
-      gap: 10,
+      gap: theme.spacing(1.2),
     },
     assignedNumberButtons: {
       display: "flex",
@@ -97,7 +96,7 @@ export const createResourceAccountStyles = makeStyles(
       "& >svg": {
         width: "100%",
         height: "100%",
-        fill: "#000",
+        fill: theme.palette.body.universal.white,
       },
     },
   }),

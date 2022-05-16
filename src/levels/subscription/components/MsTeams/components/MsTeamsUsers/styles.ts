@@ -97,7 +97,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     justifyContent: "start",
     alignItem: "center",
-    gap: 10,
+    gap: theme.spacing(1.2),
   },
   assignedNumberButtons: {
     display: "flex",

@@ -15,6 +15,7 @@ export type PaletteDefaultOptionsType = PaletteOptions & {
   notification: ColorType;
   icon: ColorType;
   sidebar: ColorType;
+  body: any;
 };
 
 export type TThemeBody = {
@@ -25,6 +26,7 @@ export type TThemeBody = {
   tabs: any;
   card: any;
   stepper: any;
+  universal: any;
 };
 
 export type ThemeDefaultOptions = Theme & {

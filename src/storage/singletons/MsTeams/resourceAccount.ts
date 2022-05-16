@@ -26,7 +26,7 @@ class ResourceAccount {
   constructor() {
     makeObservable(this, {
       resourceAccountsData: observable.ref,
-      countryCode: observable,
+      countryCode: observable.ref,
 
       getCompleteMsTeamResourceAccounts: action,
       modifyMsTeamsResourceAccount: action,

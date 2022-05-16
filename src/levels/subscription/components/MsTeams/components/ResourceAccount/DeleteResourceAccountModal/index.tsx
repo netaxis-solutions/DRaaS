@@ -23,10 +23,12 @@ const DeleteResourceAccountModal: FC<TDeleteResourceAccountModal> = ({
       handleCancel={handleCloseModal}
       handleDelete={handleDelete}
       selectedElementName={
+        data &&
         selectedRowsLength === 1 &&
-        data.reduce((prev: any, cur: any, i: any) => {
+        data.reduce((prev, cur, i) => {
           selectedRows[i] && (prev = cur.msTeams.displayName);
-          return prev && setResoureAccountCurrentId(cur.msTeams.id);
+          setResoureAccountCurrentId(cur.msTeams.id);
+          return prev;
         }, "")
       }
     >
@@ -39,8 +41,7 @@ const DeleteResourceAccountModal: FC<TDeleteResourceAccountModal> = ({
           {t(`Are you sure you want to delete`)}{" "}
           <span className={classes.boldText}>
             {selectedRowsLength === 1 &&
-              data.find((_: any, i: any) => selectedRows[i])?.msTeams
-                .displayName}
+              data.find((_, i) => selectedRows[i])?.msTeams.displayName}
           </span>
           ?
         </div>

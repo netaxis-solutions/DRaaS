@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { object, string } from "yup";
@@ -51,10 +51,6 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
     subscriptionID: string;
   }>();
   const { byFetchType } = PendingQueries;
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Formatting CountryCode to Autocomplete format
   const countries = ResourceAccountStorage.countryCode.map(requirement => {
