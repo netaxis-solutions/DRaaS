@@ -267,7 +267,7 @@ const ResourceAccount: FC = () => {
   const onSubmit = (value: TModifyResourceAccount) => {
     const doubleCheckPhoneNumber =
       TableSelectedRowsStore.selectedRowsValues[0].original.draas
-        .phoneNumber === value.phoneNumber
+        ?.phoneNumber === value?.phoneNumber
         ? ["phoneNumber"]
         : [""];
     const actualNumber = omit(
