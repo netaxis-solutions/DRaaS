@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { object, string } from "yup";
@@ -52,6 +52,10 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
   }>();
   const { byFetchType } = PendingQueries;
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Formatting CountryCode to Autocomplete format
   const countries = ResourceAccountStorage.countryCode.map(requirement => {
     return {
@@ -71,7 +75,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
           value: string().required(),
         }),
         location: string().required(),
-        userPrincipalName: string().required(),
+        userPrincipalName: string().email().required(),
         phoneNumber: string(),
       }),
     ),
@@ -104,7 +108,9 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
     );
   };
 
-  const isLoading = getIsLoading("@createMsTeamResourceAccount", byFetchType);
+  const isLoading =
+    getIsLoading("@createMsTeamResourceAccount", byFetchType) ||
+    getIsLoading("@getFreeNumbers", byFetchType);
 
   return isLoading ? (
     <Stack>

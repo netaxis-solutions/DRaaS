@@ -259,6 +259,7 @@ const ResourceAccount: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
+        getFreeNumbers(tenantID, subscriptionID);
       },
     },
   ];
@@ -320,38 +321,41 @@ const ResourceAccount: FC = () => {
     getIsLoading("@getFreeNumbers", byFetchType) ||
     getIsLoading("@modifyMsTeamResourceAccount", byFetchType);
 
-  return isLoading ? (
-    <TableSkeleton
-      title={t("Resource accounts")}
-      columns={columns}
-      actions={[true, true]}
-    />
-  ) : (
+  return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Table
-          title={
-            <div className={classes.tableTitle}>
-              {t("Resource accounts")}
-              <div
-                className={clsx(classes.icon, classes.reloadButton)}
-                onClick={() => {
-                  getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
-                }}
-              >
-                <Reload />
-              </div>
-            </div>
-          }
+      {isLoading ? (
+        <TableSkeleton
+          title={t("Resource accounts")}
           columns={columns}
-          data={resourceAccountsData}
-          setDefaultValues={setDefaultValues}
-          toolbarActions={toolbarActions}
-          handleDeleteItem={handleDeleteItem}
-          isEditable
-          isRemovable
+          actions={[true, true]}
         />
-      </form>
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Table
+            title={
+              <div className={classes.tableTitle}>
+                {t("Resource accounts")}
+                <div
+                  className={clsx(classes.icon, classes.reloadButton)}
+                  onClick={() => {
+                    getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
+                    getFreeNumbers(tenantID, subscriptionID);
+                  }}
+                >
+                  <Reload />
+                </div>
+              </div>
+            }
+            columns={columns}
+            data={resourceAccountsData}
+            setDefaultValues={setDefaultValues}
+            toolbarActions={toolbarActions}
+            handleDeleteItem={handleDeleteItem}
+            isEditable
+            isRemovable
+          />
+        </form>
+      )}
       {modalToOpen === "delete" && (
         <DeleteResourceAccount
           handleCloseModal={handleCloseModal}
@@ -362,7 +366,6 @@ const ResourceAccount: FC = () => {
           selectedRowsLength={TableSelectedRowsStore.selectedRowsLength}
         />
       )}
-
       {modalToOpen === "add" && (
         <AddResourceAccount handleCancel={handleCloseModal} />
       )}
