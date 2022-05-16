@@ -259,7 +259,6 @@ const ResourceAccount: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
-        clearPaginationData();
       },
     },
   ];
@@ -291,10 +290,10 @@ const ResourceAccount: FC = () => {
     draas: TResourceAccountDataDraas;
     msTeams: TResourceAccountDataMsTeams;
   }) => {
-    setValue("phoneNumber", draas.phoneNumber);
-    setValue("accountType", msTeams.accountType);
-    setValue("displayName", msTeams.displayName);
-    setValue("location", msTeams.location);
+    setValue("phoneNumber", draas?.phoneNumber);
+    setValue("accountType", msTeams?.accountType);
+    setValue("displayName", msTeams?.displayName);
+    setValue("location", msTeams?.location);
   };
 
   // Function for opening delete modal
