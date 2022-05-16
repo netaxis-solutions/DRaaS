@@ -14,6 +14,7 @@ import {
   successNotification,
   errorNotification,
 } from "utils/functions/notifications";
+import Numbers from "../Numbers";
 import { request } from "services/api";
 import { t } from "services/Translation";
 
@@ -99,6 +100,7 @@ class ResourceAccount {
         successNotification(t("Resource Account successfully added!"));
         successCallback && successCallback();
         this.getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
+        Numbers.getFreeNumbers(tenantID, subscriptionID);
         runInAction(() => {
           this.isLoading = false;
         });
