@@ -51,7 +51,7 @@ class ResourceAccount {
         });
       })
       .catch(e => {
-        console.error(e);
+        errorNotification(e);
       });
   };
 
@@ -73,7 +73,7 @@ class ResourceAccount {
         this.getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
       })
       .catch(e => {
-        console.error(e);
+        errorNotification(e);
       });
   };
 
@@ -126,7 +126,7 @@ class ResourceAccount {
         });
       })
       .catch(e => {
-        console.error(e);
+        errorNotification(e);
       });
   };
 
@@ -142,11 +142,15 @@ class ResourceAccount {
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/resource_accounts/${resourceAccountId}`,
       loaderName: "@deleteResourceAccount",
       method: "delete",
-    }).then(() => {
-      deleteNotification(t("Resource Account successfully deleted!"));
-      this.getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
-      callback && callback();
-    });
+    })
+      .then(() => {
+        deleteNotification(t("Resource Account successfully deleted!"));
+        this.getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
+        callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
   };
 }
 
