@@ -79,9 +79,11 @@ export const sidebarLevelMenus: SidebarMenuType = {
   distributor: {
     reseller: resellerMenu,
     tenant: tenantMenu,
+    subscription: subscriptionMenu,
   },
   reseller: {
     tenant: tenantMenu,
+    subscription: subscriptionMenu,
   },
   tenant: {
     subscription: subscriptionMenu,

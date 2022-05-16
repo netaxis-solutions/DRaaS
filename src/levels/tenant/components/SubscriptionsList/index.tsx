@@ -23,6 +23,7 @@ import TableSkeleton from "components/Table/Skeleton";
 import CardWithButton from "components/CardForEmptyTable";
 
 import useStyles from "./styles";
+import Login from "storage/singletons/Login";
 
 const getTranslatedColumns = (t: TFunction) => [
   {
@@ -36,6 +37,8 @@ const SubscriptionsList: FC = () => {
   const { loggedInUserLevel, allAvailvableRouting } = RoutingConfig;
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
+  const { getExactLevelReference } = Login;
+  const tenantId = params.tenantID || getExactLevelReference("tenant");
 
   const classes = useStyles();
 
@@ -75,7 +78,7 @@ const SubscriptionsList: FC = () => {
               to={createLink({
                 url: allAvailvableRouting.subscriptionLicenses,
                 params: {
-                  tenantID: params.tenantID,
+                  tenantID: tenantId,
                   subscriptionID: original.id,
                 },
               })}
@@ -87,11 +90,11 @@ const SubscriptionsList: FC = () => {
       },
       ...getTranslatedColumns(t),
     ],
-    [t, allAvailvableRouting, params.tenantID],
+    [t, allAvailvableRouting, tenantId],
   );
 
   useEffect(() => {
-    getSubscriptionsData(params.tenantID);
+    getSubscriptionsData(tenantId);
     return () => cleanSubscriptionHistory();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -135,7 +138,7 @@ const SubscriptionsList: FC = () => {
   };
 
   const callback = () => {
-    getSubscriptionsData(params.tenantID);
+    getSubscriptionsData(tenantId);
     handleCloseModal();
   };
 
@@ -149,7 +152,7 @@ const SubscriptionsList: FC = () => {
       selectedRows[i] && prev.push(`${cur.id}`);
       return prev;
     }, [] as Array<string>);
-    deleteSubscriptions(params.tenantID, selectedSubscriptionsIds, callback);
+    deleteSubscriptions(tenantId, selectedSubscriptionsIds, callback);
   };
 
   const isLoading = getIsLoading("@getSubscriptionsData", byFetchType);

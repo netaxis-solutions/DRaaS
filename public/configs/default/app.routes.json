@@ -24,19 +24,18 @@
   },
   "tenant": {
     "tenantSubscriptions": { "enabled": true },
-    "tenantLocations": { "enabled": true },
     "tenantRatePlan": { "enabled": true },
     "tenantAdmins": { "enabled": false },
     "tenantProfile": { "enabled": true }
   },
   "subscription": {
     "subscriptionLicenses": {
-       "enabled": true ,
-       "tabs":{
-         "licensesList": true,
-         "entitlementsList": true
-       }
-      },
+      "enabled": true,
+      "tabs": {
+        "licensesList": true,
+        "entitlementsList": true
+      }
+    },
     "subscriptionNumbers": {
       "enabled": true,
       "tabs": {
@@ -46,9 +45,9 @@
         "porting": true
       }
     },
-    "subscriptionMSTeams": { 
-      "enabled": true ,
-      "tabs":{
+    "subscriptionMSTeams": {
+      "enabled": true,
+      "tabs": {
         "o365tenant": true,
         "o365admin": true
       }

@@ -62,9 +62,9 @@ class Menu {
 
   get sidebar() {
     let sideMenu: SidebarUnitType[] = [];
+
     if (
       RoutingStore.loggedInUserLevel &&
-      RoutingStore.loggedInUserLevel !== "tenant" &&
       sidebarLevelMenus[RoutingStore.loggedInUserLevel]
     ) {
       const menuArr = get(
@@ -107,7 +107,6 @@ class Menu {
               menuBar;
       }
     }
-
     return sideMenu.length ? sideMenu : null;
   }
 }

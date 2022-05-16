@@ -2,6 +2,8 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
+import Login from "../Login";
+
 import { request } from "services/api";
 import { errorNotification } from "utils/functions/notifications";
 import {
@@ -26,10 +28,13 @@ class PortingRequestsStore {
     makeAutoObservable(this);
   }
 
-  getPortingRequests = async (tenantID: string, subscriptionID: string) => {
+  getPortingRequests = async (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     try {
       const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/porting/requests`,
+        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/porting/requests`,
         loaderName: "@getPortingRequests",
         payload: {
           params: {
@@ -51,12 +56,12 @@ class PortingRequestsStore {
   };
 
   getExactPortingRequest = async (
-    tenantID: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     id: number | string,
   ) => {
     return await request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/porting/requests/${id}`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/porting/requests/${id}`,
       loaderName: "@getExactPortingRequest",
     })
       .then((data: AxiosResponse<any>) => {
@@ -73,13 +78,13 @@ class PortingRequestsStore {
   };
 
   getCurrentRequestDocuments = async (
-    tenantID: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     id: number | string,
     finalCallback?: () => void,
   ) => {
     await request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/porting/requests/${id}`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/porting/requests/${id}`,
       loaderName: "@getCurrentRequestDocuments",
     })
       .then((data: AxiosResponse<any>) => {
@@ -122,7 +127,7 @@ class PortingRequestsStore {
   };
 
   createPortingRequest = async (
-    tenantId: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subId: string,
     payload: PortingRequestPayload,
     successCallback?: (data: { id: number; portId: string }) => void,
@@ -137,13 +142,13 @@ class PortingRequestsStore {
   };
 
   getRequestInfoModalData = async (
-    tenantID: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     currentRequestId: string | number,
     successCallback: () => void,
   ) => {
     Promise.all([
-      this.getExactPortingRequest(tenantID, subscriptionID, currentRequestId),
+      this.getExactPortingRequest(tenantId, subscriptionID, currentRequestId),
       this.getPortingRequirements(),
     ])
       .then(() => {
@@ -176,7 +181,7 @@ class PortingRequestsStore {
   };
 
   addAttachment = async (
-    tenantId: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subId: string,
     portId: string | number,
     attachmentKey: string,
@@ -212,7 +217,7 @@ class PortingRequestsStore {
   };
 
   activatePortRequest = async (
-    tenantId: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subId: string,
     portId: string | number,
   ) => {
@@ -224,7 +229,7 @@ class PortingRequestsStore {
   };
 
   cancelPortRequest = async (
-    tenantId: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subId: string,
     portId: string | number,
   ) => {
@@ -236,7 +241,7 @@ class PortingRequestsStore {
   };
 
   deleteAttachment = async (
-    tenantId: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subId: string,
     portId: string | number,
     documentId: number,

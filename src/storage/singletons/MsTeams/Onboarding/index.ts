@@ -5,6 +5,7 @@ import CreateDeleteAdmin from "../CreateDeleteAdmin";
 
 import { request } from "services/api";
 import { t } from "services/Translation";
+import Login from "storage/singletons/Login";
 
 import {
   successNotification,
@@ -106,7 +107,7 @@ class MsTeamOnboarding {
   };
 
   checkOnboarding = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     notification?: boolean,
   ) => {
@@ -141,7 +142,10 @@ class MsTeamOnboarding {
       });
   };
 
-  startOnboarding = (tenantID: string, subscriptionID: string) => {
+  startOnboarding = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/wizard`,
       loaderName: "@postStartOnboarding",
@@ -159,7 +163,10 @@ class MsTeamOnboarding {
     });
   };
 
-  cleanUpOnboarding = (tenantID: string, subscriptionID: string) => {
+  cleanUpOnboarding = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     runInAction(() => {
       this.isLoadingUnlinkMsTeamTenant = true;
     });

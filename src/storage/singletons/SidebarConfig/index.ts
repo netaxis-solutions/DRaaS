@@ -7,6 +7,7 @@ import { SubscriptionItemType } from "utils/types/subscriptions";
 
 import Tenant from "../Tenant";
 import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
+import Login from "../Login";
 
 class SidebarConfig {
   chosenCustomerID = "";
@@ -15,7 +16,10 @@ class SidebarConfig {
   extraLevelData: SubscriptionItemType | undefined = undefined;
   isLoading = false;
 
-  setChosenCustomer = async (id: string, extraLevelID?: string) => {
+  setChosenCustomer = async (
+    id: string = Login.getExactLevelReference("tenant"),
+    extraLevelID?: string,
+  ) => {
     this.clearChosenCustomer();
     let chosenCustomerData = this.chosenCustomerData;
     if (this.chosenCustomerID !== id) {
@@ -53,7 +57,7 @@ class SidebarConfig {
   };
 
   getSpecificTenantSubscription = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ): Promise<any | undefined> => {
     const result = await request({

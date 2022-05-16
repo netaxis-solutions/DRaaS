@@ -32,7 +32,6 @@ export const privateRoutes: PrivateRoutesType = {
   resellerAdmins: "/admins",
   resellerProfile: "/profile",
   tenantSubscriptions: "/subscriptions",
-  tenantLocations: "/locations",
   tenantRatePlan: "/rate-plan",
   tenantAdmins: "/admins",
   tenantProfile: "/profile",
@@ -64,8 +63,8 @@ export const urlStartString: UrlStartStringType = {
     subscription: "/tenants/:tenantID/subscriptions/:subscriptionID",
   },
   tenant: {
-    tenant: "/:tenantID",
-    subscription: "/:tenantID/subscriptions/:subscriptionID",
+    tenant: "",
+    subscription: "/subscriptions/:subscriptionID",
   },
   subscription: {
     subscription: "/:subscriptionID",
