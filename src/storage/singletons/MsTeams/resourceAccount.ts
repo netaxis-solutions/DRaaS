@@ -70,6 +70,7 @@ class ResourceAccount {
       payload,
     })
       .then(() => {
+        successNotification(t("Resource Account successfully updated!"));
         this.getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
       })
       .catch(e => {
