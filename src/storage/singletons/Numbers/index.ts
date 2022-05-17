@@ -178,7 +178,7 @@ class NumbersStore {
       });
   };
 
-  addReservedNumber = (
+  addNumberFromInventory = (
     tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: AssignReservedPayload,

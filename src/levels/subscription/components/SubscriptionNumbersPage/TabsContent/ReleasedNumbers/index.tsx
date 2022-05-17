@@ -47,6 +47,7 @@ const ReleasedNumbers: FC = () => {
 
   const classes = useStyles();
 
+  //fetching entitlements and released numbers
   useEffect(() => {
     getReleasedNumbers(tenantID, subscriptionID);
     getEntitlements(tenantID, subscriptionID);
@@ -54,6 +55,7 @@ const ReleasedNumbers: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tablePageCounter, tablePageSize, search]);
 
+  //clearing pagination
   useEffect(() => {
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +108,7 @@ const ReleasedNumbers: FC = () => {
       ]
     : [];
 
+  //array of actions and their states for each row
   const customActions = [
     {
       actionName: "addReserved",
@@ -195,7 +198,7 @@ const ReleasedNumbers: FC = () => {
     setAvailable(EntitlementsStore.getAvailableEntitlements);
 
     const { availableEntitlements: available } = EntitlementsStore;
-
+    //this reduce calculates amount of available checkboxes on current page
     const availableOnCurrentPage =
       page.length &&
       page.reduce((availableEntitlements: AvailableEntitlements, row) => {
@@ -229,6 +232,7 @@ const ReleasedNumbers: FC = () => {
         };
       }, {});
 
+    //this reduce calculates amount of available entitlements that are left
     const amountAvailable = Object.values(availableOnCurrentPage).reduce(
       (
         availableEntitlementsAmount: number,
@@ -269,6 +273,7 @@ const ReleasedNumbers: FC = () => {
           available[row.original.countryCode][row.original.numberType]--;
   };
 
+  // This variable shows if data is loading
   const isLoading =
     getIsLoading("@getReleasedNumbers", byFetchType) ||
     getIsLoading("@getSubscriptionEntitlementsData", byFetchType);
