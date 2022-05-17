@@ -28,6 +28,16 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   width100: {
     width: "90%",
   },
+  iconButton: {
+    padding: 0,
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+    "&& svg": {
+      fill: theme.palette.secondary.text,
+      marginLeft: 0,
+    },
+  },
   numberWithLabel: {
     display: "flex",
     flexDirection: "row",
@@ -83,6 +93,26 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   centred: {
     marginLeft: 35,
   },
+  assignedNumberWrapper: {
+    display: "flex",
+    justifyContent: "start",
+    alignItem: "center",
+    gap: theme.spacing(1.2),
+  },
+  assignedNumberButtons: {
+    display: "flex",
+    justifyContent: "start",
+    width: "100%",
+    "& div": {
+      maxWidth: "90%",
+    },
+  },
+  errorNotification: {
+    fill: theme.palette.status.error,
+    transform: "rotate(180deg)",
+    width: 20,
+    height: 20,
+  },
   icon: {
     height: 20,
     width: 20,
@@ -101,6 +131,12 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     },
     "&:active": {
       transform: "scale(0.9)",
+    },
+  },
+  flags: {
+    "& img": {
+      width: "20px !important",
+      height: 16,
     },
   },
   check: {

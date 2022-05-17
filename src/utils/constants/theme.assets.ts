@@ -59,6 +59,14 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     main: "#212356",
     active: "#484CBA",
   },
+  body: {
+    universal: {
+      secondaryText: "#828282",
+      text: "#000000",
+      link: "#0061F1",
+      white: "#FFFFFF",
+    },
+  },
   button: {
     hover: "#EBEBF7",
     active: "#C2C3E8",

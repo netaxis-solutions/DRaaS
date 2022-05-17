@@ -11,7 +11,7 @@ import TablePagination from "storage/singletons/TablePagination";
 
 import { EditLicensesPayload } from "utils/types/licenses";
 import { editLicenseSchema } from "utils/schemas/license";
-import { MsTeamsUsersType } from "utils/types/licenses";
+import { LicenseType } from "utils/types/licenses";
 import { getIsLoading } from "utils/functions/getIsLoading";
 
 import FormTableInput from "components/common/TableInput";
@@ -44,7 +44,7 @@ const LicensesList: FC = () => {
     defaultValues,
   });
 
-  const onSubmit: SubmitHandler<MsTeamsUsersType> = payload => {
+  const onSubmit: SubmitHandler<LicenseType> = payload => {
     editLicense({ tenantID, subscriptionID, payload });
   };
 
@@ -92,7 +92,7 @@ const LicensesList: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setDefaultValues = (license: MsTeamsUsersType) => {
+  const setDefaultValues = (license: LicenseType) => {
     setValue("assigned", `${license.assigned}`);
     setValue("name", `${license.name}`);
   };
