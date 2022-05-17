@@ -235,7 +235,7 @@ const ReservedNumbers: FC = () => {
     );
   };
 
-  const selectAllRowCondition = (isChecked: boolean, row: Row<TableData>) => {
+  const isRowSelectable = (isChecked: boolean, row: Row<TableData>) => {
     const { availableEntitlements: available } = EntitlementsStore;
 
     return isChecked
@@ -273,7 +273,7 @@ const ReservedNumbers: FC = () => {
       checkbox
       isCheckboxAvailable={isAvailable}
       isGeneralCheckboxSelected={selectAllCondition}
-      selectAllRowCondition={selectAllRowCondition}
+      isRowSelectable={isRowSelectable}
     />
   ) : (
     <div className={classes.emptyTableWrapper}>

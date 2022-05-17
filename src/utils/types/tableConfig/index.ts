@@ -55,7 +55,7 @@ export type TableProps = {
   ) => CustomActionType[];
   isCheckboxAvailable?: (rowData: Row<TableData>) => boolean;
   isGeneralCheckboxSelected?: (page: Row<TableData>[]) => boolean;
-  selectAllRowCondition?: (
+  isRowSelectable?: (
     isChecked: boolean,
     row: Row<TableData>,
   ) => boolean | number;
