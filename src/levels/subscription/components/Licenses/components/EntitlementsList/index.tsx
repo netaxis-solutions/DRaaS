@@ -225,6 +225,7 @@ const EntitlementList: FC = () => {
     );
   };
 
+  // This function calculates if current row is selectable
   const isRowSelectable = (_: any, row: Row<TableData>) => {
     return !row.original.assigned;
   };

@@ -196,15 +196,19 @@ const MyNumbers = () => {
     successCallback();
   };
 
+  // This function calculates if current row is available
   const isAvailable = (row: Row<TableData>) => !row.original.assigned;
 
+  // This function calculates if current row is selectable
   const isRowSelectable = (_: boolean, row: Row<TableData>) => isAvailable(row);
 
+  // This function calculates if general checkbox selected
   const isGeneralCheckboxSelected = (page: Row<TableData>[]) =>
     TableSelectedRowsStore.selectedRowsLength ===
       page.reduce((sum, curr) => (curr.original.assigned ? sum : sum + 1), 0) &&
     TableSelectedRowsStore.selectedRowsLength !== 0;
 
+  // This object includes tooltip text and condition when it shown
   const disabledNumberTooltip = {
     text: t(
       "You cannot delete number as long as you still have this number connected",
@@ -212,6 +216,7 @@ const MyNumbers = () => {
     filterConditions: (row: Row<TableData>) => !isAvailable(row),
   };
 
+  // This function calculates if delete button are disabled for current row
   const deleteDisabledCondition = (row: Row<TableData>) => !isAvailable(row);
 
   const isLoading = getIsLoading("@getNumbersData", byFetchType);
