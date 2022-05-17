@@ -6,6 +6,7 @@ import Link from "@mui/material/Link";
 import { Skeleton } from "@mui/material";
 
 import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 
 import { ArrowRight } from "components/Icons";
 
@@ -43,7 +44,13 @@ const Breadcrumbs: FC = () => {
           aria-label="breadcrumb"
         >
           {customerLevels.map((item, index) => {
-            const routeTo = `/${pathnames.slice(0, index + 3).join("/")}/`;
+            const indexModifier =
+              RoutingConfig.loggedInUserLevel === "tenant" ? 1 : 3;
+
+            const routeTo = `/${pathnames
+              .slice(0, index + indexModifier)
+              .join("/")}`;
+
             return !item?.disabled ? (
               <Link
                 key={`${item.name}${index}`}

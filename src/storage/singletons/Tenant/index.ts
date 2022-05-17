@@ -5,6 +5,7 @@ import configStore from "../Config";
 import ResellersStore from "../Resellers";
 import TenantsStore from "../Tenants";
 import DistributorsStore from "../Distributors";
+import Login from "../Login";
 
 import {
   TAddTenantValues,
@@ -87,7 +88,7 @@ class TenantStore {
   };
 
   getTenantSubscriptions = async ({
-    tenantID,
+    tenantID = Login.getExactLevelReference("tenant"),
   }: {
     tenantID: string;
   }): Promise<Array<object> | undefined> => {
@@ -102,7 +103,7 @@ class TenantStore {
   };
 
   getSpecificTenant = async ({
-    tenantID,
+    tenantID = Login.getExactLevelReference("tenant"),
   }: {
     tenantID: string;
   }): Promise<TAddTenantValues | undefined> => {
@@ -112,11 +113,11 @@ class TenantStore {
     }).catch(e => {
       errorNotification(e);
     });
-    return result!.data;
+    return result?.data;
   };
 
   getSpecificTenantSubscription = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ): Promise<SubscriptionItemType | undefined> => {
     const result = await request({
@@ -144,7 +145,11 @@ class TenantStore {
   };
 
   editTenant = ({
-    payload: { uuid, markup, ...payload },
+    payload: {
+      uuid = Login.getExactLevelReference("tenant"),
+      markup,
+      ...payload
+    },
     callback,
   }: {
     payload: TEditTenantPayload;

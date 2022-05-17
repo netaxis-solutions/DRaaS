@@ -17,6 +17,7 @@ import {
   PhoneNumberType,
   ReservedNumbers,
 } from "utils/types/numbers";
+import Login from "../Login";
 
 class NumbersStore {
   numbers: Array<PhoneNumberType> = [];
@@ -36,10 +37,13 @@ class NumbersStore {
     });
   }
 
-  getNumbersData = async (tenantID: string, subscriptionID: string) => {
+  getNumbersData = async (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     try {
       const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
+        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/numbers`,
         loaderName: "@getNumbersData",
         payload: {
           params: {
@@ -61,9 +65,12 @@ class NumbersStore {
     }
   };
 
-  getFreeNumbers = (tenantID: string, subscriptionID: string) => {
+  getFreeNumbers = (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/free_numbers`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/free_numbers`,
       loaderName: "@getFreeNumbers",
     })
       .then((data: AxiosResponse<any>) => {
@@ -93,12 +100,12 @@ class NumbersStore {
   };
 
   getNumbersInventoryData = async (
-    tenantID: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ) => {
     try {
       const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/number_inventory`,
+        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/number_inventory`,
         loaderName: "@getNumbersData",
       });
       const numbers = data.data.numbers;
@@ -111,10 +118,13 @@ class NumbersStore {
     }
   };
 
-  getReservedNumbers = async (tenantID: string, subscriptionID: string) => {
+  getReservedNumbers = async (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     try {
       const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/number_inventory`,
+        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/number_inventory`,
         loaderName: "@getReservedNumbersData",
         payload: {
           params: {
@@ -137,20 +147,20 @@ class NumbersStore {
   };
 
   addNumber = (
-    tenantID: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: CountryCodeWithRanges,
     successCallback?: () => void,
   ) => {
     request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/numbers`,
       loaderName: "@postNumber",
       method: "post",
       payload,
     })
       .then(() => {
         successCallback && successCallback();
-        this.getNumbersData(tenantID, subscriptionID);
+        this.getNumbersData(tenantId, subscriptionID);
         successNotification(
           t("numbers and ranges were assigned", {
             numberAmount:
@@ -166,24 +176,24 @@ class NumbersStore {
   };
 
   addReservedNumber = (
-    tenantID: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: AssignReservedPayload,
     successCallback?: () => void,
   ) => {
     request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/numbers`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/numbers`,
       loaderName: "@postNumber",
       method: "post",
       payload,
     })
       .then(() => {
         runInAction(() => {
-          this.getNumbersData(tenantID, subscriptionID);
+          this.getNumbersData(tenantId, subscriptionID);
         });
         successNotification(t("Numbers successefully added"));
         successCallback && successCallback();
-        this.getReservedNumbers(tenantID, subscriptionID);
+        this.getReservedNumbers(tenantId, subscriptionID);
       })
       .catch(e => {
         errorNotification(e);
@@ -213,13 +223,13 @@ class NumbersStore {
   };
 
   deassignNumbers = (
-    uuid: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     subId: string,
     numbers: CountryCodeWithNSN[],
     callback?: () => void,
   ) => {
     request({
-      route: `${configStore.config.draasInstance}/tenants/${uuid}/subscriptions/${subId}/numbers`,
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subId}/numbers`,
       method: "delete",
       payload: { numbers },
     })

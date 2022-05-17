@@ -4,6 +4,7 @@ import { AxiosResponse } from "axios";
 import Login from "../Login";
 import configStore from "../Config";
 import TablePagination from "../TablePagination";
+
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -26,7 +27,9 @@ class SubscriptionsStore {
     });
   }
 
-  getSubscriptionsData = (tenantId: string) => {
+  getSubscriptionsData = (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
       loaderName: "@getSubscriptionsData",
@@ -57,7 +60,7 @@ class SubscriptionsStore {
   };
 
   createSubscription = (
-    tenantId: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     payload: TCreateSubscriptionPayload,
     callback?: () => void,
   ) => {
@@ -78,7 +81,7 @@ class SubscriptionsStore {
   };
 
   deleteSubscriptions = (
-    tenantId: string,
+    tenantId: string = Login.getExactLevelReference("tenant"),
     selectedSubscriptionsIds: string[],
     callback?: () => void,
   ) => {

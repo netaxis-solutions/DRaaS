@@ -39,6 +39,7 @@ class Login {
   isForgotPasswordNotificationShown: string = "";
   keepUserLoggedIn: boolean = false;
   twoFactorCode: string = "";
+  adminOf: Array<{ level: LoggedInUserType; reference: string }> = [];
 
   get customLogoutLink() {
     return (
@@ -52,12 +53,17 @@ class Login {
     return this.user.profile ? this.user.profile.api_rules : [];
   }
 
+  getExactLevelReference = (level: LoggedInUserType) => {
+    return this.adminOf.find(el => el.level === level)?.reference || "";
+  };
+
   constructor() {
     makeObservable(this, {
       user: observable.ref,
       level: observable.ref,
       isForgotPasswordNotificationShown: observable,
       keepUserLoggedIn: observable,
+      adminOf: observable.ref,
       setKeepUserLoggenIn: action,
       twoFactorCode: observable,
       userRights: computed,
@@ -222,6 +228,7 @@ class Login {
         runInAction(() => {
           this.user = data;
           this.level = level;
+          this.adminOf = data.admin_of;
         });
         successCallback && successCallback();
       })
@@ -230,6 +237,7 @@ class Login {
         runInAction(() => {
           this.user = [];
           this.level = "";
+          this.adminOf = [];
         });
       });
   };

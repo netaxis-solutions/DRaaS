@@ -2,6 +2,8 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../../Config";
+import Login from "storage/singletons/Login";
+
 import { request } from "services/api";
 import {
   TMsTeamAdmins,
@@ -24,7 +26,10 @@ class MsTeamAdmin {
     });
   }
 
-  getMsTeamAdmin = async (tenantID: string, subscriptionID: string) => {
+  getMsTeamAdmin = async (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     this.isLoading = true;
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/admins`,
@@ -44,7 +49,10 @@ class MsTeamAdmin {
       });
   };
 
-  getMsTeamUsers = async (tenantID: string, subscriptionID: string) => {
+  getMsTeamUsers = async (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     this.isLoading = true;
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users`,
@@ -63,7 +71,10 @@ class MsTeamAdmin {
       });
   };
 
-  getCheckMsTeamAdmin = async (tenantID: string, subscriptionID: string) => {
+  getCheckMsTeamAdmin = async (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/status`,
       loaderName: "@getCheckMsTeamAdmin",
@@ -81,7 +92,7 @@ class MsTeamAdmin {
   };
 
   createMsTeamAdmin = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: any,
   ) => {
@@ -103,7 +114,7 @@ class MsTeamAdmin {
   };
 
   deleteMsTeamAdmin = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: any,
   ) => {

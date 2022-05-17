@@ -2,6 +2,8 @@ import { computed, makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
+import Login from "../Login";
+
 import {
   EntitlementsListType,
   EntitlementData,
@@ -41,7 +43,7 @@ class SubscriptionEntitlementsStore {
   };
 
   getEntitlements = (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     successCallback?: () => void,
   ) => {
@@ -80,11 +82,13 @@ class SubscriptionEntitlementsStore {
       {},
     );
   }
+
   setAvailable = (availableEntitlements: AvailableEntitlements) => {
     this.availableEntitlements = availableEntitlements;
   };
+
   createEntitlement = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: CreateNewEntitlement,
   ) => {
@@ -104,7 +108,7 @@ class SubscriptionEntitlementsStore {
   };
 
   editEntitlement = (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     entitlementID: string,
     payload: { entitlement: string; entitlementID: string },
@@ -125,7 +129,7 @@ class SubscriptionEntitlementsStore {
   };
 
   deleteEntitlement = (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     selectedEntitlementsIds: string[],
     callback?: () => void,

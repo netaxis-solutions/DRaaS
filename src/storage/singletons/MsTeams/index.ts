@@ -2,6 +2,7 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
+import Login from "../Login";
 
 import { request } from "services/api";
 import { t } from "services/Translation";
@@ -19,7 +20,7 @@ class MsTeam {
   }
 
   getMsTeamUsers = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     successCallback?: () => void,
   ) => {
@@ -42,7 +43,7 @@ class MsTeam {
   };
 
   editMsTeamsUserNumber = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     msTeamsUID: string,
     phoneNumber: string | null,
@@ -86,7 +87,7 @@ class MsTeam {
   };
 
   checkIsMSTeamsUserVoiceEnabled = (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     msTeamsUID: string,
     finalCallback?: () => void,

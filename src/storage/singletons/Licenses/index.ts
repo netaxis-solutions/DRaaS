@@ -2,8 +2,10 @@ import { makeObservable, observable, runInAction } from "mobx";
 import { AxiosResponse } from "axios";
 import { chain } from "lodash";
 
+import Login from "../Login";
 import configStore from "../Config";
 import LicensesStore from "../Licenses";
+
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -25,7 +27,7 @@ class SubscriptionLicensesStore {
   }
 
   getSubscriptionLicensesData = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID?: string,
   ) => {
     request({
@@ -59,7 +61,7 @@ class SubscriptionLicensesStore {
   };
 
   editLicense = async ({
-    tenantID,
+    tenantID = Login.getExactLevelReference("tenant"),
     subscriptionID,
     payload,
   }: {

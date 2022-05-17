@@ -6,6 +6,7 @@ import { TAddTenantValues } from "utils/types/tenant";
 
 import Tenant from "../Tenant";
 import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
+import Login from "../Login";
 
 type SpecificSubscription = {
   id: number;
@@ -25,7 +26,10 @@ class SidebarConfig {
   extraLevelData: SpecificSubscription | undefined = undefined;
   isLoading = false;
 
-  setChosenCustomer = async (id: string, extraLevelID?: string) => {
+  setChosenCustomer = async (
+    id: string = Login.getExactLevelReference("tenant"),
+    extraLevelID?: string,
+  ) => {
     this.clearChosenCustomer();
     let chosenCustomerData = this.chosenCustomerData;
     if (this.chosenCustomerID !== id) {
@@ -63,7 +67,7 @@ class SidebarConfig {
   };
 
   getSpecificTenantSubscription = async (
-    tenantID: string,
+    tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ): Promise<any | undefined> => {
     const result = await request({
