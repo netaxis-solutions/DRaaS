@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { observer } from "mobx-react-lite";
 import { BrowserRouter as Router } from "react-router-dom";
 import { MuiThemeProvider } from "@material-ui/core/styles";
@@ -49,7 +49,9 @@ const App: React.FC = () => {
       <CssBaseline />
       <ToastContainer />
       <Router>
-        <Routes />
+        <Suspense fallback={<></>}>
+          <Routes />
+        </Suspense>
       </Router>
     </MuiThemeProvider>
   ) : null;
