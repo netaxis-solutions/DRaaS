@@ -18,6 +18,16 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
   },
+  selectCountry: {
+    maxWidth: 400,
+    minWidth: 150,
+    "&>*>div": {
+      background: theme.palette.primary.white,
+      "& button[aria-label='Clear']": {
+        display: "none",
+      },
+    },
+  },
   licenses: {
     display: "flex",
     flexDirection: "row",
