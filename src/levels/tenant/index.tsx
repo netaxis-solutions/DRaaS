@@ -41,11 +41,6 @@ const Tenant = () => {
         path={allAvailvableRouting.tenantSubscriptions}
         component={() => <SubscriptionsList />}
       />
-      {/* <Route
-        exact
-        path={allAvailvableRouting.tenantLocations}
-        component={() => <div>tenantLocations</div>}
-      /> */}
       <Route
         exact
         path={allAvailvableRouting.tenantRatePlan}
