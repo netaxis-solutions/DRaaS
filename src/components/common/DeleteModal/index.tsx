@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import IconButton from "@material-ui/core/IconButton";
 
+import TablePagination from "storage/singletons/TablePagination";
+
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Cross, Trash } from "components/Icons";
 import SingleDeleteForm from "./components/SingleDeleteForm";
@@ -30,6 +32,7 @@ const DeleteModal: React.FC<Props> = ({
   const { t } = useTranslation();
   const classes = useStyles();
   const [container] = useState(document.createElement("div"));
+  const { clearPaginationData } = TablePagination;
 
   useEffect(() => {
     document.body.appendChild(container);
@@ -46,7 +49,10 @@ const DeleteModal: React.FC<Props> = ({
           <SingleDeleteForm
             selectedElementName={selectedElementName}
             handleCancel={handleCancel}
-            handleDelete={handleDelete}
+            handleDelete={() => {
+              handleDelete();
+              clearPaginationData();
+            }}
           />
         ) : (
           <div>
@@ -57,7 +63,10 @@ const DeleteModal: React.FC<Props> = ({
               className={classes.cancelButton}
             />
             <ButtonWithIcon
-              onClick={handleDelete}
+              onClick={() => {
+                handleDelete();
+                clearPaginationData();
+              }}
               icon={deleteIcon || Trash}
               title={deleteTitle || t("Delete")}
               variant="contained"
