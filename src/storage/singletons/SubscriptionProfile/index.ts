@@ -60,6 +60,7 @@ class SubscriptionProfileStore {
     })
       .then(() => {
         successCallback && successCallback();
+        successNotification(t("Profile successfully changed"));
       })
       .catch(e => {
         errorNotification(e);

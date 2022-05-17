@@ -15,17 +15,17 @@ class PublicData {
     });
   }
 
-  getCountriesList = () => {
+  getCountriesList = (successCallback?: () => void) => {
     request({
       route: `${configStore.config.draasInstance}/public/country_codes`,
       loaderName: "@getCountriesList",
     })
       .then((data: AxiosResponse<{ countryCodes: Array<Country> }>) => {
         const countryCodes = data.data.countryCodes;
-
         runInAction(() => {
           this.countries = countryCodes;
         });
+        successCallback && successCallback();
       })
       .catch(() => {
         this.countries = [];

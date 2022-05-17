@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { string, object } from "yup";
@@ -10,6 +10,7 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 import FormSelect from "components/common/Form/FormSelect";
 
 import { useAddLocationStyles } from "./styles";
+import { Skeleton } from "@mui/material";
 
 const defaultValues = {
   countryName: { label: "", value: "" },
@@ -18,9 +19,10 @@ const defaultValues = {
 const SelectLocationCountry: React.FC = () => {
   const { t } = useTranslation();
   const { goNext, setPreviousChoices } = MultiStepForm;
+  const [isLoading, setIsLoading] = useState(true);
   const classes = useAddLocationStyles();
 
-  const { countries, getCountriesList } = PublicData;
+  const { getCountriesList } = PublicData;
   const { control, handleSubmit } = useForm({
     defaultValues,
     resolver: yupResolver(
@@ -43,12 +45,14 @@ const SelectLocationCountry: React.FC = () => {
   };
 
   useEffect(() => {
-    getCountriesList();
+    getCountriesList(() => {
+      setIsLoading(false);
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const countriesOptions = countries.reduce(
+  const countriesOptions = PublicData.countries.reduce(
     (countriesList: Array<{ label: string; value: string }>, { name }) => [
       ...countriesList,
       { label: name, value: name },
@@ -62,18 +66,22 @@ const SelectLocationCountry: React.FC = () => {
       className={classes.formWrapper}
       id={"addLocation"}
     >
-      <Controller
-        name="countryName"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormSelect
-            label={t("Select a country")}
-            options={countriesOptions}
-            {...field}
-            {...props}
-          />
-        )}
-      />
+      {isLoading ? (
+        <Skeleton variant={"rectangular"} height={40} />
+      ) : (
+        <Controller
+          name="countryName"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormSelect
+              label={t("Select a country")}
+              options={countriesOptions}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+      )}
     </form>
   );
 };
