@@ -2,6 +2,8 @@ import { makeObservable, observable, runInAction, action } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
+import Numbers from "../Numbers";
+
 import {
   TResourceAccountData,
   TCountryCode,
@@ -14,7 +16,7 @@ import {
   successNotification,
   errorNotification,
 } from "utils/functions/notifications";
-import Numbers from "../Numbers";
+
 import { request } from "services/api";
 import { t } from "services/Translation";
 
