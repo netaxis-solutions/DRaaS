@@ -30,6 +30,7 @@ export type InputPropsType = {
   type?: string;
   helper?: string;
   labelShrink?: boolean;
+  InputProps?: { [key: string]: any };
 };
 
 export type SearchInputType = {
@@ -44,6 +45,8 @@ export type CheckboxType = {
   disabled?: boolean;
   onChange: (e: ChangeEvent<Element>, checked: boolean) => void;
   checked: boolean;
+  helperText?: string;
+  helper?: string;
 };
 
 export type RadioButtonType = {

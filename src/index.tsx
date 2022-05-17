@@ -2,15 +2,14 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import App from "components/App";
 import reportWebVitals from "./reportWebVitals";
-import Loader from "components/Loader/Loader";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<></>}>
       <App />
     </Suspense>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );
 
 // If you want to start measuring performance in your app, pass a function

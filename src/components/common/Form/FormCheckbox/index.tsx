@@ -1,14 +1,15 @@
 import { forwardRef, Ref, ChangeEvent } from "react";
-import clsx from "clsx";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MuiCheckbox from "@material-ui/core/Checkbox";
 import { Row } from "react-table";
+import clsx from "clsx";
 
 import { CheckboxType } from "utils/types/form";
 import { TableData } from "utils/types/tableConfig";
 
 import CheckboxIcon from "components/common/Form/FormCheckbox/CheckboxIcon";
 import CheckboxCheckedIcon from "components/common/Form/FormCheckbox/CheckboxCheckedIcon";
+
 import useStyles from "./styles";
 
 export const Checkbox: React.FC<
@@ -22,6 +23,7 @@ export const Checkbox: React.FC<
   onChange,
   disabled,
   checked,
+  helperText,
   isAvailable,
   row,
 }) => {
@@ -31,27 +33,38 @@ export const Checkbox: React.FC<
   };
   const isRowDisabled = (isAvailable && row && !isAvailable(row)) || disabled;
   return (
-    <FormControlLabel
-      control={
-        <MuiCheckbox
-          onChange={handleChange}
-          classes={{ root: classes.root }}
-          checked={checked}
-          icon={
-            <CheckboxIcon
-              className={clsx(classes.icon, {
-                [classes.disabled]: isRowDisabled,
-              })}
-            />
-          }
-          checkedIcon={<CheckboxCheckedIcon className={classes.iconChecked} />}
-        />
-      }
-      label={label}
-      classes={{ label: classes.label }}
-      labelPlacement={labelPlacement}
-      disabled={isRowDisabled}
-    />
+    <>
+      <FormControlLabel
+        control={
+          <MuiCheckbox
+            onChange={handleChange}
+            classes={{ root: classes.root }}
+            checked={checked}
+            icon={
+              <CheckboxIcon
+                className={clsx(classes.icon, {
+                  [classes.disabled]: isRowDisabled,
+                })}
+              />
+            }
+            checkedIcon={
+              <CheckboxCheckedIcon className={classes.iconChecked} />
+            }
+          />
+        }
+        label={
+          <>
+            {label}
+            {helperText && (
+              <div className={classes.helperText}>{helperText}</div>
+            )}
+          </>
+        }
+        classes={{ label: classes.label }}
+        labelPlacement={labelPlacement}
+        disabled={isRowDisabled}
+      />
+    </>
   );
 };
 
@@ -63,6 +76,7 @@ const FormCheckbox = forwardRef(
       <Checkbox
         checkboxRef={ref}
         helperText={error?.message}
+        error={!!error}
         checked={props.value}
         {...props}
       />

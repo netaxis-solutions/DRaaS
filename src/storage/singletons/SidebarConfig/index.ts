@@ -3,16 +3,26 @@ import configStore from "../Config";
 import { request } from "services/api";
 import { errorNotification } from "utils/functions/notifications";
 import { TAddTenantValues } from "utils/types/tenant";
-import { SubscriptionItemType } from "utils/types/subscriptions";
 
 import Tenant from "../Tenant";
 import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
+
+type SpecificSubscription = {
+  id: number;
+  name: string;
+  billingId: string;
+  licenses: {
+    msTeamsUsers: number;
+    sipTrunkChannels: number;
+  };
+  suspensionProfileId?: string;
+};
 
 class SidebarConfig {
   chosenCustomerID = "";
   chosenCustomerData: TAddTenantValues | undefined = undefined;
   extraLevelID: string = "";
-  extraLevelData: SubscriptionItemType | undefined = undefined;
+  extraLevelData: SpecificSubscription | undefined = undefined;
   isLoading = false;
 
   setChosenCustomer = async (id: string, extraLevelID?: string) => {
