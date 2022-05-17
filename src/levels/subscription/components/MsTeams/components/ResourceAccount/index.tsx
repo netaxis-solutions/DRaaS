@@ -16,6 +16,7 @@ import {
 } from "utils/types/resourceAccount";
 import { getIsLoading } from "utils/functions/getIsLoading";
 import { TableProps, TableData } from "utils/types/tableConfig";
+
 import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import ResourceAccountStorage from "storage/singletons/MsTeams/resourceAccount";
 import PendingQueries from "storage/singletons/PendingQueries";
