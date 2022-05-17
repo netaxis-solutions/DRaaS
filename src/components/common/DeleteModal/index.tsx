@@ -34,6 +34,8 @@ const DeleteModal: React.FC<Props> = ({
   const [container] = useState(document.createElement("div"));
   const { clearPaginationData } = TablePagination;
 
+  // Add this component in DOM when mount
+  // Unmount component from dom after close modal
   useEffect(() => {
     document.body.appendChild(container);
     return () => {
@@ -50,6 +52,8 @@ const DeleteModal: React.FC<Props> = ({
             selectedElementName={selectedElementName}
             handleCancel={handleCancel}
             handleDelete={() => {
+              // Handle Delete -> props from HOC
+              // When we click to "Delete" button -> we clean table pagination too
               handleDelete();
               clearPaginationData();
             }}
@@ -64,6 +68,8 @@ const DeleteModal: React.FC<Props> = ({
             />
             <ButtonWithIcon
               onClick={() => {
+                // Handle Delete -> props from HOC
+                // When we click to "Delete" button -> we clean table pagination too
                 handleDelete();
                 clearPaginationData();
               }}
