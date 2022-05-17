@@ -165,6 +165,10 @@ const MyNumbers = () => {
     clearPaginationData();
   };
 
+  const handleDeleteModalClose = () => {
+    setModalToOpen("");
+  };
+
   const handleDeleteItem = (props: any) => {
     setSelectedRows({ [props.row.index]: true });
     setSelectedRowsValues([props.row]);
@@ -302,7 +306,7 @@ const MyNumbers = () => {
       )}
       {modalToOpen === "delete" && (
         <DeleteNumberModal
-          handleCloseModal={handleModalClose}
+          handleCloseModal={handleDeleteModalClose}
           handleDelete={handleDelete}
           selectedRows={selectedRows}
           numbers={numbers}
