@@ -28,12 +28,7 @@ const O365Tenant: FC = () => {
   } = MsTeamOnboarding;
   const [startOnboard, setOnboard] = useState("");
 
-  const {
-    getMsTeamAdmin,
-    msTeamAdmin,
-    clearCashMsTeamAdmin,
-    checkMsTeamAdmin,
-  } = MsTeamAdminStorage;
+  const { getMsTeamAdmin, msTeamAdmin, checkMsTeamAdmin } = MsTeamAdminStorage;
 
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -50,7 +45,6 @@ const O365Tenant: FC = () => {
     checkOnboarding(tenantID, subscriptionID);
     return () => {
       MsTeamOnboarding.clearOnboardingProgress();
-      clearCashMsTeamAdmin();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

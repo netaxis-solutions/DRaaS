@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
 import { useParams } from "react-router-dom";
 
+import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
 
@@ -27,6 +28,7 @@ const Subscription = () => {
 
   useEffect(() => {
     setChosenCustomer(params.tenantID, params.subscriptionID);
+    return () => MsTeamAdminStorage.clearCacheMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.tenantID, params.subscriptionID]);
 
