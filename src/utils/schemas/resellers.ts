@@ -1,6 +1,7 @@
 import { TFunction } from "i18next";
-import RoutingConfig from "storage/singletons/RoutingConfig";
 import { string, object } from "yup";
+
+import RoutingConfig from "storage/singletons/RoutingConfig";
 
 export const addResellerSchema = (t: TFunction) =>
   object().shape({
