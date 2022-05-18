@@ -3,17 +3,18 @@ import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { string, object } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Skeleton } from "@mui/material";
 
 import PublicData from "storage/singletons/PublicData";
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
-import FormSelect from "components/common/Form/FormSelect";
+import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
+import Flag from "components/common/Flag";
 
 import { useAddLocationStyles } from "./styles";
-import { Skeleton } from "@mui/material";
 
 const defaultValues = {
-  countryName: { label: "", value: "" },
+  countryName: "",
 };
 
 const SelectLocationCountry: React.FC = () => {
@@ -23,24 +24,17 @@ const SelectLocationCountry: React.FC = () => {
   const classes = useAddLocationStyles();
 
   const { getCountriesList } = PublicData;
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     defaultValues,
     resolver: yupResolver(
       object().shape({
-        countryName: object().shape({
-          label: string(),
-          value: string().required(t("Select a country")),
-        }),
+        countryName: string(),
       }),
     ),
   });
 
-  const onSubmit = ({
-    countryName: { value },
-  }: {
-    countryName: { value: string };
-  }) => {
-    setPreviousChoices({ selectedCountryName: value });
+  const onSubmit = ({ countryName }: { countryName: string }) => {
+    setPreviousChoices({ selectedCountryName: countryName });
     goNext();
   };
 
@@ -52,14 +46,22 @@ const SelectLocationCountry: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const countriesOptions = PublicData.countries.reduce(
-    (countriesList: Array<{ label: string; value: string }>, { name }) => [
-      ...countriesList,
-      { label: name, value: name },
-    ],
-    [],
-  );
-
+  const countriesOptions = PublicData.countries
+    .filter(({ isoCode }) => isoCode === "NL")
+    .reduce(
+      (
+        countriesList: Array<{
+          label: string;
+          value: string;
+          image: JSX.Element;
+        }>,
+        { name, isoCode },
+      ) => [
+        ...countriesList,
+        { label: name, value: isoCode, image: <Flag countryCode={isoCode} /> },
+      ],
+      [],
+    );
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -73,11 +75,14 @@ const SelectLocationCountry: React.FC = () => {
           name="countryName"
           control={control}
           render={({ field, ...props }) => (
-            <FormSelect
+            <FormSelectWithFlags
               label={t("Select a country")}
               options={countriesOptions}
               {...field}
               {...props}
+              onChange={(props: any) => {
+                setValue("countryName", props?.value);
+              }}
             />
           )}
         />

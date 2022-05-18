@@ -52,7 +52,7 @@ const AddLocationContent: React.FC<{ handleCancel: () => void }> = ({
   const postalCodeOptions = useMemo(() => {
     const currentCountry = previousChoices[0].selectedCountryName;
     return postalCodes
-      .filter(({ country }) => country?.name === currentCountry)
+      .filter(({ country }) => country?.isoCode === currentCountry)
       .reduce(
         (
           formattedCodes: Array<{ label: string; value: string }>,
