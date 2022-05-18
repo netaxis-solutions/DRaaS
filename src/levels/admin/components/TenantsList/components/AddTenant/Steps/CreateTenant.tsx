@@ -5,8 +5,6 @@ import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
-import DistributorsStore from "storage/singletons/Distributors";
-import ResellersStore from "storage/singletons/Resellers";
 import TenantStore from "storage/singletons/Tenant";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
@@ -51,8 +49,6 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
     defaultValues,
   });
 
-  const { getDistributorsData } = DistributorsStore;
-  const { getResellersData } = ResellersStore;
   const { loggedInUserLevel } = RoutingConfig;
   const {
     createTenant,
@@ -62,9 +58,8 @@ const CreateTenant: React.FC<TAddTenantFormProps> = ({ handleCancel }) => {
   } = TenantStore;
 
   useEffect(() => {
-    getDistributorsData();
-    getResellersData({});
     getListOwnersTenant();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
