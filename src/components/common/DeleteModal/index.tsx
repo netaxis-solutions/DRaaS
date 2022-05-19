@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import IconButton from "@material-ui/core/IconButton";
 
+import TablePagination from "storage/singletons/TablePagination";
+
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Cross, Trash } from "components/Icons";
 import SingleDeleteForm from "./components/SingleDeleteForm";
@@ -30,7 +32,10 @@ const DeleteModal: React.FC<Props> = ({
   const { t } = useTranslation();
   const classes = useStyles();
   const [container] = useState(document.createElement("div"));
+  const { clearPaginationData } = TablePagination;
 
+  // Add this component in DOM when mount
+  // Unmount component from dom after close modal
   useEffect(() => {
     document.body.appendChild(container);
     return () => {
@@ -46,7 +51,12 @@ const DeleteModal: React.FC<Props> = ({
           <SingleDeleteForm
             selectedElementName={selectedElementName}
             handleCancel={handleCancel}
-            handleDelete={handleDelete}
+            handleDelete={() => {
+              // Handle Delete -> props from HOC
+              // When we click to "Delete" button -> we clean table pagination too
+              handleDelete();
+              clearPaginationData();
+            }}
           />
         ) : (
           <div>
@@ -57,7 +67,12 @@ const DeleteModal: React.FC<Props> = ({
               className={classes.cancelButton}
             />
             <ButtonWithIcon
-              onClick={handleDelete}
+              onClick={() => {
+                // Handle Delete -> props from HOC
+                // When we click to "Delete" button -> we clean table pagination too
+                handleDelete();
+                clearPaginationData();
+              }}
               icon={deleteIcon || Trash}
               title={deleteTitle || t("Delete")}
               variant="contained"
