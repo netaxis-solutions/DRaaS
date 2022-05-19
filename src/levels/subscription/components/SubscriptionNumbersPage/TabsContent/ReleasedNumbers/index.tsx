@@ -15,14 +15,14 @@ import { CustomActionType, TableData } from "utils/types/tableConfig";
 import { AvailableEntitlements } from "utils/types/entitlements";
 import { getIsLoading } from "utils/functions/getIsLoading";
 
-import { InfoIcon, Plus } from "components/Icons";
+import { InfoIcon, RestoreNumberIcon } from "components/Icons";
 import Table from "components/Table";
 import Tooltip from "components/Tooltip";
 import TableSkeleton from "components/Table/Skeleton";
 
 import useStyles from "./styles";
 
-const ReservedNumbers: FC = () => {
+const ReleasedNumbers: FC = () => {
   const { t } = useTranslation();
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -30,8 +30,8 @@ const ReservedNumbers: FC = () => {
   }>();
 
   const {
-    reservedNumbers,
-    getReservedNumbers,
+    releasedNumbers,
+    getReleasedNumbers,
     addNumberFromInventory,
   } = NumbersStore;
   const { getEntitlements, setAvailable } = EntitlementsStore;
@@ -47,18 +47,21 @@ const ReservedNumbers: FC = () => {
 
   const classes = useStyles();
 
+  //fetching entitlements and released numbers
   useEffect(() => {
-    getReservedNumbers(tenantID, subscriptionID);
+    getReleasedNumbers(tenantID, subscriptionID);
     getEntitlements(tenantID, subscriptionID);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tablePageCounter, tablePageSize, search]);
 
+  //clearing pagination
   useEffect(() => {
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // This function calculates if the entitlements left for passed row
   const isAvailable = (row: Row<TableData>) => {
     const entitlement = EntitlementsStore.entitlements.find(entitlement => {
       return (
@@ -69,6 +72,7 @@ const ReservedNumbers: FC = () => {
 
     const available = EntitlementsStore.getAvailableEntitlements;
 
+    // Returning avalable current row or not
     return entitlement
       ? available[entitlement.countryCode][entitlement.numberType] -
           TableSelectedRows.selectedRowsValues.filter(
@@ -83,9 +87,9 @@ const ReservedNumbers: FC = () => {
   const toolbarActions = selectedRowsLength
     ? [
         {
-          id: "add",
-          title: t("Add"),
-          icon: Plus,
+          id: "restore",
+          title: t("Restore"),
+          icon: RestoreNumberIcon,
           onClick: () => {
             TableSelectedRows.selectedRowsValues.forEach(row => {
               addNumberFromInventory(
@@ -96,7 +100,7 @@ const ReservedNumbers: FC = () => {
                   numbers: [+row.original.nsn],
                 },
                 () => {
-                  getReservedNumbers(tenantID, subscriptionID);
+                  getReleasedNumbers(tenantID, subscriptionID);
                 },
               );
             });
@@ -105,10 +109,11 @@ const ReservedNumbers: FC = () => {
       ]
     : [];
 
+  //array of actions and their states for each row
   const customActions = [
     {
       actionName: "addReserved",
-      iconComponent: <Plus />,
+      iconComponent: <RestoreNumberIcon width={14} height={14} />,
       isShown: true,
       disabled: false,
       onClick: (row: Row<TableData>) => {
@@ -120,7 +125,7 @@ const ReservedNumbers: FC = () => {
             numbers: [+row.original.nsn],
           },
           () => {
-            getReservedNumbers(tenantID, subscriptionID);
+            getReleasedNumbers(tenantID, subscriptionID);
           },
         );
       },
@@ -142,6 +147,7 @@ const ReservedNumbers: FC = () => {
     },
   ];
 
+  // This function formats an action column and establishes the row state
   const actionDataFormatter = (
     row: Row<TableData>,
     actions: CustomActionType[],
@@ -188,11 +194,12 @@ const ReservedNumbers: FC = () => {
     [t],
   );
 
+  // This function calculates when general checkbox selected
   const selectAllCondition = (page: Row<TableData>[]) => {
     setAvailable(EntitlementsStore.getAvailableEntitlements);
 
     const { availableEntitlements: available } = EntitlementsStore;
-
+    //this reduce calculates amount of available checkboxes on current page
     const availableOnCurrentPage =
       page.length &&
       page.reduce((availableEntitlements: AvailableEntitlements, row) => {
@@ -226,6 +233,7 @@ const ReservedNumbers: FC = () => {
         };
       }, {});
 
+    //this reduce calculates amount of available entitlements that are left
     const amountAvailable = Object.values(availableOnCurrentPage).reduce(
       (
         availableEntitlementsAmount: number,
@@ -249,7 +257,8 @@ const ReservedNumbers: FC = () => {
     );
   };
 
-  const isRowSelectable = (isChecked: boolean, row: Row<TableData>) => {
+  // This function calculates amount of rows that can be selected
+  const selectAllRowCondition = (isChecked: boolean, row: Row<TableData>) => {
     const { availableEntitlements: available } = EntitlementsStore;
 
     return isChecked
@@ -265,35 +274,36 @@ const ReservedNumbers: FC = () => {
           available[row.original.countryCode][row.original.numberType]--;
   };
 
+  // This variable shows if data is loading
   const isLoading =
-    getIsLoading("@getReservedNumbersData", byFetchType) ||
+    getIsLoading("@getReleasedNumbers", byFetchType) ||
     getIsLoading("@getSubscriptionEntitlementsData", byFetchType);
 
   return isLoading ? (
     <TableSkeleton
-      title={t("Reserved numbers")}
+      title={t("Released numbers")}
       columns={columns}
       checkbox
       actions={customActions.map(el => el.isShown)}
     />
-  ) : reservedNumbers.length > 0 ? (
+  ) : releasedNumbers.length > 0 ? (
     <Table
-      title={t("Reserved numbers")}
+      title={t("Released numbers")}
       columns={columns}
-      data={reservedNumbers}
+      data={releasedNumbers}
       customActions={customActions}
       actionsDataFormatter={actionDataFormatter}
       toolbarActions={toolbarActions}
       checkbox
       isCheckboxAvailable={isAvailable}
       isGeneralCheckboxSelected={selectAllCondition}
-      isRowSelectable={isRowSelectable}
+      isRowSelectable={selectAllRowCondition}
     />
   ) : (
     <div className={classes.emptyTableWrapper}>
-      <span>{t("You have no reserved numbers yet")}</span>
+      <span>{t("You have no released numbers yet")}</span>
     </div>
   );
 };
 
-export default observer(ReservedNumbers);
+export default observer(ReleasedNumbers);

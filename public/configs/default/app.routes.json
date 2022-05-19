@@ -40,7 +40,7 @@
       "enabled": true,
       "tabs": {
         "myNumbers": true,
-        "deletedNumbers": true,
+        "releasedNumbers": true,
         "reservedNumbers": true,
         "porting": true
       }

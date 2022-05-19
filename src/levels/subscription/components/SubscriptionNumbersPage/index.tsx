@@ -12,6 +12,7 @@ import Tabs from "components/Tabs";
 import Loader from "components/Loader/Loader";
 
 const MyNumbers = lazy(() => import("./TabsContent/AssignedNumbers/MyNumbers"));
+const ReleasedNumbers = lazy(() => import("./TabsContent/ReleasedNumbers"));
 const ReservedNumbers = lazy(() => import("./TabsContent/ReservedNumbers"));
 const PortingRequests = lazy(() => import("./TabsContent/PortingRequests"));
 
@@ -22,9 +23,9 @@ const tabs: Tab[] = [
     component: () => <MyNumbers />,
   },
   {
-    name: t("Deleted numbers"),
-    id: "deletedNumbers",
-    component: () => <div>Deleted numbers</div>,
+    name: t("Released numbers"),
+    id: "releasedNumbers",
+    component: () => <ReleasedNumbers />,
   },
   {
     name: t("Reserved numbers"),

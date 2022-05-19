@@ -15,7 +15,7 @@ import {
   NumberRangesType,
   NumberSuggestionsType,
   PhoneNumberType,
-  ReservedNumbers,
+  InventoryNumber,
 } from "utils/types/numbers";
 import Login from "../Login";
 
@@ -24,8 +24,10 @@ class NumbersStore {
   numberInventory: Array<PhoneNumberType> = [];
   numberInventoryRanges: Array<NumberRangesType> = [];
   numberSuggestions: NumberSuggestionsType = [];
-  reservedNumbers: ReservedNumbers[] = [];
+  reservedNumbers: InventoryNumber[] = [];
+  releasedNumbers: InventoryNumber[] = [];
   freeNumbers: Array<string> = [];
+
   constructor() {
     makeObservable(this, {
       numbers: observable.ref,
@@ -33,6 +35,7 @@ class NumbersStore {
       numberInventoryRanges: observable.ref,
       numberSuggestions: observable.ref,
       reservedNumbers: observable.ref,
+      releasedNumbers: observable.ref,
       freeNumbers: observable.ref,
     });
   }
@@ -175,7 +178,7 @@ class NumbersStore {
       });
   };
 
-  addReservedNumber = (
+  addNumberFromInventory = (
     tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: AssignReservedPayload,
@@ -245,6 +248,31 @@ class NumbersStore {
       .catch(e => {
         errorNotification(e);
       });
+  };
+
+  getReleasedNumbers = async (tenantID: string, subscriptionID: string) => {
+    try {
+      const data: AxiosResponse<any> = await request({
+        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/number_inventory`,
+        loaderName: "@getReleasedNumbers",
+        payload: {
+          params: {
+            status: "disconnected",
+            page: TablePagination.tablePageCounter,
+            page_size: TablePagination.tablePageSize,
+            search: TablePagination.search,
+          },
+        },
+      });
+      const numbers = data.data.numbers;
+
+      runInAction(() => {
+        TablePagination.getTableConfig(data.data);
+        this.releasedNumbers = numbers;
+      });
+    } catch (e) {
+      this.releasedNumbers = [];
+    }
   };
 
   clearNumbers = () => {
