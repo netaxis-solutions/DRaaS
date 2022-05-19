@@ -64,6 +64,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
               label={t("Old password")}
               type={"password"}
               error={isErrorOccured || props.fieldState.error}
+              inputProps={{ tabIndex: 1 }}
               helperText={
                 (isErrorOccured && t("Wrong old password")) ||
                 props.fieldState.error?.message
@@ -82,6 +83,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
             <FormInput
               label={t("Password")}
               type={"password"}
+              inputProps={{ tabIndex: 1 }}
               {...field}
               {...props}
               className={classes.inputField}
@@ -95,6 +97,7 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
             <FormInput
               label={t("Confirm password")}
               type={"password"}
+              inputProps={{ tabIndex: 1 }}
               {...field}
               {...props}
               className={classes.inputField}
