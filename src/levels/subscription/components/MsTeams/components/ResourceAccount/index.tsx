@@ -286,7 +286,6 @@ const ResourceAccount: FC = () => {
         ?.phoneNumber === value?.phoneNumber || value?.phoneNumber === ""
         ? ["phoneNumber"]
         : [""];
-    console.log(doubleCheckPhoneNumber);
     const actualNumber = omit(
       value,
       doubleCheckPhoneNumber,

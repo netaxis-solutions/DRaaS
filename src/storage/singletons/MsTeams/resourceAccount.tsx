@@ -32,7 +32,11 @@ class ResourceAccount {
   resourceAccountsData: TResourceAccountData[] = [];
   countryCode: TCountryCode[] = [];
   isLoading: boolean = false;
-  formattedCountryCode: any = [];
+  formattedCountryCode: Array<{
+    label: string;
+    value: string;
+    image: JSX.Element;
+  }> = [];
 
   constructor() {
     makeObservable(this, {
