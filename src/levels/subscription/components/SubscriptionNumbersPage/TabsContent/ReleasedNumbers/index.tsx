@@ -72,6 +72,7 @@ const ReleasedNumbers: FC = () => {
 
     const available = EntitlementsStore.getAvailableEntitlements;
 
+    // Returning avalable current row or not
     return entitlement
       ? available[entitlement.countryCode][entitlement.numberType] -
           TableSelectedRows.selectedRowsValues.filter(
@@ -296,7 +297,7 @@ const ReleasedNumbers: FC = () => {
       checkbox
       isCheckboxAvailable={isAvailable}
       isGeneralCheckboxSelected={selectAllCondition}
-      selectAllRowCondition={selectAllRowCondition}
+      isRowSelectable={selectAllRowCondition}
     />
   ) : (
     <div className={classes.emptyTableWrapper}>
