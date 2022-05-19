@@ -9,7 +9,6 @@ import ResellerStore from "storage/singletons/Reseller";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 //TODO: Uncomment when multistep form will be impelemented
 // import MultiStepForm from "storage/singletons/MultiStepForm";
-import DistributorsStore from "storage/singletons/Distributors";
 import { addResellerSchema } from "utils/schemas/resellers";
 import { TAddResellerValues } from "utils/types/resellers";
 import { AddDistributorFormPropsType } from "utils/types/distributor";
@@ -50,11 +49,9 @@ const CreateReseller: React.FC<AddDistributorFormPropsType> = ({
 
   const { loggedInUserLevel } = RoutingConfig;
 
-  const { getDistributorsData } = DistributorsStore;
-
   useEffect(() => {
-    getDistributorsData();
     getListOwnersResellers();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
