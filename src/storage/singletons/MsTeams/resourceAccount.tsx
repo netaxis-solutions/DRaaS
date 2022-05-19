@@ -47,6 +47,7 @@ class ResourceAccount {
     });
   }
 
+  // Change default format to Select(Autocomplete) format with Icons
   get formattedCountry() {
     return (this.formattedCountryCode = this.countryCode.map(requirement => {
       return {
