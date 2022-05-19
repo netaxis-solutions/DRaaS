@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { FC, lazy, useEffect } from "react";
+import { FC, lazy, useEffect, useMemo } from "react";
 import { useParams, useHistory, Switch, Route } from "react-router-dom";
 
 import SubscriptionLicensesStore from "storage/singletons/Licenses";
@@ -51,10 +51,11 @@ const MSTeams: FC = () => {
   const { getSubscriptionLicensesData } = SubscriptionLicensesStore;
   const { getCheckMsTeamAdmin, checkMsTeamAdmin } = MsTeamAdminStorage;
 
-  const filteredTabs =
-    checkMsTeamAdmin?.status !== "onboarded"
-      ? tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin")
-      : tabs;
+  const filteredTabs = useMemo(() => {
+    return checkMsTeamAdmin?.status === "onboarded"
+      ? tabs
+      : tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin");
+  }, [checkMsTeamAdmin]);
 
   const { allAvailvableRouting } = RoutingConfig;
 
@@ -72,6 +73,10 @@ const MSTeams: FC = () => {
   useEffect(() => {
     getSubscriptionLicensesData(params.tenantID, params.subscriptionID);
     getCheckMsTeamAdmin(params.tenantID, params.subscriptionID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (params.tabID === ":tabID" && tabs && tabs.length) {
       const url = createLink({
         url: `${allAvailvableRouting.subscriptionMSTeams}/:tabID?`,

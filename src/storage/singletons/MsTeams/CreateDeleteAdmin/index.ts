@@ -1,4 +1,4 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable, runInAction, action } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../../Config";
@@ -13,7 +13,7 @@ import {
 
 class MsTeamAdmin {
   msTeamAdmin: TMsTeamAdmins = { id: null, msUsername: "" };
-  checkMsTeamAdmin!: TMsTeamCheck;
+  checkMsTeamAdmin: TMsTeamCheck | null = null;
   checkMsTeamUsersList: TMsTeamUserList | [] = [];
   isLoading: boolean = false;
 
@@ -23,6 +23,7 @@ class MsTeamAdmin {
       checkMsTeamAdmin: observable.ref,
       checkMsTeamUsersList: observable.ref,
       isLoading: observable,
+      clearCacheMsTeamAdmin: action,
     });
   }
 
@@ -134,10 +135,9 @@ class MsTeamAdmin {
     }
   };
 
-  clearCashMsTeamAdmin = () => {
-    runInAction(() => {
-      this.msTeamAdmin = { id: null, msUsername: "" };
-    });
+  clearCacheMsTeamAdmin = () => {
+    this.msTeamAdmin = { id: null, msUsername: "" };
+    this.checkMsTeamAdmin = null;
   };
 }
 

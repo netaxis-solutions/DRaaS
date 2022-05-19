@@ -41,7 +41,6 @@ const O365Admin: FC = () => {
     getMsTeamAdmin,
     createMsTeamAdmin,
     msTeamAdmin,
-    clearCashMsTeamAdmin,
     deleteMsTeamAdmin,
     checkMsTeamAdmin,
   } = MsTeamAdmin;
@@ -53,7 +52,6 @@ const O365Admin: FC = () => {
   }>();
   useEffect(() => {
     getMsTeamAdmin(tenantID, subscriptionID);
-    return () => clearCashMsTeamAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -121,7 +119,7 @@ const O365Admin: FC = () => {
       {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (
         <AcceptText
           userName={msTeamAdmin.msUsername}
-          confirm={checkMsTeamAdmin?.powershell?.active}
+          confirm={!!checkMsTeamAdmin?.powershell?.active}
         />
       ) : checkMsTeamAdmin?.status === "already_linked" ? (
         <span className={classes.title}>
