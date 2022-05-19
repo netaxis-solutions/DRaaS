@@ -21,7 +21,8 @@ export type TMsTeamUserDraas = {
   connectionId: number;
   numberId: number;
   phoneNumber: string;
-  status: string;
+  // onboarded | not_initiated | already_linked and wizard_(CURRENT STEP)_(OK\ERROR)
+  status: "onboarded" | "not_initiated" | "already_linked" | string;
 };
 
 export type TMsTeamUserList = {
@@ -71,8 +72,6 @@ export type TMsTeamUserType = {
   msTeams: TMsTeamUser;
   draas?: TMsTeamUserDraas;
 };
-
-
 
 export type TMsTeamOnboardingSteps = {
   step: number;

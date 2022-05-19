@@ -52,9 +52,9 @@ const MSTeams: FC = () => {
   const { getCheckMsTeamAdmin, checkMsTeamAdmin } = MsTeamAdminStorage;
 
   const filteredTabs = useMemo(() => {
-    return checkMsTeamAdmin?.status !== "onboarded"
-      ? tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin")
-      : tabs;
+    return checkMsTeamAdmin?.status === "onboarded"
+      ? tabs
+      : tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin");
   }, [checkMsTeamAdmin]);
 
   const { allAvailvableRouting } = RoutingConfig;
