@@ -3,7 +3,7 @@
   "customTranslations": false,
   "backendUrl": "https://apio.copaco.netaxis.cloud",
   "apiVersion": "api/v01",
-  "draasInstance": "custom/draas_v1",
+  "draasInstance": "draas/draas_v1",
   "languages": ["en", "de", "fr"],
   "authentication": {
     "keepUserLoggedIn": true,
