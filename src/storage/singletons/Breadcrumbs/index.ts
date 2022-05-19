@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import Tenant from "../Tenant";
 import {
   TCustomerLevelPayload,
   TCustomerLevelBreadcrumbs,
 } from "utils/types/components/breadcrumbs";
+import SidebarConfig from "../SidebarConfig";
 
 class BreadcrumbsStorage {
   customerLevels: TCustomerLevelBreadcrumbs = [];
@@ -17,10 +17,7 @@ class BreadcrumbsStorage {
     this.cleanBreadcrambsStorage();
     this.isLoading = true;
 
-    const subscription = await Tenant.getSpecificTenantSubscription(
-      payload[0].uuid,
-      payload[1],
-    );
+    const subscription = SidebarConfig.chosenCustomerData;
 
     const formatterBreadcrumbsRoute = payload.map(el => {
       if (typeof el == "string") {
