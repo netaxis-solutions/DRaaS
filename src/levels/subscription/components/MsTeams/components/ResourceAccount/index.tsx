@@ -35,6 +35,7 @@ import { InfoIcon, Reload, Plus } from "components/Icons";
 import TableSkeleton from "components/Table/Skeleton";
 import Table from "components/Table";
 import AssignedNumber from "../MsTeamsUsers/components/AssignedNumber";
+import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
 
 import useStyles from "../MsTeamsUsers/styles";
 
@@ -139,18 +140,31 @@ const ResourceAccount: FC = () => {
             return () => TableSelectedRowsStore.setSelectedRowsValues([]);
             // eslint-disable-next-line react-hooks/exhaustive-deps
           }, []);
+          // Formatting CountryCode to Autocomplete format
+          const countries = ResourceAccountStorage.countryCode.map(
+            requirement => {
+              return {
+                label: requirement.label,
+                value: requirement.value,
+                image: <Flag countryCode={requirement.value} />,
+              };
+            },
+          );
           return (
             <div className={classes.selectController}>
               <Controller
                 name="location"
                 control={control}
                 render={({ field, ...props }) => (
-                  <FormSelect
+                  <FormSelectWithFlags
                     label={t("Select")}
-                    options={[...ResourceAccountStorage.countryCode]}
+                    options={countries}
                     {...field}
                     {...props}
-                    className={classes.selectNumber}
+                    className={classes.selectCountry}
+                    onChange={(props: any) => {
+                      setValue("location", props?.value || "");
+                    }}
                   />
                 )}
               />
@@ -269,7 +283,7 @@ const ResourceAccount: FC = () => {
   const onSubmit = (value: TModifyResourceAccount) => {
     const doubleCheckPhoneNumber =
       TableSelectedRowsStore.selectedRowsValues[0].original.draas
-        ?.phoneNumber === value?.phoneNumber
+        ?.phoneNumber === value?.phoneNumber || value?.phoneNumber === ""
         ? ["phoneNumber"]
         : [""];
     const actualNumber = omit(

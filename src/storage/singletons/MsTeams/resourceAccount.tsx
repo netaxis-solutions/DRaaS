@@ -1,4 +1,10 @@
-import { makeObservable, observable, runInAction, action } from "mobx";
+import {
+  makeObservable,
+  observable,
+  runInAction,
+  action,
+  computed,
+} from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
@@ -20,10 +26,17 @@ import {
 import { request } from "services/api";
 import { t } from "services/Translation";
 
+import Flag from "components/common/Flag";
+
 class ResourceAccount {
   resourceAccountsData: TResourceAccountData[] = [];
   countryCode: TCountryCode[] = [];
   isLoading: boolean = false;
+  formattedCountryCode: Array<{
+    label: string;
+    value: string;
+    image: JSX.Element;
+  }> = [];
 
   constructor() {
     makeObservable(this, {
@@ -34,8 +47,21 @@ class ResourceAccount {
       modifyMsTeamsResourceAccount: action,
       createMsTeamsResourceAccount: action,
       getCountryCode: action,
+      formattedCountry: computed,
     });
   }
+
+  // Change default format to Select(Autocomplete) format with Icons
+  get formattedCountry() {
+    return (this.formattedCountryCode = this.countryCode.map(requirement => {
+      return {
+        label: requirement.label,
+        value: requirement.value,
+        image: <Flag countryCode={requirement.value} />,
+      };
+    }));
+  }
+
   // https://docs.netaxis.solutions/draas/provisioning/api/95_msteams.html#get-the-complete-ms-teams-resource-accounts-list
   // Get data for table in MSTeam -> Resource Account Tab
 
@@ -75,6 +101,7 @@ class ResourceAccount {
       .then(() => {
         successNotification(t("Resource Account successfully updated!"));
         this.getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
+        Numbers.getFreeNumbers(tenantID, subscriptionID);
       })
       .catch(e => {
         errorNotification(e);
