@@ -14,6 +14,7 @@ import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
 import SubscriptionLicensesStore from "storage/singletons/Licenses";
+import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 import { getIsLoading } from "utils/functions/getIsLoading";
@@ -190,7 +191,8 @@ const MsTeamsUsers: FC = () => {
         editDisabledCondition={(row: Row<TableData>) =>
           !(row.original.msTeams.voiceEnabled === "yes") ||
           SubscriptionLicensesStore.licenses[0].inUse >=
-            SubscriptionLicensesStore.licenses[0].assigned
+            SubscriptionLicensesStore.licenses[0].assigned ||
+          !CreateDeleteAdmin.checkMsTeamAdmin.powershell.active
         }
         isEditable
       />
