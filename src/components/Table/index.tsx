@@ -49,7 +49,7 @@ const Table: FC<TableProps> = ({
   actionsDataFormatter,
   isCheckboxAvailable,
   isGeneralCheckboxSelected,
-  selectAllRowCondition,
+  isRowSelectable,
   editDisabledCondition,
   deleteDisabledCondition,
 }) => {
@@ -108,8 +108,8 @@ const Table: FC<TableProps> = ({
 
                       const handleChange = () => {
                         page.forEach(row => {
-                          selectAllRowCondition
-                            ? selectAllRowCondition(
+                          isRowSelectable
+                            ? isRowSelectable(
                                 TableSelectedRowsStore.isChecked,
                                 row,
                               ) &&
@@ -183,8 +183,8 @@ const Table: FC<TableProps> = ({
 
                       const handleChange = () => {
                         page.forEach(row => {
-                          selectAllRowCondition
-                            ? selectAllRowCondition(
+                          isRowSelectable
+                            ? isRowSelectable(
                                 TableSelectedRowsStore.isChecked,
                                 row,
                               ) &&

@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useEffect, useMemo, useState } from "react";
-import { CellProps, TableProps } from "react-table";
+import { CellProps, Row, TableProps } from "react-table";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -12,6 +12,7 @@ import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
 
 import { getIsLoading } from "utils/functions/getIsLoading";
+import { TableData } from "utils/types/tableConfig";
 
 import SelectFromInventory from "./components/MultistepModal";
 import { InfoIcon, Plus, Trash } from "components/Icons";
@@ -94,34 +95,34 @@ const MyNumbers = () => {
     () =>
       availableEntitlementsNumber
         ? [
-          {
-            id: "delete",
-            title: t("Delete"),
-            icon: Trash,
-            onClick: () => {
-              setModalToOpen("delete");
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
             },
-          },
-          {
-            id: "add",
-            title: t("Add"),
-            icon: Plus,
-            onClick: () => {
-              setModalToOpen("add");
-              clearPaginationData();
+            {
+              id: "add",
+              title: t("Add"),
+              icon: Plus,
+              onClick: () => {
+                setModalToOpen("add");
+                clearPaginationData();
+              },
             },
-          },
-        ]
+          ]
         : [
-          {
-            id: "delete",
-            title: t("Delete"),
-            icon: Trash,
-            onClick: () => {
-              setModalToOpen("delete");
+            {
+              id: "delete",
+              title: t("Delete"),
+              icon: Trash,
+              onClick: () => {
+                setModalToOpen("delete");
+              },
             },
-          },
-        ],
+          ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [availableEntitlementsNumber],
   );
@@ -161,7 +162,7 @@ const MyNumbers = () => {
   const handleModalClose = () => {
     getNumbersData(tenantID, subscriptionID);
     setModalToOpen("");
-    clearPaginationData()
+    clearPaginationData();
   };
 
   const handleDeleteItem = (props: any) => {
@@ -195,6 +196,29 @@ const MyNumbers = () => {
     successCallback();
   };
 
+  // This function calculates if current row is available
+  const isAvailable = (row: Row<TableData>) => !row.original.assigned;
+
+  // This function calculates if current row is selectable
+  const isRowSelectable = (_: boolean, row: Row<TableData>) => isAvailable(row);
+
+  // This function calculates if general checkbox selected
+  const isGeneralCheckboxSelected = (page: Row<TableData>[]) =>
+    TableSelectedRowsStore.selectedRowsLength ===
+      page.reduce((sum, curr) => (curr.original.assigned ? sum : sum + 1), 0) &&
+    TableSelectedRowsStore.selectedRowsLength !== 0;
+
+  // This object includes tooltip text and condition when it shown
+  const disabledNumberTooltip = {
+    text: t(
+      "You cannot delete number as long as you still have this number connected",
+    ),
+    filterConditions: (row: Row<TableData>) => !isAvailable(row),
+  };
+
+  // This function calculates if delete button are disabled for current row
+  const deleteDisabledCondition = (row: Row<TableData>) => !isAvailable(row);
+
   const isLoading = getIsLoading("@getNumbersData", byFetchType);
 
   return (
@@ -214,6 +238,11 @@ const MyNumbers = () => {
             data={numbers}
             toolbarActions={toolbarActions}
             handleDeleteItem={handleDeleteItem}
+            deleteDisabledCondition={deleteDisabledCondition}
+            tooltipTrashButton={disabledNumberTooltip}
+            isCheckboxAvailable={isAvailable}
+            isRowSelectable={isRowSelectable}
+            isGeneralCheckboxSelected={isGeneralCheckboxSelected}
             checkbox
             isRemovable
           />

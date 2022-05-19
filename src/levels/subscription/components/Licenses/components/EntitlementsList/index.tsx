@@ -225,7 +225,8 @@ const EntitlementList: FC = () => {
     );
   };
 
-  const selectAllRowCondition = (_: any, row: Row<TableData>) => {
+  // This function calculates if current row is selectable
+  const isRowSelectable = (_: any, row: Row<TableData>) => {
     return !row.original.assigned;
   };
 
@@ -264,7 +265,7 @@ const EntitlementList: FC = () => {
             toolbarActions={toolbarActions}
             handleEditItem={handleEditItem}
             isCheckboxAvailable={isAvailable}
-            selectAllRowCondition={selectAllRowCondition}
+            isRowSelectable={isRowSelectable}
             isGeneralCheckboxSelected={selectAllCondition}
             deleteDisabledCondition={(row: Row<TableData>) => {
               return !(row.original.assigned === 0);
