@@ -192,7 +192,7 @@ const MsTeamsUsers: FC = () => {
           !(row.original.msTeams.voiceEnabled === "yes") ||
           SubscriptionLicensesStore.licenses[0].inUse >=
             SubscriptionLicensesStore.licenses[0].assigned ||
-          !CreateDeleteAdmin.checkMsTeamAdmin.powershell.active
+          !CreateDeleteAdmin?.checkMsTeamAdmin?.powershell.active
         }
         isEditable
       />
