@@ -19,7 +19,7 @@ const MenuEl: React.FC<MenuELType> = ({ menuEl, onClick }) => {
   return menuEl?.path ? (
     <div
       className={clsx(classes.menuElLinkWrapper, {
-        [classes.menuElLinkWrapperActive]: isActive
+        [classes.menuElLinkWrapperActive]: isActive,
       })}
     >
       <NavLink
@@ -30,6 +30,7 @@ const MenuEl: React.FC<MenuELType> = ({ menuEl, onClick }) => {
       >
         {menuEl.name}
       </NavLink>
+      <div className={classes.activeMenu} />
     </div>
   ) : null;
 };

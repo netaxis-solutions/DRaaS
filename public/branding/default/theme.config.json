@@ -52,7 +52,7 @@
     }
   },
   "body":{
-    "background":"#FFFFFF",
+    "background":"#F1F2F9",
     "fontFamily":"inherit",
     "button":{
       "disabled":{
@@ -101,7 +101,7 @@
     },
     "table":{
         "header":{
-          "background": "transparent",
+          "background": "#FFFFFF",
           "imageColor": "#828282",
           "imageColorWhite":"#FFFFFF",
           "text":"#000000",
@@ -110,6 +110,9 @@
             "backgroundSelected": "#484CBA",
             "imageColor": "#FFFFFF"
           }
+        },
+        "pagination":{
+          "background":"#FFFFFF"
         },
         "actionBar":{
           "color":"#828282",
@@ -202,13 +205,15 @@
   }
 },
   "top_bar":{
-    "background":"#EBEBF7",
+    "background":"#FFFFFF",
     "text": "#212356",
-    "activeButtonBackground": "#EBEBF7",
+    "activeButtonBackground": "transparent",
     "activeButtonFont":"#212356",
-    "activeButtonBorder":"1px solid #EBEBF7",
-    "menuLinkActive": "#484CBA",
+    "menuLinkActive": "#3664F7",
     "fontFamily":"inherit",
+    "height":"52px",
+    "fontSize":"18px",
+    "fontWeight":"450",
     "userProfile":{
       "white":"#EBEBF7",
       "primaryText": "#333333",
@@ -217,8 +222,8 @@
       "statusError":"#EC4436"
     },
     "icon":{
-      "background": "#EBEBF7",
-      "color": "#484CBA",
+      "background": "transparent",
+      "color": "#374151",
       "action":{
         "background": "#EBEBF7",
         "color": "#484CBA"

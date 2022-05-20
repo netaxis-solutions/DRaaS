@@ -95,7 +95,6 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       fill: theme.top_bar.icon.color,
     },
     "&:hover": {
-      background: theme.top_bar.icon.action.background,
       "& path": {
         fill: theme.top_bar.icon.action.color,
       },
