@@ -150,6 +150,7 @@
       "color": "#374151",
       "border": "#DDE7FF",
       "fontWeight":"450",
+      "fontSize":"1.6rem",
       "active":{
         "color": "#3664F7",
         "border": "#C2C3E8",
