@@ -9,7 +9,7 @@ const TopBar: React.FC = () => {
   return (
     <div className={classes.topbarContainer}>
       <img
-        src="/branding/default/img/topBarLogo.png"
+        src="/branding/default/img/TopBarLogo.svg"
         className={classes.topBarLogoImage}
         alt="logo"
       />

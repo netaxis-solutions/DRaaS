@@ -5,11 +5,13 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   topbarContainer: {
     width: "100%",
-    height: 40,
+    height: theme.top_bar.height,
     background: theme.top_bar.background,
     display: "flex",
     alignItems: "center",
     fontFamily: theme.top_bar.fontFamily,
+    fontSize: theme.top_bar.fontSize,
+    fontWeight: theme.top_bar.fontWeight,
   },
   topBarLogoImage: {
     margin:

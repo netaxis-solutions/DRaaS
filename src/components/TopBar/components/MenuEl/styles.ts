@@ -6,11 +6,25 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   menuElLinkWrapper: {
     display: "flex",
     height: "100%",
-    borderBottom: `2px solid  transparent`,
     alignItems: "center",
   },
   menuElLinkWrapperActive: {
-    borderBottom: `2px solid  ${theme.top_bar.menuLinkActive}`,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "end",
+    gap: theme.spacing(1),
+    alignItems: "center",
+    "& div": {
+      border: `1px solid ${theme.top_bar.menuLinkActive}`,
+      display: "block",
+      borderRadius: "5px",
+    },
+  },
+  activeMenu: {
+    width: "calc(100% - 36px)",
+    height: 4,
+    background: theme.top_bar.menuLinkActive,
+    display: "none",
   },
   menuElLink: {
     margin: `0 ${theme.spacing(2.25)}px`,

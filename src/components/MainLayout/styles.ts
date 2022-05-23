@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     background: theme.body.background,
     fontFamily: theme.body.fontFamily,
     display: "flex",
-    height: "calc(100% - 40px)",
+    height: "calc(100% - 52px)",
     "& > div": {
       position: "relative",
       "& > div": {

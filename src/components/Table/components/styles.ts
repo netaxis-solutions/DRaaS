@@ -130,6 +130,7 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableToolbarWrapper: {
     display: "flex",
     alignItems: "center",
+    background: theme.body.table.header.background,
     height: 52,
     borderRadius: "10px 10px 0 0",
     borderColor: theme.palette.table.border,
@@ -186,6 +187,7 @@ export const tablePaginationStyles = makeStyles(
       justifyContent: "space-between",
       alignItems: "center",
       height: 40,
+      background: theme.body.table.pagination.background,
       borderRadius: "0 0 10px 10px",
       borderColor: theme.palette.table.border,
       borderStyle: "solid",
