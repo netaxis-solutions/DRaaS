@@ -21,10 +21,8 @@ export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
   selected: {
     "&$textColorInherit": {
       color: theme.body.tabs.active.color,
-      fontWeight: "400",
+      fontWeight: theme.body.tabs.fontWeight,
     },
-    border: `1px solid ${theme.body.tabs.active.border}`,
-    borderRadius: "6px 6px 0 0",
     borderBottom: `1px solid ${theme.body.tabs.active.borderBottom}`,
   },
 }));

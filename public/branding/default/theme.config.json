@@ -147,12 +147,13 @@
         }
     },
     "tabs":{
-      "color": "#333333",
-      "border": "#C2C3E8",
+      "color": "#374151",
+      "border": "#DDE7FF",
+      "fontWeight":"450",
       "active":{
-        "color": "#484CBA",
+        "color": "#3664F7",
         "border": "#C2C3E8",
-        "borderBottom":"#F9F9F9"
+        "borderBottom":"#3664F7"
       }
     },
     "card":{
