@@ -5,7 +5,7 @@ export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
   textColorInherit: {
     color: theme.body.tabs.color,
     textTransform: "none",
-    fontSize: "1.4rem",
+    fontSize: theme.body.tabs.fontSize,
     fontWeight: 300,
     lineHeight: "1.6rem",
     opacity: 1,
@@ -21,10 +21,9 @@ export const tabStyles = createStyles((theme: ThemeDefaultOptions) => ({
   selected: {
     "&$textColorInherit": {
       color: theme.body.tabs.active.color,
-      fontWeight: "400",
+      fontWeight: theme.body.tabs.fontWeight,
+      fontSize: theme.body.tabs.fontSize,
     },
-    border: `1px solid ${theme.body.tabs.active.border}`,
-    borderRadius: "6px 6px 0 0",
     borderBottom: `1px solid ${theme.body.tabs.active.borderBottom}`,
   },
 }));
