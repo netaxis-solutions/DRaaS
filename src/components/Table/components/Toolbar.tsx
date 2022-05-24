@@ -10,7 +10,6 @@ import { useToolbarStyles } from "./styles";
 
 const Toolbar: React.FC<ToolbarType> = ({
   toolbarActions,
-  title,
   setGlobalFilter,
   value = "",
 }) => {
@@ -24,8 +23,6 @@ const Toolbar: React.FC<ToolbarType> = ({
 
   return (
     <div className={classes.tableToolbarWrapper}>
-      <div className={classes.tableToolbarTitle}>{title}</div>
-
       <div className={classes.tableToolbarSearchActionWrappper}>
         {!tableWithOutServerPagination ? (
           <SearchInput

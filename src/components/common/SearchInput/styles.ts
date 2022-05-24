@@ -4,9 +4,11 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
-    width: 400,
+    maxWidth: "100%",
+    minWidth: 600,
     height: "100%",
     borderRadius: 0,
+    border: "1px solid transparent",
     "& svg": {
       width: 14,
       height: 14,
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.4rem",
   },
   notchedOutline: {
-    borderColor: theme.palette.primary.light,
+    borderColor: "transparent",
   },
 }));
 

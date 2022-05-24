@@ -49,7 +49,7 @@ const Pagination: React.FC<TablePaginationType> = ({
       )}
       <div className={classes.tablePaginationActionsWrapper}>
         <span className={classes.tablePaginationLinesPerPageTitle}>
-          {t("Lines per page")}:
+          {t("Items per page")}:
         </span>
         <PaginationDropdown
           pageSize={tablePageSize}

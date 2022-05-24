@@ -6,8 +6,8 @@ export const modalHeaderUseStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
     modalHeaderWrapper: {
       "& svg": {
-        width: 7,
-        height: 12,
+        width: 16,
+        height: 16,
         fill: theme.palette.primary.main,
       },
       position: "sticky",

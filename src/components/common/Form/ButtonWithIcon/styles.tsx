@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     background: theme.body.button.normal.background,
     color: theme.body.button.normal.text,
     border: theme.body.button.normal.border,
-
     "&:hover": {
       color: theme.body.button.action.hover.text,
       border: theme.body.button.action.border,
@@ -26,11 +25,12 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 
     padding: `${theme.spacing(1.25)}px ${theme.spacing(2.5)}px`,
     "& svg": {
-      width: 14,
-      height: 14,
-      "& path": {
-        fill: theme.body.button.disabled.icon.color,
-      },
+      width: 16,
+      fill: theme.body.table.button.icon,
+      height: 16,
+    },
+    "& path": {
+      fill: `${theme.body.table.button.icon} !important`,
     },
   },
   startIcon: {

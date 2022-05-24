@@ -105,19 +105,35 @@
           "imageColor": "#828282",
           "imageColorWhite":"#FFFFFF",
           "text":"#000000",
+          "imageBackground":"transparent",
           "active":{
-            "backgroundHover": "#F5F7FF",
-            "backgroundSelected": "#484CBA",
+            "backgroundHover": "#EAEEFC",
+            "backgroundSelected": "##EAEEFC",
             "imageColor": "#FFFFFF"
           }
         },
         "pagination":{
-          "background":"#FFFFFF"
+          "background":"#FFFFFF",
+          "dropDownBorder":"#3664F7",
+          "textColor":"#374151",
+          "fontSize":"1.4rem",
+          "fontWeight":"450",
+          "navigateBorder":"#3664F7",
+          "active":{
+            "navigateBackground":"#EAEEFC",
+            "activeIcon":"#374151",
+            "hoverIcon":"#3664F7"
+          }
+        },
+        "checkbox":{
+          "hoverBorder":"#3664F7",
+          "checkedBackground":"#3664F7"
         },
         "actionBar":{
           "color":"#828282",
           "action":{
-            "color":"#828282"
+            "color":"#828282",
+            "iconColor":"#3664F7"
           },
           "disabled":{
             "color":"#B4BDC2",
@@ -125,22 +141,30 @@
           }
         },
         "button":{
-          "borderColor":"transparent",
-          "text": "#828282",
-          "icon":"#828282",
-          "background": "#FFFFFF",
+          "borderColor":"#3664F7",
+          "text": "#4975E5",
+          "textAdd":"#FFFFFF",
+          "icon":"transparent",
+          "backgroundAdd": "#3664F7",
+          "backgroundDelete": "transparent",
           "action":{
-            "borderColor":"transparent",
-            "text": "#828282",
+            "borderColor":"#5B7CFF",
+            "textAdd":"#FFFFFF",
+            "text": "#5B7CFF",
             "icon":"#828282",
-            "background": "#F5F7FF"
+            "background": "transparent",
+            "backgroundAdd": "#5B7CFF",
+            "clickBackgroundAdd":"#253679"
           }
         },
-        "title": "#000000",
+        "title": "#323D69",
+        "fontWeight":"600",
         "background":"#FFFFFF",
+        "fontSize":"2.4rem",
+        "textTransform":"uppercase",
         "link": "#0061F1",
         "text": "#000000",
-        "rowBorder":"none",
+        "rowBorder":"1px solid #DDE7FF",
         "bodyBorder": "#EBEBF7",
         "action":{
           "rowBackground": "#F5F7FF"
@@ -210,12 +234,14 @@
     "background":"#FFFFFF",
     "text": "#212356",
     "activeButtonBackground": "transparent",
-    "activeButtonFont":"#212356",
+    "activeButtonFont":"#4975E5",
     "menuLinkActive": "#3664F7",
     "fontFamily":"inherit",
     "height":"52px",
-    "fontSize":"18px",
+    "fontSize":"1.8rem",
     "fontWeight":"450",
+    "borderBottom":"#DADDE5",
+    "textTransform":"uppercase",
     "userProfile":{
       "white":"#EBEBF7",
       "primaryText": "#333333",

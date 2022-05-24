@@ -60,10 +60,16 @@ const TableActions: FC<
               title={tooltipEditButton?.text}
               placement="bottom-end"
             >
-              <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+              <Edit
+                className={classes.editButton}
+                onClick={isEditDisabled ? () => {} : onEdit}
+              />
             </Tooltip>
           ) : (
-            <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+            <Edit
+              className={classes.editButton}
+              onClick={isEditDisabled ? () => {} : onEdit}
+            />
           )}
         </div>
       )}
@@ -76,10 +82,16 @@ const TableActions: FC<
               title={tooltipTrashButton?.text}
               placement="bottom-end"
             >
-              <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+              <Trash
+                className={classes.trashButton}
+                onClick={isDeleteDisabled ? () => {} : onDelete}
+              />
             </Tooltip>
           ) : (
-            <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+            <Trash
+              className={classes.trashButton}
+              onClick={isDeleteDisabled ? () => {} : onDelete}
+            />
           )}
         </div>
       )}
