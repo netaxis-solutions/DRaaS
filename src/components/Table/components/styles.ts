@@ -37,20 +37,23 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginLeft: 0,
     },
   },
-  disabled: {
+  hidden: {
+    "&>svg": { visibility: "hidden" },
+  },
+  disabledButton: {
     "&>svg": {
+      opacity: 0.5,
       cursor: "default",
-      fill: theme.body.table.actionBar.disabled.color,
+      fill: "none",
     },
     "&>svg:hover": {
       fill: theme.body.table.actionBar.disabled.color,
     },
   },
-  hidden: {
-    "&>svg": { visibility: "hidden" },
-  },
   editButton: {
-    fill: "none !important",
+    "& svg": {
+      fill: "none !important",
+    },
   },
   trashButton: {
     fill: "none !important",
@@ -134,7 +137,7 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   disabled: {
-    opacity: 0.6,
+    opacity: 0.3,
     backgroundColor: theme.palette.primary.background,
     pointerEvents: "none",
   },

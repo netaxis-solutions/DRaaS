@@ -53,7 +53,12 @@ const TableActions: FC<
   return (
     <div className={classes.tableActionsWrapper}>
       {edit && (
-        <div className={clsx({ [classes.disabled]: isEditDisabled })}>
+        <div
+          className={clsx({
+            [classes.editButton]: !isEditDisabled,
+            [classes.disabledButton]: isEditDisabled,
+          })}
+        >
           {tooltipValidationEdit ? (
             <Tooltip
               arrow
@@ -75,7 +80,7 @@ const TableActions: FC<
       )}
 
       {del && (
-        <div className={clsx({ [classes.disabled]: isDeleteDisabled })}>
+        <div className={clsx({ [classes.disabledButton]: isDeleteDisabled })}>
           {tooltipValidation ? (
             <Tooltip
               arrow
@@ -100,7 +105,7 @@ const TableActions: FC<
         customActions.map(({ isShown, onClick, iconComponent, disabled }) => (
           <div
             className={clsx({
-              [classes.disabled]: disabled,
+              [classes.disabledButton]: disabled,
               [classes.hidden]: !isShown,
             })}
             onClick={() => {
