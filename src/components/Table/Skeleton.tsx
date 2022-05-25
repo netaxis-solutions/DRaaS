@@ -29,8 +29,12 @@ const TableSkeleton: FC<{
       <div className={classes.tableToolbarTitle}>{title}</div>
       <div className={classes.tableToolbarWrapper}>
         <div className={classes.tableToolbarSkeleton}>
-          <Skeleton variant="rectangular" height={54} width={600} />
-          <Skeleton variant="rectangular" height={54} width={200} />
+          <Skeleton
+            variant="rectangular"
+            height={54}
+            width={"calc(100% - 100px)"}
+          />
+          <Skeleton variant="rectangular" height={54} width={90} />
         </div>
       </div>
       <Table>
