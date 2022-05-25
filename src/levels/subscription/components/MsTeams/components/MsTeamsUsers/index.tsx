@@ -167,6 +167,7 @@ const MsTeamsUsers: FC = () => {
 
   const isLoading =
     getIsLoading("@getMsTeamUsers", byFetchType) ||
+    getIsLoading("@getMsTeamNumber", byFetchType) ||
     getIsLoading("@getFreeNumbers", byFetchType);
   return isLoading ? (
     <TableSkeleton title={t("Users")} columns={columns} actions={[true]} />
