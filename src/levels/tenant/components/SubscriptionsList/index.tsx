@@ -155,7 +155,9 @@ const SubscriptionsList: FC = () => {
     deleteSubscriptions(tenantId, selectedSubscriptionsIds, callback);
   };
 
-  const isLoading = getIsLoading("@getSubscriptionsData", byFetchType);
+  const isLoading =
+    getIsLoading("@getSubscriptionsData", byFetchType) ||
+    getIsLoading("@deleteSubscriptions", byFetchType);
 
   return (
     <>
