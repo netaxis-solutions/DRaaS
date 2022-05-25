@@ -18,6 +18,11 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
   },
+  cardWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   selectCountry: {
     maxWidth: 400,
     minWidth: 150,

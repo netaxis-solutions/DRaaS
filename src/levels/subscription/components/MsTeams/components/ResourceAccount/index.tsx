@@ -36,6 +36,7 @@ import TableSkeleton from "components/Table/Skeleton";
 import Table from "components/Table";
 import AssignedNumber from "../MsTeamsUsers/components/AssignedNumber";
 import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
+import CardWithButton from "components/CardForEmptyTable";
 
 import useStyles from "../MsTeamsUsers/styles";
 
@@ -343,7 +344,7 @@ const ResourceAccount: FC = () => {
           columns={columns}
           actions={[true, true]}
         />
-      ) : (
+      ) : resourceAccountsData.length > 0 ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Table
             title={
@@ -369,6 +370,15 @@ const ResourceAccount: FC = () => {
             isRemovable
           />
         </form>
+      ) : (
+        <div className={classes.cardWrapper}>
+          <CardWithButton
+            content={t("You have no Resource Accounts added yet")}
+            customEvent={() => setModalToOpen("add")}
+            buttonName={t("Add new Account")}
+            icon={Plus}
+          />
+        </div>
       )}
       {modalToOpen === "delete" && (
         <DeleteResourceAccount

@@ -108,6 +108,7 @@ export const O365Styles = makeStyles((theme: ThemeDefaultOptions) => ({
     flexDirection: "column",
     border: `1px solid ${theme.palette.primary.light}`,
     borderRadius: 10,
+    background: theme.body.card.background,
     "& > div": {
       display: "flex",
       flexDirection: "row",
