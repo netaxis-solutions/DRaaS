@@ -24,6 +24,10 @@ const TableActions: FC<
       text: string;
       filterConditions: (rowData: Row<TableData>) => boolean;
     };
+    tooltipEditButton?: {
+      text: string;
+      filterConditions: (rowData: Row<TableData>) => boolean;
+    };
   }
 > = ({
   edit,
@@ -33,6 +37,7 @@ const TableActions: FC<
   customActions,
   rowData,
   tooltipTrashButton,
+  tooltipEditButton,
   editDisabled = _ => false,
   deleteDisabled = _ => false,
   onEdit,
@@ -43,12 +48,23 @@ const TableActions: FC<
   const isEditDisabled = editDisabled(rowData);
   const isDeleteDisabled = deleteDisabled(rowData);
   const tooltipValidation = tooltipTrashButton?.filterConditions(rowData);
+  const tooltipValidationEdit = tooltipEditButton?.filterConditions(rowData);
 
   return (
     <div className={classes.tableActionsWrapper}>
       {edit && (
         <div className={clsx({ [classes.disabled]: isEditDisabled })}>
-          <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+          {tooltipValidationEdit ? (
+            <Tooltip
+              arrow
+              title={tooltipEditButton?.text}
+              placement="bottom-end"
+            >
+              <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+            </Tooltip>
+          ) : (
+            <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+          )}
         </div>
       )}
 

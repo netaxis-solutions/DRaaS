@@ -65,6 +65,10 @@ export type TableProps = {
     text: string;
     filterConditions: (rowData: Row<TableData>) => boolean;
   };
+  tooltipEditButton?: {
+    text: string;
+    filterConditions: (rowData: Row<TableData>) => boolean;
+  };
 };
 
 export type ToolbarType = {

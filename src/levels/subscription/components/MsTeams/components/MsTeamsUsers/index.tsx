@@ -188,6 +188,16 @@ const MsTeamsUsers: FC = () => {
         }
         columns={columns}
         data={msTeamUsersList}
+        tooltipEditButton={{
+          text: t(
+            "You don't have enought licenses or voice available to do this action",
+          ),
+          filterConditions: (rowData: Row<TableData>) =>
+            !(rowData.original.msTeams.voiceEnabled === "yes") ||
+            SubscriptionLicensesStore.licenses[0].inUse >=
+              SubscriptionLicensesStore.licenses[0].assigned ||
+            !CreateDeleteAdmin?.checkMsTeamAdmin?.powershell.active,
+        }}
         editDisabledCondition={(row: Row<TableData>) =>
           !(row.original.msTeams.voiceEnabled === "yes") ||
           SubscriptionLicensesStore.licenses[0].inUse >=
