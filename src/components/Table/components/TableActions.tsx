@@ -52,6 +52,21 @@ const TableActions: FC<
 
   return (
     <div className={classes.tableActionsWrapper}>
+      {customActions &&
+        customActions.map(({ isShown, onClick, iconComponent, disabled }) => (
+          <div
+            className={clsx({
+              [classes.disabledButton]: disabled,
+              [classes.hidden]: !isShown,
+            })}
+            onClick={() => {
+              !disabled && isShown && rowData && onClick(rowData);
+            }}
+          >
+            {iconComponent}
+          </div>
+        ))}
+
       {edit && (
         <div
           className={clsx({
@@ -101,20 +116,6 @@ const TableActions: FC<
         </div>
       )}
 
-      {customActions &&
-        customActions.map(({ isShown, onClick, iconComponent, disabled }) => (
-          <div
-            className={clsx({
-              [classes.disabledButton]: disabled,
-              [classes.hidden]: !isShown,
-            })}
-            onClick={() => {
-              !disabled && isShown && rowData && onClick(rowData);
-            }}
-          >
-            {iconComponent}
-          </div>
-        ))}
       {save && (
         <IconButton type="submit" className={classes.iconButton}>
           <Check style={{ width: 14, height: 12 }} />
