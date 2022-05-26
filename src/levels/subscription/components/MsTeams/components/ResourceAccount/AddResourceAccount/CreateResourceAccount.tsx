@@ -65,13 +65,19 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
   const { control, handleSubmit, setValue } = useForm({
     resolver: yupResolver(
       object().shape({
-        displayName: string().required(),
-        accountType: object().shape({
-          label: string(),
-          value: string().required(),
-        }),
-        location: string().required(),
-        userPrincipalName: string().email().required(),
+        displayName: string().required().label(t("Display Name")),
+        accountType: object()
+          .required()
+          .shape({
+            label: string(),
+            value: string().required().label(t("Type")),
+          }),
+
+        location: string().required().label(t("Location")),
+        userPrincipalName: string()
+          .email()
+          .required()
+          .label(t("Username (principal name)")),
         phoneNumber: string(),
       }),
     ),
