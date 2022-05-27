@@ -158,7 +158,7 @@
       }
     },
     "card":{
-      "background":"transparent",
+      "background":"#FFFFFF",
       "text":"#000000",
       "border":"1px solid #EBEBF7",
       "icon":{

@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.6rem",
     lineHeight: "1.8rem",
     color: theme.palette.primary.text,
+    background: theme.body.card.background,
   },
   content: {
     minHeight: 50,
