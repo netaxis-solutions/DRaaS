@@ -93,6 +93,10 @@ class TablePagination {
     });
   };
 
+  resetCurrentPage = () => {
+    this.tablePageCounter = 1;
+  };
+
   clearTablePagesWithoutServerPaginations = (dataLengths: number) => {
     const param = Math.ceil(dataLengths / 10);
     if (param) {
