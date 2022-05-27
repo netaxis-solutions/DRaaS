@@ -1,9 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import {
-  TCustomerLevelPayload,
+  BreadcrumbsInfoType,
   TCustomerLevelBreadcrumbs,
 } from "utils/types/components/breadcrumbs";
-import SidebarConfig from "../SidebarConfig";
 
 class BreadcrumbsStorage {
   customerLevels: TCustomerLevelBreadcrumbs = [];
@@ -13,35 +12,25 @@ class BreadcrumbsStorage {
     makeAutoObservable(this, {});
   }
 
-  setCustomerLevel = async (payload: TCustomerLevelPayload) => {
+  setCustomerLevel = (breadcrumbsInfo: BreadcrumbsInfoType) => {
     this.cleanBreadcrambsStorage();
-    this.isLoading = true;
 
-    const subscription = SidebarConfig.chosenCustomerData;
+    const breadcrumbsArray = breadcrumbsInfo.filter(({ name }) => name);
 
-    const formatterBreadcrumbsRoute = payload.map(el => {
-      if (typeof el == "string") {
-        return { name: "", uuid: "" };
-      } else return { name: el.name, uuid: el.uuid };
-    });
-
-    const result = formatterBreadcrumbsRoute.reduce(
+    const result = breadcrumbsArray.reduce(
       (
-        currentCustomers: TCustomerLevelBreadcrumbs | undefined,
+        currentCustomers: TCustomerLevelBreadcrumbs,
         currentCustomer: { name: string; uuid: string },
-      ) => {
-        currentCustomers &&
-          (currentCustomers = [
-            ...currentCustomers,
-            {
-              name: currentCustomer.name || subscription?.name || "",
-              link: currentCustomer.uuid || subscription?.name || "",
-              disabled: currentCustomer.uuid ? false : true,
-            },
-          ]);
-
-        return currentCustomers;
-      },
+        index,
+        { length: arrayLength },
+      ) => [
+        ...currentCustomers,
+        {
+          name: currentCustomer.name || "",
+          link: currentCustomer.uuid || "",
+          disabled: arrayLength === index + 1,
+        },
+      ],
       [],
     );
 
@@ -53,8 +42,8 @@ class BreadcrumbsStorage {
     });
   };
 
-  setIsLoading = () => {
-    this.isLoading = true;
+  setIsLoading = (isLoading = true) => {
+    this.isLoading = isLoading;
   };
 
   cleanBreadcrambsStorage = () => {

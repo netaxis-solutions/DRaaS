@@ -37,41 +37,43 @@ const Breadcrumbs: FC = () => {
 
   return (
     <>
-      {(customerLevels.length > 0 && !isLoading) || !isLoading ? (
-        <MUIBreadcrumbs
-          separator={separator}
-          className={classes.breadcrumbsWrapper}
-          aria-label="breadcrumb"
-        >
-          {customerLevels.map((item, index) => {
-            const indexModifier =
-              RoutingConfig.loggedInUserLevel === "tenant" ? 1 : 3;
-
-            const routeTo = `/${pathnames
-              .slice(0, index + indexModifier)
-              .join("/")}`;
-
-            return !item?.disabled ? (
-              <Link
-                key={`${item.name}${index}`}
-                onClick={() => history.push(routeTo)}
-              >
-                {item.name}
-              </Link>
-            ) : (
-              <Link
-                key={`${item.name}${index}`}
-                className={classes.disabledLink}
-              >
-                {item.name}
-              </Link>
-            );
-          })}
-        </MUIBreadcrumbs>
-      ) : (
+      {isLoading ? (
         <div style={{ maxWidth: 400, padding: "18px 0 0 30px" }}>
           <Skeleton variant="text" />
         </div>
+      ) : (
+        customerLevels.length > 0 && (
+          <MUIBreadcrumbs
+            separator={separator}
+            className={classes.breadcrumbsWrapper}
+            aria-label="breadcrumb"
+          >
+            {customerLevels.map((item, index) => {
+              const indexModifier =
+                RoutingConfig.loggedInUserLevel === "tenant" ? 1 : 3;
+
+              const routeTo = `/${pathnames
+                .slice(0, index + indexModifier)
+                .join("/")}`;
+
+              return !item?.disabled ? (
+                <Link
+                  key={`${item.name}${index}`}
+                  onClick={() => history.push(routeTo)}
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <Link
+                  key={`${item.name}${index}`}
+                  className={classes.disabledLink}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </MUIBreadcrumbs>
+        )
       )}
     </>
   );

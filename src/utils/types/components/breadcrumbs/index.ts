@@ -1,12 +1,7 @@
-export type TCustomerLevelPayload = [
-  {
-    uuid: string;
-    name: string;
-    billingId: string;
-    markup: string;
-  },
-  string,
-];
+export type BreadcrumbsInfoType = Array<{
+  uuid: string;
+  name: string;
+}>;
 
 export type TCustomerLevelBreadcrumbs = {
   name: string;
