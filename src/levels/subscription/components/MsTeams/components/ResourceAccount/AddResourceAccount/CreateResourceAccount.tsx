@@ -87,7 +87,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
   const onSubmit: SubmitHandler<TCreateResourceAccount> = values => {
     // formatting for omit
     const validationPhoneNumber =
-      values.phoneNumber === "" ? "phoneNumber" : "";
+      values.phoneNumber === "Unselect number" ? "phoneNumber" : "";
     // formatting data for request "Payload"
     const formatData = omit(
       {
@@ -171,8 +171,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
         render={({ field, ...props }) => (
           <FormSelect
             label={t("Phone number")}
-            disableClearable
-            options={["", ...NumbersStore.freeNumbers]}
+            options={["Unselect number", ...NumbersStore.freeNumbers]}
             {...field}
             {...props}
             className={classes.selectNumber}
