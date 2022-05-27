@@ -315,6 +315,7 @@ const ResourceAccount: FC = () => {
 
   // Function for opening delete modal
   const handleDeleteItem = (props: any) => {
+    setActualMsTeamID(props.row.original.msTeams.id);
     setSelectedRows({ [props.row.index]: true });
     setModalToOpen("delete");
   };

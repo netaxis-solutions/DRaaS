@@ -41,13 +41,18 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "&>svg": { visibility: "hidden" },
   },
   disabledButton: {
-    "&>svg": {
-      opacity: 0.5,
-      cursor: "default",
-      fill: "none",
+    "& svg": {
+      "& path": {
+        cursor: "default",
+        stroke: theme.body.table.actionBar.disabled.color,
+      },
     },
-    "&>svg:hover": {
-      fill: theme.body.table.actionBar.disabled.color,
+    "&:hover": {
+      "& svg": {
+        "& path": {
+          stroke: theme.body.table.actionBar.disabled.colorHover,
+        },
+      },
     },
   },
   editButton: {
@@ -153,7 +158,7 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     alignItems: "center",
     background: theme.body.table.header.background,
-    height: 52,
+    height: 70,
     borderRadius: "10px 10px 0 0",
     borderColor: theme.palette.table.border,
     borderStyle: "solid",
@@ -230,7 +235,8 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     height: "calc(100% + 2px)",
   },
   tableToolbarButtonsWrapper: {
-    margin: `0 ${theme.spacing(0.25)}px`,
+    margin: `${theme.spacing(2)}px ${theme.spacing(0.25)}px`,
+    paddingRight: theme.spacing(2.5),
     display: "flex",
     alignItems: "center",
     "& button": {
@@ -291,7 +297,10 @@ export const paginationDropdownStyles = makeStyles(
       fontSize: "1.2rem",
       border: `1px solid ${theme.body.table.pagination.dropDownBorder}`,
       "& fieldset": {
-        border: "none",
+        border: "1px solid transparent",
+      },
+      "& input": {
+        height: "100%",
       },
     },
     autocompleteInput: {
@@ -337,6 +346,7 @@ export const paginationNavigationStyles = makeStyles(
         fill: theme.palette.table.iconDisabled,
       },
       "&:hover": {
+        background: "transparent",
         "& svg": {
           fill: theme.palette.table.iconDisabled,
         },

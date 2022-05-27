@@ -79,7 +79,8 @@
           "color":"#C0C0C0"
         },
         "hover":{
-          "text":"#C0C0C0"
+          "text":"#C0C0C0",
+          "icon":"#C0C0C0"
         }
       },
       "cancel":{
@@ -134,17 +135,18 @@
           "action":{
             "color":"#828282",
             "iconColor":"#3664F7"
+            
           },
           "disabled":{
-            "color":"#B4BDC2",
-            "colorHover":"#B4BDC2"
+            "color":"#C0C0C0",
+            "colorHover":"#C0C0C0"
           }
         },
         "button":{
           "borderColor":"#3664F7",
           "text": "#4975E5",
           "textAdd":"#FFFFFF",
-          "icon":"transparent",
+          "icon":"#FFFFFF",
           "backgroundAdd": "#3664F7",
           "backgroundDelete": "transparent",
           "action":{

@@ -46,6 +46,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     textTransform: theme.body.table.textTransform,
     display: "block",
     marginBottom: "20px",
+    marginLeft: theme.spacing(0.5),
   },
   actionsHeader: {
     textAlign: "end",
@@ -98,7 +99,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     width: "100%",
   },
   tableToolbarTitle: {
-    marginLeft: `${theme.spacing(3.75)}px`,
+    marginLeft: `${theme.spacing(0.5)}px`,
     width: "50%",
     color: theme.body.table.title,
     fontWeight: theme.body.table.fontWeight,

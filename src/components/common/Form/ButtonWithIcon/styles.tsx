@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       border: theme.body.button.action.border,
       "& svg": {
         "& path": {
-          fill: theme.body.button.action.hover.text,
+          fill: `${theme.body.button.action.hover.icon} !important`,
+          stroke: `${theme.body.button.action.hover.icon} !important`,
         },
       },
     },
@@ -28,9 +29,10 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       width: 16,
       fill: theme.body.table.button.icon,
       height: 16,
-    },
-    "& path": {
-      fill: `${theme.body.table.button.icon} !important`,
+      "& path": {
+        fill: `transparent !important`,
+        stroke: `${theme.body.button.action.text} !important`,
+      },
     },
   },
   startIcon: {
