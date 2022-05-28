@@ -65,5 +65,3 @@ export type RightSideModalFooterType = {
     type?: "button" | "reset" | "submit";
   };
 };
-
-//Вынести в стору анимацию
