@@ -133,6 +133,8 @@ const Distributors: FC = () => {
     setSelectedRows({ [props.row.index]: true });
   };
 
+  // This function is used for setting current distributor data
+  // and opening the edit modal
   const handleEditItem = (row: Row<TableData>) => {
     setOriginalDistributorValues(row.original as DistributorItemType);
     setModalToOpen("edit");

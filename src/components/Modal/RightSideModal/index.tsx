@@ -36,8 +36,11 @@ const Modal: React.FC<
 
   const { setCurrentModalCloseAction, clearRightSideModal } = RightSideModal;
 
+  // This debounced function purpose is to close modal With a delay
+  // long enough for the animation to finish playing
   const delayedModalClose = debounce(handleCancel, animationDuration);
 
+  // This function is used for setting modal state as unmounted and delayed close
   const handleModalClose = () => {
     setIsMounted(false);
     delayedModalClose();

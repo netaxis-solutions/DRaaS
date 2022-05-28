@@ -8,7 +8,6 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     lineHeight: "2rem",
     fontWeight: 400,
     marginBottom: theme.spacing(3),
-    marginTop: theme.spacing(2.5),
   },
   idText: { color: "#323D69", marginRight: theme.spacing(2) },
   idValue: { color: "#374151" },

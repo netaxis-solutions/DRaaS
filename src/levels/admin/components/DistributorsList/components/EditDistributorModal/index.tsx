@@ -34,6 +34,8 @@ const EditDistributorModal: React.FC<{
   const { currentDelayedModalCloseAction } = RightSideModal;
   const { editDistributor } = Distributor;
 
+  // After successfully passed validation this function
+  // sends a put request for modifying current distributor
   const onSubmit = (values: TEditDistributorPayload) => {
     editDistributor({
       distributorId,

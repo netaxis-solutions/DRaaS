@@ -9,10 +9,13 @@ class RightSideModal {
     });
   }
 
+  // This action purpose is to save current modalClose function
+  // for further global use
   setCurrentModalCloseAction = (newCloseAction: () => void) => {
     this.currentDelayedModalCloseAction = newCloseAction;
   };
 
+  // This action purpose is to clear current modalClose function
   clearRightSideModal = () => {
     this.currentDelayedModalCloseAction = () => {};
   };
