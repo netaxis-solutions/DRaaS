@@ -2,14 +2,29 @@ import { SVGProps, Ref, forwardRef } from "react";
 
 const SvgTrash = (props: SVGProps<SVGSVGElement>, ref: Ref<SVGSVGElement>) => (
   <svg
-    width={12}
+    width={16}
     height={16}
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     ref={ref}
     {...props}
   >
-    <path d="M1 13.833c0 .917.75 1.667 1.667 1.667h6.666c.917 0 1.667-.75 1.667-1.667v-10H1v10Zm10.833-12.5H8.917L8.083.5H3.917l-.834.833H.167V3h11.666V1.333Z" />
+    <path
+      d="M2 4H3.33333H14"
+      stroke="#374151"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
+    <path
+      d="M5.3335 3.99992V2.66659C5.3335 2.31296 5.47397 1.97382 5.72402 1.72378C5.97407 1.47373 6.31321 1.33325 6.66683 1.33325H9.3335C9.68712 1.33325 10.0263 1.47373 10.2763 1.72378C10.5264 1.97382 10.6668 2.31296 10.6668 2.66659V3.99992M12.6668 3.99992V13.3333C12.6668 13.6869 12.5264 14.026 12.2763 14.2761C12.0263 14.5261 11.6871 14.6666 11.3335 14.6666H4.66683C4.31321 14.6666 3.97407 14.5261 3.72402 14.2761C3.47397 14.026 3.3335 13.6869 3.3335 13.3333V3.99992H12.6668Z"
+      stroke="#374151"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      fill="none"
+    />
   </svg>
 );
 

@@ -73,7 +73,6 @@ export type TableProps = {
 
 export type ToolbarType = {
   toolbarActions: Array<ToolbarActionType>;
-  title: string | JSX.Element;
   setGlobalFilter: (object: string) => void;
   value: string;
 };

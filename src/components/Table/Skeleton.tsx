@@ -26,10 +26,15 @@ const TableSkeleton: FC<{
 
   return (
     <>
+      <div className={classes.tableToolbarTitle}>{title}</div>
       <div className={classes.tableToolbarWrapper}>
-        <div className={classes.tableToolbarTitle}>{title}</div>
         <div className={classes.tableToolbarSkeleton}>
-          <Skeleton variant="rectangular" height={54} />
+          <Skeleton
+            variant="rectangular"
+            height={54}
+            width={"calc(100% - 100px)"}
+          />
+          <Skeleton variant="rectangular" height={54} width={90} />
         </div>
       </div>
       <Table>
@@ -41,7 +46,15 @@ const TableSkeleton: FC<{
               </TableCell>
             ) : null}
             {columns.map((el: Column<TableData>) => (
-              <TableCell key={`${el.accessor}`}>{el.Header}</TableCell>
+              <TableCell
+                className={classes.textSkeletonTable}
+                key={`${el.accessor}`}
+              >
+                <div className={classes.textSkeletonTableWithIcon}>
+                  {el.Header}
+                  <Skeleton variant="rectangular" height={20} width={20} />
+                </div>
+              </TableCell>
             ))}
             {actions.length ? (
               <TableCell className={classes.actionsHeaderSkeletonCell}>

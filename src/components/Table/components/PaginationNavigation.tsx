@@ -43,7 +43,7 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
   };
 
   return (
-    <>
+    <div className={classes.tablePaginationNavigateWrapper}>
       <div
         className={clsx(classes.tablePaginationNavigate, {
           [classes.tablePaginationNavigateDisabled]:
@@ -65,7 +65,7 @@ const PaginationNavigation: React.FC<PaginationNavigationType> = ({
       >
         <ArrowRight />
       </div>
-    </>
+    </div>
   );
 };
 

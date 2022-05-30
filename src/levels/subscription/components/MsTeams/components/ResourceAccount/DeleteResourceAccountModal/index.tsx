@@ -13,7 +13,6 @@ const DeleteResourceAccountModal: FC<TDeleteResourceAccountModal> = ({
   selectedRowsLength,
   data,
   selectedRows,
-  setResoureAccountCurrentId,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -27,7 +26,6 @@ const DeleteResourceAccountModal: FC<TDeleteResourceAccountModal> = ({
         selectedRowsLength === 1 &&
         data.reduce((prev, cur, i) => {
           selectedRows[i] && (prev = cur.msTeams.displayName);
-          setResoureAccountCurrentId(cur.msTeams.id);
           return prev;
         }, "")
       }

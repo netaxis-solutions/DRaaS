@@ -10,11 +10,7 @@ const AddTenant: React.FC<TAddEntitlementFormProps> = ({ handleCancel }) => {
   const { t } = useTranslation();
 
   return (
-    <Modal
-      title={t("Add entitlement")}
-      handleCancel={handleCancel}
-      styleWithSideBar
-    >
+    <Modal title={t("Add entitlement")} handleCancel={handleCancel}>
       <CreateEntitlement handleCancel={handleCancel} />
     </Modal>
   );

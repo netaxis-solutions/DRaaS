@@ -112,7 +112,6 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
       <Modal
         title={t("Add numbers from inventory")}
         handleCancel={handleCancel}
-        styleWithSideBar
       >
         {isLoading || !Object.values(currentPortingRequest).length ? (
           <TabsSkeleton tabsAmount={3} />

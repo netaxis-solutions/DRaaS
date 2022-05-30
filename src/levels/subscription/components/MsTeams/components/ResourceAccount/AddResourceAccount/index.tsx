@@ -10,11 +10,7 @@ const AddResourceAccount: React.FC<{ handleCancel: () => void }> = ({
   const { t } = useTranslation();
 
   return (
-    <Modal
-      title={t("Add Resource Account")}
-      handleCancel={handleCancel}
-      styleWithSideBar
-    >
+    <Modal title={t("Add Resource Account")} handleCancel={handleCancel}>
       <CreateResourceAccount handleCancel={handleCancel} />
     </Modal>
   );

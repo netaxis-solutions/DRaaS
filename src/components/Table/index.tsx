@@ -443,41 +443,43 @@ const Table: FC<TableProps> = ({
 
   return (
     <>
-      <Toolbar
-        title={title}
-        setGlobalFilter={setGlobalFilter}
-        value={state.globalFilter}
-        toolbarActions={
-          toolbarActions
-            ? deleteAvailable
-              ? toolbarActions
-              : toolbarActions.filter(el => el.id !== "delete")
-            : []
-        }
-      />
-      <MaUTable {...getTableProps()} className={classes.tableRoot}>
-        <TableHead headerGroups={headerGroups} />
-        <TableBody
-          getTableBodyProps={getTableBodyProps}
-          prepareRow={prepareRow}
-          page={page}
-          radioButton={radioButton}
+      <span className={classes.tableTitle}>{title}</span>
+      <div className={classes.tableBody}>
+        <Toolbar
+          setGlobalFilter={setGlobalFilter}
+          value={state.globalFilter}
+          toolbarActions={
+            toolbarActions
+              ? deleteAvailable
+                ? toolbarActions
+                : toolbarActions.filter(el => el.id !== "delete")
+              : []
+          }
         />
-      </MaUTable>
-      <Pagination
-        selectedRows={Object.keys(state.selectedRowIds).length}
-        isRadioButton={radioButton}
-        setPageSize={setPageSize}
-        pageCount={pageCount}
-        data={page}
-        pageNumber={state.pageIndex + 1}
-        previousPage={previousPage}
-        pageSize={state.pageSize}
-        checkbox={checkbox}
-        nextPage={nextPage}
-        canNextPage={canNextPage}
-        canPreviousPage={canPreviousPage}
-      />
+        <MaUTable {...getTableProps()} className={classes.tableRoot}>
+          <TableHead headerGroups={headerGroups} />
+          <TableBody
+            getTableBodyProps={getTableBodyProps}
+            prepareRow={prepareRow}
+            page={page}
+            radioButton={radioButton}
+          />
+        </MaUTable>
+        <Pagination
+          selectedRows={Object.keys(state.selectedRowIds).length}
+          isRadioButton={radioButton}
+          setPageSize={setPageSize}
+          pageCount={pageCount}
+          data={page}
+          pageNumber={state.pageIndex + 1}
+          previousPage={previousPage}
+          pageSize={state.pageSize}
+          checkbox={checkbox}
+          nextPage={nextPage}
+          canNextPage={canNextPage}
+          canPreviousPage={canPreviousPage}
+        />
+      </div>
     </>
   );
 };

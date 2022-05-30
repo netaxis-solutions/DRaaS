@@ -10,11 +10,11 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "&:hover": {
       background: "none",
       "& svg": {
-        stroke: theme.palette.primary.main,
+        stroke: theme.body.table.checkbox.hoverBorder,
       },
     },
   },
-  iconChecked: { fill: theme.palette.primary.main },
+  iconChecked: { fill: theme.body.table.checkbox.checkedBackground },
   iconDisabled: {
     /*
       Need to align the icon to the same level as the inputs

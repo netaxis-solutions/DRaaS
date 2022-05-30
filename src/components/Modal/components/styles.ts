@@ -6,8 +6,8 @@ export const modalHeaderUseStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
     modalHeaderWrapper: {
       "& svg": {
-        width: 7,
-        height: 12,
+        width: 16,
+        height: 16,
         fill: theme.palette.primary.main,
       },
       position: "sticky",
@@ -67,6 +67,7 @@ export const modalButtonsWrapperUseStyles = makeStyles(
       "& svg": {
         "& path": {
           fill: `${theme.body.button.cancel.icon.color} !important`,
+          stroke: `${theme.body.button.cancel.icon.color} !important`,
         },
       },
     },

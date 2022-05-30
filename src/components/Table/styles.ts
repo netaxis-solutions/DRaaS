@@ -35,8 +35,32 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       textAlign: "start !important",
     },
   },
+  tableBody: {
+    boxShadow: "0px 10px 15px 0px #4975E51A",
+    borderRadius: 10,
+  },
+  tableTitle: {
+    color: theme.body.table.title,
+    fontWeight: theme.body.table.fontWeight,
+    fontSize: theme.body.table.fontSize,
+    textTransform: theme.body.table.textTransform,
+    display: "block",
+    marginBottom: "20px",
+    marginLeft: theme.spacing(0.5),
+  },
   actionsHeader: {
     textAlign: "end",
+  },
+  textSkeletonTable: {
+    textTransform: theme.body.table.textTransform,
+    fontWeight: theme.body.table.fontWeight,
+    color: theme.body.table.title,
+  },
+  textSkeletonTableWithIcon: {
+    display: "flex",
+    gap: 10,
+    justifyContent: "start",
+    alignItems: "center",
   },
   checkboxSkeletonCell: {
     width: 70,
@@ -46,6 +70,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   actionsHeaderSkeletonCell: {
     width: "21%",
     textAlign: "right",
+    textTransform: "uppercase",
   },
   bodySkeletonCell: {
     border: "none",
@@ -74,11 +99,18 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     width: "100%",
   },
   tableToolbarTitle: {
-    fontSize: "2rem",
-    marginLeft: `${theme.spacing(3.75)}px`,
+    marginLeft: `${theme.spacing(0.5)}px`,
     width: "50%",
+    color: theme.body.table.title,
+    fontWeight: theme.body.table.fontWeight,
+    fontSize: theme.body.table.fontSize,
+    textTransform: theme.body.table.textTransform,
+    display: "block",
+    marginBottom: "20px",
   },
   tableToolbarSkeleton: {
-    width: "50%",
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));

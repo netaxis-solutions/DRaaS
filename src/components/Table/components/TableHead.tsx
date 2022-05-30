@@ -11,7 +11,7 @@ const TableHead: React.FC<TableHeadType> = ({ headerGroups }) => {
   const classes = useTableHeadStyles();
 
   return (
-    <MTableHead>
+    <MTableHead className={classes.tableHeadActionsRowStyle}>
       {headerGroups.map(headerGroup => (
         <TableRow {...headerGroup.getHeaderGroupProps()}>
           {headerGroup.headers.map(column => (

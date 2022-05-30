@@ -53,33 +53,50 @@ const TableActions: FC<
   return (
     <div className={classes.tableActionsWrapper}>
       {edit && (
-        <div className={clsx({ [classes.disabled]: isEditDisabled })}>
+        <div
+          className={clsx({
+            [classes.editButton]: !isEditDisabled,
+            [classes.disabledButton]: isEditDisabled,
+          })}
+        >
           {tooltipValidationEdit ? (
             <Tooltip
               arrow
               title={tooltipEditButton?.text}
               placement="bottom-end"
             >
-              <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+              <Edit
+                className={classes.editButton}
+                onClick={isEditDisabled ? () => {} : onEdit}
+              />
             </Tooltip>
           ) : (
-            <Edit onClick={isEditDisabled ? () => {} : onEdit} />
+            <Edit
+              className={classes.editButton}
+              onClick={isEditDisabled ? () => {} : onEdit}
+            />
           )}
         </div>
       )}
 
       {del && (
-        <div className={clsx({ [classes.disabled]: isDeleteDisabled })}>
+        <div className={clsx({ [classes.disabledButton]: isDeleteDisabled })}>
           {tooltipValidation ? (
             <Tooltip
               arrow
               title={tooltipTrashButton?.text}
               placement="bottom-end"
             >
-              <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+              <Trash
+                className={classes.trashButton}
+                onClick={isDeleteDisabled ? () => {} : onDelete}
+              />
             </Tooltip>
           ) : (
-            <Trash onClick={isDeleteDisabled ? () => {} : onDelete} />
+            <Trash
+              className={classes.trashButton}
+              onClick={isDeleteDisabled ? () => {} : onDelete}
+            />
           )}
         </div>
       )}
@@ -88,7 +105,7 @@ const TableActions: FC<
         customActions.map(({ isShown, onClick, iconComponent, disabled }) => (
           <div
             className={clsx({
-              [classes.disabled]: disabled,
+              [classes.disabledButton]: disabled,
               [classes.hidden]: !isShown,
             })}
             onClick={() => {

@@ -12,9 +12,11 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       width: 16,
       height: 16,
       cursor: "pointer",
-    },
-    "& svg:hover": {
-      fill: theme.body.table.actionBar.action.color,
+      "&:hover": {
+        "& > path": {
+          stroke: theme.body.table.actionBar.action.iconColor,
+        },
+      },
     },
     "& svg:last-child": {
       marginLeft: theme.direction === "ltr" ? `${theme.spacing(2)}px` : 0,
@@ -35,21 +37,41 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginLeft: 0,
     },
   },
-  disabled: {
-    "&>svg": {
-      cursor: "default",
-      fill: theme.body.table.actionBar.disabled.color,
-    },
-    "&>svg:hover": {
-      fill: theme.body.table.actionBar.disabled.color,
-    },
-  },
   hidden: {
     "&>svg": { visibility: "hidden" },
+  },
+  disabledButton: {
+    cursor: "default",
+    "& svg": {
+      cursor: "default",
+      "& path": {
+        stroke: theme.body.table.actionBar.disabled.color,
+      },
+    },
+    "&:hover": {
+      "& svg": {
+        "& path": {
+          stroke: theme.body.table.actionBar.disabled.colorHover,
+        },
+      },
+    },
+  },
+  editButton: {
+    "& svg": {
+      fill: "none",
+    },
+  },
+  trashButton: {
+    fill: "none",
   },
 }));
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
+  tableHeadActionsRowStyle: {
+    background: theme.body.table.header.headerBGActionWrap,
+    textTransform: "uppercase",
+    fontWeight: 450,
+  },
   tableHeadActionRow: {
     textAlign: "end",
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
@@ -69,7 +91,7 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     height: 28,
     margin: `0 ${theme.spacing(0.25)}px`,
     borderRadius: 6,
-    backgroundColor: theme.body.table.header.background,
+    backgroundColor: theme.body.table.header.imageBackground,
     "&:hover": {
       backgroundColor: theme.body.table.header.active.background,
     },
@@ -82,8 +104,14 @@ export const useTableSortStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "& svg": {
       fill: theme.body.table.header.imageColor,
       margin: "0 auto",
-      height: 14,
-      width: 10,
+      height: 16,
+      width: 16,
+      "&:hover": {
+        stroke: theme.body.table.button.backgroundAdd,
+      },
+      "&:active": {
+        stroke: theme.body.table.button.backgroundAdd,
+      },
     },
   },
   tableSortWrapperIsSorted: {
@@ -115,7 +143,7 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   disabled: {
-    opacity: 0.6,
+    opacity: 0.3,
     backgroundColor: theme.palette.primary.background,
     pointerEvents: "none",
   },
@@ -131,24 +159,59 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     alignItems: "center",
     background: theme.body.table.header.background,
-    height: 52,
+    height: 70,
     borderRadius: "10px 10px 0 0",
     borderColor: theme.palette.table.border,
     borderStyle: "solid",
     borderWidth: "1px 1px 0 1px",
     color: theme.body.table.title,
-    "& button": {
-      borderColor: theme.body.table.button.borderColor,
-      color: theme.body.table.button.text,
-      background: theme.body.table.button.background,
-      "& svg": {
-        "& path": {
-          fill: theme.body.table.button.icon,
+
+    "& button:last-child": {
+      background: theme.body.table.button.backgroundAdd,
+      color: theme.body.table.button.textAdd,
+      "&:hover": {
+        color: theme.body.table.button.action.textAdd,
+        background: `${theme.body.table.button.action.backgroundAdd} !important`,
+        border: `1px solid ${theme.body.table.button.action.borderColor}`,
+        "& svg": {
+          "& path": {
+            fill: theme.body.table.button.action.icon,
+          },
         },
+      },
+      "&:active": {
+        background: theme.body.table.button.action.clickBackgroundAdd,
+      },
+      "& svg": {
+        fill: "transparent ",
+        display: "block",
+        "& path": {
+          fill: "transparent",
+        },
+      },
+    },
+    "& button": {
+      background: theme.body.table.button.backgroundDelete,
+      color: theme.body.table.button.text,
+      border: `1px solid ${theme.body.table.button.borderColor}`,
+      width: 84,
+      height: 38,
+
+      "& svg": {
+        fill: "transparent ",
+        display: "none",
+        "& path": {
+          fill: "transparent",
+        },
+      },
+      "&:active": {
+        border: theme.body.table.button.action.clickBackgroundAdd,
+        color: theme.body.table.button.action.clickBackgroundAdd,
       },
       "&:hover": {
         color: theme.body.table.button.action.text,
         background: `${theme.body.table.button.action.background} !important`,
+        border: `1px solid ${theme.body.table.button.action.borderColor}`,
         "& svg": {
           "& path": {
             fill: theme.body.table.button.action.icon,
@@ -165,13 +228,17 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableToolbarSearchActionWrappper: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
     "& >div:first-child": {
       height: "100%",
     },
     height: "calc(100% + 2px)",
   },
   tableToolbarButtonsWrapper: {
-    margin: `0 ${theme.spacing(0.25)}px`,
+    margin: `${theme.spacing(2)}px ${theme.spacing(0.25)}px`,
+    paddingRight: theme.spacing(2.5),
+    gap: theme.spacing(1.975),
     display: "flex",
     alignItems: "center",
     "& button": {
@@ -186,7 +253,7 @@ export const tablePaginationStyles = makeStyles(
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      height: 40,
+      height: 60,
       background: theme.body.table.pagination.background,
       borderRadius: "0 0 10px 10px",
       borderColor: theme.palette.table.border,
@@ -202,8 +269,14 @@ export const tablePaginationStyles = makeStyles(
 
     tablePaginationLinesPerPageTitle: {
       padding: `0 ${theme.spacing(1)}px`,
+      fontWeight: theme.body.table.pagination.fontWeight,
+      fontSize: theme.body.table.pagination.fontSize,
+      color: theme.body.table.pagination.textColor,
     },
     tablePaginationPageNumber: {
+      fontWeight: theme.body.table.pagination.fontWeight,
+      fontSize: theme.body.table.pagination.fontSize,
+      color: theme.body.table.pagination.textColor,
       padding:
         theme.direction === "ltr"
           ? `0 ${theme.spacing(1.75)}px 0 ${theme.spacing(2.5)}px`
@@ -217,13 +290,25 @@ export const paginationDropdownStyles = makeStyles(
     autocompleteRoot: {
       height: 28,
       "& > div": {
-        marginTop: "0 !important",
+        marginTop: 0,
       },
     },
     automcompleteInputRoot: {
       height: 28,
       padding: `${theme.spacing(1)}px ${theme.spacing(1.75)}px !important`,
       fontSize: "1.2rem",
+      border: `1px solid ${theme.body.table.pagination.dropDownBorder}`,
+      "&:hover": {
+        "& fieldset": {
+          border: "1px solid transparent",
+        },
+      },
+      "& fieldset": {
+        border: "1px solid transparent !important",
+      },
+      "& input": {
+        height: "100%",
+      },
     },
     autocompleteInput: {
       padding: "0 !important",
@@ -236,23 +321,42 @@ export const paginationDropdownStyles = makeStyles(
 
 export const paginationNavigationStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
+    tablePaginationNavigateWrapper: {
+      display: "flex",
+      gap: theme.spacing(1),
+    },
     tablePaginationNavigate: {
       height: 28,
       width: 28,
+      border: `1px solid ${theme.body.table.pagination.navigateBorder}`,
+      borderRadius: 5,
+
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       cursor: "pointer",
       "& svg": {
-        height: 12,
-        width: 7,
-        fill: theme.palette.table.iconActive,
+        height: 10,
+        width: 10,
+        fill: theme.body.table.pagination.active.activeIcon,
+      },
+      "&:hover": {
+        background: theme.body.table.pagination.active.navigateBackground,
+        "& svg": {
+          fill: theme.body.table.pagination.active.hoverIcon,
+        },
       },
     },
     tablePaginationNavigateDisabled: {
       cursor: "default",
       "& svg": {
         fill: theme.palette.table.iconDisabled,
+      },
+      "&:hover": {
+        background: "transparent",
+        "& svg": {
+          fill: theme.palette.table.iconDisabled,
+        },
       },
     },
   }),
