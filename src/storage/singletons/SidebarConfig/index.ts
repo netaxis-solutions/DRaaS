@@ -32,9 +32,10 @@ class SidebarConfig {
   ) => {
     this.clearChosenCustomer();
     let chosenCustomerData = this.chosenCustomerData;
+    BreadcrumbsStorage.setIsLoading();
+
     if (this.chosenCustomerID !== id) {
       runInAction(() => {
-        BreadcrumbsStorage.setIsLoading();
         this.isLoading = true;
       });
       chosenCustomerData = await Tenant.getSpecificTenant({
@@ -44,41 +45,53 @@ class SidebarConfig {
         this.isLoading = false;
       });
     }
+
+    if (extraLevelID) {
+      runInAction(() => {
+        this.extraLevelID = extraLevelID;
+        this.isLoading = true;
+      });
+      await this.getSpecificTenantSubscription(id, extraLevelID);
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    } else {
+      this.extraLevelID = "";
+    }
+
     runInAction(() => {
       this.chosenCustomerID = id;
       this.chosenCustomerData = chosenCustomerData;
-      if (extraLevelID) {
-        this.extraLevelID = extraLevelID;
-      } else {
-        this.extraLevelID = "";
-      }
     });
-    this.chosenCustomerData &&
-      BreadcrumbsStorage.setCustomerLevel([
-        this.chosenCustomerData,
-        this.extraLevelID,
-      ]);
-    if (this.extraLevelID) {
-      this.getSpecificTenantSubscription(
-        this.chosenCustomerID,
-        this.extraLevelID,
-      );
-    }
+
+    BreadcrumbsStorage.setCustomerLevel([
+      {
+        uuid: chosenCustomerData?.uuid || "",
+        name: chosenCustomerData?.name || "",
+      },
+      {
+        uuid: this.extraLevelID || "",
+        name: this.extraLevelData?.name || "",
+      },
+    ]);
   };
 
   getSpecificTenantSubscription = async (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ): Promise<any | undefined> => {
-    const result = await request({
+    return request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}`,
       loaderName: "@getSpecificTenantSubscription",
-    }).catch(e => {
-      errorNotification(e);
-    });
-    runInAction(() => {
-      this.extraLevelData = result?.data;
-    });
+    })
+      .then(({ data }) => {
+        runInAction(() => {
+          this.extraLevelData = data;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
   };
 
   setExtraLevelID = (extraLevelID: string) => {
