@@ -298,6 +298,11 @@ export const paginationDropdownStyles = makeStyles(
       padding: `${theme.spacing(1)}px ${theme.spacing(1.75)}px !important`,
       fontSize: "1.2rem",
       border: `1px solid ${theme.body.table.pagination.dropDownBorder}`,
+      "&:hover": {
+        "& fieldset": {
+          border: "1px solid transparent !important",
+        },
+      },
       "& fieldset": {
         border: "1px solid transparent",
       },
