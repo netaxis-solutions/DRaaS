@@ -107,6 +107,7 @@
           "imageColorWhite":"#FFFFFF",
           "text":"#000000",
           "imageBackground":"transparent",
+          "headerBGActionWrap":"#DDE7FF",
           "active":{
             "backgroundHover": "#EAEEFC",
             "backgroundSelected": "##EAEEFC",

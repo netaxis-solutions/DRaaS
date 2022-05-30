@@ -41,9 +41,9 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "&>svg": { visibility: "hidden" },
   },
   disabledButton: {
-    cursor: "default !important",
+    cursor: "default",
     "& svg": {
-      cursor: "default !important",
+      cursor: "default",
       "& path": {
         stroke: theme.body.table.actionBar.disabled.color,
       },
@@ -58,17 +58,17 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   editButton: {
     "& svg": {
-      fill: "none !important",
+      fill: "none",
     },
   },
   trashButton: {
-    fill: "none !important",
+    fill: "none",
   },
 }));
 
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableHeadActionsRowStyle: {
-    background: "#DDE7FF",
+    background: theme.body.table.header.headerBGActionWrap,
     textTransform: "uppercase",
     fontWeight: 450,
   },
@@ -238,7 +238,7 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableToolbarButtonsWrapper: {
     margin: `${theme.spacing(2)}px ${theme.spacing(0.25)}px`,
     paddingRight: theme.spacing(2.5),
-    gap: 25,
+    gap: theme.spacing(1.975),
     display: "flex",
     alignItems: "center",
     "& button": {
@@ -290,7 +290,7 @@ export const paginationDropdownStyles = makeStyles(
     autocompleteRoot: {
       height: 28,
       "& > div": {
-        marginTop: "0 !important",
+        marginTop: 0,
       },
     },
     automcompleteInputRoot: {
@@ -300,7 +300,7 @@ export const paginationDropdownStyles = makeStyles(
       border: `1px solid ${theme.body.table.pagination.dropDownBorder}`,
       "&:hover": {
         "& fieldset": {
-          border: "1px solid transparent !important",
+          border: "1px solid transparent",
         },
       },
       "& fieldset": {
@@ -323,7 +323,7 @@ export const paginationNavigationStyles = makeStyles(
   (theme: ThemeDefaultOptions) => ({
     tablePaginationNavigateWrapper: {
       display: "flex",
-      gap: 8,
+      gap: theme.spacing(1),
     },
     tablePaginationNavigate: {
       height: 28,
