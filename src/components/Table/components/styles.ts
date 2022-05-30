@@ -304,7 +304,7 @@ export const paginationDropdownStyles = makeStyles(
         },
       },
       "& fieldset": {
-        border: "1px solid transparent",
+        border: "1px solid transparent !important",
       },
       "& input": {
         height: "100%",
