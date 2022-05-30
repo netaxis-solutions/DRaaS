@@ -67,6 +67,7 @@ export const modalButtonsWrapperUseStyles = makeStyles(
       "& svg": {
         "& path": {
           fill: `${theme.body.button.cancel.icon.color} !important`,
+          stroke: `${theme.body.button.cancel.icon.color} !important`,
         },
       },
     },

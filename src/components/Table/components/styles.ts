@@ -41,9 +41,10 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "&>svg": { visibility: "hidden" },
   },
   disabledButton: {
+    cursor: "default !important",
     "& svg": {
+      cursor: "default !important",
       "& path": {
-        cursor: "default",
         stroke: theme.body.table.actionBar.disabled.color,
       },
     },
@@ -237,6 +238,7 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableToolbarButtonsWrapper: {
     margin: `${theme.spacing(2)}px ${theme.spacing(0.25)}px`,
     paddingRight: theme.spacing(2.5),
+    gap: 25,
     display: "flex",
     alignItems: "center",
     "& button": {

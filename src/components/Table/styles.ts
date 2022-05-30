@@ -59,7 +59,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   textSkeletonTableWithIcon: {
     display: "flex",
     gap: 10,
-    justifyContent: "center",
+    justifyContent: "start",
     alignItems: "center",
   },
   checkboxSkeletonCell: {

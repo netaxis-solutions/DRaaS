@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       fill: theme.body.table.button.icon,
       height: 16,
       "& path": {
-        fill: `transparent !important`,
-        stroke: `${theme.body.button.action.text} !important`,
+        fill: `${theme.body.button.action.text}`,
+        stroke: `${theme.body.button.action.text}`,
       },
     },
   },
