@@ -46,6 +46,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       cursor: "default",
       "& path": {
         stroke: theme.body.table.actionBar.disabled.color,
+        fill: "transparent",
       },
     },
     "&:hover": {

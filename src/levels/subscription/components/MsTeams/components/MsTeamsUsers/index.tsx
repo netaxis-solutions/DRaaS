@@ -195,13 +195,13 @@ const MsTeamsUsers: FC = () => {
           ),
           filterConditions: (rowData: Row<TableData>) =>
             !(rowData.original.msTeams.voiceEnabled === "yes") ||
-            SubscriptionLicensesStore.licenses[0].inUse >=
+            SubscriptionLicensesStore.licenses[0].inUse >
               SubscriptionLicensesStore.licenses[0].assigned ||
             !CreateDeleteAdmin?.checkMsTeamAdmin?.powershell.active,
         }}
         editDisabledCondition={(row: Row<TableData>) =>
           !(row.original.msTeams.voiceEnabled === "yes") ||
-          SubscriptionLicensesStore.licenses[0].inUse >=
+          SubscriptionLicensesStore.licenses[0].inUse >
             SubscriptionLicensesStore.licenses[0].assigned ||
           !CreateDeleteAdmin?.checkMsTeamAdmin?.powershell.active
         }
