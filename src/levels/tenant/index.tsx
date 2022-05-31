@@ -7,6 +7,8 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import SidebarConfig from "storage/singletons/SidebarConfig";
 import Login from "storage/singletons/Login";
 
+import RatePlans from "levels/admin/components/RatePlans";
+
 const SubscriptionsList = lazy(() => import("./components/SubscriptionsList"));
 
 const Tenant = () => {
@@ -44,7 +46,7 @@ const Tenant = () => {
       <Route
         exact
         path={allAvailvableRouting.tenantRatePlan}
-        component={() => <div>tenantRatePlan</div>}
+        component={() => <RatePlans />}
       />
       <Route
         exact
