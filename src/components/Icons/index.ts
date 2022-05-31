@@ -34,3 +34,4 @@ export { default as TrashNotification } from "./TrashNotification";
 export { default as Unlink } from "./Unlink";
 export { default as Upload } from "./Upload";
 export { default as World } from "./World";
+export { default as InfoIconOutlined } from "./InfoIconOutlined";

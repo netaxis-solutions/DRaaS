@@ -3,6 +3,7 @@ import { lazy } from "react";
 import { Route, Switch } from "react-router";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import BuildInfo from "./components/CurrentVersionInfo";
+import RatePlans from "./components/RatePlans";
 
 const ResellersList = lazy(() => import("./components/ResellersList"));
 const DistributorsList = lazy(() => import("./components/DistributorsList"));
@@ -31,7 +32,7 @@ const Admin = () => {
       <Route
         exact
         path={allAvailvableRouting.systemRatePlan}
-        component={() => <div>Billing</div>}
+        component={RatePlans}
       />
       <Route exact path={"/info"} component={BuildInfo} />
     </Switch>
