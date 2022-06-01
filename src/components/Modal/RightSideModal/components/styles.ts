@@ -21,12 +21,12 @@ export const modalHeaderUseStyles = makeStyles(
         marginLeft: 3,
         width: "calc(100% - 3px)",
         height: 1,
-        background: "#DDE7FF",
+        background: theme.body.rightSideModal.underline,
       },
     },
     modalHeaderTitle: {
       fontSize: "2.4rem",
-      color: "#323D69",
+      color: theme.body.rightSideModal.title,
       margin: `0 ${theme.spacing(1.75)}px`,
     },
     modalHeaderTitleWrapper: {
@@ -60,7 +60,7 @@ export const modalFooterUseStyles = makeStyles(
       display: "block",
       width: "100%",
       height: 1,
-      background: "#DDE7FF",
+      background: theme.body.rightSideModal.underline,
     },
     modalFooterContent: {
       display: "flex",
@@ -69,7 +69,7 @@ export const modalFooterUseStyles = makeStyles(
     },
     modalCancelButton: {
       background: theme.palette.primary.white,
-      color: "#67748E",
+      color: theme.body.rightSideModal.cancelButtonText,
     },
     modalSaveButton: {}, //this className may be needed in future
     buttonHidden: {
@@ -83,41 +83,6 @@ export const modalContentUseStyles = makeStyles(
     modalContentWrapper: {
       padding: `${theme.spacing(2.5)}px ${theme.spacing(4)}px`,
       fontSize: "1.4rem",
-    },
-  }),
-);
-
-export const modalButtonsWrapperUseStyles = makeStyles(
-  (theme: ThemeDefaultOptions) => ({
-    modalButtonsWrapper: {
-      display: "flex",
-      gap: theme.spacing(1.25),
-      width: "fit-content",
-      position: "fixed",
-      top: (props: { top?: string | number }) => props.top || 70,
-      right: theme.direction === "ltr" ? "30px" : "unset",
-      left: theme.direction === "ltr" ? "unset" : "30px",
-      zIndex: 1001,
-
-      "& .MuiButton-label": {
-        marginTop: theme.spacing(0.25),
-      },
-    },
-    cancelButton: {
-      "&& svg": {
-        width: 10,
-        height: 10,
-      },
-    },
-    styleCancel: {
-      color: `${theme.body.button.cancel.text} !important`,
-      background: `${theme.body.button.cancel.background} !important`,
-      border: `${theme.body.button.cancel.border} !important`,
-      "& svg": {
-        "& path": {
-          fill: `${theme.body.button.cancel.icon.color} !important`,
-        },
-      },
     },
   }),
 );

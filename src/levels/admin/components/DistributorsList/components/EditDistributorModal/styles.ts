@@ -9,8 +9,11 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: 400,
     marginBottom: theme.spacing(3),
   },
-  idText: { color: "#323D69", marginRight: theme.spacing(2) },
-  idValue: { color: "#374151" },
+  idText: {
+    color: theme.body.distributor.idLabel,
+    marginRight: theme.spacing(2),
+  },
+  idValue: { color: theme.body.distributor.idValue },
 }));
 
 export default useEditDistributorStyles;
