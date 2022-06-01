@@ -189,7 +189,7 @@ const ResourceAccount: FC = () => {
             // eslint-disable-next-line react-hooks/exhaustive-deps
           }, []);
           // If we have licenses - we can edit phone numbers and see Autocomplete with numbers variants
-          return SubscriptionLicensesStore.licenses[0].inUse <
+          return SubscriptionLicensesStore.licenses[0].inUse <=
             SubscriptionLicensesStore.licenses[0].assigned ? (
             <div className={classes.selectController}>
               <Controller
