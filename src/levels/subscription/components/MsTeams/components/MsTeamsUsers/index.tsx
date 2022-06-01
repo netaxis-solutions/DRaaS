@@ -165,6 +165,20 @@ const MsTeamsUsers: FC = () => {
     );
   };
 
+  const tooltipMessage =
+    SubscriptionLicensesStore.licenses[0].inUse >=
+    SubscriptionLicensesStore.licenses[0].assigned
+      ? t(
+          "Your subscription does not have any MS Teams licenses left. Please order more licenses in order to be able to assign more numbers to users",
+        )
+      : !CreateDeleteAdmin?.checkMsTeamAdmin?.powershell.active
+      ? t(
+          "Our powershell integration has been disabled. Please verify you have a valid O365 admin account enabled for this account",
+        )
+      : t(
+          "This user is not voice enabled. Please make sure the user has the correct set of O365 licenses assigned. These licenses must include the Microsoft Phonesystem",
+        );
+
   const isLoading =
     getIsLoading("@getMsTeamUsers", byFetchType) ||
     getIsLoading("@getMsTeamNumber", byFetchType) ||
@@ -190,9 +204,7 @@ const MsTeamsUsers: FC = () => {
         columns={columns}
         data={msTeamUsersList}
         tooltipEditButton={{
-          text: t(
-            "You don't have enought licenses or voice available to do this action",
-          ),
+          text: tooltipMessage,
           filterConditions: (rowData: Row<TableData>) =>
             !(rowData.original.msTeams.voiceEnabled === "yes") ||
             SubscriptionLicensesStore.licenses[0].inUse >
