@@ -20,8 +20,6 @@ const Modal: React.FC<
   title,
   handleCancel,
   children,
-  activeStep,
-  steps,
   isBackIconHidden,
   className,
   cancelButton,
@@ -41,8 +39,14 @@ const Modal: React.FC<
   const delayedModalClose = debounce(handleCancel, animationDuration);
 
   // This function is used for setting modal state as unmounted and delayed close
-  const handleModalClose = () => {
+  const innerHandleModalClose = () => {
     setIsMounted(false);
+    delayedModalClose();
+  };
+
+  const handleModalClose = (delayedCallback?: () => void) => {
+    setIsMounted(false);
+    delayedCallback && debounce(delayedCallback, animationDuration)();
     delayedModalClose();
   };
 
@@ -66,7 +70,7 @@ const Modal: React.FC<
         <>
           <div
             className={classes.modalCloseHandler}
-            onClick={handleModalClose}
+            onClick={innerHandleModalClose}
           />
           <div
             className={clsx({
@@ -77,9 +81,7 @@ const Modal: React.FC<
           >
             <ModalHeader
               title={title}
-              activeStep={activeStep}
-              steps={steps}
-              handleCancel={handleModalClose}
+              handleCancel={innerHandleModalClose}
               isBackIconHidden={isBackIconHidden}
             />
             <ModalContent>{children}</ModalContent>

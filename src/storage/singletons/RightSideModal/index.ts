@@ -1,7 +1,10 @@
 import { makeAutoObservable, observable } from "mobx";
 
 class RightSideModal {
-  currentDelayedModalCloseAction: () => void = () => {};
+  currentDelayedModalCloseAction: (
+    delayedCallback?: () => void,
+  ) => void = () => {};
+  isSubmitPending: boolean = false;
 
   constructor() {
     makeAutoObservable(this, {
@@ -18,6 +21,10 @@ class RightSideModal {
   // This action purpose is to clear current modalClose function
   clearRightSideModal = () => {
     this.currentDelayedModalCloseAction = () => {};
+  };
+
+  setSubmitPending = (state = true) => {
+    this.isSubmitPending = state;
   };
 }
 

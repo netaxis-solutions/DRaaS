@@ -136,7 +136,7 @@ const Distributors: FC = () => {
   // This function is used for setting current distributor data
   // and opening the edit modal
   const handleEditItem = (row: Row<TableData>) => {
-    setOriginalDistributorValues(row.original as DistributorItemType);
+    setOriginalDistributorValues(row.original);
     setModalToOpen("edit");
   };
 

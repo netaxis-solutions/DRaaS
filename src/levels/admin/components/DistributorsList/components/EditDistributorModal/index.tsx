@@ -31,17 +31,24 @@ const EditDistributorModal: React.FC<{
     defaultValues,
   });
 
-  const { currentDelayedModalCloseAction } = RightSideModal;
+  const { currentDelayedModalCloseAction, setSubmitPending } = RightSideModal;
   const { editDistributor } = Distributor;
 
   // After successfully passed validation this function
   // sends a put request for modifying current distributor
   const onSubmit = (values: TEditDistributorPayload) => {
-    editDistributor({
-      distributorId,
-      payload: filterFalsyValues(values),
-      callback: currentDelayedModalCloseAction,
-    });
+    if (!RightSideModal.isSubmitPending) {
+      setSubmitPending();
+      editDistributor({
+        distributorId,
+        payload: filterFalsyValues(values),
+        callback: () => {
+          currentDelayedModalCloseAction(() => {
+            setSubmitPending(false);
+          });
+        },
+      });
+    }
   };
 
   return (

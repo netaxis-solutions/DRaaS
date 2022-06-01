@@ -1,5 +1,6 @@
 import clsx from "clsx";
 
+import RightSideModal from "storage/singletons/RightSideModal";
 import { RightSideModalFooterType } from "utils/types/modal";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
@@ -42,6 +43,7 @@ const ModalHeader: React.FC<
                 onClick={() =>
                   submitButton.onClick &&
                   !submitButton.disabled &&
+                  !RightSideModal.isSubmitPending &&
                   submitButton.onClick(cancelButton.onClick)
                 }
               />
