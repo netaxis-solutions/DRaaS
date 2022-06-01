@@ -31,6 +31,19 @@ export const createResourceAccountStyles = makeStyles(
     selectCountry: {
       maxWidth: 400,
     },
+    phoneNumberBlock: {
+      display: "block",
+      position: "relative",
+    },
+    phoneNumberBlockIcon: {
+      fill: theme.palette.status.error,
+      transform: "rotate(180deg)",
+      width: 20,
+      height: 20,
+      position: "absolute",
+      left: 415,
+      top: theme.spacing(1),
+    },
     createResourceAccountForm: {
       display: "flex",
       flexDirection: "column",
