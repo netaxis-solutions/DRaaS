@@ -35,6 +35,7 @@ const defaultValues: TCreateResourceAccount = {
   accountType: { label: "", value: "" },
   phoneNumber: "",
   userPrincipalName: "",
+  validDomains: { label: "", value: "" },
 };
 
 const typeSelect = [
@@ -78,10 +79,15 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
 
         location: string().required().label(t("Location")),
         userPrincipalName: string()
-          .email()
           .required()
           .label(t("Username (principal name)")),
         phoneNumber: string(),
+        validDomains: object()
+          .required()
+          .shape({
+            label: string(),
+            value: string().required().label(t("Dimain")),
+          }),
       }),
     ),
     defaultValues,
@@ -106,7 +112,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
         displayName: values.displayName,
         location: values.location,
         phoneNumber: values.phoneNumber,
-        userPrincipalName: values.userPrincipalName,
+        userPrincipalName: `${values.userPrincipalName}@${values.validDomains.value}`,
       },
       [validationPhoneNumber],
     ) as TCreateResourceAccountPayloadStorage;
@@ -117,6 +123,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
 
   const isLoading =
     getIsLoading("@createMsTeamResourceAccount", byFetchType) ||
+    getIsLoading("@getVerifiedDomains", byFetchType) ||
     getIsLoading("@getFreeNumbers", byFetchType);
 
   return isLoading ? (
@@ -164,18 +171,32 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
           />
         )}
       />
-      <Controller
-        name="userPrincipalName"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Username (principal name)")}
-            {...field}
-            {...props}
-            className={classes.createSubscriptionInput}
-          />
-        )}
-      />
+      <div className={classes.validDomainWrapper}>
+        <Controller
+          name="userPrincipalName"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Username (principal name)")}
+              {...field}
+              {...props}
+              className={classes.createSubscriptionInput}
+            />
+          )}
+        />
+        <Controller
+          name="validDomains"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormSelect
+              label={t("Valid Domains")}
+              options={[...ResourceAccountStorage.verifiedDomains]}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+      </div>
       <div className={classes.phoneNumberBlock}>
         <Controller
           name="phoneNumber"

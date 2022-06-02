@@ -44,6 +44,13 @@ export const createResourceAccountStyles = makeStyles(
       left: 415,
       top: theme.spacing(1),
     },
+    validDomainWrapper:{
+      display:'flex',
+      gap:25,
+      "& > div:last-child":{
+        width:250
+      }
+    },
     createResourceAccountForm: {
       display: "flex",
       flexDirection: "column",
