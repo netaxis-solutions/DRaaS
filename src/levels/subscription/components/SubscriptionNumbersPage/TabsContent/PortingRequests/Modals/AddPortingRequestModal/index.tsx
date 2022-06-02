@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import IconButton from "@material-ui/core/IconButton";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import PortingRequests from "storage/singletons/PortingRequests";
@@ -8,17 +9,20 @@ import { TAddTenantFormProps } from "utils/types/tenant";
 
 import Modal from "components/Modal";
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
-import { Back, Next } from "components/Icons";
+import { Back, Next, Cross } from "components/Icons";
 import Documents from "./Steps/Documents";
 import Country from "./Steps/Country";
 import Details from "./Steps/Details";
 import Verification from "./Steps/Verification";
 import Numbers from "./Steps/Numbers";
 
+import { modalStyles } from "./styles";
+
 const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
   handleCancel,
 }) => {
   const { t } = useTranslation();
+  const classes = modalStyles();
   const {
     stepContent,
     activeStep,
@@ -59,7 +63,9 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
   }, []);
 
   const handlePrevious = () => {
-    goBack(handleCancel);
+    if (activeStep < 4) {
+      goBack(handleCancel);
+    }
   };
 
   return (
@@ -75,16 +81,17 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
       <ModalButtonsWrapper
         cancelButton
         cancelButtonTitle={activeStep === 0 ? t("Cancel") : t("Back")}
-        submitButtonTitle={
-          activeStep === steps.length - 1 ? t("Add") : t("Next")
-        }
-        submitIcon={activeStep === steps.length - 1 ? undefined : Next}
+        submitButtonTitle={activeStep === 3 ? t("Add") : t("Next")}
+        submitIcon={activeStep === 3 ? undefined : Next}
         cancelIcon={activeStep === 0 ? undefined : Back}
         handleCancel={handlePrevious}
         top={122}
         formId={"CreatePortingRequest"}
         submitButtonDisabled={isSubmitButtonDisabled}
       />
+      <IconButton className={classes.closeIcon} onClick={handleCancel}>
+        <Cross fontSize="small" />
+      </IconButton>
     </>
   );
 };
