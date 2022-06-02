@@ -27,9 +27,9 @@ const replaceDots = (string: string) => {
   return string.replace(/\.+/g, "_");
 };
 
-const getMinimalDate = () => {
+const getMinimalDate = (minimalDay = 0) => {
   const currentDate = new Date();
-  const minimalDate = currentDate.setDate(currentDate.getDate() + 5);
+  const minimalDate = currentDate.setDate(currentDate.getDate() + minimalDay);
   return new Date(minimalDate).toISOString().split("T")[0];
 };
 

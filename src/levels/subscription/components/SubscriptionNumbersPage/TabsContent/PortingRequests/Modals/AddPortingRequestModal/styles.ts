@@ -9,8 +9,6 @@ export const documentsStyles = makeStyles(() => ({
   },
 }));
 
-
-
 export const countryStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   countrySelect: {
     maxWidth: 400,
@@ -89,5 +87,20 @@ export const verificationStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
     gap: 5,
     color: theme.palette.status.error,
+  },
+}));
+
+export const modalStyles = makeStyles((theme: ThemeDefaultOptions) => ({
+  closeIcon: {
+    position: "absolute",
+    zIndex: 1500,
+    top: theme.spacing(-1),
+    right: theme.spacing(4),
+    padding: 0,
+    "& svg": {
+      width: 14,
+      height: 14,
+      fill: theme.palette.icon.main,
+    },
   },
 }));
