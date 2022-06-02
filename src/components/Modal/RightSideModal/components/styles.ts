@@ -50,7 +50,7 @@ export const modalFooterUseStyles = makeStyles(
     },
     modalButtonsWrapper: {
       display: "flex",
-      gap: 15,
+      gap: theme.spacing(1.875),
       "&>button": {
         height: 36,
         width: 100,

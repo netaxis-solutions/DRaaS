@@ -23,6 +23,7 @@ class RightSideModal {
     this.currentDelayedModalCloseAction = () => {};
   };
 
+  // This action is setting if submit button is sended request
   setSubmitPending = (state = true) => {
     this.isSubmitPending = state;
   };

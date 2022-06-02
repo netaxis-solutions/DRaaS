@@ -44,6 +44,7 @@ const Modal: React.FC<
     delayedModalClose();
   };
 
+  // This function is used for closing a modal with animation
   const handleModalClose = (delayedCallback?: () => void) => {
     setIsMounted(false);
     delayedCallback && debounce(delayedCallback, animationDuration)();
