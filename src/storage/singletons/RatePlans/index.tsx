@@ -11,9 +11,22 @@ type RatePlan = {
   description: string;
 };
 
+type RatePlanDetails = {
+  destination: string;
+  startDate: string;
+  national: {
+    setup: number;
+    duration: number;
+  };
+  international: {
+    setup: number;
+    duration: number;
+  };
+};
+
 class RatePlans {
   ratePlans: Array<RatePlan> = [];
-  currentRatePlan: Array<any> = [];
+  currentRatePlan: Array<RatePlanDetails> = [];
   constructor() {
     makeAutoObservable(this);
   }
@@ -42,7 +55,7 @@ class RatePlans {
       route: `${configStore.config.draasInstance}/public/rate_plans/${ratePlanId}`,
       loaderName: "@getSpecificRatePlan",
     })
-      .then((data: AxiosResponse<{ prices: Array<RatePlan> }>) => {
+      .then((data: AxiosResponse<{ prices: Array<RatePlanDetails> }>) => {
         const ratePlans = data.data.prices;
         runInAction(() => {
           this.currentRatePlan = ratePlans;
