@@ -44,6 +44,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: theme.body.table.fontWeight,
     fontSize: theme.body.table.fontSize,
     textTransform: theme.body.table.textTransform,
+    fontVariant:"small-caps slashed-zero",
     display: "block",
     marginBottom: "20px",
     marginLeft: theme.spacing(0.5),
@@ -61,6 +62,9 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     gap: 10,
     justifyContent: "start",
     alignItems: "center",
+    color: theme.body.table.title,
+    textTransform: theme.body.table.textTransform,
+    fontVariant:"small-caps slashed-zero",
   },
   checkboxSkeletonCell: {
     width: 70,
@@ -70,7 +74,10 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   actionsHeaderSkeletonCell: {
     width: "21%",
     textAlign: "right",
-    textTransform: "uppercase",
+    color: theme.body.table.title,
+    textTransform: theme.body.table.textTransform,
+    fontVariant:"small-caps slashed-zero",
+    fontWeight: 450,
   },
   bodySkeletonCell: {
     border: "none",
@@ -80,6 +87,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
+    
   },
   action: {
     marginLeft: 10,
@@ -105,8 +113,10 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: theme.body.table.fontWeight,
     fontSize: theme.body.table.fontSize,
     textTransform: theme.body.table.textTransform,
+    fontVariant:"small-caps slashed-zero",
     display: "block",
     marginBottom: "20px",
+    
   },
   tableToolbarSkeleton: {
     width: "100%",

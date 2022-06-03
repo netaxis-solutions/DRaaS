@@ -70,11 +70,17 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableHeadActionsRowStyle: {
     background: theme.body.table.header.headerBGActionWrap,
-    textTransform: "uppercase",
+    fontSize: theme.body.table.fontSize,
+    textTransform: theme.body.table.textTransform,
+    fontVariant:"small-caps slashed-zero",
     fontWeight: 450,
   },
   tableHeadActionRow: {
     textAlign: "end",
+    textTransform: theme.body.table.textTransform,
+    fontVariant:"small-caps slashed-zero",
+    fontWeight: 450,
+    color: theme.body.table.title,
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
     paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
   },
