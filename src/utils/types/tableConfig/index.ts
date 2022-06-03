@@ -24,7 +24,7 @@ export type TableData = {
 
 export type ToolbarActionType = {
   id: string;
-  icon: React.FC;
+  icon?: React.FC;
   onClick: () => void;
   title: string;
 };

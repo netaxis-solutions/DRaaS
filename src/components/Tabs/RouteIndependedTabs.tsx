@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { withStyles } from "@material-ui/core";
 import MuiTabs from "@material-ui/core/Tabs";
 import MuiTab from "@material-ui/core/Tab";
@@ -10,13 +10,21 @@ import styles, { tabStyles } from "./styles";
 const CustomTab = withStyles(tabStyles)(MuiTab);
 const CustomTabs = withStyles(styles)(MuiTabs);
 
-const RouteIndependedTabs: React.FC<{ tabs: Tab[]; active?: string }> = ({
-  tabs,
-  active,
-}) => {
+const RouteIndependedTabs: React.FC<{
+  tabs: Tab[];
+  active?: string;
+  onChange?: (tabId: string) => void;
+  onMountAction?: (activeTab: string) => void;
+}> = ({ tabs, active, onChange, onMountAction }) => {
   const [activeTab, setActiveTab] = useState(active || tabs[0]?.id);
   const ActiveContent =
     tabs.find(tab => tab.id === activeTab)?.component || tabs[0].component;
+
+  useEffect(() => {
+    onMountAction && onMountAction(activeTab);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -24,6 +32,9 @@ const RouteIndependedTabs: React.FC<{ tabs: Tab[]; active?: string }> = ({
         variant="scrollable"
         scrollButtons="auto"
         value={activeTab}
+        onChange={(_, tabId) => {
+          onChange && onChange(tabId);
+        }}
         aria-label="tabs"
       >
         {tabs.map((tab: any) => (

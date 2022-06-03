@@ -4,6 +4,8 @@ import { Route, Switch } from "react-router";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
+import RatePlans from "levels/admin/components/RatePlans";
+
 const Tenants = lazy(() => import("levels/admin/components/TenantsList"));
 
 const Reseller = () => {
@@ -24,7 +26,7 @@ const Reseller = () => {
       <Route
         exact
         path={allAvailvableRouting.resellerRatePlan}
-        component={() => <div>resellerRatePlan</div>}
+        component={() => <RatePlans />}
       />
       <Route
         exact
