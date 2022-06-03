@@ -7,7 +7,7 @@ export type TSteps = Array<{
 }>;
 
 export type TModalHeaderProps = {
-  title: string;
+  title?: string;
   handleCancel: () => void;
   steps?: TSteps;
   activeStep?: number;
@@ -43,4 +43,25 @@ export type TDeleteModalProps = {
   handleDelete: () => void;
   selectedRowsLength: number;
   selectedRows: { [key: number]: boolean };
+};
+
+export type RightSideModalFooterType = {
+  cancelButton?: {
+    icon?: React.FC;
+    title?: string;
+    onClick?: () => void;
+    disabled?: boolean;
+    hidden?: boolean;
+    className?: string;
+  };
+  submitButton: {
+    icon?: React.FC;
+    title?: string;
+    onClick?: (handleModalClose: () => void) => void;
+    disabled?: boolean;
+    hidden?: boolean;
+    className?: string;
+    formId?: string;
+    type?: "button" | "reset" | "submit";
+  };
 };

@@ -34,10 +34,12 @@ class DistributorStore {
   };
 
   editDistributor = ({
-    payload: { uuid, markup, ...payload },
+    distributorId,
+    payload: { markup, ...payload },
     callback,
   }: {
-    payload: TEditDistributorPayload;
+    distributorId: string;
+    payload: Partial<TEditDistributorPayload>;
     callback?: () => void;
   }) => {
     const payloadWidthMarkup = markup
@@ -45,7 +47,7 @@ class DistributorStore {
       : { ...payload, markup: 0 };
 
     request({
-      route: `${configStore.config.draasInstance}/distributors/${uuid}`,
+      route: `${configStore.config.draasInstance}/distributors/${distributorId}`,
       loaderName: "@editDistributor",
       method: "put",
       payload: payloadWidthMarkup,

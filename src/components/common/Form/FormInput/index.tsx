@@ -55,6 +55,7 @@ const useLabelStyles = makeStyles(() => ({
 
 const useHelperStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   helperText: {
+    display: "block",
     fontSize: "1.2rem",
     margin: `-${theme.spacing(1.5)}px ${theme.spacing(2.5)}px ${theme.spacing(
       2.25,

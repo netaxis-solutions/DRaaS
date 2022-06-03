@@ -22,7 +22,7 @@ export const addDistributorSchema = (t: TFunction) =>
 export const editDistributorSchema = (t: TFunction) =>
   object().shape({
     name: string().required(),
-    billingId: string(),
+    billingId: string().required(),
     markup: string().matches(
       /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
       {

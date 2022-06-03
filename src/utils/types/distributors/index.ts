@@ -50,6 +50,5 @@ export type TCreateDistributorPayload = {
 export type TEditDistributorPayload = {
   name: string;
   billingId: string;
-  uuid: string;
   markup: string;
 };
