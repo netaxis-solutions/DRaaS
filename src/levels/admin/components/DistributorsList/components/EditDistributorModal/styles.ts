@@ -10,10 +10,10 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     marginBottom: theme.spacing(3),
   },
   idText: {
-    color: theme.body.distributor.idLabel,
+    color: theme.side_bar.distributor.editModal.idLabel,
     marginRight: theme.spacing(2),
   },
-  idValue: { color: theme.body.distributor.idValue },
+  idValue: { color: theme.side_bar.distributor.editModal.idValue },
 }));
 
 export default useEditDistributorStyles;
