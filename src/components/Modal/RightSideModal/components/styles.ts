@@ -21,12 +21,12 @@ export const modalHeaderUseStyles = makeStyles(
         marginLeft: 3,
         width: "calc(100% - 3px)",
         height: 1,
-        background: theme.body.rightSideModal.underline,
+        background: theme.rightSideModal.underline,
       },
     },
     modalHeaderTitle: {
       fontSize: "2.4rem",
-      color: theme.body.rightSideModal.title,
+      color: theme.rightSideModal.title,
       margin: `0 ${theme.spacing(1.75)}px`,
     },
     modalHeaderTitleWrapper: {
@@ -60,7 +60,7 @@ export const modalFooterUseStyles = makeStyles(
       display: "block",
       width: "100%",
       height: 1,
-      background: theme.body.rightSideModal.underline,
+      background: theme.rightSideModal.underline,
     },
     modalFooterContent: {
       display: "flex",
@@ -69,7 +69,7 @@ export const modalFooterUseStyles = makeStyles(
     },
     modalCancelButton: {
       background: theme.palette.primary.white,
-      color: theme.body.rightSideModal.cancelButtonText,
+      color: theme.rightSideModal.cancelButtonText,
     },
     modalSaveButton: {}, //this className may be needed in future
     buttonHidden: {

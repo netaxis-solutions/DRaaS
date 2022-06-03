@@ -311,11 +311,11 @@
       },
       "text": "#333333",
       "background": "#FFFFFF"
-    },
-    "rightSideModal": {
-      "underline": "#DDE7FF",
-      "title": "#323D69",
-      "cancelButtonText": "#67748E"
     }
+  },
+  "rightSideModal": {
+    "underline": "#DDE7FF",
+    "title": "#323D69",
+    "cancelButtonText": "#67748E"
   }
 }
