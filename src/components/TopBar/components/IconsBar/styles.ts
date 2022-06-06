@@ -61,13 +61,13 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: 300,
   },
   userEntity: {
-    color: theme.top_bar.userProfile.secondaryText,
+    color: theme.top_bar.userProfile.steel,
     fontSize: "1.2rem",
     lineHeight: "1.4rem",
     fontWeight: 300,
   },
   userProfile: {
-    color: theme.top_bar.userProfile.secondaryText,
+    color: theme.top_bar.userProfile.steel,
     fontSize: "1rem",
     lineHeight: "1.2rem",
     fontWeight: 300,

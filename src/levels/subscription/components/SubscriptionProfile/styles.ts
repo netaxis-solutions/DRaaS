@@ -7,14 +7,14 @@ export const useProfileStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "2.2rem",
     lineHeight: "2.5rem",
     fontWeight: 400,
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     marginBottom: 6,
   },
   subscriptionLevel: {
     fontSize: "1.6rem",
     lineHeight: "1.8rem",
     fontWeight: 400,
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     marginBottom: 12,
   },
 

@@ -4,14 +4,14 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   adminBody: {
     display: "flex",
-    color: theme.body.universal.secondatyText,
+    color: theme.body.general.secondatyText,
     flexDirection: "column",
     fontSize: "1.4rem",
     lineHeight: "2rem",
     fontWeight: 400,
     "& a": {
       textDecoration: "none",
-      color: theme.body.universal.link,
+      color: theme.body.general.textStyle.link,
     },
     "& ul": {
       paddingLeft: theme.spacing(2.5),
@@ -23,7 +23,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.4rem",
     "& a": {
       textDecoration: "none",
-      color: theme.body.universal.link,
+      color: theme.body.general.textStyle.link,
     },
   },
   deleteButton: {
@@ -110,7 +110,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
         alignItems: "center",
       },
       "& svg": {
-        fill: `${theme.body.universal.white} !important`,
+        fill: `${theme.body.general.icons.whiteFill} !important`,
         width: "65%",
 
         height: "20px",

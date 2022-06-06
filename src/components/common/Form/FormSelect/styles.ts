@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     marginTop: -1,
   },
   groupLabel: {
-    color: `${theme.palette.secondary.text} !important`,
+    color: `${theme.body.general.textStyle.steel} !important`,
     fontSize: "1.4rem !important",
     textTransform: "uppercase",
     fontWeight: "300 !important" as "bold",
@@ -48,16 +48,16 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.4rem",
     fontWeight: 300,
     padding: `0 ${theme.spacing(2.5)}px !important`,
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.brown,
     "&:hover": {
-      backgroundColor: `${theme.palette.primary.light} !important`,
+      backgroundColor: `${theme.body.general.backgrounds.light} !important`,
     },
     "&[aria-selected='true']": {
-      backgroundColor: `${theme.palette.primary.white} !important`,
-      color: theme.palette.primary.main,
+      backgroundColor: `${theme.body.general.backgrounds.white} !important`,
+      color: theme.body.general.textStyle.blue,
       fontWeight: 400,
       "&:hover": {
-        backgroundColor: `${theme.palette.primary.light} !important`,
+        backgroundColor: `${theme.body.general.backgrounds.light} !important`,
       },
     },
   },
@@ -80,16 +80,16 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.4rem",
     fontWeight: 300,
     padding: `0 ${theme.spacing(2.5)}px !important`,
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.brown,
     "&:hover": {
-      backgroundColor: `${theme.palette.primary.light} !important`,
+      backgroundColor: `${theme.body.general.backgrounds.light} !important`,
     },
     "&[aria-selected='true']": {
-      backgroundColor: `${theme.palette.primary.white} !important`,
-      color: theme.palette.primary.main,
+      backgroundColor: `${theme.body.general.backgrounds.white} !important`,
+      color: theme.body.general.textStyle.blue,
       fontWeight: 400,
       "&:hover": {
-        backgroundColor: `${theme.palette.primary.light} !important`,
+        backgroundColor: `${theme.body.general.backgrounds.light} !important`,
       },
     },
   },

@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: 300,
     fontSize: "1.6rem",
     lineHeight: "1.8rem",
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.brown,
     background: theme.body.card.background,
   },
   content: {

@@ -14,7 +14,7 @@ export const useEntitlementCardStyles = makeStyles(
       display: "flex",
       flexDirection: "column",
       gap: theme.spacing(1.25),
-      border: `1px solid ${theme.palette.primary.light}`,
+      border: `1px solid ${theme.body.general.borders.light}`,
       boxSizing: "border-box",
       borderRadius: "10px",
       width: 456,
@@ -23,7 +23,7 @@ export const useEntitlementCardStyles = makeStyles(
       fontWeight: 300,
       fontSize: "1.4rem",
       lineHeight: "1.6rem",
-      color: theme.palette.primary.text,
+      color: theme.body.general.textStyle.black,
     },
     fieldWrapper: {
       display: "flex",
@@ -50,7 +50,7 @@ export const useProgressBarStyles = makeStyles(
         "linear-gradient(90deg, #8DB338 0%, #FF8800 50.02%, #E60000 100%);",
       borderRadius: 2,
       "& > div": {
-        background: theme.palette.secondary.progressBarBackground,
+        background: theme.body.general.backgrounds.progressBar,
         transform: (props: { percentOfUnavailable: number }) =>
           `translateX(${100 - props.percentOfUnavailable}%) !important`,
       },
@@ -101,7 +101,7 @@ export const useRangeSettingsStyles = makeStyles(
       fontWeight: "bold",
     },
     grayText: {
-      color: theme.palette.secondary.text,
+      color: theme.body.general.textStyle.brown,
     },
   }),
 );

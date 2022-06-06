@@ -11,7 +11,7 @@ const useTextFieldStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
     maxWidth: theme.spacing(26.25),
     height: theme.spacing(4.25),
-    backgroundColor: theme.palette.primary.white,
+    backgroundColor: theme.body.general.backgrounds.white,
     "& svg": {
       width: 14,
       height: 14,

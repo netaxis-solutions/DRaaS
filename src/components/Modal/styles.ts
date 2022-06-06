@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     left: 0,
     right: 0,
     zIndex: 1000,
-    background: theme.palette.primary.white,
+    background: theme.body.general.backgrounds.white,
     overflowY: "auto",
   },
   fixedBackground: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     width: "calc(100% - 200px)",
     right: 0,
     zIndex: 1000,
-    background: theme.palette.primary.white,
+    background: theme.body.general.backgrounds.white,
     overflowY: "auto",
   },
 }));

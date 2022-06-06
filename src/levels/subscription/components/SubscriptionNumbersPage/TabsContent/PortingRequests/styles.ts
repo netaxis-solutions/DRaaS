@@ -3,14 +3,14 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 export default makeStyles((theme: ThemeDefaultOptions) => ({
   greyTime: {
-    color: theme.palette.secondary.text,
+    color: theme.body.general.textStyle.brown,
   },
   multipleNumbers: {
     cursor: "pointer",
   },
   modalLink: {
     cursor: "pointer",
-    color: theme.palette.primary.newLink,
+    color: theme.body.general.textStyle.link,
     display: "contents",
   },
   noNumbersBlock: {

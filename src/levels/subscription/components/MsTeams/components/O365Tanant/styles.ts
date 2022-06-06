@@ -47,7 +47,7 @@ export const O365Styles = makeStyles((theme: ThemeDefaultOptions) => ({
     paddingTop: theme.spacing(4.375),
   },
   Link: {
-    color: theme.body.universal.link,
+    color: theme.body.general.textStyle.link,
     textDecoration: "none",
   },
   buttonUnlinkPositions: {
@@ -74,7 +74,7 @@ export const O365Styles = makeStyles((theme: ThemeDefaultOptions) => ({
         width: "15%",
       },
       "& svg": {
-        fill: `${theme.palette.primary.white} !important`,
+        fill: `${theme.body.general.icons.whiteFill} !important`,
         width: "65%",
         height: "20px",
         paddingTop: 1,
@@ -106,7 +106,7 @@ export const O365Styles = makeStyles((theme: ThemeDefaultOptions) => ({
   InfoStatus: {
     display: "flex",
     flexDirection: "column",
-    border: `1px solid ${theme.palette.primary.light}`,
+    border: `1px solid ${theme.body.general.borders.light}`,
     borderRadius: 10,
     background: theme.body.card.background,
     "& > div": {

@@ -1,23 +1,5 @@
 {
   "palette": {
-    "primary": {
-      "main": "#484CBA",
-      "text": "#333333",
-      "background": "#F9F9F9",
-      "light": "#EBEBF7",
-      "white": "#FFFFFF",
-      "link": "#0061F1",
-      "newLink": "#4975E5"
-    },
-    "secondary": {
-      "main": "#CCE3D8",
-      "light": "#EBEBF7",
-      "text": "#828282",
-      "hover": "#F5F7FF",
-      "alertBackground": "#FDECEB",
-      "alertBorder": "#EE594D",
-      "progressBarBackground": "#C4C4C4"
-    },
     "status": {
       "alert": "#FF8800",
       "error": "#EC4436",
@@ -210,11 +192,34 @@
       "background": "#FFFFFF",
       "border": "#EBEBF7"
     },
-    "universal": {
-      "secondaryText": "#828282",
-      "text": "#000000",
-      "link": "#0061F1",
-      "white": "#FFFFFF"
+    "general": {
+      "textStyle":{
+        "black":"#000000",
+        "white":"#FFFFFF",
+        "link":"#4975E5",
+        "brown":"#828282",
+        "blue": "#484CBA",
+        "steel": "#828282"
+      },
+      "backgrounds":{
+        "blue": "#484CBA",
+        "whiteSmoke": "#F9F9F9",
+        "white":"#FFFFFF",
+        "light":"#EBEBF7",
+        "brown":"#828282",
+        "alert": "#FDECEB",
+        "progressBar":"#C4C4C4"
+      },
+      "icons":{
+        "blueFill":"#484CBA",
+        "whiteFill":"#FFFFFF",
+        "brownFill":"#828282"
+      },
+      "borders":{
+        "light":"#EBEBF7",
+        "steel": "#828282"
+      },
+      "hover":"#F5F7FF"
     },
     "tooltip": {
       "numbers_rangeSize": "#C0C0C0"

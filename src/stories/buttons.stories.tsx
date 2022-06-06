@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     ...defaultStyles,
     "& svg": {
       width: 7,
-      fill: theme.palette.primary.main,
+      fill: theme.body.general.icons.blueFill,
       height: 12,
     },
   },

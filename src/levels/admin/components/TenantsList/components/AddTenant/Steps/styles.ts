@@ -20,7 +20,7 @@ export const createTenantStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   createDistributorBillingHelper: {
     fontSize: "1.2rem",
     margin: `${theme.spacing(0.5)}px ${theme.spacing(2.5)}px`,
-    color: theme.palette.secondary.text,
+    color: theme.body.general.textStyle.brown,
   },
 }));
 

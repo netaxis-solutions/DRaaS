@@ -8,12 +8,12 @@ export const modalHeaderUseStyles = makeStyles(
       "& svg": {
         width: 7,
         height: 12,
-        fill: theme.palette.primary.main,
+        fill:  theme.body.general.icons.blueFill,
       },
       position: "sticky",
       top: 0,
       minHeight: 88,
-      backgroundColor: theme.palette.primary.white,
+      backgroundColor: theme.body.general.backgrounds.white,
       zIndex: 1000,
       "&::after": {
         content: "''",
@@ -45,7 +45,7 @@ export const modalFooterUseStyles = makeStyles(
       width: "100%",
       bottom: 0,
 
-      backgroundColor: theme.palette.primary.white,
+      backgroundColor: theme.body.general.backgrounds.white,
       zIndex: 1000,
     },
     modalButtonsWrapper: {
@@ -68,7 +68,7 @@ export const modalFooterUseStyles = makeStyles(
       padding: theme.spacing(4),
     },
     modalCancelButton: {
-      background: theme.palette.primary.white,
+      background: theme.body.general.backgrounds.white,
       color: theme.rightSideModal.cancelButtonText,
     },
     modalSaveButton: {}, //this className may be needed in future

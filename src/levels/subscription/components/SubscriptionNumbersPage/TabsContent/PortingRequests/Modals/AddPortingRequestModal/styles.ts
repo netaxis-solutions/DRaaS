@@ -14,14 +14,14 @@ export const countryStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     maxWidth: 400,
   },
   countryHeader: {
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     fontSize: "1.8rem",
     lineHeight: "2.1rem",
     marginBottom: 14,
   },
   countryDescription: {
     maxWidth: 400,
-    color: theme.palette.secondary.text,
+    color:theme.body.general.textStyle.brown,
     fontSize: "1.4rem",
     lineHeight: "1.6rem",
     marginBottom: 24,
@@ -30,12 +30,12 @@ export const countryStyles = makeStyles((theme: ThemeDefaultOptions) => ({
 
 export const detailsStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   sectionTitle: {
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     fontSize: "1.8rem",
     marginBottom: 14,
   },
   sectionDescription: {
-    color: theme.palette.secondary.text,
+    color: theme.body.general.textStyle.brown,
     fontSize: "1.4rem",
     lineHeight: "1.6rem",
     marginBottom: 15,
@@ -60,7 +60,7 @@ export const numbersStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     borderRadius: 6,
     fontSize: "1.4rem",
     lineHeight: "1.6rem",
-    color: theme.palette.secondary.text,
+    color: theme.body.general.textStyle.brown,
     padding: "10px 20px",
   },
   numbersFlex: {
@@ -71,7 +71,7 @@ export const numbersStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   numbersDescription: {
     fontSize: "1.2rem",
     lineHeight: "1.4rem",
-    color: theme.palette.secondary.text,
+    color:theme.body.general.textStyle.brown,
   },
 }));
 

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     height: 1,
     width: 200,
     margin: `0 ${theme.spacing(1)}px`,
-    background: theme.palette.secondary.text,
+    background: theme.body.general.backgrounds.brown,
   },
   stepTitleWrapper: {
     maxWidth: 220,
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   stepperOptionalTitle: {
     margin: 0,
-    color: theme.palette.secondary.text,
+    color: theme.body.general.textStyle.brown,
     fontSize: "1.2rem",
   },
 }));
