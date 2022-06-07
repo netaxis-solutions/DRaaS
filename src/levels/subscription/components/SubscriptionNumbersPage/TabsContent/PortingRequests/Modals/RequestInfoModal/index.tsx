@@ -105,14 +105,11 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
 
   const isLoading =
     getIsLoading("@getExactPortingRequest", PendingQueries.byFetchType) ||
-    getIsLoading("@getPortingRequirements", PendingQueries.byFetchType);
-
+    getIsLoading("@getPortingRequirements", PendingQueries.byFetchType) ||
+    getIsLoading("@cancelPortRequest", PendingQueries.byFetchType);
   return (
     <>
-      <Modal
-        title={t("Add numbers from inventory")}
-        handleCancel={handleCancel}
-      >
+      <Modal title={t("")} handleCancel={handleCancel}>
         {isLoading || !Object.values(currentPortingRequest).length ? (
           <TabsSkeleton tabsAmount={3} />
         ) : (
@@ -133,6 +130,7 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
           {currentPortingRequest?.capabilities?.canBeCancelled && (
             <ButtonWithIcon
               onClick={() =>
+                !PortingRequestsStore.isCancelPending &&
                 cancelPortRequest(tenantID, subscriptionID, currentRequestId)
               }
               icon={Cross}

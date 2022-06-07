@@ -15,6 +15,16 @@ import {
 import TablePagination from "../TablePagination";
 import { t } from "services/Translation";
 
+type Attachment = {
+  id: number;
+  name: string;
+  createdBy: string;
+  description: string;
+  mimeType: string;
+  sizeInBytes: number;
+  createdOn: string;
+};
+
 class PortingRequestsStore {
   portingRequests: Array<RequestType> = [];
   currentRequestId: number | null = null;
@@ -22,7 +32,8 @@ class PortingRequestsStore {
   portingRequirements: PortingRequirements = [];
   defaultOperatorId: number | null = null;
   requiredDocuments: DocumentsType = [];
-  currentDocuments: Array<any> = [];
+  currentDocuments: Array<Attachment> = [];
+  isCancelPending: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -145,7 +156,7 @@ class PortingRequestsStore {
     tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     currentRequestId: string | number,
-    successCallback: () => void,
+    successCallback?: () => void,
   ) => {
     Promise.all([
       this.getExactPortingRequest(tenantId, subscriptionID, currentRequestId),
@@ -233,10 +244,17 @@ class PortingRequestsStore {
     subId: string,
     portId: string | number,
   ) => {
+    this.isCancelPending = true;
+
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subId}/porting/requests/${portId}/cancel`,
       loaderName: "@cancelPortRequest",
       method: "put",
+    }).then(() => {
+      runInAction(() => {
+        this.isCancelPending = false;
+      });
+      this.getRequestInfoModalData(tenantId, subId, portId);
     });
   };
 
