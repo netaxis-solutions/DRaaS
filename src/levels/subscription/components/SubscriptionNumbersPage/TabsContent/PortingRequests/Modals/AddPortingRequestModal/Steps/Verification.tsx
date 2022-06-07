@@ -15,6 +15,10 @@ import Table from "components/Table";
 
 import { verificationStyles } from "../styles";
 
+const getNumberWithoutPlus = (number: string) => {
+  return number.replace(/\+/g, "");
+};
+
 const Verification: React.FC = () => {
   const { t } = useTranslation();
   const classes = verificationStyles();
@@ -84,7 +88,10 @@ const Verification: React.FC = () => {
       .reduce(
         (sum: Array<{ from: string; to?: string }>, curr) => [
           ...sum,
-          { from: curr.from, to: curr.to },
+          {
+            from: getNumberWithoutPlus(curr.from),
+            to: curr.to && getNumberWithoutPlus(curr.to),
+          },
         ],
         [],
       );
