@@ -11,7 +11,7 @@ export const createResourceAccountStyles = makeStyles(
         height: 34,
         "&>*>div": {
           height: 34,
-          background: theme.palette.primary.white,
+          background: theme.body.general.backgrounds.white,
           "& button[aria-label='Clear']": {
             display: "none",
           },
@@ -76,7 +76,7 @@ export const createResourceAccountStyles = makeStyles(
     createSubscriptionBillingHelper: {
       fontSize: "1.2rem",
       margin: `${theme.spacing(0.5)}px ${theme.spacing(2.5)}px`,
-      color: theme.palette.secondary.text,
+      color: theme.body.general.textStyle.brown,
     },
     selectController: {
       "&>div": {
@@ -116,7 +116,7 @@ export const createResourceAccountStyles = makeStyles(
       "& >svg": {
         width: "100%",
         height: "100%",
-        fill: theme.palette.body.universal.white,
+        fill: theme.body.general.icons.whiteFill,
       },
     },
   }),

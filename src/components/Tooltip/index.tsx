@@ -9,7 +9,7 @@ export default styled(({ className, ...props }) => (
     background:
       "linear-gradient(90deg, rgba(33, 35, 86, 0.8) 21.35%, rgba(33, 35, 86, 0.6) 100%)",
     backdropFilter: "blur(42px)",
-    color: theme.palette.primary.white,
+    color: theme.body.general.textStyle.white,
     width: 185,
     fontSize: 12,
     "&>.MuiTooltip-arrow::before": {

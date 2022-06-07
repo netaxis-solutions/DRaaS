@@ -11,7 +11,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
         width: "100%",
         height: "100%",
         "&>path": {
-          fill: theme.palette.secondary.text,
+          fill:theme.body.general.icons.brownFill,
           width: "100%",
           height: "100%",
         },
@@ -27,7 +27,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     maxWidth: 400,
     minWidth: 150,
     "&>*>div": {
-      background: theme.palette.primary.white,
+      background: theme.body.general.backgrounds.white,
       "& button[aria-label='Clear']": {
         display: "none",
       },
@@ -49,7 +49,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
       backgroundColor: "transparent",
     },
     "&& svg": {
-      fill: theme.palette.secondary.text,
+      fill: theme.body.general.icons.brownFill,
       marginLeft: 0,
     },
   },
@@ -62,7 +62,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   },
   active: { background: theme.palette.status.success },
   error: { background: "#df2231" },
-  updating: { background: theme.palette.primary.main },
+  updating: { background:  theme.body.general.icons.blueFill},
   label: {
     height: 14,
     minWidth: 50,
@@ -72,7 +72,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
     fontSize: "0.75rem",
     lineHeight: "0.9rem",
-    color: theme.palette.primary.white,
+    color: theme.body.general.textStyle.white,
     textTransform: "uppercase",
   },
   selectNumber: {
@@ -82,7 +82,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
       height: 34,
       "&>*>div": {
         height: 34,
-        background: theme.palette.primary.white,
+        background: theme.body.general.backgrounds.white,
         "&>input": {
           height: "100%",
           position: "absolute",
@@ -156,7 +156,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   },
   check: {
     "& >svg": {
-      fill: theme.palette.primary.white,
+      fill: theme.body.general.icons.whiteFill,
     },
   },
   cross: {

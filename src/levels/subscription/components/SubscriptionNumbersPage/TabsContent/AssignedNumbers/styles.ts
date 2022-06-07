@@ -19,7 +19,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
     boxSizing: "border-box",
     borderRadius: "10px",
-    border: `1px solid ${theme.palette.primary.light}`,
+    border: `1px solid ${theme.body.general.borders.light}`,
     textAlign: "center",
     "&>*": {
       maxWidth: 295,
@@ -30,11 +30,11 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.6rem",
     lineHeight: "1.8rem",
     textAlign: "center",
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     marginBottom: theme.spacing(3.75),
   },
   link: {
-    color: theme.palette.primary.link,
+    color: theme.body.general.textStyle.link,
     textDecoration: "none",
   },
   cardText: {
@@ -42,7 +42,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.6rem",
     lineHeight: "1.8rem",
     textAlign: "center",
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     width: 295,
   },
   tooltipIcon: {

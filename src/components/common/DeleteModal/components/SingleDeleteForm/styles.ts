@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     top: "50%",
     left: "50%",
     zIndex: 1300,
-    background: theme.palette.primary.white,
+    background:theme.body.general.backgrounds.white,
     width: 450,
     transform: "translate(-50%, -50%)",
     padding: `${theme.spacing(7.375)}px ${theme.spacing(

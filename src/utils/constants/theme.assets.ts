@@ -32,20 +32,6 @@ const scroll = {
 };
 
 export const defaultPalette: PaletteDefaultOptionsType = {
-  primary: {
-    main: "#484CBA",
-    text: "#333333",
-    background: "#F9F9F9",
-    light: "#EBEBF7",
-    link: "#0061F1",
-  },
-  secondary: {
-    main: "#CCE3D8",
-    light: "#EBEBF7",
-    text: "#828282",
-    icon: "#828282",
-    hover: "#F5F7FF",
-  },
   status: {
     alert: "#FF8800",
     error: "#EC4436",
@@ -60,7 +46,7 @@ export const defaultPalette: PaletteDefaultOptionsType = {
     active: "#484CBA",
   },
   body: {
-    universal: {
+    general: {
       secondaryText: "#828282",
       text: "#000000",
       link: "#0061F1",
@@ -93,13 +79,13 @@ export const defaultPalette: PaletteDefaultOptionsType = {
   },
 };
 
-export const overrides = (palette: PaletteDefaultOptionsType) => ({
+export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
   MuiCssBaseline: {
     "@global": {
       "@font-face": [fontRegular, fontLight, fontBold, fontMedium],
       html: {
         fontSize: 10,
-        color: palette?.primary?.text,
+        color: defaultPalette?.body?.general?.textStyle?.black,
         fontWeight: 400,
         ...scroll,
         height: "100%",
@@ -128,7 +114,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
   MuiInputLabel: {
     root: {
       "&$disabled": {
-        color: `${palette.secondary.text} !important`,
+        color: `${defaultPalette?.body?.general?.textStyle?.brown} !important`,
       },
     },
     outlined: {
@@ -147,14 +133,14 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       boxShadow: "none !important",
       "&:hover": {
         backgroundColor: "#F5F7FF !important",
-        color: palette.secondary.text,
+        color: defaultPalette?.body?.general?.textStyle?.brown,
         "& svg": {
-          fill: `${palette.icon.main} !important`,
+          fill: `${defaultPalette.icon.main} !important`,
         },
       },
     },
     contained: {
-      backgroundColor: palette.primary.main,
+      backgroundColor: defaultPalette?.body?.general?.backgrounds?.blue,
       color: "#FFFFFF",
       borderRadius: 6,
     },
@@ -169,10 +155,10 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       textTransform: "capitalize",
     },
     outlined: {
-      borderColor: palette.icon.main,
-      color: palette.secondary.text,
+      borderColor: defaultPalette.icon.main,
+      color: defaultPalette?.body?.general?.textStyle?.brown,
       "& svg": {
-        fill: `${palette.icon.main} !important`,
+        fill: `${defaultPalette.icon.main} !important`,
       },
     },
   },
@@ -185,7 +171,7 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
         position: "absolute",
         top: "100%",
         fontSize: "1.2rem",
-        color: `${palette.status.error} !important`,
+        color: `${defaultPalette.status.error} !important`,
       },
     },
   },
@@ -209,18 +195,18 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
   MuiTableRow: {
     root: {
       "&:hover": {
-        backgroundColor: palette.table.hover,
+        backgroundColor: defaultPalette.table.hover,
       },
       "&$selected": {
         background: "transparent",
       },
       "& a": {
-        color: palette.primary.link,
+        color: defaultPalette?.body?.general?.textStyle?.link,
         textDecoration: "none",
       },
       "& .link": {
         "&:hover": {
-          color: palette.menuLink.main,
+          color: defaultPalette.menuLink.main,
         },
       },
     },
@@ -234,17 +220,17 @@ export const overrides = (palette: PaletteDefaultOptionsType) => ({
       padding: 3,
     },
     head: {
-      color: palette.secondary.text,
+      color: defaultPalette?.body?.general?.textStyle?.brown,
     },
   },
   MuiTableHead: {
     root: {
-      borderBottom: `1px solid ${palette.table.border}`,
+      borderBottom: `1px solid ${defaultPalette.table.border}`,
     },
   },
   MuiCheckbox: {
     root: {
-      color: palette.input.border,
+      color: defaultPalette.input.border,
     },
   },
 });

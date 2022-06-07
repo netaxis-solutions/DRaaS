@@ -13,13 +13,13 @@ export const useProfileTabStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.status.alert,
   },
   greenLabel: {
-    color: theme.palette.primary.white,
+    color: theme.body.general.textStyle.white,
     background: theme.palette.status.success,
     width: "100%",
   },
   redLabel: {
     color: theme.palette.status.error,
-    background: theme.palette.secondary.alertBackground,
+    background: theme.body.general.backgrounds.alert,
   },
   labelContainer: {
     display: "flex",
@@ -59,7 +59,7 @@ export const useLocationTableStyles = makeStyles(
         height: 34,
         "&>*>div": {
           height: 34,
-          background: theme.palette.primary.white,
+          background: theme.body.general.backgrounds.white,
           "&>input": {
             height: "100%",
             position: "absolute",

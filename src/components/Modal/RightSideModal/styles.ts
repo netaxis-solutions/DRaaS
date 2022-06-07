@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     width: 464,
     right: 0,
     zIndex: 1000,
-    background: theme.palette.primary.white,
+    background: theme.body.general.backgrounds.white,
     overflowY: "auto",
     borderRadius: "10px 0 0 10px",
     boxShadow: "-6px 0px 20px rgba(54, 100, 247, 0.15)",

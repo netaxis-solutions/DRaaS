@@ -9,18 +9,18 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     gap: theme.spacing(1.25),
     maxWidth: 485,
     boxSizing: "border-box",
-    border: `1px solid ${theme.palette.primary.light}`,
+    border: `1px solid ${theme.body.general.borders.lights}`,
     borderRadius: 10,
   },
   fileCardHeader: {
     fontSize: "1.8rem",
     lineHeight: "2.1rem",
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.brown,
   },
   fileCardDescription: {
     fontSize: "1.4rem",
     lineHeight: "1.5rem",
-    color: theme.palette.secondary.text,
+    color: theme.body.general.textStyle.steel,
   },
   fileCardState: {
     fontSize: "1.4rem",
@@ -30,14 +30,14 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.palette.status.error,
   },
   successState: {
-    color: theme.palette.primary.link,
+    color: theme.body.general.textStyle.link,
   },
   input: { display: "none" },
   uploadButton: {
     alignSelf: "flex-end",
     cursor: "pointer",
-    color: theme.palette.secondary.text,
-    "& svg": { fill: theme.palette.secondary.text, height: 12, width: 12 },
+    color: theme.body.general.textStyle.steel,
+    "& svg": { fill: theme.body.general.borders.steel, height: 12, width: 12 },
   },
   notInitiatedState: {
     display: "none",

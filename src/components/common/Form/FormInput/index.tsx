@@ -60,7 +60,7 @@ const useHelperStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     margin: `-${theme.spacing(1.5)}px ${theme.spacing(2.5)}px ${theme.spacing(
       2.25,
     )}px`,
-    color: theme.palette.secondary.text,
+    color: theme.body.general.textStyle.steel,
     lineHeight: 1,
   },
 }));

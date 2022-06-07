@@ -112,7 +112,7 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     "& span": {
       "& svg": {
         "& path": {
-          fill: theme.palette.primary.white,
+          fill: theme.body.general.icons.whiteFill,
         },
       },
     },

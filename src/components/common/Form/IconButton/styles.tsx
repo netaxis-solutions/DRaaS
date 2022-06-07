@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       marginLeft: -theme.spacing(0.125),
     },
     "&:hover": {
-      backgroundColor: theme.palette.secondary.hover,
+      backgroundColor: theme.body.general.hover,
     },
     "&:active": {
       backgroundColor: theme.palette.icon.active,
       "& svg": {
-        fill: theme.palette.primary.white,
+        fill: theme.body.general.icons.whiteFill,
       },
     },
   },

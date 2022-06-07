@@ -5,8 +5,6 @@ import { SpacingOptions } from "@material-ui/core/styles/createSpacing";
 import { AnyKeyStringValueObjectType as ColorType } from "utils/types/common";
 
 export type PaletteDefaultOptionsType = PaletteOptions & {
-  primary: ColorType;
-  secondary: ColorType;
   status: ColorType;
   input: ColorType;
   menuLink: ColorType;
@@ -26,7 +24,7 @@ export type TThemeBody = {
   tabs: any;
   card: any;
   stepper: any;
-  universal: any;
+  general: any;
 };
 
 export type ThemeDefaultOptions = Theme & {

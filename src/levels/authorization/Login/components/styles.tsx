@@ -60,7 +60,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   loginForgetPasswordLink: {
     textDecoration: "underline",
     fontSize: "1.4rem",
-    color: theme.palette.primary.white,
+    color: theme.body.general.textStyle.white,
     fontWeight: 300,
   },
   loginCheckboxAndLinkWrapper: {
@@ -90,7 +90,7 @@ export const useFormStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     backgroundColor: theme.palette.notification.error,
   },
   forgotPasswordNotificationText: {
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     fontSize: "1.6rem",
     lineHeight: "20px",
   },

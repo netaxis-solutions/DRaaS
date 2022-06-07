@@ -6,7 +6,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     width: 20,
     height: 20,
     "& path": {
-      fill: theme.palette.primary.link,
+      fill: theme.body.general.textStyle.link,
     },
   },
   columnHeaderWrapper: {

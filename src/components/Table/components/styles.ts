@@ -144,14 +144,14 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     paddingLeft: `${theme.direction === "ltr" ? 0 : 30}px !important`,
   },
   isEditing: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.body.general.backgrounds.light,
     "&:hover": {
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor:  theme.body.general.backgrounds.light,
     },
   },
   disabled: {
     opacity: 0.3,
-    backgroundColor: theme.palette.primary.background,
+    backgroundColor: theme.body.general.backgrounds.whiteSmoke,
     pointerEvents: "none",
   },
   tableCellOverflow: {
@@ -267,7 +267,7 @@ export const tablePaginationStyles = makeStyles(
       borderStyle: "solid",
       borderWidth: "0 1px 1px 1px",
       padding: `0 ${theme.spacing(3.75)}px`,
-      color: theme.palette.secondary.text,
+      color: theme.body.general.textStyle.brown,
     },
     tablePaginationActionsWrapper: {
       display: "flex",

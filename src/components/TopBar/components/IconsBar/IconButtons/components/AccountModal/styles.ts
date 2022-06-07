@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     flexDirection: "column",
   },
   boxHeader: {
-    color: theme.palette.primary.text,
+    color: theme.body.general.textStyle.black,
     fontStyle: "normal",
     fontWeight: 300,
     fontSize: "1.8rem",
