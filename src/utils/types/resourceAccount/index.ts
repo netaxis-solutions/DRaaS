@@ -6,6 +6,7 @@ export type TCreateResourceAccount = {
   location: string;
   phoneNumber: string;
   userPrincipalName: string;
+  validDomains: { label: string; value: string }
 };
 
 export type TCreateResourceAccountPayloadStorage = {
@@ -15,6 +16,10 @@ export type TCreateResourceAccountPayloadStorage = {
   phoneNumber?: string;
   userPrincipalName: string;
 };
+
+export type TValidDomains = {
+  verifiedDomains: Array<string>
+}
 
 export type TResourceAccountLicenses = {
   skuId: string;

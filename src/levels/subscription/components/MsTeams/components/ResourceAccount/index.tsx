@@ -62,6 +62,7 @@ const ResourceAccount: FC = () => {
     modifyMsTeamsResourceAccount,
     getCountryCode,
     deleteResourceAccount,
+    getVerifiedDomains,
   } = ResourceAccountStorage;
 
   const { setSelectedRows } = TableSelectedRowsStore;
@@ -276,6 +277,7 @@ const ResourceAccount: FC = () => {
       onClick: () => {
         setModalToOpen("add");
         getFreeNumbers(tenantID, subscriptionID);
+        getVerifiedDomains(tenantID, subscriptionID);
       },
     },
   ];

@@ -12,13 +12,16 @@ import omit from "lodash/omit";
 import ResourceAccountStorage from "storage/singletons/MsTeams/resourceAccount";
 import PendingQueries from "storage/singletons/PendingQueries";
 import NumbersStore from "storage/singletons/Numbers";
+import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import {
   TCreateResourceAccount,
   TCreateResourceAccountPayloadStorage,
 } from "utils/types/resourceAccount";
 import { getIsLoading } from "utils/functions/getIsLoading";
 
+import Tooltip from "components/Tooltip";
 import Flag from "components/common/Flag";
+import { InfoIcon } from "components/Icons";
 import FormInput from "components/common/Form/FormInput";
 import FormSelect from "components/common/Form/FormSelect";
 import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
@@ -32,6 +35,7 @@ const defaultValues: TCreateResourceAccount = {
   accountType: { label: "", value: "" },
   phoneNumber: "",
   userPrincipalName: "",
+  validDomains: { label: "", value: "" },
 };
 
 const typeSelect = [
@@ -75,10 +79,15 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
 
         location: string().required().label(t("Location")),
         userPrincipalName: string()
-          .email()
           .required()
           .label(t("Username (principal name)")),
         phoneNumber: string(),
+        validDomains: object()
+          .required()
+          .shape({
+            label: string(),
+            value: string().required().label(t("Domains")),
+          }),
       }),
     ),
     defaultValues,
@@ -93,7 +102,9 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
   const onSubmit: SubmitHandler<TCreateResourceAccount> = values => {
     // formatting for omit
     const validationPhoneNumber =
-      values.phoneNumber === "Unselect number" ? "phoneNumber" : "";
+      values.phoneNumber === "Unselect number" || values.phoneNumber === ""
+        ? "phoneNumber"
+        : "";
     // formatting data for request "Payload"
     const formatData = omit(
       {
@@ -101,7 +112,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
         displayName: values.displayName,
         location: values.location,
         phoneNumber: values.phoneNumber,
-        userPrincipalName: values.userPrincipalName,
+        userPrincipalName: `${values.userPrincipalName}@${values.validDomains.value}`,
       },
       [validationPhoneNumber],
     ) as TCreateResourceAccountPayloadStorage;
@@ -112,6 +123,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
 
   const isLoading =
     getIsLoading("@createMsTeamResourceAccount", byFetchType) ||
+    getIsLoading("@getVerifiedDomains", byFetchType) ||
     getIsLoading("@getFreeNumbers", byFetchType);
 
   return isLoading ? (
@@ -159,31 +171,64 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
           />
         )}
       />
-      <Controller
-        name="userPrincipalName"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Username (principal name)")}
-            {...field}
-            {...props}
-            className={classes.createSubscriptionInput}
+      <div className={classes.validDomainWrapper}>
+        <Controller
+          name="userPrincipalName"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Username (principal name)")}
+              {...field}
+              {...props}
+              className={classes.createSubscriptionInput}
+            />
+          )}
+        />
+        {ResourceAccountStorage.verifiedDomains.length > 0 && (
+          <Controller
+            name="validDomains"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormSelect
+                label={t("Valid Domains")}
+                options={[...ResourceAccountStorage.verifiedDomains]}
+                {...field}
+                {...props}
+              />
+            )}
           />
         )}
-      />
-      <Controller
-        name="phoneNumber"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormSelect
-            label={t("Phone number")}
-            options={["Unselect number", ...NumbersStore.freeNumbers]}
-            {...field}
-            {...props}
-            className={classes.selectNumber}
-          />
+      </div>
+      <div className={classes.phoneNumberBlock}>
+        <Controller
+          name="phoneNumber"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormSelect
+              disabled={
+                SubscriptionLicensesStore.licenses[0].inUse >=
+                SubscriptionLicensesStore.licenses[0].assigned
+              }
+              label={t("Phone number")}
+              options={["Unselect number", ...NumbersStore.freeNumbers]}
+              {...field}
+              {...props}
+              className={classes.selectNumber}
+            />
+          )}
+        />
+        {SubscriptionLicensesStore.licenses[0].inUse >=
+          SubscriptionLicensesStore.licenses[0].assigned && (
+          <Tooltip
+            placement="right"
+            title={t(
+              "Sorry, you cannot add any numbers because you don't have any licenses left",
+            )}
+          >
+            <InfoIcon className={classes.phoneNumberBlockIcon} />
+          </Tooltip>
         )}
-      />
+      </div>
       <Controller
         name="location"
         control={control}

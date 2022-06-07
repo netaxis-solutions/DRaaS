@@ -16,6 +16,7 @@ import {
   TModifyResourceAccount,
   TCountryCodes,
   TCreateResourceAccountPayloadStorage,
+  TValidDomains,
 } from "utils/types/resourceAccount";
 import {
   deleteNotification,
@@ -37,16 +38,19 @@ class ResourceAccount {
     value: string;
     image: JSX.Element;
   }> = [];
+  verifiedDomains: Array<{ label: string; value: string }> = [];
 
   constructor() {
     makeObservable(this, {
       resourceAccountsData: observable.ref,
       countryCode: observable.ref,
+      verifiedDomains: observable.ref,
 
       getCompleteMsTeamResourceAccounts: action,
       modifyMsTeamsResourceAccount: action,
       createMsTeamsResourceAccount: action,
       getCountryCode: action,
+      getVerifiedDomains: action,
       formattedCountry: computed,
     });
   }
@@ -179,6 +183,24 @@ class ResourceAccount {
         deleteNotification(t("Resource Account successfully deleted!"));
         this.getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
         callback && callback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  getVerifiedDomains = (tenantID: string, subscriptionID: string) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/domains`,
+      loaderName: "@getVerifiedDomains",
+    })
+      .then(({ data }: AxiosResponse<TValidDomains>) => {
+        const formatData = data.verifiedDomains.map(el => {
+          return { label: el, value: el };
+        });
+        runInAction(() => {
+          this.verifiedDomains = formatData;
+        });
       })
       .catch(e => {
         errorNotification(e);
