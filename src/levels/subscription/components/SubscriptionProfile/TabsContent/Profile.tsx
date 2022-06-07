@@ -3,6 +3,8 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string } from "yup";
 
 import SidebarConfig from "storage/singletons/SidebarConfig";
 import SubscriptionProfileStore from "storage/singletons/SubscriptionProfile";
@@ -20,6 +22,14 @@ const Profile: FC = () => {
   const classes = useProfileTabStyles();
   const [isRequestPending, setRequestPending] = useState(false);
   const { control, handleSubmit, setValue } = useForm({
+    resolver: yupResolver(
+      object().shape({
+        name: string().matches(/^[aA-zZ0-9\s]+$/, {
+          message: t("Use only letters and digits"),
+          excludeEmptyString: true,
+        }),
+      }),
+    ),
     defaultValues: { name: "" },
   });
 
