@@ -15,6 +15,16 @@ import {
 import TablePagination from "../TablePagination";
 import { t } from "services/Translation";
 
+type Attachment = {
+  id: number;
+  name: string;
+  createdBy: string;
+  description: string;
+  mimeType: string;
+  sizeInBytes: number;
+  createdOn: string;
+};
+
 class PortingRequestsStore {
   portingRequests: Array<RequestType> = [];
   currentRequestId: number | null = null;
@@ -22,7 +32,7 @@ class PortingRequestsStore {
   portingRequirements: PortingRequirements = [];
   defaultOperatorId: number | null = null;
   requiredDocuments: DocumentsType = [];
-  currentDocuments: Array<any> = [];
+  currentDocuments: Array<Attachment> = [];
   isCancelPending: boolean = false;
 
   constructor() {
