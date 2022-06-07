@@ -86,7 +86,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
           .required()
           .shape({
             label: string(),
-            value: string().required().label(t("Dimain")),
+            value: string().required().label(t("Domains")),
           }),
       }),
     ),
