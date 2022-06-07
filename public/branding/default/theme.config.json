@@ -163,7 +163,7 @@
       "fontWeight": "600",
       "background": "#FFFFFF",
       "fontSize": "2.4rem",
-      "textTransform": "uppercase",
+      "textTransform": "lowercase",
       "link": "#0061F1",
       "text": "#000000",
       "rowBorder": "1px solid #DDE7FF",
@@ -243,7 +243,7 @@
     "fontSize": "1.8rem",
     "fontWeight": "450",
     "borderBottom": "#DADDE5",
-    "textTransform": "uppercase",
+    "textTransform": "lowercase",
     "userProfile": {
       "white": "#EBEBF7",
       "primaryText": "#333333",

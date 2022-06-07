@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: theme.top_bar.fontWeight,
     borderBottom: `1px solid ${theme.top_bar.borderBottom}`,
     textTransform: theme.top_bar.textTransform,
+    fontVariant:"small-caps slashed-zero",
   },
   topBarLogoImage: {
     margin:
