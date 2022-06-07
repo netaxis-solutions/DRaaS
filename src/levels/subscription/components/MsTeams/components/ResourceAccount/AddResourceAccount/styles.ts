@@ -46,7 +46,7 @@ export const createResourceAccountStyles = makeStyles(
     },
     validDomainWrapper:{
       display:'flex',
-      gap:25,
+      gap:theme.spacing(3.050),
       "& > div:last-child":{
         width:250
       }

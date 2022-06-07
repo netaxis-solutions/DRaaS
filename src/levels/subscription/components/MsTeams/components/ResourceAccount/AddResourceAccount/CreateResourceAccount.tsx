@@ -184,18 +184,20 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
             />
           )}
         />
-        <Controller
-          name="validDomains"
-          control={control}
-          render={({ field, ...props }) => (
-            <FormSelect
-              label={t("Valid Domains")}
-              options={[...ResourceAccountStorage.verifiedDomains]}
-              {...field}
-              {...props}
-            />
-          )}
-        />
+        {ResourceAccountStorage.verifiedDomains.length > 0 && (
+          <Controller
+            name="validDomains"
+            control={control}
+            render={({ field, ...props }) => (
+              <FormSelect
+                label={t("Valid Domains")}
+                options={[...ResourceAccountStorage.verifiedDomains]}
+                {...field}
+                {...props}
+              />
+            )}
+          />
+        )}
       </div>
       <div className={classes.phoneNumberBlock}>
         <Controller
