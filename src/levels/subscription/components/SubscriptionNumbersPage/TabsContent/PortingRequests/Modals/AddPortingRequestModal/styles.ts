@@ -9,8 +9,6 @@ export const documentsStyles = makeStyles(() => ({
   },
 }));
 
-
-
 export const countryStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   countrySelect: {
     maxWidth: 400,
@@ -85,9 +83,6 @@ export const verificationStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   successStatus: { color: theme.palette.status.success },
   failStatus: {
-    display: "flex",
-    alignItems: "center",
-    gap: 5,
     color: theme.palette.status.error,
   },
 }));

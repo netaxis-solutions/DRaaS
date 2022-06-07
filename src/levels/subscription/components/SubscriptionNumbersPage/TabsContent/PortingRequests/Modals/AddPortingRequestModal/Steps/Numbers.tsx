@@ -1,108 +1,157 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 
 import MultiStepForm from "storage/singletons/MultiStepForm";
 
+import {
+  PortingNumberRangeType,
+  PortingNumbersErrors,
+} from "utils/types/numbers";
+import { t } from "services/Translation";
+
 import { numbersStyles } from "../styles";
 
-type defaultValuesType = {
-  rangeSize: string;
-  suggestionsAmount: string;
+// It's a translations for all possible errors
+const translations = {
+  "incorrect start": t("incorrect start"),
+  "incorrect length": t("incorrect length"),
+  "incorrect number": t("incorrect number"),
+  "range start incorrect start": t("range start incorrect start"),
+  "range start incorrect length": t("range start incorrect length"),
+  "range start incorrect number": t("range start incorrect number"),
+  "range end incorrect start": t("range end incorrect start"),
+  "range end incorrect length": t("range end incorrect length"),
+  "range end incorrect number": t("range end incorrect number"),
+  "numbers have different amount of digits": t(
+    "numbers have different amount of digits",
+  ),
+  "end < start": t("end < start"),
 };
 
-const defaultValues: defaultValuesType = {
-  rangeSize: "1",
-  suggestionsAmount: "1",
+// This function returns the number string without plus
+const getNumberWithoutPlus = (number: string) => {
+  return number.replace(/\+/g, "");
 };
 
+// This function checks if number is correct
 const checkIsNumberCorrect = (
   number: string,
   countryCode: string,
   minLength: number,
   maxLength: number,
 ) => {
-  const correctCountryCode = countryCode.replace(/\+/g, "");
+  const errorsList: Array<PortingNumbersErrors> = [];
 
-  if (number.indexOf(correctCountryCode) !== 0) {
-    return false;
+  if (number.indexOf(countryCode) !== 0) {
+    errorsList.push("incorrect start");
   }
 
-  if (number.length < minLength || number.length > maxLength) {
-    return false;
+  const correctNumber = getNumberWithoutPlus(number);
+
+  if (correctNumber.length < minLength || correctNumber.length > maxLength) {
+    errorsList.push("incorrect length");
   }
 
   try {
-    BigInt(number);
+    BigInt(correctNumber);
   } catch {
-    return false;
+    errorsList.push("incorrect number");
   }
 
-  return true;
+  return errorsList;
 };
 
+// This function checks if numbers range is correct
+const checkIsNumbersRangeCorrect = (
+  numbers: [string, string],
+  startsWith: string,
+  minLength: number,
+  maxLength: number,
+) => {
+  const errorsList: Array<PortingNumbersErrors> = [];
+
+  if (numbers[0].length !== numbers[1].length) {
+    errorsList.push("numbers have different amount of digits");
+  }
+
+  const rangeStartErrors = checkIsNumberCorrect(
+    numbers[0],
+    startsWith,
+    minLength,
+    maxLength,
+  ).map(error => "range start " + error) as Array<PortingNumbersErrors>;
+
+  const rangeEndErrors = checkIsNumberCorrect(
+    numbers[1],
+    startsWith,
+    minLength,
+    maxLength,
+  ).map(error => "range end " + error) as Array<PortingNumbersErrors>;
+
+  try {
+    if (
+      BigInt(getNumberWithoutPlus(numbers[0])) >
+      BigInt(getNumberWithoutPlus(numbers[1]))
+    ) {
+      errorsList.push("end < start");
+    }
+  } catch {}
+
+  return errorsList.concat(rangeStartErrors, rangeEndErrors);
+};
+
+// This function parses entered numbers and generates data
+// in appropriate format for every of it for displaying
 const parseNumbers = (
   rawNumbers: string,
   countryCode: string,
   minLength: number,
   maxLength: number,
 ) => {
-  const splittedNumbers = rawNumbers
-    .split("\n")
-    .filter(number => number)
-    .map(number => number.replace(/\s+/g, ""));
+  const splittedNumbers = rawNumbers.split("\n").filter(number => number);
 
   return splittedNumbers.reduce(
-    (
-      resultNumbers: Array<{
-        id: number;
-        from: string;
-        to?: string;
-        isCorrect: boolean;
-      }>,
-      number,
-      id,
-    ) => {
-      const splittedSubNumbers = number.split("-");
-      if (
-        splittedSubNumbers.length === 2 &&
-        splittedSubNumbers[1].length < splittedSubNumbers[0].length
-      ) {
-        splittedSubNumbers[1] =
-          splittedSubNumbers[0].slice(
-            0,
-            splittedSubNumbers[0].length - splittedSubNumbers[1].length,
-          ) + splittedSubNumbers[1];
-      }
+    (resultNumbers: Array<PortingNumberRangeType>, number, id) => {
+      const splittedSubNumbers = number
+        .split(/-(.*)/)
+        .map(number => number.trim())
+        .filter(number => number) as [string, string];
+
       const resultNumber =
         splittedSubNumbers.length === 2
           ? {
               id,
               from: splittedSubNumbers[0],
               to: splittedSubNumbers[1],
-              isCorrect:
-                checkIsNumberCorrect(
-                  splittedSubNumbers[0],
-                  countryCode,
-                  minLength,
-                  maxLength,
-                ) &&
-                checkIsNumberCorrect(
-                  splittedSubNumbers[1],
-                  countryCode,
-                  minLength,
-                  maxLength,
-                ),
+              errors: checkIsNumbersRangeCorrect(
+                splittedSubNumbers,
+                countryCode,
+                minLength,
+                maxLength,
+              ).reduce(
+                (keys: Array<JSX.Element>, currentKey) => [
+                  ...keys,
+                  translations[currentKey],
+                ],
+                [],
+              ),
             }
           : {
               id,
               from: number,
-              isCorrect: checkIsNumberCorrect(
+              errors: checkIsNumberCorrect(
                 number,
                 countryCode,
                 minLength,
                 maxLength,
+              ).reduce(
+                (keys: Array<JSX.Element>, currentKey) => [
+                  ...keys,
+                  translations[currentKey],
+                ],
+                [],
               ),
             };
 
@@ -110,6 +159,49 @@ const parseNumbers = (
     },
     [],
   );
+};
+
+// This function geneates random correct number
+const randomNumberGenerator = (
+  startWith: string,
+  minLength: number,
+  maxLength = minLength,
+) => {
+  const startValueWithoutPlus = getNumberWithoutPlus(startWith);
+  const multiplicator = maxLength - minLength + 1;
+  const iterationCount =
+    Math.floor(Math.random() * multiplicator + minLength) -
+    startValueWithoutPlus.length;
+
+  let res = startWith;
+
+  for (let i = 0; i < iterationCount; i++) {
+    res += Math.floor(Math.random() * 10);
+  }
+  return res;
+};
+
+// This function generates random correct range
+const generateRandomRange = (
+  startWith: string,
+  minLength: number,
+  maxLength: number,
+) => {
+  const multiplicator = maxLength - minLength + 1;
+
+  const numbersRangeLength = Math.floor(
+    Math.random() * multiplicator + minLength,
+  );
+
+  const rangeFrom = randomNumberGenerator(startWith, numbersRangeLength);
+
+  let rangeTo = "";
+
+  do {
+    rangeTo = randomNumberGenerator(startWith, numbersRangeLength);
+  } while (+getNumberWithoutPlus(rangeFrom) >= +getNumberWithoutPlus(rangeTo));
+
+  return `${rangeFrom} - ${rangeTo}`;
 };
 
 const Numbers: React.FC = () => {
@@ -123,9 +215,7 @@ const Numbers: React.FC = () => {
     minDigits: minLength,
     maxDigits: maxLength,
   } = previousChoices[0]?.country?.numbering;
-  const { handleSubmit } = useForm<defaultValuesType>({
-    defaultValues,
-  });
+  const { handleSubmit } = useForm();
 
   const onSubmit = () => {
     setPreviousChoices({
@@ -139,6 +229,13 @@ const Numbers: React.FC = () => {
     goNext();
   };
 
+  const numbersRange = useMemo(
+    () => generateRandomRange(countryCode, minLength, maxLength),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   return (
     <form
       id={"CreatePortingRequest"}
@@ -147,38 +244,42 @@ const Numbers: React.FC = () => {
     >
       <textarea
         value={textfieldValue}
-        placeholder={"Numbers"}
+        placeholder={t("Numbers")}
         onChange={event => setTextfieldValue(event.target.value)}
         className={classes.numbersTextArea}
       />
       <div className={classes.numbersDescription}>
-        {t("Please include Country Code, City/Area Code and the Local Number")}.
-        {t("For example")}:
+        {t("A valid number has following format")}:
+        <ul>
+          <li>
+            {t("starts with")}: {countryCode}
+          </li>
+          <li>
+            {minLength === maxLength ? (
+              <div>
+                {maxLength} {t("digits")}
+              </div>
+            ) : (
+              <div>
+                {t("between and digits", {
+                  minLength,
+                  maxLength,
+                })}
+              </div>
+            )}
+          </li>
+        </ul>
+        {t("You can either provide 1 number per line or a range of numbers")}
         <br />
         <br />
-        <div>35319609036</div>
-        <div>35 31 9609036</div>
-        <br />
-        {t(
-          "When porting multiple numbers, they must be listed in a column, for example",
-        )}
-        :
-        <br />
-        <br />
-        <div>35319609036</div>
-        <div>35319600837</div>
-        <div>35319603649</div>
-        <br />
-        {t(
-          "If a range of numbers is to be ported, please enter the numbers as follows",
-        )}
-        :
-        <br />
-        <br />
-        <div>35319609036 - 35319609046</div>
-        {t("or")}
-        <div>35319609036 - 46</div>
-        <br />
+        <div>{t("To add ranges")}:</div>
+        <ul>
+          <li>
+            {t("format")}: {numbersRange}
+          </li>
+          <li>{t("start and end must have the same amount of digits")}</li>
+          <li>{t("end >= start")}</li>
+        </ul>
       </div>
     </form>
   );
