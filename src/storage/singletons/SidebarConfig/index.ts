@@ -1,23 +1,13 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-import configStore from "../Config";
 import { request } from "services/api";
 import { errorNotification } from "utils/functions/notifications";
 import { TAddTenantValues } from "utils/types/tenant";
+import { SpecificSubscription } from "utils/types/subscriptions";
 
-import Tenant from "../Tenant";
 import BreadcrumbsStorage from "storage/singletons/Breadcrumbs";
+import configStore from "../Config";
+import Tenant from "../Tenant";
 import Login from "../Login";
-
-type SpecificSubscription = {
-  id: number;
-  name: string;
-  billingId: string;
-  licenses: {
-    msTeamsUsers: number;
-    sipTrunkChannels: number;
-  };
-  suspensionProfileId?: string;
-};
 
 class SidebarConfig {
   chosenCustomerID = "";

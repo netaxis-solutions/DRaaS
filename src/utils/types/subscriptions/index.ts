@@ -25,3 +25,32 @@ export type AddSubscriptionFormPropsType = {
 export type TDeleteSubscriptionsModalProps = TDeleteModalProps & {
   subscriptions: Array<SubscriptionItemType>;
 };
+
+export type SpecificSubscription = {
+  id: number;
+  name: string;
+  billingId: string;
+  licenses: {
+    msTeamsUsers: number;
+    sipTrunkChannels: number;
+  };
+  suspensionProfileId?: string;
+  msteamsAdmin?: {
+    msUsername: string;
+    status: string;
+  };
+  msteamsTenant?: {
+    id: string;
+    mode: string;
+  };
+  numberOfUsers: number;
+  numberOfTrunkgroups: number;
+  phoneNumbers: {
+    total: number;
+    free?: number;
+    linkedToUsers?: number;
+    linkedToTrunkgroups?: number;
+    linkedToOperatorConnect?: number;
+  };
+  isDeletable: boolean;
+};
