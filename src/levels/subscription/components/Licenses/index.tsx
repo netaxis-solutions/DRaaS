@@ -36,7 +36,7 @@ const License: FC = () => {
   const { allAvailvableRouting } = RoutingConfig;
 
   useEffect(() => {
-    if (params.tabID === ":tabID" && tabs && tabs.length) {
+    if (!tabs.some(({ id }) => id === params.tabID)) {
       const url = createLink({
         url: `${allAvailvableRouting.subscriptionLicenses}/:tabID?`,
         params: {

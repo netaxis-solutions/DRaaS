@@ -77,12 +77,12 @@ const MSTeams: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (params.tabID === ":tabID" && tabs && tabs.length) {
+    if (!filteredTabs.some(({ id }) => id === params.tabID)) {
       const url = createLink({
         url: `${allAvailvableRouting.subscriptionMSTeams}/:tabID?`,
         params: {
           ...params,
-          tabID: tabs[0].id,
+          tabID: filteredTabs[0].id,
         },
       });
       history.replace(url);

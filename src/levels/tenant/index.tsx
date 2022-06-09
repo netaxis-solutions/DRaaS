@@ -1,6 +1,6 @@
-import { lazy, useEffect } from "react";
+import { lazy, useEffect, useMemo } from "react";
 import { observer } from "mobx-react-lite";
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import { useParams } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
@@ -22,9 +22,34 @@ const Tenant = () => {
   const { setChosenCustomer } = SidebarConfig;
   const { getExactLevelReference } = Login;
 
+  const routesForRedirect = useMemo(
+    () => [
+      {
+        path: allAvailvableRouting.tenantSubscriptions,
+        to: allAvailvableRouting.tenantSubscriptions,
+      },
+      {
+        path: allAvailvableRouting.tenantRatePlan,
+        to: allAvailvableRouting.tenantRatePlan,
+      },
+      {
+        path: allAvailvableRouting.tenantProfile,
+        to: allAvailvableRouting.tenantProfile,
+      },
+      {
+        path: "/tenants/:tenantID",
+        to: allAvailvableRouting.tenantSubscriptions,
+      },
+      {
+        path: "",
+        to: allAvailvableRouting.tenantSubscriptions,
+      },
+    ],
+    [allAvailvableRouting],
+  );
+
   useEffect(() => {
     setChosenCustomer(params.tenantID || getExactLevelReference("tenant"));
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.tenantID]);
 
@@ -58,6 +83,10 @@ const Tenant = () => {
         path={allAvailvableRouting.tenantProfile}
         component={() => <div>tenantProfile</div>}
       />
+
+      {routesForRedirect.map(({ path, to }) => (
+        <Redirect path={`${path}*`} to={to} />
+      ))}
     </Switch>
   );
 };
