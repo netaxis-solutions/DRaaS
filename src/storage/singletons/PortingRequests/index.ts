@@ -5,7 +5,10 @@ import configStore from "../Config";
 import Login from "../Login";
 
 import { request } from "services/api";
-import { errorNotification } from "utils/functions/notifications";
+import {
+  errorNotification,
+  successNotification,
+} from "utils/functions/notifications";
 import {
   DocumentsType,
   PortingRequestPayload,
@@ -147,9 +150,14 @@ class PortingRequestsStore {
       route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subId}/porting/requests`,
       method: "post",
       payload,
-    }).then(data => {
-      successCallback && successCallback(data.data);
-    });
+    })
+      .then(data => {
+        successCallback && successCallback(data.data);
+        successNotification(t("Porting request successfully created!"));
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
   };
 
   getRequestInfoModalData = async (

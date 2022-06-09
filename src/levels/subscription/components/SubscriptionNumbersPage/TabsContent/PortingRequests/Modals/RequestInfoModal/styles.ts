@@ -26,6 +26,7 @@ export const requestModalStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       fill: `${theme.body.general.icons.whiteFill}!important`,
     },
   },
+
   buttonsWrapper: {
     position: "fixed",
     display: "flex",

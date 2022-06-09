@@ -130,9 +130,9 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
           {currentPortingRequest?.capabilities?.canBeCancelled && (
             <ButtonWithIcon
               onClick={() =>
-                !PortingRequestsStore.isCancelPending &&
                 cancelPortRequest(tenantID, subscriptionID, currentRequestId)
               }
+              disabled={PortingRequestsStore.isCancelPending}
               icon={Cross}
               title={t("Cancel")}
               className={classes.cancelButton}
