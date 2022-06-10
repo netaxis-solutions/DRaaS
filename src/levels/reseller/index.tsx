@@ -7,6 +7,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import RatePlans from "levels/admin/components/RatePlans";
 
 const Tenants = lazy(() => import("levels/admin/components/TenantsList"));
+const Admins = lazy(() => import("../admin/components/Admins"));
 
 const Reseller = () => {
   const { allAvailvableRouting } = RoutingConfig;
@@ -31,7 +32,7 @@ const Reseller = () => {
       <Route
         exact
         path={allAvailvableRouting.resellerAdmins}
-        component={() => <div>resellerAdmins</div>}
+        component={Admins}
       />
     </Switch>
   );

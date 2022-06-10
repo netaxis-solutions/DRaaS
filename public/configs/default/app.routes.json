@@ -5,7 +5,8 @@
     },
     "systemResellers": { "enabled": true },
     "systemTenants": { "enabled": true },
-    "systemRatePlan": { "enabled": true }
+    "systemRatePlan": { "enabled": true },
+    "systemAdmins": { "enabled": true }
   },
   "distributor": {
     "distributorResellers": { "enabled": true },
@@ -25,7 +26,7 @@
   "tenant": {
     "tenantSubscriptions": { "enabled": true },
     "tenantRatePlan": { "enabled": true },
-    "tenantAdmins": { "enabled": false },
+    "tenantAdmins": { "enabled": true },
     "tenantProfile": { "enabled": true }
   },
   "subscription": {

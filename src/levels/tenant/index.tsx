@@ -10,6 +10,7 @@ import Login from "storage/singletons/Login";
 import RatePlans from "levels/admin/components/RatePlans";
 
 const SubscriptionsList = lazy(() => import("./components/SubscriptionsList"));
+const Admins = lazy(() => import("../admin/components/Admins"));
 
 const Tenant = () => {
   const params = useParams<{ tenantID: string }>();
@@ -51,7 +52,7 @@ const Tenant = () => {
       <Route
         exact
         path={allAvailvableRouting.tenantAdmins}
-        component={() => <div>tenantAdmins</div>}
+        component={Admins}
       />
       <Route
         exact

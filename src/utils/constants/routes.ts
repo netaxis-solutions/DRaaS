@@ -20,6 +20,7 @@ export const privateRoutes: PrivateRoutesType = {
   systemResellers: "/resellers",
   systemTenants: "/tenants",
   systemRatePlan: "/rate-plan",
+  systemAdmins: "/admins",
   distributorResellers: "/resellers",
   distributorTenants: "/tenants",
   distributorLicenseConsumption: "/license-consumption",

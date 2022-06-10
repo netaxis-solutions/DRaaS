@@ -8,6 +8,7 @@ import RatePlans from "levels/admin/components/RatePlans";
 
 const Resellers = lazy(() => import("levels/admin/components/ResellersList"));
 const Tenants = lazy(() => import("levels/admin/components/TenantsList"));
+const Admins = lazy(() => import("../admin/components/Admins"));
 
 const Distributor = () => {
   const { allAvailvableRouting } = RoutingConfig;
@@ -37,7 +38,7 @@ const Distributor = () => {
       <Route
         exact
         path={allAvailvableRouting.distributorAdmins}
-        component={() => <div>distributorAdmins</div>}
+        component={Admins}
       />
       <Route
         exact
