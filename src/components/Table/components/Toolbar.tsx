@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 
 import { ToolbarType } from "utils/types/tableConfig";
 import TablePagination from "storage/singletons/TablePagination";
+import TableSearch from "storage/singletons/TableSearch";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import SearchInput from "components/common/SearchInput";
@@ -12,6 +13,7 @@ const Toolbar: React.FC<ToolbarType> = ({
   toolbarActions,
   setGlobalFilter,
   value = "",
+  customValue,
 }) => {
   const classes = useToolbarStyles();
 
@@ -20,6 +22,10 @@ const Toolbar: React.FC<ToolbarType> = ({
     liveSearch,
     tableWithOutServerPagination,
   } = TablePagination;
+
+  if (!value && customValue) {
+    setGlobalFilter(customValue);
+  }
 
   return (
     <div className={classes.tableToolbarWrapper}>
@@ -34,6 +40,7 @@ const Toolbar: React.FC<ToolbarType> = ({
         ) : (
           <SearchInput
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              TableSearch.setSearchValue(e.target.value);
               setGlobalFilter(e.target.value);
             }}
             value={value}
