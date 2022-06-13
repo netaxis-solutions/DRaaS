@@ -79,7 +79,7 @@ const RatePlansList: FC = () => {
       },
       {
         Header: t("Next update"),
-        accessor: "", //this accessor currently unkown
+        accessor: "nextUpdate",
       },
     ],
 
