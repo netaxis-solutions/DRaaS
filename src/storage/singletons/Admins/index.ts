@@ -8,15 +8,14 @@ import Login from "../Login";
 import { ResellerItemType } from "utils/types/resellers";
 import { TenantItemType } from "utils/types/tenant";
 import { DistributorItemType } from "utils/types/distributors";
-
 import { IAdminsData, IAdminsCreateFormatter } from "utils/types/admins";
-
-import { t } from "services/Translation";
-import { request } from "services/api";
 import {
   errorNotification,
   successNotification,
 } from "utils/functions/notifications";
+
+import { t } from "services/Translation";
+import { request } from "services/api";
 
 class AdminsStorage {
   admins: IAdminsData[] = [];
