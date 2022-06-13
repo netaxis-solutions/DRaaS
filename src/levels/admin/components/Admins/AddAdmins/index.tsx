@@ -7,19 +7,19 @@ import { useTranslation } from "react-i18next";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
+import { Skeleton } from "@mui/material";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import AdminsStorage from "storage/singletons/Admins";
-import PendingQueries from "storage/singletons/PendingQueries";
+import FormSelectWithLiveSearchStorage from "storage/singletons/FormSelectWithLiveSearch";
 
 import { IAdminsCreate } from "utils/types/admins";
 import { filterFalsyValues } from "utils/functions/objectFilters";
-import { getIsLoading } from "utils/functions/getIsLoading";
 
 import FormInput from "components/common/Form/FormInput";
 import RadioButtonIcon from "components/common/Form/FormRadioButton/RadioButtonIcon";
 import RadioButtonCheckedIcon from "components/common/Form/FormRadioButton/RadioButtonCheckedIcon";
-import FormSelect from "components/common/Form/FormSelect";
+import FormSelectWithLiveSearch from "components/common/Form/FormSelect/FormSelectWithLiveSearch";
 
 import useAdminsStyle from "../styles";
 
@@ -31,12 +31,14 @@ const defaultValues: IAdminsCreate = {
   entity: { label: "", value: "" },
 };
 
-const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
+const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
+  formId,
+  handleCancel,
+}) => {
   const { t } = useTranslation();
   const { loggedInUserLevel } = RoutingConfig;
-  const { byFetchType } = PendingQueries;
 
-  const [value, setValue] = useState<string>("MyLevel");
+  const [choosenLevel, setChoosenLevel] = useState<string>("MyLevel");
 
   const classes = useAdminsStyle();
 
@@ -46,13 +48,19 @@ const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
     createAdminsSystemLevel,
     createAdminsTenantLevel,
     getCurrentEntity,
-    currentEntity,
+    setSearchData,
+    clearSearch,
+    isLoadingCurrentAdmin,
   } = AdminsStorage;
 
+  const { cleanCurrentValue } = FormSelectWithLiveSearchStorage;
+
+  // function for change radio value
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
+    setChoosenLevel((event.target as HTMLInputElement).value);
   };
 
+  // form validation
   const { control, handleSubmit } = useForm<IAdminsCreate>({
     resolver: yupResolver(
       object().shape({
@@ -69,6 +77,7 @@ const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
     defaultValues,
   });
 
+  // form submit to current level
   const onSubmit = (value: IAdminsCreate) => {
     const payload =
       value.entity?.label === ""
@@ -78,30 +87,50 @@ const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
             lastName: value.lastName,
             mobile: value.mobile,
           }
-        : value;
+        : {
+            adminEmail: value.adminEmail,
+            firstName: value.firstName,
+            lastName: value.lastName,
+            mobile: value.mobile,
+            entity: value.entity?.value,
+          };
     switch (loggedInUserLevel) {
       case "system":
-        createAdminsSystemLevel(filterFalsyValues(payload));
+        createAdminsSystemLevel(filterFalsyValues(payload), () =>
+          handleCancel(),
+        );
         break;
       case "tenant":
-        createAdminsTenantLevel(filterFalsyValues(payload));
+        createAdminsTenantLevel(filterFalsyValues(payload), () =>
+          handleCancel(),
+        );
         break;
       case "reseller":
-        createAdminsResellerLevel(filterFalsyValues(payload));
+        createAdminsResellerLevel(filterFalsyValues(payload), () =>
+          handleCancel(),
+        );
         break;
       case "distributor":
-        createAdminsDistributorLevel(filterFalsyValues(payload));
+        createAdminsDistributorLevel(filterFalsyValues(payload), () =>
+          handleCancel(),
+        );
         break;
     }
   };
 
+  // function for clear storage and get current level data
   const selectLevel = (payload: string) => {
+    clearSearch();
+    cleanCurrentValue();
     if (payload !== "MyLevel") {
       getCurrentEntity(payload);
     }
   };
 
-  const isLoading = getIsLoading("@getCurrentEntity", byFetchType);
+  // live search for input
+  const search = (value: string) => {
+    setSearchData(value, choosenLevel);
+  };
 
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
@@ -142,7 +171,7 @@ const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
               name="row-radio-buttons-group"
-              defaultValue={value}
+              defaultValue={choosenLevel}
               onChange={handleChangeRadio}
             >
               <div className={classes.checkboxWrapper}>
@@ -161,13 +190,13 @@ const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
               {loggedInUserLevel === "system" ? (
                 <div className={classes.checkboxWrapper}>
                   <Radio
-                    value="distributor"
+                    value="distributors"
                     icon={<RadioButtonIcon className={classes.root} />}
                     checkedIcon={
                       <RadioButtonCheckedIcon className={classes.iconChecked} />
                     }
                     onClick={() => {
-                      selectLevel("distributor");
+                      selectLevel("distributors");
                     }}
                   />
                   <span>{t("Distributor")}</span>
@@ -178,13 +207,13 @@ const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
               loggedInUserLevel === "distributor" ? (
                 <div className={classes.checkboxWrapper}>
                   <Radio
-                    value="reseller"
+                    value="resellers"
                     icon={<RadioButtonIcon className={classes.root} />}
                     checkedIcon={
                       <RadioButtonCheckedIcon className={classes.iconChecked} />
                     }
                     onClick={() => {
-                      selectLevel("reseller");
+                      selectLevel("resellers");
                     }}
                   />
                   <span>{t("Reseller")}</span>
@@ -193,44 +222,45 @@ const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
 
               <div className={classes.checkboxWrapper}>
                 <Radio
-                  value="tenant"
+                  value="tenants"
                   icon={<RadioButtonIcon className={classes.root} />}
                   checkedIcon={
                     <RadioButtonCheckedIcon className={classes.iconChecked} />
                   }
                   onClick={() => {
-                    selectLevel("tenant");
+                    selectLevel("tenants");
                   }}
                 />
                 <span>{t("Tenant")}</span>
               </div>
             </RadioGroup>
           </FormControl>
-          {(currentEntity.length !== 0 && !isLoading) || value === "MyLevel" ? (
+          {!isLoadingCurrentAdmin || choosenLevel === "MyLevel" ? (
             <div className={classes.entitySelectWrapper}>
               <Controller
                 name="entity"
                 control={control}
                 render={({ field, ...props }) => (
-                  <FormSelect
-                    disabled={value === "MyLevel"}
+                  <FormSelectWithLiveSearch
+                    disabled={choosenLevel === "MyLevel"}
                     label={t("Entity")}
                     options={[...AdminsStorage.currentEntity]}
                     {...field}
                     {...props}
+                    onSearch={search}
                   />
                 )}
               />
             </div>
           ) : (
-            <span>Loading....</span>
+            <Skeleton width={400} height={70} />
           )}
         </>
       )}
 
       <div className={classes.noteText}>
         {`
-           ${t("Note")}:  ${t(
+           ${t("Note")}: ${t(
           "we will send a welcome mail to the provided e-mail address",
         )}
          `}

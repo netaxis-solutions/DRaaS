@@ -141,7 +141,12 @@ const Admins: FC = () => {
         <RightSideModal
           handleCancel={handleCloseModal}
           title={t("Add admin")}
-          children={<CreateAdmin formId={"createAdmin"} />}
+          children={
+            <CreateAdmin
+              formId={"createAdmin"}
+              handleCancel={handleCloseModal}
+            />
+          }
           submitButton={{
             formId: "createAdmin",
             type: "submit",
@@ -157,6 +162,7 @@ const Admins: FC = () => {
             <EditAdmins
               originalAdminValue={originalAdminValue}
               formId={"editAdmin"}
+              handleCancel={handleCloseModal}
             />
           }
           submitButton={{

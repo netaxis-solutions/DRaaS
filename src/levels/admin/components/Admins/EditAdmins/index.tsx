@@ -1,18 +1,17 @@
+// NOTE: This file wait for future implementation
 import { FC } from "react";
 
-const EditAdmins: FC<{ originalAdminValue: any; formId: string }> = ({
-  originalAdminValue,
-  formId,
-}) => {
-  console.log("formId", formId);
-  return (
-    <>
-      <h1>EDIT</h1>
-      {originalAdminValue.first_name}
-      <br />
-      {originalAdminValue.email}
-    </>
-  );
-};
+import { IAdminsData } from "utils/types/admins";
+
+const EditAdmins: FC<{
+  originalAdminValue: IAdminsData;
+  formId: string;
+  handleCancel: () => void;
+}> =
+  // @ts-ignore
+  // Wait for implement backend
+  ({ originalAdminValue, formId, handleCancel }) => {
+    return <></>;
+  };
 
 export default EditAdmins;

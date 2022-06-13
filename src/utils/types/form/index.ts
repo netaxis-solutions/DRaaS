@@ -58,9 +58,21 @@ export type RadioButtonType = {
   checked: boolean;
 };
 
+export type OptionValue = {
+  label: string;
+  value: string;
+};
+
 export type TSelectProps = {
   options: Array<{ value: string; label: string; image?: JSX.Element }>;
-  onChange: (value: { value: string; label: string } | null) => void;
+  onChange: (
+    value: OptionValue | null,
+    setValue?: (optionValue: OptionValue) => void,
+  ) => void;
+  onSearch?: (
+    value: OptionValue,
+    setValue?: (optionValue: OptionValue) => void,
+  ) => void;
   label: string;
   disabled?: boolean;
   helperText: string;
