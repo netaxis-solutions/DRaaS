@@ -12,6 +12,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   columnHeaderWrapper: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     gap: theme.spacing(1),
     textTransform: "uppercase",
   },
