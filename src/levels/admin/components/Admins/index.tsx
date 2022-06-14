@@ -56,10 +56,12 @@ const Admins: FC = () => {
       },
       {
         Header: t("Scope"),
+        // Wait API
         accessor: "",
       },
       {
         Header: t("Level"),
+        // Wait API
         accessor: "",
       },
       {
