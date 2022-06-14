@@ -244,5 +244,6 @@
   "we will link your teams tenant to our platform (SBC)": "we will link your teams tenant to our platform (SBC)",
   "we will setup the voice policies and routes accordingly": "we will setup the voice policies and routes accordingly",
   "within your tenant": "within your tenant",
-  "you don't have a valid user profile": "you don't have a valid user profile"
+  "you don't have a valid user profile": "you don't have a valid user profile",
+  "between and digits": "between {{minLength}} and {{maxLength}} digits"
 }

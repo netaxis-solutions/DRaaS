@@ -9,17 +9,14 @@ import MultiStepForm from "storage/singletons/MultiStepForm";
 import TablePagination from "storage/singletons/TablePagination";
 import PortingRequests from "storage/singletons/PortingRequests";
 
+import { PortingNumberRangeType } from "utils/types/numbers";
+
 import Table from "components/Table";
-import Tooltip from "components/Tooltip";
-import { InfoIcon } from "components/Icons";
 
 import { verificationStyles } from "../styles";
 
-type NumberRange = {
-  id: number;
-  from: string;
-  to?: string;
-  isCorrect: boolean;
+const getNumberWithoutPlus = (number: string) => {
+  return number.replace(/\+/g, "");
 };
 
 const Verification: React.FC = () => {
@@ -36,7 +33,7 @@ const Verification: React.FC = () => {
     subscriptionID: string;
   }>();
   const { clearTablePagesWithoutServerPaginations } = TablePagination;
-  const [numbers, setNumbers] = useState<Array<NumberRange>>(
+  const [numbers, setNumbers] = useState<Array<PortingNumberRangeType>>(
     MultiStepForm.previousChoices[2].portingNumbers,
   );
   const { defaultOperatorId, createPortingRequest } = PortingRequests;
@@ -59,23 +56,19 @@ const Verification: React.FC = () => {
         accessor: "to",
       },
       {
-        Header: t("Status"),
-        accessor: "isCorrect",
-        Cell: ({ value }: CellProps<TableProps>) => {
-          return value ? (
-            <div className={classes.successStatus}>{t("Success")}</div>
-          ) : (
+        Header: t("Valid"),
+        accessor: "errors",
+        Cell: ({
+          value,
+        }: CellProps<TableProps, Array<PortingNumberRangeType>>) => {
+          return value.length ? (
             <div className={classes.failStatus}>
-              {t("Error")}
-              <Tooltip
-                placement={"left"}
-                title={t(
-                  "This number(s) will not be included in the request as it is/they are provided incorrectly",
-                )}
-              >
-                <InfoIcon className={classes.tooltipIcon} />
-              </Tooltip>
+              {value.map(error => (
+                <div>{error}</div>
+              ))}
             </div>
+          ) : (
+            <div className={classes.successStatus}>{t("Ok")}</div>
           );
         },
       },
@@ -85,13 +78,20 @@ const Verification: React.FC = () => {
     [t],
   );
 
+  // This submit function is used for
+  // filtering out incorrect numbers and ranges
+  // and after that changing the data format for an appropriate one
+  // and sending this data to the backend
   const onSubmit = () => {
     const formattedNumbers = numbers
-      .filter(number => number.isCorrect)
+      .filter(number => !number.errors.length)
       .reduce(
         (sum: Array<{ from: string; to?: string }>, curr) => [
           ...sum,
-          { from: curr.from, to: curr.to },
+          {
+            from: getNumberWithoutPlus(curr.from),
+            to: curr.to && getNumberWithoutPlus(curr.to),
+          },
         ],
         [],
       );
@@ -123,12 +123,12 @@ const Verification: React.FC = () => {
   const handleDeleteItem = (props: any) => {
     setSpecificStepChoice(2, {
       portingNumbers: MultiStepForm.previousChoices[2].portingNumbers.filter(
-        (number: NumberRange) => number.id !== props.row.original.id,
+        (number: PortingNumberRangeType) => number.id !== props.row.original.id,
       ),
     });
     setNumbers(
       MultiStepForm.previousChoices[2].portingNumbers.filter(
-        (number: NumberRange) => number.id !== props.row.original.id,
+        (number: PortingNumberRangeType) => number.id !== props.row.original.id,
       ),
     );
   };

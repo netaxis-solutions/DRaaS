@@ -113,3 +113,23 @@ export type PortingRequestPayload = {
   customerId?: string;
   note?: string;
 };
+
+export type PortingNumberRangeType = {
+  id: number;
+  from: string;
+  to?: string;
+  errors: Array<JSX.Element>;
+};
+
+export type PortingNumbersErrors =
+  | "incorrect start"
+  | "incorrect length"
+  | "incorrect number"
+  | "range start incorrect start"
+  | "range start incorrect length"
+  | "range start incorrect number"
+  | "range end incorrect start"
+  | "range end incorrect length"
+  | "range end incorrect number"
+  | "numbers have different amount of digits"
+  | "end < start";
