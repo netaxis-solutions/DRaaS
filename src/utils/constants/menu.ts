@@ -6,6 +6,7 @@ const adminMenu = [
   { key: "systemResellers", name: t("Resellers") },
   { key: "systemTenants", name: t("Tenants") },
   { key: "systemRatePlan", name: t("Rate plan") },
+  { key: "systemAdmins", name: t("Admins") },
 ];
 
 const distributorMenu = [
@@ -13,7 +14,7 @@ const distributorMenu = [
   { key: "distributorTenants", name: t("Tenants") },
   { key: "distributorLicenseConsumption", name: t("License Consumption") },
   { key: "distributorRatePlan", name: t("Rate Plan") },
-  { key: "distributorAdmins", name: t("Users") },
+  { key: "distributorAdmins", name: t("Admins") },
   { key: "distributorProfile", name: t("Profile") },
 ];
 
@@ -21,7 +22,7 @@ const resellerMenu = [
   { key: "resellerTenants", name: t("Tenants") },
   { key: "resellerLicenseConsumption", name: t("License Consumption") },
   { key: "resellerRatePlan", name: t("Rate Plan") },
-  { key: "resellerAdmins", name: t("Users") },
+  { key: "resellerAdmins", name: t("Admins") },
   { key: "resellerProfile", name: t("Profile") },
 ];
 
@@ -45,6 +46,11 @@ const tenantMenu = [
   {
     key: "tenantProfile",
     name: t("Profile"),
+    // rule: "tenants.instance.read"
+  },
+  {
+    key: "tenantAdmins",
+    name: t("Admins"),
     // rule: "tenants.instance.read"
   },
 ];

@@ -98,6 +98,7 @@ export type RoutingConfigType = {
     systemDistributors: { enabled: boolean };
     systemRatePlan: { enabled: boolean };
     systemResellers: { enabled: boolean };
+    systemAdmins: { enabled: boolean };
   };
   distributor: {
     distributorAdmins: { enabled: boolean };
