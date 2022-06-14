@@ -11,15 +11,12 @@ export type IAdminsData = {
 export type IAdminsOfData = {
   level: string;
   reference: string;
-  name: IAdminsNameData[];
+  obj: IAdminsNameData;
 };
 
 export type IAdminsNameData = {
-  ExternalReference: string;
-  ID: number;
-  Level: string;
-  Name: string;
-  Reference: string;
+  id: number;
+  name: string;
 };
 
 export type IAdminsCreate = {

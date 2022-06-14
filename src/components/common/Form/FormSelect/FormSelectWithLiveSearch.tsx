@@ -27,10 +27,10 @@ export const Select: React.FC<TSelectProps> = ({
     onChange(value);
   };
 
-  const onChangeTextField = (event: any) => {
+  const onChangeTextField = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setValue(newValue);
-    onSearch && onSearch(newValue, setValue);
+    onSearch && onSearch({ label: newValue, value: newValue }, setValue);
   };
 
   return (

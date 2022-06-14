@@ -17,14 +17,16 @@ import {
 import { t } from "services/Translation";
 import { request } from "services/api";
 
+type IChooseLevel =
+  | { [distributors: string]: DistributorItemType[] }
+  | { [resellers: string]: ResellerItemType[] }
+  | { [tenants: string]: TenantItemType[] };
+
 class AdminsStorage {
   admins: IAdminsData[] = [];
-  currentEntity:
-    | DistributorItemType[]
-    | TenantItemType[]
-    | ResellerItemType[] = [];
+  currentEntity: Array<{ label: string; value: string }> = [];
   liveSearch: string = "";
-  currentLevel: string = "";
+  currentLevel: "distributors" | "tenants" | "resellers" = "distributors";
   isLoadingCurrentAdmin: boolean = false;
 
   constructor() {
@@ -56,6 +58,7 @@ class AdminsStorage {
       })
       .catch(e => {
         errorNotification(e);
+        this.admins = [];
       });
   };
 
@@ -147,7 +150,9 @@ class AdminsStorage {
   };
 
   // get Reseller \ Distributor \ Tenant
-  getCurrentEntity = (currentSelect: string) => {
+  getCurrentEntity = (
+    currentSelect: "distributors" | "tenants" | "resellers",
+  ) => {
     runInAction(() => {
       this.isLoadingCurrentAdmin = true;
       this.currentEntity = [];
@@ -157,9 +162,9 @@ class AdminsStorage {
       loaderName: "@getCurrentEntity",
       method: "get",
     })
-      .then(({ data }: AxiosResponse<any>) => {
+      .then(({ data }: AxiosResponse<IChooseLevel>) => {
         const currentData = data[currentSelect];
-        const formattingCurrentData = currentData.map((el: any) => {
+        const formattingCurrentData = currentData.map(el => {
           return { label: el.name, value: el.uuid };
         });
         runInAction(() => {
@@ -176,10 +181,14 @@ class AdminsStorage {
   };
 
   // Config for live search
-  setSearchData = (payload: string, currentLevel: string) => {
+  setSearchData = (
+    payload: { label: string; value: string },
+    currentLevel: "distributors" | "tenants" | "resellers",
+  ) => {
+    console.log(payload);
     runInAction(() => {
       this.currentLevel = currentLevel;
-      this.liveSearch = payload;
+      this.liveSearch = payload.value;
       this.startSearch();
     });
   };

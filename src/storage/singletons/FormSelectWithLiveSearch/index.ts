@@ -8,9 +8,9 @@ class FormSelectWithLiveSearchStorage {
   }
 
   // set new current value to input
-  setNewValue = (payload: { label: string; value: string }) => {
+  setNewValue = (payload: string) => {
     runInAction(() => {
-      this.currentValue = payload;
+      this.currentValue = { label: payload, value: payload };
     });
   };
 

@@ -67,11 +67,11 @@ export type TSelectProps = {
   options: Array<{ value: string; label: string; image?: JSX.Element }>;
   onChange: (
     value: OptionValue | null,
-    setValue?: (optionValue: OptionValue) => void,
+    setValue?: (optionValue: OptionValue | string) => void,
   ) => void;
   onSearch?: (
     value: OptionValue,
-    setValue?: (optionValue: OptionValue) => void,
+    setValue?: (optionValue: string) => void,
   ) => void;
   label: string;
   disabled?: boolean;

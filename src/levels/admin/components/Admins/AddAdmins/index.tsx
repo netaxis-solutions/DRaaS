@@ -38,7 +38,9 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
   const { t } = useTranslation();
   const { loggedInUserLevel } = RoutingConfig;
 
-  const [choosenLevel, setChoosenLevel] = useState<string>("MyLevel");
+  const [choosenLevel, setChoosenLevel] = useState<
+    "distributors" | "tenants" | "resellers" | "MyLevel"
+  >("MyLevel");
 
   const classes = useAdminsStyle();
 
@@ -57,7 +59,13 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
 
   // function for change radio value
   const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChoosenLevel((event.target as HTMLInputElement).value);
+    setChoosenLevel(
+      event.target.value as
+        | "distributors"
+        | "tenants"
+        | "resellers"
+        | "MyLevel",
+    );
   };
 
   // form validation
@@ -119,7 +127,9 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
   };
 
   // function for clear storage and get current level data
-  const selectLevel = (payload: string) => {
+  const selectChooseLevelData = (
+    payload: "distributors" | "tenants" | "resellers" | "MyLevel",
+  ) => {
     clearSearch();
     cleanCurrentValue();
     if (payload !== "MyLevel") {
@@ -128,8 +138,10 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
   };
 
   // live search for input
-  const search = (value: string) => {
-    setSearchData(value, choosenLevel);
+  const search = (value: { label: string; value: string }) => {
+    if (choosenLevel !== "MyLevel") {
+      setSearchData(value, choosenLevel);
+    }
   };
 
   return (
@@ -182,7 +194,7 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
                     <RadioButtonCheckedIcon className={classes.iconChecked} />
                   }
                   onClick={() => {
-                    selectLevel("MyLevel");
+                    selectChooseLevelData("MyLevel");
                   }}
                 />
                 <span>{t("My level")}</span>
@@ -196,7 +208,7 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
                       <RadioButtonCheckedIcon className={classes.iconChecked} />
                     }
                     onClick={() => {
-                      selectLevel("distributors");
+                      selectChooseLevelData("distributors");
                     }}
                   />
                   <span>{t("Distributor")}</span>
@@ -213,7 +225,7 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
                       <RadioButtonCheckedIcon className={classes.iconChecked} />
                     }
                     onClick={() => {
-                      selectLevel("resellers");
+                      selectChooseLevelData("resellers");
                     }}
                   />
                   <span>{t("Reseller")}</span>
@@ -228,7 +240,7 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
                     <RadioButtonCheckedIcon className={classes.iconChecked} />
                   }
                   onClick={() => {
-                    selectLevel("tenants");
+                    selectChooseLevelData("tenants");
                   }}
                 />
                 <span>{t("Tenant")}</span>

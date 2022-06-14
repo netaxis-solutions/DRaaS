@@ -11,6 +11,7 @@ import TablePagination from "storage/singletons/TablePagination";
 
 import { getIsLoading } from "utils/functions/getIsLoading";
 import { TableData } from "utils/types/tableConfig";
+import { IAdminsData, IAdminsOfData } from "utils/types/admins";
 
 import { Plus, Trash, Edit } from "components/Icons";
 import TableSkeleton from "components/Table/Skeleton";
@@ -23,7 +24,9 @@ const Admins: FC = () => {
   const { t } = useTranslation();
 
   const [modalToOpen, setModalToOpen] = useState("");
-  const [originalAdminValue, setOriginalAdminValue] = useState<any>({});
+  const [originalAdminValue, setOriginalAdminValue] = useState<
+    IAdminsData | {}
+  >({});
 
   const { getAdmins, admins, clearStorage } = AdminsStorage;
   const { byFetchType } = PendingQueries;
@@ -63,8 +66,8 @@ const Admins: FC = () => {
         Header: t("Admin of"),
         accessor: "admin_of",
         Cell: ({ cell }: CellProps<TableProps>) => {
-          return cell.value.map((el: any) => {
-            return <p>{el.name}</p>;
+          return cell.value.map((el: IAdminsOfData) => {
+            return <p>{el.obj?.name}</p>;
           });
         },
       },
@@ -84,7 +87,7 @@ const Admins: FC = () => {
     },
     {
       id: "add",
-      title: "Add",
+      title: t("Add"),
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
@@ -160,7 +163,7 @@ const Admins: FC = () => {
           title={t("Edit admin")}
           children={
             <EditAdmins
-              originalAdminValue={originalAdminValue}
+              originalAdminValue={originalAdminValue as IAdminsData}
               formId={"editAdmin"}
               handleCancel={handleCloseModal}
             />
