@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
-import { lazy } from "react";
+import { lazy, useMemo } from "react";
 import { Route, Switch } from "react-router";
+import { Redirect } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
@@ -11,6 +12,40 @@ const Tenants = lazy(() => import("levels/admin/components/TenantsList"));
 
 const Distributor = () => {
   const { allAvailvableRouting } = RoutingConfig;
+
+  const routesForRedirect = useMemo(
+    () => [
+      {
+        path: allAvailvableRouting.distributorResellers,
+        to: allAvailvableRouting.distributorResellers,
+      },
+      {
+        path: allAvailvableRouting.distributorTenants,
+        to: allAvailvableRouting.distributorTenants,
+      },
+      {
+        path: allAvailvableRouting.distributorLicenseConsumption,
+        to: allAvailvableRouting.distributorLicenseConsumption,
+      },
+      {
+        path: allAvailvableRouting.distributorRatePlan,
+        to: allAvailvableRouting.distributorRatePlan,
+      },
+      {
+        path: allAvailvableRouting.distributorAdmins,
+        to: allAvailvableRouting.distributorAdmins,
+      },
+      {
+        path: allAvailvableRouting.distributorProfile,
+        to: allAvailvableRouting.distributorProfile,
+      },
+      {
+        path: "",
+        to: allAvailvableRouting.distributorTenants,
+      },
+    ],
+    [allAvailvableRouting],
+  );
 
   return (
     <Switch>
@@ -44,6 +79,10 @@ const Distributor = () => {
         path={allAvailvableRouting.distributorProfile}
         component={() => <div>distributorProfile</div>}
       />
+
+      {routesForRedirect.map(({ path, to }) => (
+        <Redirect path={`${path}*`} to={to} />
+      ))}
     </Switch>
   );
 };

@@ -1,7 +1,7 @@
-import { lazy, useEffect } from "react";
+import { lazy, useEffect, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { Route, Switch } from "react-router";
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 
 import MsTeamAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import RoutingConfig from "storage/singletons/RoutingConfig";
@@ -40,6 +40,36 @@ const Subscription = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedInUserLevel]);
 
+  const routesForRedirect = useMemo(
+    () => [
+      {
+        path: allAvailvableRouting.subscriptionLicenses,
+        to: allAvailvableRouting.subscriptionLicenses,
+      },
+      {
+        path: allAvailvableRouting.subscriptionNumbers,
+        to: allAvailvableRouting.subscriptionNumbers,
+      },
+      {
+        path: allAvailvableRouting.subscriptionMSTeams,
+        to: allAvailvableRouting.subscriptionMSTeams,
+      },
+      {
+        path: allAvailvableRouting.subscriptionSIPTrunks,
+        to: allAvailvableRouting.subscriptionSIPTrunks,
+      },
+      {
+        path: allAvailvableRouting.subscriptionProfile,
+        to: allAvailvableRouting.subscriptionProfile,
+      },
+      {
+        path: "/tenants/:tenantID/subscriptions/:subscriptionID",
+        to: allAvailvableRouting.subscriptionLicenses,
+      },
+    ],
+    [allAvailvableRouting],
+  );
+
   return (
     <Switch>
       <Route
@@ -67,6 +97,10 @@ const Subscription = () => {
         path={`${allAvailvableRouting.subscriptionProfile}/:tabID?`}
         component={() => <SubscriptionProfile />}
       />
+
+      {routesForRedirect.map(({ path, to }) => (
+        <Redirect path={`${path}*`} to={to} />
+      ))}
     </Switch>
   );
 };
