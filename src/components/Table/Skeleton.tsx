@@ -31,7 +31,7 @@ const TableSkeleton: FC<{
         <div className={classes.tableToolbarSkeleton}>
           <Skeleton
             variant="rectangular"
-            height={54}
+            height={71}
             width={"calc(100% - 100px)"}
           />
           <Skeleton variant="rectangular" height={54} width={90} />

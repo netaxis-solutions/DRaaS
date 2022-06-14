@@ -90,9 +90,10 @@
         "text": "#000000",
         "imageBackground": "transparent",
         "headerBGActionWrap": "#DDE7FF",
+        "borderBottom":"transparent",
         "active": {
           "backgroundHover": "#EAEEFC",
-          "backgroundSelected": "##EAEEFC",
+          "backgroundSelected": "#EAEEFC",
           "imageColor": "#FFFFFF"
         }
       },
@@ -150,6 +151,7 @@
       "text": "#000000",
       "rowBorder": "1px solid #DDE7FF",
       "bodyBorder": "#EBEBF7",
+      "rowHeight":"46px",
       "action": {
         "rowBackground": "#F5F7FF"
       }

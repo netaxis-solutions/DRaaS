@@ -14,12 +14,20 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       color: theme.body.table.text,
     },
 
+    "& tr": {
+      height: theme.body.table.rowHeight,
+    },
+
     "& tbody tr td": {
       borderBottom: theme.body.table.rowBorder,
     },
 
     "& tbody tr:hover": {
       background: theme.body.table.action.rowBackground,
+    },
+
+    "& thead th": {
+      borderBottom: `1px solid ${theme.body.table.header.borderBottom}`,
     },
 
     "& thead  tr th:first-child": {
@@ -44,7 +52,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: theme.body.table.fontWeight,
     fontSize: theme.body.table.fontSize,
     textTransform: theme.body.table.textTransform,
-    fontVariant:"small-caps slashed-zero",
+    fontVariant: "small-caps slashed-zero",
     display: "block",
     marginBottom: "20px",
     marginLeft: theme.spacing(0.5),
@@ -64,7 +72,8 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
     color: theme.body.table.title,
     textTransform: theme.body.table.textTransform,
-    fontVariant:"small-caps slashed-zero",
+    fontVariant: "small-caps slashed-zero",
+    height: theme.body.table.rowHeight,
   },
   checkboxSkeletonCell: {
     width: 70,
@@ -76,18 +85,17 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     textAlign: "right",
     color: theme.body.table.title,
     textTransform: theme.body.table.textTransform,
-    fontVariant:"small-caps slashed-zero",
+    fontVariant: "small-caps slashed-zero",
     fontWeight: 450,
   },
   bodySkeletonCell: {
     border: "none",
-    height: 54,
+    height: theme.body.table.rowHeight,
   },
   actionsBodySkeletonCell: {
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
-    
   },
   action: {
     marginLeft: 10,
@@ -113,10 +121,9 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: theme.body.table.fontWeight,
     fontSize: theme.body.table.fontSize,
     textTransform: theme.body.table.textTransform,
-    fontVariant:"small-caps slashed-zero",
+    fontVariant: "small-caps slashed-zero",
     display: "block",
     marginBottom: "20px",
-    
   },
   tableToolbarSkeleton: {
     width: "100%",
