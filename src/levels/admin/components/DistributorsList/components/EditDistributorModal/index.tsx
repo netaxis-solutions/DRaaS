@@ -1,7 +1,9 @@
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
+import { Skeleton } from "@mui/material";
 
 import Distributor from "storage/singletons/Distributor";
 import RightSideModal from "storage/singletons/RightSideModal";
@@ -24,15 +26,37 @@ const EditDistributorModal: React.FC<{
   originalDistributorValues: { uuid: distributorId, ...defaultValues },
   formId,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const classes = useEditDistributorStyles();
-  const { control, handleSubmit } = useForm<TEditDistributorPayload>({
+  const { control, handleSubmit, setValue } = useForm<TEditDistributorPayload>({
     resolver: yupResolver(editDistributorSchema(t)),
     defaultValues,
   });
 
   const { currentDelayedModalCloseAction, setSubmitPending } = RightSideModal;
-  const { editDistributor } = Distributor;
+  const { editDistributor, getSpecificDistributor } = Distributor;
+
+  useEffect(() => {
+    setIsLoading(true);
+    getSpecificDistributor(distributorId, () => {
+      setValue(
+        "markup",
+        String(
+          Distributor.specificDistributor?.markups?.reduce(
+            (currMax: { markup: null | number; startDate: string }, curr) =>
+              Date.parse(currMax.startDate) > Date.parse(curr.startDate)
+                ? currMax
+                : curr,
+            { markup: null, startDate: "0" },
+          )?.markup ?? "",
+        ),
+      );
+      setIsLoading(false);
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // After successfully passed validation this function
   // sends a put request for modifying current distributor
@@ -51,7 +75,14 @@ const EditDistributorModal: React.FC<{
     }
   };
 
-  return (
+  return isLoading ? (
+    <div className={classes.skeletonsWrapper}>
+      <Skeleton />
+      <Skeleton variant="rectangular" height={40} />
+      <Skeleton variant="rectangular" height={40} />
+      <Skeleton variant="rectangular" height={40} />
+    </div>
+  ) : (
     <form id={formId} onSubmit={handleSubmit(onSubmit)}>
       <div className={classes.idField}>
         <span className={classes.idText}>{t("UUID")}:</span>

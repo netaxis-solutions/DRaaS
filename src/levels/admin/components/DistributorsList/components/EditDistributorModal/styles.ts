@@ -14,6 +14,11 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     marginRight: theme.spacing(2),
   },
   idValue: { color: theme.side_bar.distributor.editModal.idValue },
+  skeletonsWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(2),
+  },
 }));
 
 export default useEditDistributorStyles;

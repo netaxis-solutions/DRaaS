@@ -1,4 +1,5 @@
-import { makeObservable } from "mobx";
+import { AxiosResponse } from "axios";
+import { makeAutoObservable, runInAction } from "mobx";
 
 import configStore from "../Config";
 import DistributorsStore from "../Distributors";
@@ -8,12 +9,16 @@ import {
   errorNotification,
   successNotification,
 } from "utils/functions/notifications";
-import { TCreateDistributor } from "utils/types/distributor";
+import {
+  SpecificDistributorType,
+  TCreateDistributor,
+} from "utils/types/distributor";
 import { TEditDistributorPayload } from "utils/types/distributors";
 
 class DistributorStore {
+  specificDistributor?: SpecificDistributorType;
   constructor() {
-    makeObservable(this, {});
+    makeAutoObservable(this);
   }
 
   createDistributor = ({ payload, callback }: TCreateDistributor) => {
@@ -60,6 +65,21 @@ class DistributorStore {
       .catch(e => {
         errorNotification(e);
       });
+  };
+
+  getSpecificDistributor = (
+    distributorId: string,
+    successCallback?: () => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/distributors/${distributorId}`,
+      loaderName: "@getSpecificDistributor",
+    }).then(({ data }: AxiosResponse<SpecificDistributorType>) => {
+      runInAction(() => {
+        this.specificDistributor = data;
+      });
+      successCallback && successCallback();
+    });
   };
 }
 

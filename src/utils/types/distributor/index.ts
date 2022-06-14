@@ -15,3 +15,11 @@ export type TDeleteDistributor = {
 export type AddDistributorFormPropsType = {
   handleCancel: () => void;
 };
+
+export type SpecificDistributorType = {
+  uuid: string;
+  name: string;
+  billingId: string;
+  markups?: Array<{ markup: number; startDate: string }>;
+  status?: string;
+};
