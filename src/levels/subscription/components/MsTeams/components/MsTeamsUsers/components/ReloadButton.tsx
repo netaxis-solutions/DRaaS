@@ -8,7 +8,10 @@ import MsTeamsStore from "storage/singletons/MsTeams";
 
 import useStyles from "../styles";
 
-const ReloadButton: FC<{ id: string }> = ({ id }) => {
+const ReloadButton: FC<{ id: string; successAction?: () => void }> = ({
+  id,
+  successAction,
+}) => {
   const classes = useStyles();
   const [isChecking, setChecking] = useState(false);
   const { tenantID, subscriptionID } = useParams<{
@@ -34,6 +37,7 @@ const ReloadButton: FC<{ id: string }> = ({ id }) => {
                 id,
                 () => {
                   setChecking(false);
+                  successAction && successAction();
                 },
               );
             }

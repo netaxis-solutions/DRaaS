@@ -15,6 +15,7 @@ import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
 import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import TableSearch from "storage/singletons/TableSearch";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 import { getIsLoading } from "utils/functions/getIsLoading";
@@ -68,7 +69,10 @@ const MsTeamsUsers: FC = () => {
     getMsTeamUsers(tenantID, subscriptionID);
     getFreeNumbers(tenantID, subscriptionID);
 
-    return () => clearPaginationData();
+    return () => {
+      TableSearch.clearTableSearch();
+      clearPaginationData();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -194,6 +198,7 @@ const MsTeamsUsers: FC = () => {
             <div
               className={clsx(classes.icon, classes.reloadButton)}
               onClick={() => {
+                TableSearch.clearTableSearch();
                 getMsTeamUsers(tenantID, subscriptionID);
               }}
             >
@@ -201,6 +206,7 @@ const MsTeamsUsers: FC = () => {
             </div>
           </div>
         }
+        customSearchValue={TableSearch.searchValue}
         columns={columns}
         data={msTeamUsersList}
         tooltipEditButton={{

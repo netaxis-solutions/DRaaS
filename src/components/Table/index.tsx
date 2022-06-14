@@ -47,6 +47,7 @@ const Table: FC<TableProps> = ({
   customActions,
   tooltipTrashButton,
   tooltipEditButton,
+  customSearchValue,
   actionsDataFormatter,
   isCheckboxAvailable,
   isGeneralCheckboxSelected,
@@ -448,6 +449,7 @@ const Table: FC<TableProps> = ({
         <Toolbar
           setGlobalFilter={setGlobalFilter}
           value={state.globalFilter}
+          customValue={customSearchValue}
           toolbarActions={
             toolbarActions
               ? deleteAvailable

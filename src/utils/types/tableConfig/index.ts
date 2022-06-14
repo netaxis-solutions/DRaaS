@@ -48,6 +48,7 @@ export type TableProps = {
   isEditable?: boolean;
   isRemovable?: boolean;
   radioButton?: boolean;
+  customSearchValue?: string;
   customActions?: Array<CustomActionType>;
   actionsDataFormatter?: (
     row: Row<TableData>,
@@ -75,6 +76,7 @@ export type ToolbarType = {
   toolbarActions: Array<ToolbarActionType>;
   setGlobalFilter: (object: string) => void;
   value: string;
+  customValue?: string;
 };
 
 export type TableBodyType = {
