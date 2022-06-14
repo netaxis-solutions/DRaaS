@@ -43,6 +43,11 @@ export const useProfileTabStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     gap: theme.spacing(1.25),
   },
+  textWithButtonWrapper: {
+    display: "flex",
+    gap: theme.spacing(1.25),
+    alignItems: "center",
+  },
 }));
 
 export const useLocationTableStyles = makeStyles(

@@ -105,6 +105,29 @@ class SubscriptionsStore {
       });
   };
 
+  deleteSubscription = (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+    subscriptionId: string,
+    successCallback: () => void,
+    finalCallback?: () => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionId}`,
+      loaderName: "@deleteSubscriptions",
+      method: "delete",
+    })
+      .then(() => {
+        deleteNotification(t("Subscription were successfully deleted!"));
+        successCallback && successCallback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      })
+      .finally(() => {
+        finalCallback && finalCallback();
+      });
+  };
+
   get subscriptionRights() {
     return Login.userRights.filter((el: any) =>
       el.name.includes("subscriptions"),

@@ -5,15 +5,20 @@ import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
+import { Skeleton } from "@mui/material";
 
 import SidebarConfig from "storage/singletons/SidebarConfig";
 import SubscriptionProfileStore from "storage/singletons/SubscriptionProfile";
 import SubscriptionsStore from "storage/singletons/Subscriptions";
+import RoutingConfig from "storage/singletons/RoutingConfig";
+import PendingQueries from "storage/singletons/PendingQueries";
+
+import createLink from "services/createLink";
+import { getIsLoading } from "utils/functions/getIsLoading";
 
 import FormInput from "components/common/Form/FormInput";
-
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Plus } from "components/Icons";
+import { Plus, Trash } from "components/Icons";
 
 import { useProfileTabStyles } from "./styles";
 
@@ -38,15 +43,22 @@ const Profile: FC = () => {
     subscriptionID: string;
   }>();
 
-  const { extraLevelData, setChosenCustomer } = SidebarConfig;
-  const { subscriptionRights } = SubscriptionsStore;
+  const { setChosenCustomer } = SidebarConfig;
+  const { subscriptionRights, deleteSubscription } = SubscriptionsStore;
+  const { history, allAvailvableRouting } = RoutingConfig;
+  const { currentProfile, getProfileData } = SubscriptionProfileStore;
+  const { byFetchType } = PendingQueries;
 
   useEffect(() => {
-    setValue("name", extraLevelData?.name || "");
+    getProfileData(tenantID, subscriptionID, () => {
+      SubscriptionProfileStore.currentProfile &&
+        setValue("name", SubscriptionProfileStore.currentProfile.name);
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [extraLevelData]);
+  }, []);
 
+  // This function handles submit of changing the name of subscription
   const onSubmit = (value: { name: string }) => {
     setRequestPending(true);
     if (!isRequestPending) {
@@ -65,16 +77,50 @@ const Profile: FC = () => {
     }
   };
 
-  return (
+  // This function handles delete of subscription
+  const handleDelete = () => {
+    setRequestPending(true);
+
+    if (!isRequestPending) {
+      deleteSubscription(
+        tenantID,
+        subscriptionID,
+        () => {
+          history.push(
+            createLink({
+              url: allAvailvableRouting.tenantSubscriptions,
+              params: {
+                tenantID: tenantID,
+              },
+            }),
+          );
+        },
+        () => setRequestPending(false),
+      );
+    }
+  };
+
+  const isLoading = getIsLoading("@getProfileData", byFetchType);
+
+  return isLoading ? (
+    <div className={classes.profileWrapper}>
+      <Skeleton variant={"text"} />
+      <Skeleton variant={"text"} />
+      <Skeleton variant={"text"} />
+      <Skeleton variant={"text"} />
+      <Skeleton variant={"text"} />
+      <Skeleton variant={"text"} />
+    </div>
+  ) : (
     <form className={classes.profileWrapper} onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <span className={classes.boldLabel}>{t("Billing ID")}:</span>
-        {extraLevelData?.billingId}
+        <span className={classes.boldLabel}>{t("Billing ID")}: </span>
+        {currentProfile?.billingId}
       </div>
       <div className={classes.labelContainer}>
-        {extraLevelData?.suspensionProfileId ? (
+        {currentProfile?.suspensionProfileId ? (
           <div className={classes.redLabel}>
-            {extraLevelData.suspensionProfileId}
+            {currentProfile.suspensionProfileId}
           </div>
         ) : (
           <div className={classes.greenLabel}>{t("Active")}</div>
@@ -93,6 +139,26 @@ const Profile: FC = () => {
             name === "tenants.instance.subscriptions.instance.edit",
         ) && <ButtonWithIcon icon={Plus} title={t("save")} type={"submit"} />}
       </div>
+      <div>
+        {t("Amount of numbers")}: {currentProfile?.phoneNumbers.total}
+      </div>
+      <div>
+        {t("Amount of MS Teams users")}: {currentProfile?.licenses.msTeamsUsers}
+      </div>
+      <div>
+        {t("Amount of sip Trunk Channels")}:{" "}
+        {currentProfile?.licenses.sipTrunkChannels}
+      </div>
+      {currentProfile?.isDeletable && (
+        <div className={classes.textWithButtonWrapper}>
+          {t("You can delete this subscription")}
+          <ButtonWithIcon
+            icon={Trash}
+            title={t("Delete")}
+            onClick={handleDelete}
+          />
+        </div>
+      )}
     </form>
   );
 };

@@ -7,7 +7,6 @@ import { useParams, Link } from "react-router-dom";
 
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import Subscriptions from "storage/singletons/Subscriptions";
-import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
 
@@ -16,9 +15,8 @@ import { SubscriptionItemType } from "utils/types/subscriptions";
 import { getIsLoading } from "utils/functions/getIsLoading";
 
 import Table from "components/Table";
-import { Plus, Trash } from "components/Icons";
+import { Plus } from "components/Icons";
 import AddTenantSubscription from "./components/AddTenantSubscription";
-import DeleteTenantSubscriptionsModal from "./components/DeleteTenantSubscriptions";
 import TableSkeleton from "components/Table/Skeleton";
 import CardWithButton from "components/CardForEmptyTable";
 
@@ -34,7 +32,7 @@ const getTranslatedColumns = (t: TFunction) => [
 
 const SubscriptionsList: FC = () => {
   const { t } = useTranslation();
-  const { loggedInUserLevel, allAvailvableRouting } = RoutingConfig;
+  const { allAvailvableRouting } = RoutingConfig;
   const params = useParams<{ tenantID: string }>();
   const [modalToOpen, setModalToOpen] = useState("");
   const { getExactLevelReference } = Login;
@@ -52,18 +50,10 @@ const SubscriptionsList: FC = () => {
   const {
     subscriptions,
     getSubscriptionsData,
-    deleteSubscriptions,
     isSubscriptionsCreatable,
-    isSubscriptionsDeletable,
     cleanSubscriptionHistory,
     // isSubscriptionsEditable,
   } = Subscriptions;
-
-  const {
-    selectedRows,
-    selectedRowsLength,
-    setSelectedRows,
-  } = TableSelectedRowsStore;
 
   const { byFetchType } = PendingQueries;
 
@@ -107,16 +97,6 @@ const SubscriptionsList: FC = () => {
 
   const toolbarActions = useMemo(() => {
     const actions = [];
-    if (isSubscriptionsDeletable) {
-      actions.push({
-        id: "delete",
-        title: t("Delete"),
-        icon: Trash,
-        onClick: () => {
-          setModalToOpen("delete");
-        },
-      });
-    }
     if (isSubscriptionsCreatable) {
       actions.push({
         id: "add",
@@ -128,36 +108,13 @@ const SubscriptionsList: FC = () => {
       });
     }
     return actions;
-  }, [isSubscriptionsCreatable, isSubscriptionsDeletable, t]);
-
-  const avilableActions =
-    loggedInUserLevel === "tenant" ? toolbarActions.slice(1) : toolbarActions;
+  }, [isSubscriptionsCreatable, t]);
 
   const handleCloseModal = () => {
     setModalToOpen("");
   };
 
-  const callback = () => {
-    getSubscriptionsData(tenantId);
-    handleCloseModal();
-  };
-
-  const handleDeleteItem = (props: any) => {
-    setModalToOpen("delete");
-    setSelectedRows({ [props.row.index]: true });
-  };
-
-  const handleDelete = () => {
-    const selectedSubscriptionsIds = subscriptions.reduce((prev, cur, i) => {
-      selectedRows[i] && prev.push(`${cur.id}`);
-      return prev;
-    }, [] as Array<string>);
-    deleteSubscriptions(tenantId, selectedSubscriptionsIds, callback);
-  };
-
-  const isLoading =
-    getIsLoading("@getSubscriptionsData", byFetchType) ||
-    getIsLoading("@deleteSubscriptions", byFetchType);
+  const isLoading = getIsLoading("@getSubscriptionsData", byFetchType);
 
   return (
     <>
@@ -167,21 +124,14 @@ const SubscriptionsList: FC = () => {
           columns={columns}
           //NOTE: uncoment this when isSubscriptionsEditable would be needed
           //actions={[isSubscriptionsEditable, isSubscriptionsDeletable]}
-          actions={[isSubscriptionsDeletable]}
-          checkbox={isSubscriptionsDeletable}
         />
       ) : subscriptions.length > 0 ? (
         <Table
           title={t("Subscriptions")}
           columns={columns}
           data={subscriptions}
-          toolbarActions={avilableActions}
-          checkbox={isSubscriptionsDeletable}
+          toolbarActions={toolbarActions}
           // isEditable={isSubscriptionsEditable}
-          isRemovable={
-            loggedInUserLevel !== "tenant" && isSubscriptionsDeletable
-          }
-          handleDeleteItem={handleDeleteItem}
         />
       ) : (
         <div className={classes.emptyTableWrapper}>
@@ -195,16 +145,6 @@ const SubscriptionsList: FC = () => {
       )}
       {modalToOpen === "add" && (
         <AddTenantSubscription handleCancel={handleCloseModal} />
-      )}
-
-      {modalToOpen === "delete" && (
-        <DeleteTenantSubscriptionsModal
-          handleCloseModal={handleCloseModal}
-          handleDelete={handleDelete}
-          selectedRows={selectedRows}
-          subscriptions={subscriptions}
-          selectedRowsLength={selectedRowsLength}
-        />
       )}
     </>
   );

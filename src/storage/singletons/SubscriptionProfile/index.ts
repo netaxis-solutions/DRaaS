@@ -11,35 +11,21 @@ import {
   successNotification,
 } from "utils/functions/notifications";
 import { PostalCode, Location } from "utils/types/locations";
+import { SpecificSubscription } from "utils/types/subscriptions";
+
+import Login from "../Login";
 
 class SubscriptionProfileStore {
   subscriptionLocations: Array<Location> = [];
   postalCodes: Array<PostalCode> = [];
   postalCodesOptions: Array<{ value: number; label: string }> = [];
+  currentProfile: SpecificSubscription | undefined;
 
   constructor() {
     makeAutoObservable(this, {
       subscriptionLocations: observable.ref,
     });
   }
-
-  getSubscriptionLocations = (tenantId: string, subscriptionId: string) => {
-    request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionId}/locations`,
-      loaderName: "@getSubscriptionLocations",
-    })
-      .then((data: AxiosResponse<any>) => {
-        runInAction(() => {
-          this.subscriptionLocations = data.data.locations;
-        });
-      })
-      .catch(e => {
-        errorNotification(e);
-        runInAction(() => {
-          this.subscriptionLocations = [];
-        });
-      });
-  };
 
   changeSubscriptionProfile = (
     tenantId: string,
@@ -65,6 +51,46 @@ class SubscriptionProfileStore {
       .catch(e => {
         errorNotification(e);
         errorCallback && errorCallback();
+      });
+  };
+
+  // Fetch for current subscription
+  getProfileData = async (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    successCallback?: () => void,
+  ): Promise<any | undefined> => {
+    return request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}`,
+      loaderName: "@getProfileData",
+    })
+      .then(({ data }) => {
+        runInAction(() => {
+          this.currentProfile = data;
+        });
+        successCallback && successCallback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  // Fetch for current subscription locations
+  getSubscriptionLocations = (tenantId: string, subscriptionId: string) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionId}/locations`,
+      loaderName: "@getSubscriptionLocations",
+    })
+      .then((data: AxiosResponse<any>) => {
+        runInAction(() => {
+          this.subscriptionLocations = data.data.locations;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.subscriptionLocations = [];
+        });
       });
   };
 
