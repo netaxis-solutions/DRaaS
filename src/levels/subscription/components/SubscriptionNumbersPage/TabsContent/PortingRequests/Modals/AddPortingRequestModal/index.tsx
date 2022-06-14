@@ -79,7 +79,7 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
         {stepContent}
       </Modal>
       <ModalButtonsWrapper
-        cancelButton
+        cancelButton={activeStep < 4}
         cancelButtonTitle={activeStep === 0 ? t("Cancel") : t("Back")}
         submitButtonTitle={activeStep === 3 ? t("Add") : t("Next")}
         submitIcon={activeStep === 3 ? undefined : Next}
