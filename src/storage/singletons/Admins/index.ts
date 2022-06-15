@@ -27,14 +27,14 @@ class AdminsStorage {
   currentEntity: Array<{ label: string; value: string }> = [];
   liveSearch: string = "";
   currentLevel: "distributors" | "tenants" | "resellers" = "distributors";
-  isLoadingCurrentAdmin: boolean = false;
+  isCurrentAdminLoading: boolean = false;
 
   constructor() {
     makeObservable(this, {
       admins: observable,
       currentEntity: observable,
       liveSearch: observable,
-      isLoadingCurrentAdmin: observable,
+      isCurrentAdminLoading: observable,
       getAdmins: action,
       createAdminsTenantLevel: action,
       createAdminsResellerLevel: action,
@@ -154,7 +154,7 @@ class AdminsStorage {
     currentSelect: "distributors" | "tenants" | "resellers",
   ) => {
     runInAction(() => {
-      this.isLoadingCurrentAdmin = true;
+      this.isCurrentAdminLoading = true;
       this.currentEntity = [];
     });
     request({
@@ -169,13 +169,13 @@ class AdminsStorage {
         });
         runInAction(() => {
           this.currentEntity = formattingCurrentData;
-          this.isLoadingCurrentAdmin = false;
+          this.isCurrentAdminLoading = false;
         });
       })
       .catch(e => {
         errorNotification(e);
         runInAction(() => {
-          this.isLoadingCurrentAdmin = false;
+          this.isCurrentAdminLoading = false;
         });
       });
   };
