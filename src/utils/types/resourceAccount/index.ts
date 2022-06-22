@@ -6,7 +6,7 @@ export type TCreateResourceAccount = {
   location: string;
   phoneNumber: string;
   userPrincipalName: string;
-  validDomains: { label: string; value: string }
+  validDomains: { label: string; value: string };
 };
 
 export type TCreateResourceAccountPayloadStorage = {
@@ -18,8 +18,8 @@ export type TCreateResourceAccountPayloadStorage = {
 };
 
 export type TValidDomains = {
-  verifiedDomains: Array<string>
-}
+  verifiedDomains: Array<string>;
+};
 
 export type TResourceAccountLicenses = {
   skuId: string;
@@ -57,7 +57,7 @@ export type TModifyResourceAccount = {
   accountType: string;
   displayName: string;
   location: string;
-  phoneNumber?: string;
+  phoneNumber?: string | null;
 };
 
 export type TDeleteResourceAccountModal = TDeleteModalProps & {

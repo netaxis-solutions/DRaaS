@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import omit from "lodash/omit";
 
 import {
   TModifyResourceAccount,
@@ -284,20 +283,33 @@ const ResourceAccount: FC = () => {
 
   // Update Resoutce Account with data from all fields
   const onSubmit = (value: TModifyResourceAccount) => {
-    const doubleCheckPhoneNumber =
+    const payload =
       TableSelectedRowsStore.selectedRowsValues[0].original.draas
         ?.phoneNumber === value?.phoneNumber || value?.phoneNumber === ""
-        ? ["phoneNumber"]
-        : [""];
-    const actualNumber = omit(
-      value,
-      doubleCheckPhoneNumber,
-    ) as TModifyResourceAccount;
+        ? {
+            accountType: value.accountType,
+            displayName: value.displayName,
+            location: value.location,
+          }
+        : value?.phoneNumber === "Unselect number"
+        ? {
+            accountType: value.accountType,
+            displayName: value.displayName,
+            location: value.location,
+            phoneNumber: null,
+          }
+        : {
+            accountType: value.accountType,
+            displayName: value.displayName,
+            location: value.location,
+            phoneNumber: value.phoneNumber,
+          };
+
     modifyMsTeamsResourceAccount(
       tenantID,
       subscriptionID,
       actualMsTeamID,
-      actualNumber,
+      payload,
     );
   };
 
