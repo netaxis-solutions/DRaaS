@@ -8,21 +8,17 @@ const Loader = ({ children }: { children: any }) => {
   }
 
   return (
-    <div style={{ position: "relative", height: "calc(90% - 140px)" }}>
+    <div>
       <div
         style={
           PendingQueries.empty
             ? {
-                position: "absolute",
                 width: "100%",
-                height: "100%",
                 padding: 30,
               }
             : {
                 opacity: 1,
-                position: "absolute",
                 width: "100%",
-                height: "100%",
                 padding: 30,
               }
         }
