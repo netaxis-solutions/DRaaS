@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string } from "yup";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
@@ -52,6 +54,22 @@ const Locations: FC = () => {
   }>();
 
   const { control, handleSubmit, setValue } = useForm<DefaultValuesType>({
+    resolver: yupResolver(
+      object().shape({
+        street: string().matches(/^[aA-zZ0-9\s]+$/, {
+          message: t("Use only letters and digits"),
+          excludeEmptyString: true,
+        }),
+        number: string().matches(/^[aA-zZ0-9\s]+$/, {
+          message: t("Use only letters and digits"),
+          excludeEmptyString: true,
+        }),
+        postbox: string().matches(/^[aA-zZ0-9\s]+$/, {
+          message: t("Use only letters and digits"),
+          excludeEmptyString: true,
+        }),
+      }),
+    ),
     defaultValues,
   });
 
