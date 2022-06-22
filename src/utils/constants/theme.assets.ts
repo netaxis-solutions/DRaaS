@@ -194,9 +194,6 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
   },
   MuiTableRow: {
     root: {
-      "&:hover": {
-        backgroundColor: defaultPalette.table.hover,
-      },
       "&$selected": {
         background: "transparent",
       },
@@ -215,17 +212,12 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
     root: {
       fontSize: "1.4rem",
       "&:last-child": {
-        padding: "16px 33px 16px 16px",
+        padding: "0px 33px 0px 16px",
       },
       padding: 3,
     },
     head: {
       color: defaultPalette?.body?.general?.textStyle?.brown,
-    },
-  },
-  MuiTableHead: {
-    root: {
-      borderBottom: `1px solid ${defaultPalette.table.border}`,
     },
   },
   MuiCheckbox: {

@@ -7,6 +7,7 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     justifyContent: "flex-end",
     textAlign: "end",
+    paddingTop: theme.spacing(0.65),
     "& svg": {
       fill: theme.body.table.actionBar.color,
       width: 16,
@@ -72,13 +73,18 @@ export const useTableHeadStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     background: theme.body.table.header.headerBGActionWrap,
     fontSize: theme.body.table.fontSize,
     textTransform: theme.body.table.textTransform,
-    fontVariant:"small-caps slashed-zero",
+    fontVariant: "small-caps slashed-zero",
     fontWeight: 450,
+    "&.MuiTableHead-root": {
+      "&:hover": {
+        background: theme.body.table.header.headerBGActionWrap,
+      },
+    },
   },
   tableHeadActionRow: {
     textAlign: "end",
     textTransform: theme.body.table.textTransform,
-    fontVariant:"small-caps slashed-zero",
+    fontVariant: "small-caps slashed-zero",
     fontWeight: 450,
     color: theme.body.table.title,
     paddingRight: `${theme.direction === "ltr" ? 30 : 0}px !important`,
@@ -146,7 +152,7 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   isEditing: {
     backgroundColor: theme.body.general.backgrounds.light,
     "&:hover": {
-      backgroundColor:  theme.body.general.backgrounds.light,
+      backgroundColor: theme.body.general.backgrounds.light,
     },
   },
   disabled: {
@@ -237,6 +243,9 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
+    "& fieldset": {
+      border: "1px solid transparent !important",
+    },
     "& >div:first-child": {
       height: "100%",
     },
