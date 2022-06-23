@@ -6,7 +6,7 @@ import ConfigStore from "storage/singletons/Config";
 import TranslateStore from "storage/singletons/Translate";
 import i18n from "services/Translation";
 
-import { World } from "components/Icons";
+import { StrokeWorld } from "components/Icons";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import useStyles from "./styles";
@@ -41,7 +41,7 @@ const LanguageBar: FC = () => {
 
   return (
     <>
-      <World onClick={handleMenu} className={classes.icons} />
+      <StrokeWorld onClick={handleMenu} className={classes.icons} />
       <Menu
         open={Boolean(anchorEl)}
         onClose={handleClose}

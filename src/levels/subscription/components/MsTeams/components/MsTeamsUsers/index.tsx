@@ -24,7 +24,11 @@ import Table from "components/Table";
 import OtherLicenses from "./components/OtherLicenses";
 import FormSelect from "components/common/Form/FormSelect";
 import AssignedNumber from "./components/AssignedNumber";
-import { Plus, SuccessCircle, Reload } from "components/Icons";
+import {
+  StrokeAlertCircle,
+  StrokeSuccessCircle,
+  StrokeLoader,
+} from "components/Icons";
 import ReloadButton from "./components/ReloadButton";
 import TableSkeleton from "components/Table/Skeleton";
 
@@ -128,7 +132,7 @@ const MsTeamsUsers: FC = () => {
                 <div
                   className={clsx(classes.icon, classes.centred, classes.check)}
                 >
-                  <SuccessCircle />
+                  <StrokeSuccessCircle />
                 </div>
               );
             case "no":
@@ -136,7 +140,7 @@ const MsTeamsUsers: FC = () => {
                 <div
                   className={clsx(classes.icon, classes.centred, classes.cross)}
                 >
-                  <Plus />
+                  <StrokeAlertCircle />
                 </div>
               );
             default:
@@ -202,7 +206,7 @@ const MsTeamsUsers: FC = () => {
                 getMsTeamUsers(tenantID, subscriptionID);
               }}
             >
-              <Reload />
+              <StrokeLoader />
             </div>
           </div>
         }

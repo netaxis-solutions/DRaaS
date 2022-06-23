@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 
-import { EyeClosed, EyeOpened, Minus } from "components/Icons";
+import { StrokeClosedEye, StrokeOpenEye, Minus } from "components/Icons";
 
 import useStyles from "../styles";
 
@@ -25,7 +25,7 @@ const OtherLicenses: FC<{
             onClick={toggleShow}
             className={classes.button}
           >
-            {isShown ? <EyeOpened /> : <EyeClosed />}
+            {isShown ? <StrokeOpenEye /> : <StrokeClosedEye />}
           </IconButton>
           {isShown && (
             <span className={classes.width100}>
