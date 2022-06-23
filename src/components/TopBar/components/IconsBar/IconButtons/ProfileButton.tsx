@@ -87,7 +87,7 @@ const ProfileButton: React.FC = () => {
       )}
       {modalToOpen === "changePassword" && (
         <RightSideModal handleCancel={() => setModal("")} title={t("Account information")}
-          children={<PasswordModal formId={"changePassword"} handleCancel={() => setModal("")} />}
+          children={<PasswordModal formId={"changePassword"} />}
           submitButton={{
             formId: "changePassword",
             type: "submit",

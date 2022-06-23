@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import RightSideModal from "storage/singletons/RightSideModal";
 import LoginStore from "storage/singletons/Login";
 
 import { changePasswordSchema } from "utils/schemas/profileSchema";
@@ -11,13 +12,14 @@ import FormInput from "components/common/Form/FormInput";
 
 import styles from "./styles";
 
-const PasswordModal: React.FC<{ formId: string, handleCancel: () => void }> = ({
+const PasswordModal: React.FC<{ formId: string }> = ({
   formId,
-  handleCancel
 }) => {
   const { t } = useTranslation();
   const classes = styles();
   const [isErrorOccured, setError] = useState(false);
+
+  const { currentDelayedModalCloseAction } = RightSideModal;
 
   const { changePassword } = LoginStore;
 
@@ -35,7 +37,7 @@ const PasswordModal: React.FC<{ formId: string, handleCancel: () => void }> = ({
   const onSubmit: any = ({ confirmPassword, ...payload }: any) => {
     changePassword(
       payload,
-      () => handleCancel(),
+      () => currentDelayedModalCloseAction(),
       () => setError(true),
     );
   };
