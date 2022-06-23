@@ -10,9 +10,7 @@ import FormInput from "components/common/Form/FormInput";
 
 import styles from "./styles";
 
-const AccountInfo: React.FC<{ formId: string }> = ({
-  formId
-}) => {
+const AccountInfo: React.FC<{ formId: string }> = ({ formId }) => {
   const { t } = useTranslation();
   const classes = styles();
 
@@ -34,9 +32,12 @@ const AccountInfo: React.FC<{ formId: string }> = ({
     putUserData(values);
   };
 
-
   return (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+    <form
+      id={formId}
+      onSubmit={handleSubmit(onSubmit)}
+      className={classes.form}
+    >
       <div className={classes.profileBox}>
         <div className={classes.userProfile}>
           {t("Profile")}: {user.admin_of && user.admin_of[0].level}

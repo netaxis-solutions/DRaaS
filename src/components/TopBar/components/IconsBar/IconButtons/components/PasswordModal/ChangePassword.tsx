@@ -12,9 +12,7 @@ import FormInput from "components/common/Form/FormInput";
 
 import styles from "./styles";
 
-const PasswordModal: React.FC<{ formId: string }> = ({
-  formId,
-}) => {
+const PasswordModal: React.FC<{ formId: string }> = ({ formId }) => {
   const { t } = useTranslation();
   const classes = styles();
   const [isErrorOccured, setError] = useState(false);
@@ -43,7 +41,11 @@ const PasswordModal: React.FC<{ formId: string }> = ({
   };
 
   return (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+    <form
+      id={formId}
+      onSubmit={handleSubmit(onSubmit)}
+      className={classes.form}
+    >
       <div className={classes.profileBox}>
         <div className={classes.boxHeader}>{t("Password")}</div>
         <Controller

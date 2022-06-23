@@ -77,8 +77,10 @@ const ProfileButton: React.FC = () => {
         </div>
       </AppMenu>
       {modalToOpen === "accountSettings" && (
-        <RightSideModal handleCancel={() => setModal("")} title={t("Account information")} children={<AccountInfo formId={"accountSettings"} />}
-
+        <RightSideModal
+          handleCancel={() => setModal("")}
+          title={t("Account information")}
+          children={<AccountInfo formId={"accountSettings"} />}
           submitButton={{
             formId: "accountSettings",
             type: "submit",
@@ -86,7 +88,9 @@ const ProfileButton: React.FC = () => {
         />
       )}
       {modalToOpen === "changePassword" && (
-        <RightSideModal handleCancel={() => setModal("")} title={t("Account information")}
+        <RightSideModal
+          handleCancel={() => setModal("")}
+          title={t("Account information")}
           children={<PasswordModal formId={"changePassword"} />}
           submitButton={{
             formId: "changePassword",
