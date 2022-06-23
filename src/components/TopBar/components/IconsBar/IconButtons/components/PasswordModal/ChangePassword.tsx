@@ -5,17 +5,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import LoginStore from "storage/singletons/Login";
 
-import { AddDistributorFormPropsType } from "utils/types/distributor";
 import { changePasswordSchema } from "utils/schemas/profileSchema";
 
 import FormInput from "components/common/Form/FormInput";
-import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
-import { Save } from "components/Icons";
 
 import styles from "./styles";
 
-const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
-  handleCancel,
+const PasswordModal: React.FC<{ formId: string, handleCancel: () => void }> = ({
+  formId,
+  handleCancel
 }) => {
   const { t } = useTranslation();
   const classes = styles();
@@ -42,18 +40,8 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
     );
   };
 
-  const onCancel = () => {
-    handleCancel();
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <ModalButtonsWrapper
-        handleCancel={onCancel}
-        cancelButton
-        submitButtonTitle={t("Save")}
-        submitIcon={Save}
-      />
+    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={classes.form}>
       <div className={classes.profileBox}>
         <div className={classes.boxHeader}>{t("Password")}</div>
         <Controller
@@ -109,4 +97,4 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
   );
 };
 
-export default AccountInfo;
+export default PasswordModal;

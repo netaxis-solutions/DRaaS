@@ -6,8 +6,9 @@ import LoginStore from "storage/singletons/Login";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
 import { Login } from "components/Icons";
-import AccountModal from "./components/AccountModal";
-import PasswordModal from "./components/PasswordModal";
+import AccountInfo from "./components/AccountModal/AccountInfo";
+import PasswordModal from "./components/PasswordModal/ChangePassword";
+import RightSideModal from "components/Modal/RightSideModal";
 
 import useStyles from "../styles";
 
@@ -76,10 +77,22 @@ const ProfileButton: React.FC = () => {
         </div>
       </AppMenu>
       {modalToOpen === "accountSettings" && (
-        <AccountModal handleCancel={() => setModal("")} />
+        <RightSideModal handleCancel={() => setModal("")} title={t("Account information")} children={<AccountInfo formId={"accountSettings"} />}
+
+          submitButton={{
+            formId: "accountSettings",
+            type: "submit",
+          }}
+        />
       )}
       {modalToOpen === "changePassword" && (
-        <PasswordModal handleCancel={() => setModal("")} />
+        <RightSideModal handleCancel={() => setModal("")} title={t("Account information")}
+          children={<PasswordModal formId={"changePassword"} handleCancel={() => setModal("")} />}
+          submitButton={{
+            formId: "changePassword",
+            type: "submit",
+          }}
+        />
       )}
     </>
   );
