@@ -83,7 +83,10 @@ const ResourceAccount: FC = () => {
       object().shape({
         phoneNumber: string(),
         accountType: string(),
-        displayName: string(),
+        displayName: string().matches(/^[aA-zZ0-9\s]+$/, {
+          message: t("Use only letters and digits"),
+          excludeEmptyString: true,
+        }),
         location: string(),
       }),
     ),

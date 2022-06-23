@@ -69,7 +69,13 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
   const { control, handleSubmit, setValue } = useForm({
     resolver: yupResolver(
       object().shape({
-        displayName: string().required().label(t("Display Name")),
+        displayName: string()
+          .matches(/^[aA-zZ0-9\s]+$/, {
+            message: t("Use only letters and digits"),
+            excludeEmptyString: true,
+          })
+          .required()
+          .label(t("Display Name")),
         accountType: object()
           .required()
           .shape({
@@ -79,6 +85,10 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
 
         location: string().required().label(t("Location")),
         userPrincipalName: string()
+          .matches(/^[aA-zZ0-9\s]+$/, {
+            message: t("Use only letters and digits"),
+            excludeEmptyString: true,
+          })
           .required()
           .label(t("Username (principal name)")),
         phoneNumber: string(),
