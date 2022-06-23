@@ -1,9 +1,10 @@
-import { makeObservable, observable, action, runInAction } from "mobx";
+import { makeObservable, observable, action, runInAction, toJS } from "mobx";
 import { AxiosResponse } from "axios";
 import { debounce } from "lodash";
 
 import configStore from "../Config";
 import Login from "../Login";
+import TableInfiniteScroll from "../TableInfiniteScroll";
 
 import { ResellerItemType } from "utils/types/resellers";
 import { TenantItemType } from "utils/types/tenant";
@@ -45,17 +46,50 @@ class AdminsStorage {
   }
 
   // get all admins in level (doc don't ready)
-  getAdmins = () => {
+  getAdmins = (
+    setNewToken: (newToken: string) => void = TableInfiniteScroll.setNewToken,
+  ) => {
     request({
       route: `${configStore.config.draasInstance}/users`,
       loaderName: "@getAdmins",
     })
-      .then(({ data: { users } }: AxiosResponse<{ users: IAdminsData[] }>) => {
-        const admins = users;
-        runInAction(() => {
-          this.admins = admins;
-        });
-      })
+      .then(
+        ({
+          data: { users, next },
+        }: AxiosResponse<{ users: IAdminsData[]; next: string }>) => {
+          const admins = users;
+          runInAction(() => {
+            this.admins = admins;
+          });
+          setNewToken(next);
+        },
+      )
+      .catch(e => {
+        errorNotification(e);
+        this.admins = [];
+      });
+  };
+
+  getMoreAdmins = (token: string, setNewToken: (newToken: string) => void) => {
+    request({
+      route: `${configStore.config.draasInstance}/users`,
+      payload: {
+        params: {
+          next: token,
+        },
+      },
+    })
+      .then(
+        ({
+          data: { users, next },
+        }: AxiosResponse<{ users: IAdminsData[]; next: string }>) => {
+          const admins = users;
+          runInAction(() => {
+            this.admins = toJS(this.admins).concat(admins);
+          });
+          setNewToken(next);
+        },
+      )
       .catch(e => {
         errorNotification(e);
         this.admins = [];
@@ -185,7 +219,6 @@ class AdminsStorage {
     payload: { label: string; value: string },
     currentLevel: "distributors" | "tenants" | "resellers",
   ) => {
-    console.log(payload);
     runInAction(() => {
       this.currentLevel = currentLevel;
       this.liveSearch = payload.value;

@@ -10,6 +10,7 @@ import {
   successNotification,
 } from "utils/functions/notifications";
 import {
+  SpecificResellerType,
   TCreateResellerPayload,
   TEditResellerPayload,
   TOwners,
@@ -17,6 +18,7 @@ import {
 
 class ResellerStore {
   owners: Array<TOwners> = [];
+  specificReseller?: SpecificResellerType;
 
   constructor() {
     makeAutoObservable(this, {
@@ -77,10 +79,12 @@ class ResellerStore {
   }
 
   editReseller = ({
+    resellerId,
     payload: { uuid, markup, ...payload },
     callback,
   }: {
-    payload: TEditResellerPayload;
+    resellerId: string;
+    payload: Partial<TEditResellerPayload>;
     callback?: () => void;
   }) => {
     const formattedPayload = {
@@ -88,7 +92,7 @@ class ResellerStore {
       markup: markup ? Number(markup) : 0,
     };
     request({
-      route: `${configStore.config.draasInstance}/resellers/${uuid}`,
+      route: `${configStore.config.draasInstance}/resellers/${resellerId}`,
       loaderName: "@editReseller",
       method: "put",
       payload: formattedPayload,
@@ -101,6 +105,18 @@ class ResellerStore {
       .catch(e => {
         errorNotification(e);
       });
+  };
+
+  getSpecificReseller = (resellerId: string, successCallback?: () => void) => {
+    request({
+      route: `${configStore.config.draasInstance}/resellers/${resellerId}`,
+      loaderName: "@getSpecificReseller",
+    }).then(({ data }: AxiosResponse<SpecificResellerType>) => {
+      runInAction(() => {
+        this.specificReseller = data;
+      });
+      successCallback && successCallback();
+    });
   };
 }
 

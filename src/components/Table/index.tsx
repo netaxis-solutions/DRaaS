@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useEffect } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import {
   useTable,
   useSortBy,
@@ -12,8 +13,10 @@ import {
 import MaUTable from "@material-ui/core/Table";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import clsx from "clsx";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import TableInfiniteScroll from "storage/singletons/TableInfiniteScroll";
 import TablePagination from "storage/singletons/TablePagination";
 
 import {
@@ -29,6 +32,8 @@ import Toolbar from "./components/Toolbar";
 import Pagination from "./components/Pagination";
 import TableActions from "components/Table/components/TableActions";
 import { RadioButton } from "components/common/Form/FormRadioButton";
+import CardBasedTableBody from "./components/CardBasedTableBody";
+
 import { useStyles } from "./styles";
 
 const Table: FC<TableProps> = ({
@@ -48,12 +53,17 @@ const Table: FC<TableProps> = ({
   tooltipTrashButton,
   tooltipEditButton,
   customSearchValue,
+  // NOTE: Card-like layout wouldn't be enabled until
+  // you pass the "handleLoadNext" function
+  cardBasedLayout = false,
   actionsDataFormatter,
   isCheckboxAvailable,
   isGeneralCheckboxSelected,
   isRowSelectable,
   editDisabledCondition,
   deleteDisabledCondition,
+  handleLoadNext,
+  infiniteScroll = false,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -65,6 +75,8 @@ const Table: FC<TableProps> = ({
   } = TableSelectedRowsStore;
 
   const { tablePageSize } = TablePagination;
+
+  const { currentToken, getNewTableData } = TableInfiniteScroll;
 
   const {
     rows,
@@ -251,7 +263,7 @@ const Table: FC<TableProps> = ({
                         {t("Actions")}
                       </div>
                     ),
-                    accessor: "actions",
+                    id: "actions",
                     disableSortBy: true,
 
                     Cell: (props: any) => {
@@ -333,7 +345,7 @@ const Table: FC<TableProps> = ({
                         {t("Actions")}
                       </div>
                     ),
-                    accessor: "actions",
+                    id: "actions",
                     disableSortBy: true,
                     Cell: (props: any) => {
                       if (props.state.rowState[props.row.index]?.isEditing) {
@@ -407,6 +419,7 @@ const Table: FC<TableProps> = ({
                 ],
           ),
   );
+
   useEffect(() => {
     setSelectedRows(state.selectedRowIds);
     setSelectedRowsValues(rows.filter(row => row.id in state.selectedRowIds));
@@ -418,10 +431,17 @@ const Table: FC<TableProps> = ({
   }, [state.selectedRowIds]);
 
   useEffect(() => {
-    state.pageSize = tablePageSize;
-
+    setPageSize(tablePageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (infiniteScroll && data.length) {
+      setPageSize(data.length);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   useEffect(() => {
     return () => {
@@ -444,44 +464,110 @@ const Table: FC<TableProps> = ({
 
   return (
     <>
-      <span className={classes.tableTitle}>{title}</span>
-      <div className={classes.tableBody}>
-        <Toolbar
-          setGlobalFilter={setGlobalFilter}
-          value={state.globalFilter}
-          customValue={customSearchValue}
-          toolbarActions={
-            toolbarActions
-              ? deleteAvailable
-                ? toolbarActions
-                : toolbarActions.filter(el => el.id !== "delete")
-              : []
-          }
-        />
-        <MaUTable {...getTableProps()} className={classes.tableRoot}>
-          <TableHead headerGroups={headerGroups} />
-          <TableBody
-            getTableBodyProps={getTableBodyProps}
+      <span
+        className={clsx(classes.tableTitle, {
+          [classes.cardBasedTableTitle]: cardBasedLayout,
+        })}
+      >
+        {title}
+      </span>
+      {cardBasedLayout && handleLoadNext ? (
+        <>
+          <Toolbar
+            setGlobalFilter={setGlobalFilter}
+            value={state.globalFilter}
+            cardBasedLayout={cardBasedLayout}
+            customValue={customSearchValue}
+            toolbarActions={
+              toolbarActions
+                ? deleteAvailable
+                  ? toolbarActions
+                  : toolbarActions.filter(el => el.id !== "delete")
+                : []
+            }
+          />
+          <CardBasedTableBody
             prepareRow={prepareRow}
             page={page}
-            radioButton={radioButton}
+            handleLoadNext={handleLoadNext}
           />
-        </MaUTable>
-        <Pagination
-          selectedRows={Object.keys(state.selectedRowIds).length}
-          isRadioButton={radioButton}
-          setPageSize={setPageSize}
-          pageCount={pageCount}
-          data={page}
-          pageNumber={state.pageIndex + 1}
-          previousPage={previousPage}
-          pageSize={state.pageSize}
-          checkbox={checkbox}
-          nextPage={nextPage}
-          canNextPage={canNextPage}
-          canPreviousPage={canPreviousPage}
-        />
-      </div>
+        </>
+      ) : infiniteScroll ? (
+        <InfiniteScroll
+          dataLength={page.length}
+          next={() => handleLoadNext && getNewTableData(handleLoadNext)}
+          loader={<div>Loading...</div>}
+          scrollThreshold={1}
+          hasMore={Boolean(currentToken) || currentToken === null}
+          hasChildren={true}
+        >
+          <div className={classes.tableBody}>
+            <Toolbar
+              setGlobalFilter={setGlobalFilter}
+              value={state.globalFilter}
+              customValue={customSearchValue}
+              toolbarActions={
+                toolbarActions
+                  ? deleteAvailable
+                    ? toolbarActions
+                    : toolbarActions.filter(el => el.id !== "delete")
+                  : []
+              }
+            />
+            {
+              <MaUTable {...getTableProps()} className={classes.tableRoot}>
+                <TableHead headerGroups={headerGroups} />
+                <TableBody
+                  getTableBodyProps={getTableBodyProps}
+                  prepareRow={prepareRow}
+                  page={page}
+                  radioButton={radioButton}
+                />
+              </MaUTable>
+            }
+          </div>
+        </InfiniteScroll>
+      ) : (
+        <div className={classes.tableBody}>
+          <Toolbar
+            setGlobalFilter={setGlobalFilter}
+            value={state.globalFilter}
+            customValue={customSearchValue}
+            toolbarActions={
+              toolbarActions
+                ? deleteAvailable
+                  ? toolbarActions
+                  : toolbarActions.filter(el => el.id !== "delete")
+                : []
+            }
+          />
+          {
+            <MaUTable {...getTableProps()} className={classes.tableRoot}>
+              <TableHead headerGroups={headerGroups} />
+              <TableBody
+                getTableBodyProps={getTableBodyProps}
+                prepareRow={prepareRow}
+                page={page}
+                radioButton={radioButton}
+              />
+            </MaUTable>
+          }
+          <Pagination
+            selectedRows={Object.keys(state.selectedRowIds).length}
+            isRadioButton={radioButton}
+            setPageSize={setPageSize}
+            pageCount={pageCount}
+            data={page}
+            pageNumber={state.pageIndex + 1}
+            previousPage={previousPage}
+            pageSize={state.pageSize}
+            checkbox={checkbox}
+            nextPage={nextPage}
+            canNextPage={canNextPage}
+            canPreviousPage={canPreviousPage}
+          />
+        </div>
+      )}
     </>
   );
 };

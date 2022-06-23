@@ -5,6 +5,7 @@ import { CellProps } from "react-table";
 import { Link } from "react-router-dom";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useLocation } from "react-router-dom";
 
 import TenantStore from "storage/singletons/Tenant";
 import RoutingConfig from "storage/singletons/RoutingConfig";
@@ -36,6 +37,11 @@ const defaultValues = {
 const TenantsList: FC = () => {
   const { t } = useTranslation();
   const [modalToOpen, setModalToOpen] = useState("");
+
+  const { search: querySearchParam } = useLocation();
+  const customSearch = querySearchParam.slice(
+    querySearchParam.indexOf("=") + 1,
+  );
 
   const { control, setValue, handleSubmit } = useForm<TEditTenantPayload>({
     resolver: yupResolver(editTenantSchema(t)),
@@ -144,15 +150,16 @@ const TenantsList: FC = () => {
   );
 
   useEffect(() => {
+    customSearch && TablePagination.setTableSearch(customSearch);
+    return () => clearPaginationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getTenantsData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tablePageCounter, tablePageSize, search]);
-
-  useEffect(() => {
-    return () => clearPaginationData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const toolbarActions = useMemo(() => {
     const actions = [];

@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
-class TablePagination {
+class TableSearch {
   searchValue: string = "";
 
   constructor() {
@@ -20,4 +20,4 @@ class TablePagination {
   };
 }
 
-export default new TablePagination();
+export default new TableSearch();

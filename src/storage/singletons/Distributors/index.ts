@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction, toJS } from "mobx";
 import { AxiosResponse } from "axios";
 
 import Login from "../Login";
@@ -20,35 +20,67 @@ class DistributorsStore {
 
   constructor() {
     makeAutoObservable(this, {
-      distributors: observable.ref,
+      distributors: observable,
     });
   }
 
-  getDistributorsData = async () => {
-    try {
-      const data: AxiosResponse<DistributorsDataType> = await request({
-        route: `${configStore.config.draasInstance}/distributors`,
-        loaderName: "@getDistributorsData",
-        payload: {
-          params: {
-            page: TablePagination.tablePageCounter,
-            page_size: TablePagination.tablePageSize,
-            search: TablePagination.search,
-          },
+  getDistributorsData = (successCallback?: (token: string) => void) => {
+    request({
+      route: `${configStore.config.draasInstance}/distributors`,
+      loaderName: "@getDistributorsData",
+      payload: {
+        params: {
+          page_size: 24,
+          search: TablePagination.search,
         },
-      });
-      const distributors = data.data.distributors;
+      },
+    })
+      .then((data: AxiosResponse<DistributorsDataType>) => {
+        const distributors = data.data.distributors;
 
-      runInAction(() => {
-        TablePagination.getTableConfig(data?.data);
-        this.distributors = distributors;
+        runInAction(() => {
+          TablePagination.getTableConfig(data?.data);
+          this.distributors = distributors;
+        });
+        successCallback && successCallback(data.data.next);
+      })
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.distributors = [];
+        });
       });
-    } catch (e) {
-      errorNotification(e);
-      runInAction(() => {
-        this.distributors = [];
+  };
+
+  getAdditionalDistributorsData = (
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/distributors`,
+      payload: {
+        params: {
+          next: token,
+          page_size: 24,
+          search: TablePagination.search,
+        },
+      },
+    })
+      .then((data: AxiosResponse<DistributorsDataType>) => {
+        const distributors = data.data.distributors;
+        const newToken = data.data.next;
+
+        runInAction(() => {
+          this.distributors = toJS(this.distributors).concat(distributors);
+        });
+        setNewToken(newToken);
+      })
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.distributors = [];
+        });
       });
-    }
   };
 
   deleteDistributors = (

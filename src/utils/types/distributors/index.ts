@@ -13,6 +13,7 @@ export type DistributorsDataType = {
   page: number;
   pages: number;
   results: number;
+  next: string;
 };
 
 export type TAddDistributorValues = {

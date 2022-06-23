@@ -5,7 +5,6 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   root: {
     maxWidth: "100%",
-    minWidth: 600,
     height: "100%",
     borderRadius: 0,
     border: "1px solid transparent",

@@ -28,17 +28,17 @@ const Admins: FC = () => {
     IAdminsData | {}
   >({});
 
-  const { getAdmins, admins, clearStorage } = AdminsStorage;
+  const { getAdmins, admins, clearStorage, getMoreAdmins } = AdminsStorage;
   const { byFetchType } = PendingQueries;
   const { setSelectedRows } = TableSelectedRowsStore;
   const { clearTablePagesWithoutServerPaginations } = TablePagination;
 
   useEffect(() => {
     getAdmins();
-    clearTablePagesWithoutServerPaginations(admins.length);
+    return () => clearTablePagesWithoutServerPaginations(admins.length);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [admins.length]);
+  }, []);
 
   useEffect(
     () => () => clearStorage(),
@@ -133,11 +133,13 @@ const Admins: FC = () => {
           title={t("Admins")}
           columns={columns}
           data={admins}
+          infiniteScroll
           setModalToOpen={setModalToOpen}
           toolbarActions={toolbarActions}
           checkbox
           isRemovable
           handleDeleteItem={handleDeleteItem}
+          handleLoadNext={getMoreAdmins}
           customActions={[
             {
               actionName: "edit",

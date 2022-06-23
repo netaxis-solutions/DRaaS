@@ -20,6 +20,11 @@ class TablePagination {
     }
   };
 
+  setTableSearch = (str: string) => {
+    this.search = str;
+    this.liveSearch = str;
+  };
+
   tablePrevPage = () => {
     if (this.tablePageCounter !== 1) {
       this.tablePageCounter--;

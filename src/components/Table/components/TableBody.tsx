@@ -9,6 +9,7 @@ import { TableBodyType } from "utils/types/tableConfig";
 
 import { useTableBodyStyles } from "./styles";
 import { useEffect } from "react";
+import { observer } from "mobx-react-lite";
 
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,
@@ -32,6 +33,7 @@ const TableBody: React.FC<TableBodyType> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
   return (
     <MTableBody {...getTableBodyProps()}>
       {page.map(row => {
@@ -81,4 +83,4 @@ const TableBody: React.FC<TableBodyType> = ({
   );
 };
 
-export default TableBody;
+export default observer(TableBody);

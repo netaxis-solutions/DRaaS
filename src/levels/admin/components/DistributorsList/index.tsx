@@ -7,13 +7,14 @@ import DistributorsStore from "storage/singletons/Distributors";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
+import TableInfiniteScroll from "storage/singletons/TableInfiniteScroll";
 
 import { DistributorItemType } from "utils/types/distributors";
 import { getIsLoading } from "utils/functions/getIsLoading";
 import { TableData } from "utils/types/tableConfig";
 
 import Table from "components/Table";
-import { Edit, Plus, Trash } from "components/Icons";
+import { Plus, Trash } from "components/Icons";
 import AddDistributor from "./components/AddDistributor";
 import DeleteDistributorModal from "./components/DeleteDistributorModal";
 import EditDistributorModal from "./components/EditDistributorModal";
@@ -39,12 +40,13 @@ const Distributors: FC = () => {
   // TODO: Uncomment when drill down to a distributor level
   // const { allAvailvableRouting } = RoutingConfig;
   const {
-    getDistributorsData,
     distributors,
-    deleteDistributors,
-    isDistributorsCreatable,
-    isDistributorsEditable,
     isDistributorDeletable,
+    isDistributorsEditable,
+    isDistributorsCreatable,
+    deleteDistributors,
+    getDistributorsData,
+    getAdditionalDistributorsData,
   } = DistributorsStore;
   const { selectedRows, selectedRowsLength } = TableSelectedRowsStore;
   const { setSelectedRows } = TableSelectedRowsStore;
@@ -77,7 +79,7 @@ const Distributors: FC = () => {
   );
 
   useEffect(() => {
-    getDistributorsData();
+    getDistributorsData(TableInfiniteScroll.setNewToken);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tablePageCounter, tablePageSize, search]);
 
@@ -128,9 +130,10 @@ const Distributors: FC = () => {
     deleteDistributors(selectedDistributorIds, callback);
   };
 
-  const handleDeleteItem = (props: any) => {
+  const handleDeleteItem = (row: Row<TableData>) => {
     setModalToOpen("delete");
-    setSelectedRows({ [props.row.index]: true });
+
+    setSelectedRows({ [row.index]: true });
   };
 
   // This function is used for setting current distributor data
@@ -156,19 +159,26 @@ const Distributors: FC = () => {
           <Table
             title={t("Distributors")}
             columns={columns}
-            data={distributors}
+            cardBasedLayout
+            data={DistributorsStore.distributors}
+            handleLoadNext={getAdditionalDistributorsData}
             setModalToOpen={setModalToOpen}
             toolbarActions={toolbarActions}
-            checkbox={isDistributorDeletable}
-            isRemovable={isDistributorDeletable}
-            handleDeleteItem={handleDeleteItem}
+            infiniteScroll
             customActions={[
               {
                 actionName: "edit",
-                iconComponent: <Edit />,
+                iconComponent: <>Edit</>,
                 isShown: true,
                 disabled: false,
                 onClick: handleEditItem,
+              },
+              {
+                actionName: "delete",
+                iconComponent: <div style={{ color: "red" }}>Delete</div>,
+                isShown: true,
+                disabled: false,
+                onClick: handleDeleteItem,
               },
             ]}
           />

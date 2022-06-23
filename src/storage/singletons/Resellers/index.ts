@@ -25,7 +25,10 @@ class ResellersStore {
     });
   }
 
-  getResellersData = async ({ id }: TGetResellersList) => {
+  getResellersData = async (
+    { id }: TGetResellersList,
+    customSearch?: string,
+  ) => {
     const route = id
       ? `${configStore.config.draasInstance}/resellers?distributor_id=${id}`
       : `${configStore.config.draasInstance}/resellers`;
@@ -37,7 +40,7 @@ class ResellersStore {
           params: {
             page: TablePagination.tablePageCounter,
             page_size: TablePagination.tablePageSize,
-            search: TablePagination.search,
+            search: customSearch || TablePagination.search,
           },
         },
         loaderName: "@getResellersData",

@@ -165,6 +165,36 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
+  tableBodyCardsWrapper: {
+    maxHeight: "calc((95vh - 187px) )",
+    overflowY: "auto",
+
+    "&>*>*": {
+      background: "none",
+      boxSizing: "border-box",
+      display: "flex",
+      gap: theme.spacing(1),
+      flexDirection: "row",
+      flexWrap: "wrap",
+      minWidth: "100%",
+
+      "&>div": {
+        "@media screen and (min-width:1420px)": {
+          width: "calc(25% - 6px)",
+        },
+        "@media screen and (min-width:1080px) and (max-width:1420px)": {
+          width: "calc(33.3% - 5.4px)",
+        },
+
+        "@media screen and (min-width:760px) and (max-width:1080px)": {
+          width: "calc(50% - 4px)",
+        },
+        "@media screen and (min-width:400px) and (max-width:760px)": {
+          width: "100%",
+        },
+      },
+    },
+  },
 }));
 
 export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
@@ -178,7 +208,42 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     borderStyle: "solid",
     borderWidth: "1px 1px 0 1px",
     color: theme.body.table.title,
-
+  },
+  tableToolbarTitle: {
+    fontSize: "2rem",
+    margin: `0 ${theme.spacing(3.75)}px`,
+    flex: 1,
+  },
+  tableToolbarSearchActionWrappper: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    "& fieldset": {
+      border: "1px solid transparent !important",
+    },
+    "& >div:first-child": {
+      height: "100%",
+      maxWidth: "600px",
+      width: "100%",
+    },
+    height: "calc(100% + 2px)",
+  },
+  cardBasedTableToolbarSearchActionWrappper: {
+    "&>div:first-child": {
+      maxWidth: "400px",
+      "& fieldset": {
+        border: "none",
+        borderBottom: "1px solid #DDE7FF!important",
+      },
+    },
+  },
+  tableToolbarButtonsWrapper: {
+    margin: `${theme.spacing(2)}px ${theme.spacing(0.25)}px`,
+    paddingRight: theme.spacing(2.5),
+    gap: theme.spacing(1.975),
+    display: "flex",
+    alignItems: "center",
     "& button:last-child": {
       background: theme.body.table.button.backgroundAdd,
       color: theme.body.table.button.textAdd,
@@ -204,6 +269,7 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
     "& button": {
+      margin: `${theme.spacing(0.25)}px`,
       background: theme.body.table.button.backgroundDelete,
       color: theme.body.table.button.text,
       border: `1px solid ${theme.body.table.button.borderColor}`,
@@ -233,33 +299,13 @@ export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
   },
-  tableToolbarTitle: {
-    fontSize: "2rem",
-    margin: `0 ${theme.spacing(3.75)}px`,
-    flex: 1,
+
+  cardBasedTableToolbarButtonsWrapper: {
+    padding: 0,
   },
-  tableToolbarSearchActionWrappper: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    "& fieldset": {
-      border: "1px solid transparent !important",
-    },
-    "& >div:first-child": {
-      height: "100%",
-    },
-    height: "calc(100% + 2px)",
-  },
-  tableToolbarButtonsWrapper: {
-    margin: `${theme.spacing(2)}px ${theme.spacing(0.25)}px`,
-    paddingRight: theme.spacing(2.5),
-    gap: theme.spacing(1.975),
-    display: "flex",
-    alignItems: "center",
-    "& button": {
-      margin: `${theme.spacing(0.25)}px`,
-    },
+
+  cardBasedTableToolbarWrapper: {
+    marginBottom: 6,
   },
 }));
 
@@ -377,3 +423,70 @@ export const paginationNavigationStyles = makeStyles(
     },
   }),
 );
+
+// tsIgnore used there because default mui theme accept zIndex only as number
+// and it cannot be overriden
+//@ts-ignore
+export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
+  tableRowCard: {
+    position: "relative",
+    boxSizing: "border-box",
+    background: "#fff",
+    display: "flex",
+    minHeight: 168,
+    minWidth: 334,
+    padding: `${theme.spacing(2.5)}px ${theme.spacing(3.5)}px`,
+    flexDirection: "column",
+    borderRadius: 4,
+    border: `1px solid #fff`,
+
+    "&:hover": {
+      border: `1px solid #3664F7`,
+    },
+  },
+  cellsWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(1.5),
+    alignItems: "center",
+  },
+  actionsMenuButton: {
+    position: "absolute",
+    cursor: "pointer",
+    top: 24,
+    right: 36,
+    "& svg": {
+      height: 20,
+      fill: "#3664F7",
+    },
+  },
+  userAvatar: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 16,
+    "& svg": {
+      height: 60,
+    },
+  },
+  menuStyles: {
+    zIndex: "100!important",
+    "& [class*=tableActionsWrapper]": {
+      display: "block",
+      textAlign: "center",
+      fontSize: "1.4rem",
+      lineHeight: "1.7rem",
+      color: "#374151",
+
+      "&>*": {
+        height: 26,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: `0 ${theme.spacing(2)}px`,
+        "&:hover": {
+          background: "#EAEEFC",
+        },
+      },
+    },
+  },
+}));
