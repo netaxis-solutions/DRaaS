@@ -6,11 +6,10 @@ import { IAdminsData } from "utils/types/admins";
 const EditAdmins: FC<{
   originalAdminValue: IAdminsData;
   formId: string;
-  handleCancel: () => void;
 }> =
   // @ts-ignore
   // Wait for implement backend
-  ({ originalAdminValue, formId, handleCancel }) => {
+  ({ originalAdminValue, formId }) => {
     return <></>;
   };
 

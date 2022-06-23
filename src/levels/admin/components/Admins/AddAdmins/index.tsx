@@ -12,6 +12,7 @@ import { Skeleton } from "@mui/material";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import AdminsStorage from "storage/singletons/Admins";
 import FormSelectWithLiveSearchStorage from "storage/singletons/FormSelectWithLiveSearch";
+import RightSideModal from "storage/singletons/RightSideModal";
 
 import { IAdminsCreate } from "utils/types/admins";
 import { filterFalsyValues } from "utils/functions/objectFilters";
@@ -31,11 +32,9 @@ const defaultValues: IAdminsCreate = {
   entity: { label: "", value: "" },
 };
 
-const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
-  formId,
-  handleCancel,
-}) => {
+const CreateAdmin: FC<{ formId: string }> = ({ formId }) => {
   const { t } = useTranslation();
+  const { currentDelayedModalCloseAction: handleCancel } = RightSideModal;
   const { loggedInUserLevel } = RoutingConfig;
 
   const [choosenLevel, setChoosenLevel] = useState<
@@ -52,7 +51,7 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
     getCurrentEntity,
     setSearchData,
     clearSearch,
-    isLoadingCurrentAdmin,
+    isCurrentAdminLoading,
   } = AdminsStorage;
 
   const { cleanCurrentValue } = FormSelectWithLiveSearchStorage;
@@ -247,23 +246,24 @@ const CreateAdmin: FC<{ formId: string; handleCancel: () => void }> = ({
               </div>
             </RadioGroup>
           </FormControl>
-          {!isLoadingCurrentAdmin || choosenLevel === "MyLevel" ? (
-            <div className={classes.entitySelectWrapper}>
-              <Controller
-                name="entity"
-                control={control}
-                render={({ field, ...props }) => (
-                  <FormSelectWithLiveSearch
-                    disabled={choosenLevel === "MyLevel"}
-                    label={t("Entity")}
-                    options={[...AdminsStorage.currentEntity]}
-                    {...field}
-                    {...props}
-                    onSearch={search}
-                  />
-                )}
-              />
-            </div>
+          {!isCurrentAdminLoading ? (
+            choosenLevel === "MyLevel" ? null : (
+              <div className={classes.entitySelectWrapper}>
+                <Controller
+                  name="entity"
+                  control={control}
+                  render={({ field, ...props }) => (
+                    <FormSelectWithLiveSearch
+                      label={t("Entity")}
+                      options={[...AdminsStorage.currentEntity]}
+                      {...field}
+                      {...props}
+                      onSearch={search}
+                    />
+                  )}
+                />
+              </div>
+            )
           ) : (
             <Skeleton width={400} height={70} />
           )}

@@ -36,9 +36,16 @@ const Admins: FC = () => {
   useEffect(() => {
     getAdmins();
     clearTablePagesWithoutServerPaginations(admins.length);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [admins.length]);
 
-  useEffect(() => () => clearStorage(), []);
+  useEffect(
+    () => () => clearStorage(),
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const columns = useMemo(
     () => [
@@ -146,12 +153,7 @@ const Admins: FC = () => {
         <RightSideModal
           handleCancel={handleCloseModal}
           title={t("Add admin")}
-          children={
-            <CreateAdmin
-              formId={"createAdmin"}
-              handleCancel={handleCloseModal}
-            />
-          }
+          children={<CreateAdmin formId={"createAdmin"} />}
           submitButton={{
             formId: "createAdmin",
             type: "submit",
@@ -167,7 +169,6 @@ const Admins: FC = () => {
             <EditAdmins
               originalAdminValue={originalAdminValue as IAdminsData}
               formId={"editAdmin"}
-              handleCancel={handleCloseModal}
             />
           }
           submitButton={{
