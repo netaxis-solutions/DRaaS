@@ -3,23 +3,21 @@ import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import RightSideModal from "storage/singletons/RightSideModal";
 import LoginStore from "storage/singletons/Login";
 
-import { AddDistributorFormPropsType } from "utils/types/distributor";
 import { changePasswordSchema } from "utils/schemas/profileSchema";
 
 import FormInput from "components/common/Form/FormInput";
-import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
-import { Save } from "components/Icons";
 
 import styles from "./styles";
 
-const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
-  handleCancel,
-}) => {
+const PasswordModal: React.FC<{ formId: string }> = ({ formId }) => {
   const { t } = useTranslation();
   const classes = styles();
   const [isErrorOccured, setError] = useState(false);
+
+  const { currentDelayedModalCloseAction } = RightSideModal;
 
   const { changePassword } = LoginStore;
 
@@ -37,23 +35,17 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
   const onSubmit: any = ({ confirmPassword, ...payload }: any) => {
     changePassword(
       payload,
-      () => handleCancel(),
+      () => currentDelayedModalCloseAction(),
       () => setError(true),
     );
   };
 
-  const onCancel = () => {
-    handleCancel();
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <ModalButtonsWrapper
-        handleCancel={onCancel}
-        cancelButton
-        submitButtonTitle={t("Save")}
-        submitIcon={Save}
-      />
+    <form
+      id={formId}
+      onSubmit={handleSubmit(onSubmit)}
+      className={classes.form}
+    >
       <div className={classes.profileBox}>
         <div className={classes.boxHeader}>{t("Password")}</div>
         <Controller
@@ -109,4 +101,4 @@ const AccountInfo: React.FC<AddDistributorFormPropsType> = ({
   );
 };
 
-export default AccountInfo;
+export default PasswordModal;
