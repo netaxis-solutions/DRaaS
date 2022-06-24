@@ -431,17 +431,17 @@ export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableRowCard: {
     position: "relative",
     boxSizing: "border-box",
-    background: "#fff",
+    background: theme.body.table.tableRowCard.background,
     display: "flex",
     minHeight: 168,
     minWidth: 334,
     padding: `${theme.spacing(2.5)}px ${theme.spacing(3.5)}px`,
     flexDirection: "column",
     borderRadius: 4,
-    border: `1px solid #fff`,
+    border: `1px solid ${theme.body.table.tableRowCard.borderColor}`,
 
     "&:hover": {
-      border: `1px solid #3664F7`,
+      border: `1px solid ${theme.body.table.tableRowCard.borderHoverColor}`,
     },
   },
   cellsWrapper: {
@@ -457,7 +457,7 @@ export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     right: 36,
     "& svg": {
       height: 20,
-      fill: "#3664F7",
+      fill: theme.body.table.tableRowCard.actions.actionsMenuButton.imageFill,
     },
   },
   userAvatar: {
@@ -475,7 +475,7 @@ export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       textAlign: "center",
       fontSize: "1.4rem",
       lineHeight: "1.7rem",
-      color: "#374151",
+      color: theme.body.table.tableRowCard.actions.tableActionsWrapper.color,
 
       "&>*": {
         height: 26,
@@ -484,7 +484,9 @@ export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
         alignItems: "center",
         padding: `0 ${theme.spacing(2)}px`,
         "&:hover": {
-          background: "#EAEEFC",
+          background:
+            theme.body.table.tableRowCard.actions.tableActionsWrapper
+              .elementHoverColor,
         },
       },
     },

@@ -9,8 +9,13 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: 400,
     marginBottom: theme.spacing(3),
   },
-  idText: { color: "#323D69", marginRight: theme.spacing(2) },
-  idValue: { color: "#374151" },
+  idText: {
+    color: theme.body.table.distributor.edit.editModalBody.idTextColor,
+    marginRight: theme.spacing(2),
+  },
+  idValue: {
+    color: theme.body.table.distributor.edit.editModalBody.idValueColor,
+  },
   skeletonsWrapper: {
     display: "flex",
     flexDirection: "column",
@@ -20,30 +25,38 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   redirectBlockWrapper: {
     display: "flex",
     justifyContent: "space-between",
-    borderTop: "1px solid #DDE7FF",
+    borderTop: `1px solid ${theme.body.table.distributor.edit.editModalBody.redirectBlock.borderTopColor}`,
     boxSizing: "border-box",
     padding: `${theme.spacing(2)}px 0`,
   },
   redirectLabel: {
     fontSize: "1.6rem",
     lineHeight: "2rem",
-    color: "#323D69",
+    color:
+      theme.body.table.distributor.edit.editModalBody.redirectBlock
+        .redirectLabelColor,
     marginRight: 8,
   },
   redirectValue: {
     fontSize: "1.6rem",
     lineHeight: "2rem",
-    color: "#0061F1",
+    color:
+      theme.body.table.distributor.edit.editModalBody.redirectBlock
+        .redirectValueColor,
     "&:hover": {
       textDecoration: "underline",
     },
   },
   redirectArrow: {
     height: 16,
-    fill: "#374151",
+    fill:
+      theme.body.table.distributor.edit.editModalBody.redirectBlock
+        .redirectArrowFill,
     "&:hover": {
       cursor: "pointer",
-      fill: "#0061F1",
+      fill:
+        theme.body.table.distributor.edit.editModalBody.redirectBlock
+          .redirectArrowHoverFill,
     },
   },
 }));
