@@ -1,27 +1,26 @@
+import { useState } from "react";
 import AppMenu from "@material-ui/core/Menu";
 import { Cell } from "react-table";
 
 import { TableData } from "utils/types/tableConfig";
 
-import { useTableRowStyles } from "./styles";
-import { useState } from "react";
 import { ThreeVerticalDots, UserDefaultAvatar } from "components/Icons";
+
+import { useTableRowStyles } from "./styles";
 
 const TableRowCard: React.FC<{
   key: string | number;
   cells: Array<Cell<TableData>>;
 }> = ({ key, cells }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
-  const handleMenu = (e: any) => {
+  const handleMenu = (e: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(e.currentTarget);
   };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
-  //////////////////////
 
   const classes = useTableRowStyles();
   const selection = cells.find(cell => cell.column.id === "selection");
@@ -36,9 +35,10 @@ const TableRowCard: React.FC<{
         <UserDefaultAvatar />
       </div>
       <div className={classes.actionsMenuButton}>
-        <ThreeVerticalDots onClick={handleMenu} />
+        <div onClick={handleMenu}>
+          <ThreeVerticalDots />
+        </div>
         <AppMenu
-          // anchorReference="none"
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
           onClose={handleCloseMenu}
@@ -49,7 +49,7 @@ const TableRowCard: React.FC<{
       </div>
       <div>{selection?.render("Cell")}</div>
       <div className={classes.cellsWrapper}>
-        {cellToRender.map((cell: any) => {
+        {cellToRender.map(cell => {
           return <div {...cell.getCellProps()}>{cell.render("Cell")}</div>;
         })}
       </div>

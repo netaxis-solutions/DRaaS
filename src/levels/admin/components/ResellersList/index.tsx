@@ -24,7 +24,7 @@ const ResellersList: FC = () => {
   const { t } = useTranslation();
 
   const [modalToOpen, setModalToOpen] = useState("");
-  const [defaultValues, setDefaultValues] = useState({});
+  const [defaultValues, setDefaultValues] = useState<ResellerItemType>();
 
   const {
     tablePageCounter,
@@ -188,7 +188,7 @@ const ResellersList: FC = () => {
           title={t("Edit reseller")}
           children={
             <EditResellerModal
-              originalResellerValues={defaultValues}
+              originalResellerValues={defaultValues!}
               formId={"editReseller"}
             />
           }

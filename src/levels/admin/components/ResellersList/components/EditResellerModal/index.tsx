@@ -11,7 +11,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 
 import { filterFalsyValues } from "utils/functions/objectFilters";
 import { editResellerSchema } from "utils/schemas/resellers";
-import { TEditResellerPayload } from "utils/types/resellers";
+import { TEditResellerPayload, ResellerItemType } from "utils/types/resellers";
 
 import FormInput from "components/common/Form/FormInput";
 import { Next } from "components/Icons";
@@ -19,7 +19,7 @@ import { Next } from "components/Icons";
 import useEditDistributorStyles from "./styles";
 
 const EditResellerModal: React.FC<{
-  originalResellerValues: any;
+  originalResellerValues: ResellerItemType;
   formId: string;
 }> = ({
   originalResellerValues: { uuid: resellerId, ...defaultValues },
