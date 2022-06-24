@@ -1,4 +1,5 @@
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useTranslation } from "react-i18next";
 
 import TableInfiniteScroll from "storage/singletons/TableInfiniteScroll";
 
@@ -14,10 +15,10 @@ const CardBasedTableBody: React.FC<CardBasedTableBodyType> = ({
   handleLoadNext,
 }) => {
   const classes = useTableBodyStyles();
-
+  const { t } = useTranslation();
   const { currentToken, getNewTableData } = TableInfiniteScroll;
 
-  return (
+  return page.length ? (
     <div id={"cardBasedTableBody"} className={classes.tableBodyCardsWrapper}>
       <InfiniteScroll
         dataLength={page.length}
@@ -34,6 +35,8 @@ const CardBasedTableBody: React.FC<CardBasedTableBodyType> = ({
         })}
       </InfiniteScroll>
     </div>
+  ) : (
+    <>{t("No data found")}</>
   );
 };
 
