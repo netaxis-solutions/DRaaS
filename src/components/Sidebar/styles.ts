@@ -1,36 +1,30 @@
 import { makeStyles } from "@material-ui/core";
 
-import { LoggedInUserType } from "utils/types/routingConfig";
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   sidebarContainer: {
-    background: (props: { currentLevel: LoggedInUserType }) =>
-      theme.side_bar[props.currentLevel].background,
+    background: theme.side_bar.backgroundColor,
     fontFamily: theme.side_bar.fontFamily,
-    height: "100%",
-    width: 235,
-    borderLeft: (props: { currentLevel: LoggedInUserType }) =>
-      `15px solid ${theme.side_bar.accent[props.currentLevel]}`,
-    boxShadow: "0px 1px 8px rgba(0, 0, 0, 0.1)",
+    minHeight: "calc(100vh - 52px)",
+    maxHeight: "100%",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    width: 220,
+    boxShadow: "6px 0px 20px rgba(54, 100, 247, 0.15)",
     padding: `${theme.spacing(3.75)}px ${theme.spacing(1.875)}px 0 0`,
     position: "relative",
+    fontVariant: "small-caps slashed-zero",
+    textTransform: "lowercase",
     "& > div > div": {
       padding: "0 !important",
-      "& div": {
-        "& div:first-child": {
-          color: (props: { currentLevel: LoggedInUserType }) =>
-            theme.side_bar[props.currentLevel].avatar.avatarLabel,
-        },
-      },
     },
   },
   titleContainer: {
-    marginLeft: theme.spacing(1.875),
-    marginBottom: theme.spacing(1.875),
-    color: (props: { currentLevel: LoggedInUserType }) =>
-      theme.side_bar[props.currentLevel].avatar.avatarSubLabel,
     display: "flex",
+    width: 220,
+    justifyContent: "center",
+    alignItems: "center",
   },
   titleWithDropdown: {
     marginBottom: theme.spacing(3.75),
@@ -38,62 +32,65 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   titleWrapper: {
     overflow: "hidden",
+    width: 140,
   },
   iconContainer: {
-    minWidth: 45,
-    height: 45,
-    border: (props: { currentLevel: LoggedInUserType }) =>
-      `1px solid ${theme.side_bar[props.currentLevel].avatar.avatarBorder}`,
-    background: (props: { currentLevel: LoggedInUserType }) =>
-      theme.side_bar[props.currentLevel].avatar.avatarBackground,
+    minWidth: 40,
+    height: 40,
+    background: theme.side_bar.iconBackground,
     borderRadius: "50%",
+    marginLeft: theme.spacing(2.5),
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     marginRight: theme.spacing(1.875),
     cursor: "pointer",
+    "& svg": {
+      "& path": {
+        fill: theme.side_bar.iconColor,
+      },
+    },
   },
   title: {
     marginBottom: theme.spacing(1),
+    color: theme.side_bar.titleColor,
     fontSize: "2rem",
     lineHeight: "23px",
-    fontWeight: 400,
+    fontWeight: 700,
     textOverflow: "ellipsis",
     overflow: "hidden",
     cursor: "pointer",
   },
   level: {
     fontWeight: 300,
+    color: "#374151",
     fontSize: "1.4rem",
-    lineHeight: "16px",
-    "&:first-letter": {
-      textTransform: "capitalize",
-    },
+    lineHeight: "17px",
+    width: 120,
   },
   sidebarItem: {
-    fontWeight: 300,
+    fontWeight: 450,
+    fontSize: "1.6rem",
     padding: `${theme.spacing(1.25)}px 0 ${theme.spacing(
       1.25,
-    )}px ${theme.spacing(2.5)}px`,
+    )}px ${theme.spacing(4.5)}px`,
     display: "block",
     textDecoration: "none",
-    color: (props: { currentLevel: LoggedInUserType }) =>
-      theme.side_bar[props.currentLevel].text,
-    border: "solid 2px transparent",
+    color: "#374151",
+    textTransform: "lowercase",
+    fontVariant: "small-caps slashed-zero",
     "&:hover": {
-      borderBottom: (props: { currentLevel: LoggedInUserType }) =>
-        `solid 2px ${theme.side_bar.accent[props.currentLevel]}`,
+      width: 220,
+      background: theme.side_bar.hoverEffect,
     },
   },
   chosen: {
     fontSize: "1.6rem",
-    fontWeight: 400,
-    border: (props: { currentLevel: LoggedInUserType }) =>
-      `solid 2px ${theme.side_bar.accent[props.currentLevel]}`,
-    borderRadius: 5,
-    borderLeft: "none",
-    paddingLeft: theme.spacing(3),
-    marginLeft: -theme.spacing(0.5),
+    fontWeight: 450,
+    width: 220,
+    borderRight: `3px solid${theme.side_bar.activeItem}`,
+    borderRadius: 0,
+    color: theme.side_bar.activeItemText,
   },
 }));
 

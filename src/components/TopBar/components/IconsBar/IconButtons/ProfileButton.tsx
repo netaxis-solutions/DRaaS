@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 import LoginStore from "storage/singletons/Login";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
-import { Login } from "components/Icons";
 import AccountInfo from "./components/AccountModal/AccountInfo";
 import PasswordModal from "./components/PasswordModal/ChangePassword";
 import RightSideModal from "components/Modal/RightSideModal";
+import { StrokeUserProfile } from "components/Icons";
 
 import useStyles from "../styles";
 
@@ -36,7 +36,7 @@ const ProfileButton: React.FC = () => {
 
   return (
     <>
-      <Login onClick={handleMenu} className={classes.icons} />
+      <StrokeUserProfile onClick={handleMenu} className={classes.icons} />
       <AppMenu
         anchorReference="none"
         open={Boolean(anchorEl)}

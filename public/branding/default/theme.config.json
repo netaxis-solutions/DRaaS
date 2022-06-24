@@ -268,56 +268,13 @@
   },
   "side_bar": {
     "fontFamily": "inherit",
-    "accent": {
-      "distributor": "#D5DCBD",
-      "reseller": "#93BBCB",
-      "tenant": "#E0CFD5",
-      "subscription": "#F5DFBC"
-    },
-    "tenant": {
-      "avatar": {
-        "avatarLabel": "#333333",
-        "avatarSubLabel": "#333333",
-        "avatarBorder": "#C2C3E8",
-        "avatarBackground": "#FFFFFF"
-      },
-      "text": "#333333",
-      "background": "#FFFFFF"
-    },
-    "reseller": {
-      "avatar": {
-        "avatarLabel": "#333333",
-        "avatarSubLabel": "#333333",
-        "avatarBorder": "#C2C3E8",
-        "avatarBackground": "#FFFFFF"
-      },
-      "text": "#333333",
-      "background": "#FFFFFF"
-    },
-    "subscription": {
-      "avatar": {
-        "avatarLabel": "#333333",
-        "avatarSubLabel": "#333333",
-        "avatarBorder": "#C2C3E8",
-        "avatarBackground": "#FFFFFF"
-      },
-      "text": "#333333",
-      "background": "#FFFFFF"
-    },
-    "distributor": {
-      "avatar": {
-        "avatarLabel": "#333333",
-        "avatarSubLabel": "#333333",
-        "avatarBorder": "#C2C3E8",
-        "avatarBackground": "#FFFFFF"
-      },
-      "editModal": {
-        "idLabel": "#323D69",
-        "idValue": "#374151"
-      },
-      "text": "#333333",
-      "background": "#FFFFFF"
-    }
+    "titleColor":"#323D69",
+    "hoverEffect":"#EAEEFC",
+    "activeItem":"#3664F7",
+    "activeItemText":"#3664F7",
+    "backgroundColor":"#FFFFFF",
+    "iconBackground":"#EAEEFC",
+    "iconColor":"#7AA2F8"
   },
   "rightSideModal": {
     "underline": "#DDE7FF",

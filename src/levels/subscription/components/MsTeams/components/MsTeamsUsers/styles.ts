@@ -4,14 +4,13 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 export default makeStyles((theme: ThemeDefaultOptions) => ({
   button: {
     "&": {
-      width: 20,
-      height: 20,
+      width: 16,
+      height: 16,
       padding: 0,
       "&>*>*": {
         width: "100%",
         height: "100%",
         "&>path": {
-          fill:theme.body.general.icons.brownFill,
           width: "100%",
           height: "100%",
         },
@@ -62,16 +61,17 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   },
   active: { background: theme.palette.status.success },
   error: { background: "#df2231" },
-  updating: { background:  theme.body.general.icons.blueFill},
+  updating: { background: theme.body.general.icons.blueFill },
   label: {
     height: 14,
-    minWidth: 50,
+    minWidth: 51,
     borderRadius: 4,
+    padding: 1,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    fontSize: "0.75rem",
-    lineHeight: "0.9rem",
+    fontSize: "1rem",
+    lineHeight: "1.25rem",
     color: theme.body.general.textStyle.white,
     textTransform: "uppercase",
   },
@@ -129,8 +129,10 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     height: 20,
   },
   icon: {
-    height: 20,
-    width: 20,
+    height: 16,
+    width: 16,
+    display: "flex",
+    justifyContent: "center",
     "& >svg": {
       width: "100%",
       height: "100%",
@@ -160,7 +162,6 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   cross: {
-    transform: "rotate(45deg)",
     "& >svg": {
       fill: theme.palette.status.error,
     },
@@ -171,7 +172,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   "@keyframes rotating": {
     "0%": { transform: "rotate(0deg)" },
     "100%": {
-      transform: "rotate(360deg)",
+      transform: "rotate(-360deg)",
     },
   },
   tableTitle: {

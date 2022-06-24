@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Reload } from "components/Icons";
+import { StrokeLoader } from "components/Icons";
 import { observer } from "mobx-react-lite";
 import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -43,7 +43,7 @@ const ReloadButton: FC<{ id: string; successAction?: () => void }> = ({
             }
       }
     >
-      <Reload />
+      <StrokeLoader />
     </div>
   );
 };

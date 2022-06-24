@@ -17,7 +17,7 @@ const SidebarSkeleton: FC<{
       <div className={classes.titleWithDropdown}>
         <div className={classes.titleContainer}>
           <div className={classes.iconContainer}>
-            <Skeleton variant="circular" width={45} height={45} />
+            <Skeleton variant="circular" width={40} height={40} />
           </div>
           <div className={classes.titleWrapper}>
             <div className={classes.title}>
