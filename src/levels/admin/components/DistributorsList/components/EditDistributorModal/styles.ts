@@ -10,10 +10,10 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     marginBottom: theme.spacing(3),
   },
   idText: {
-    color: theme.side_bar.distributor.editModal.idLabel,
+    color: "#323D69",
     marginRight: theme.spacing(2),
   },
-  idValue: { color: theme.side_bar.distributor.editModal.idValue },
+  idValue: { color: "#374151" },
   skeletonsWrapper: {
     display: "flex",
     flexDirection: "column",
