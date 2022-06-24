@@ -15,6 +15,7 @@ import { TableData } from "utils/types/tableConfig";
 
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
+import MTable from "components/MaterialTable";
 import AddDistributor from "./components/AddDistributor";
 import DeleteDistributorModal from "./components/DeleteDistributorModal";
 import EditDistributorModal from "./components/EditDistributorModal";
@@ -77,6 +78,11 @@ const Distributors: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
+
+  const materialColumns = [
+    { title: t("Name"), field: "name" },
+    { title: t("Billing ID"), field: "billingId" },
+  ];
 
   useEffect(() => {
     getDistributorsData(TableInfiniteScroll.setNewToken);
@@ -145,6 +151,8 @@ const Distributors: FC = () => {
 
   const isLoading = getIsLoading("@getDistributorsData", byFetchType);
 
+  console.log(JSON.parse(JSON.stringify(distributors)));
+
   return (
     <>
       <div>
@@ -156,34 +164,45 @@ const Distributors: FC = () => {
             checkbox={isDistributorDeletable}
           />
         ) : (
-          <Table
-            title={t("Distributors")}
-            columns={columns}
-            cardBasedLayout
-            data={DistributorsStore.distributors}
-            handleLoadNext={getAdditionalDistributorsData}
-            setModalToOpen={setModalToOpen}
-            toolbarActions={toolbarActions}
-            infiniteScroll
-            customActions={[
-              {
-                actionName: "edit",
-                iconComponent: <>{t("Edit")}</>,
-                isShown: true,
-                disabled: false,
-                onClick: handleEditItem,
-              },
-              {
-                actionName: "delete",
-                iconComponent: (
-                  <div style={{ color: "red" }}>{t("Delete")}</div>
-                ),
-                isShown: true,
-                disabled: false,
-                onClick: handleDeleteItem,
-              },
-            ]}
-          />
+          <>
+            <MTable
+              title={t("Distributors")}
+              toolbarActions={toolbarActions}
+              columns={materialColumns}
+              data={distributors}
+              options={{
+                selection: true,
+              }}
+            />
+            <Table
+              title={t("Distributors")}
+              columns={columns}
+              cardBasedLayout
+              data={DistributorsStore.distributors}
+              handleLoadNext={getAdditionalDistributorsData}
+              setModalToOpen={setModalToOpen}
+              toolbarActions={toolbarActions}
+              infiniteScroll
+              customActions={[
+                {
+                  actionName: "edit",
+                  iconComponent: <>{t("Edit")}</>,
+                  isShown: true,
+                  disabled: false,
+                  onClick: handleEditItem,
+                },
+                {
+                  actionName: "delete",
+                  iconComponent: (
+                    <div style={{ color: "red" }}>{t("Delete")}</div>
+                  ),
+                  isShown: true,
+                  disabled: false,
+                  onClick: handleDeleteItem,
+                },
+              ]}
+            />
+          </>
         )}
       </div>
       {modalToOpen === "add" && (

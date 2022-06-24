@@ -86,12 +86,24 @@ export type TableProps = {
   ) => void;
 };
 
+export type MaterialTableProps = {
+  title: string | JSX.Element;
+  toolbarActions?: Array<ToolbarActionType>;
+  options?: { [key: string]: any };
+  columns?: Array<{ [key: string]: any }>;
+  data?: Array<{ [key: string]: any }>;
+};
+
 export type ToolbarType = {
   toolbarActions: Array<ToolbarActionType>;
   setGlobalFilter: (object: string) => void;
   value: string;
   customValue?: string;
   cardBasedLayout?: boolean;
+};
+
+export type MaterialToolbarType = {
+  toolbarActions: Array<ToolbarActionType>;
 };
 
 export type TableBodyType = {
