@@ -1,5 +1,4 @@
 import { FC, useEffect, useState, useMemo } from "react";
-import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
 import { Row } from "react-table";
@@ -11,6 +10,7 @@ import PendingQueries from "storage/singletons/PendingQueries";
 
 import { getIsLoading } from "utils/functions/getIsLoading";
 import { TableData } from "utils/types/tableConfig";
+import { ResellerItemType } from "utils/types/resellers";
 
 import Table from "components/Table";
 import { Plus, Trash } from "components/Icons";
@@ -19,15 +19,9 @@ import DeleteResellerModal from "./components/DeleteResellerModal";
 import TableSkeleton from "components/Table/Skeleton";
 import RightSideModal from "components/Modal/RightSideModal";
 import EditResellerModal from "./components/EditResellerModal";
-import { ResellerItemType } from "utils/types/resellers";
 
 const ResellersList: FC = () => {
   const { t } = useTranslation();
-
-  const { search: querySearchParam } = useLocation();
-  const customSearch = querySearchParam.slice(
-    querySearchParam.indexOf("=") + 1,
-  );
 
   const [modalToOpen, setModalToOpen] = useState("");
   const [defaultValues, setDefaultValues] = useState({});
@@ -72,7 +66,6 @@ const ResellersList: FC = () => {
   );
 
   useEffect(() => {
-    customSearch && TablePagination.setTableSearch(customSearch);
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -163,14 +156,14 @@ const ResellersList: FC = () => {
           customActions={[
             {
               actionName: "edit",
-              iconComponent: <>Edit</>,
+              iconComponent: <>{t("Edit")}</>,
               isShown: true,
               disabled: false,
               onClick: handleEditItem,
             },
             {
               actionName: "delete",
-              iconComponent: <div style={{ color: "red" }}>Delete</div>,
+              iconComponent: <div style={{ color: "red" }}>{t("Delete")}</div>,
               isShown: true,
               disabled: false,
               onClick: handleDeleteItem,

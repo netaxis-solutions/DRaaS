@@ -7,6 +7,7 @@ import { Skeleton } from "@mui/material";
 
 import Distributor from "storage/singletons/Distributor";
 import RightSideModal from "storage/singletons/RightSideModal";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 
 import {
   TEditDistributorPayload,
@@ -16,6 +17,7 @@ import { editDistributorSchema } from "utils/schemas/distributors";
 import { filterFalsyValues } from "utils/functions/objectFilters";
 
 import FormInput from "components/common/Form/FormInput";
+import { Next } from "components/Icons";
 
 import useEditDistributorStyles from "./styles";
 
@@ -34,6 +36,7 @@ const EditDistributorModal: React.FC<{
     defaultValues,
   });
 
+  const { history, allAvailvableRouting } = RoutingConfig;
   const { currentDelayedModalCloseAction, setSubmitPending } = RightSideModal;
   const { editDistributor, getSpecificDistributor } = Distributor;
 
@@ -83,45 +86,93 @@ const EditDistributorModal: React.FC<{
       <Skeleton variant="rectangular" height={40} />
     </div>
   ) : (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)}>
-      <div className={classes.idField}>
-        <span className={classes.idText}>{t("UUID")}:</span>
-        <span className={classes.idValue}>{distributorId}</span>
+    <>
+      <form
+        id={formId}
+        onSubmit={handleSubmit(onSubmit)}
+        className={classes.formWrapper}
+      >
+        <div className={classes.idField}>
+          <span className={classes.idText}>{t("UUID")}:</span>
+          <span className={classes.idValue}>{distributorId}</span>
+        </div>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput label={t("Name")} {...field} {...props} />
+          )}
+        />
+        <Controller
+          name="billingId"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Billing ID")}
+              helper={t("Use only letters and digits")}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+        <Controller
+          name="markup"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Markup")}
+              helper={t(
+                "Set direct markup for rates plan from selected distributor to reseller",
+              )}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+      </form>
+      <div className={classes.redirectBlockWrapper}>
+        <div>
+          <span className={classes.redirectLabel}>{t("Resellers")}:</span>
+          <span className={classes.redirectValue}>24</span>
+        </div>
+        <div>
+          <Next
+            className={classes.redirectArrow}
+            onClick={() => {
+              history.push(
+                allAvailvableRouting.systemResellers +
+                  `?parent=${distributorId}`,
+              );
+            }}
+          />
+        </div>
       </div>
-      <Controller
-        name="name"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput label={t("Name")} {...field} {...props} />
-        )}
-      />
-      <Controller
-        name="billingId"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Billing ID")}
-            helper={t("Use only letters and digits")}
-            {...field}
-            {...props}
+      <div className={classes.redirectBlockWrapper}>
+        <div>
+          <span className={classes.redirectLabel}>{t("Direct tenants")}:</span>
+          <span className={classes.redirectValue}>3</span>
+        </div>
+        <div>
+          <Next
+            className={classes.redirectArrow}
+            onClick={() => {
+              history.push(
+                allAvailvableRouting.systemTenants + `?parent=${distributorId}`,
+              );
+            }}
           />
-        )}
-      />
-      <Controller
-        name="markup"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Markup")}
-            helper={t(
-              "Set direct markup for rates plan from selected distributor to reseller",
-            )}
-            {...field}
-            {...props}
-          />
-        )}
-      />
-    </form>
+        </div>
+      </div>
+      <div className={classes.redirectBlockWrapper}>
+        <div>
+          <span className={classes.redirectLabel}>{t("Admins")}:</span>
+          <span className={classes.redirectValue}>3</span>
+        </div>
+        <div>
+          <Next className={classes.redirectArrow} />
+        </div>
+      </div>
+    </>
   );
 };
 

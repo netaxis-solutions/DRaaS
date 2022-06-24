@@ -19,6 +19,36 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     flexDirection: "column",
     gap: theme.spacing(2),
   },
+  formWrapper: { marginBottom: 36 },
+  redirectBlockWrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+    borderTop: "1px solid #DDE7FF",
+    boxSizing: "border-box",
+    padding: `${theme.spacing(2)}px 0`,
+  },
+  redirectLabel: {
+    fontSize: "1.6rem",
+    lineHeight: "2rem",
+    color: "#323D69",
+    marginRight: 8,
+  },
+  redirectValue: {
+    fontSize: "1.6rem",
+    lineHeight: "2rem",
+    color: "#0061F1",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
+  redirectArrow: {
+    height: 16,
+    fill: "#374151",
+    "&:hover": {
+      cursor: "pointer",
+      fill: "#0061F1",
+    },
+  },
 }));
 
 export default useEditDistributorStyles;

@@ -7,12 +7,14 @@ import { Skeleton } from "@mui/material";
 
 import RightSideModal from "storage/singletons/RightSideModal";
 import Reseller from "storage/singletons/Reseller";
+import RoutingConfig from "storage/singletons/RoutingConfig";
 
 import { filterFalsyValues } from "utils/functions/objectFilters";
 import { editResellerSchema } from "utils/schemas/resellers";
 import { TEditResellerPayload } from "utils/types/resellers";
 
 import FormInput from "components/common/Form/FormInput";
+import { Next } from "components/Icons";
 
 import useEditDistributorStyles from "./styles";
 
@@ -32,6 +34,7 @@ const EditResellerModal: React.FC<{
     defaultValues,
   });
 
+  const { history, allAvailvableRouting } = RoutingConfig;
   const { currentDelayedModalCloseAction, setSubmitPending } = RightSideModal;
   const { getSpecificReseller, editReseller } = Reseller;
 
@@ -81,45 +84,78 @@ const EditResellerModal: React.FC<{
       <Skeleton variant="rectangular" height={40} />
     </div>
   ) : (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)}>
-      <div className={classes.idField}>
-        <span className={classes.idText}>{t("UUID")}:</span>
-        <span className={classes.idValue}>{resellerId}</span>
+    <>
+      <form
+        id={formId}
+        onSubmit={handleSubmit(onSubmit)}
+        className={classes.formWrapper}
+      >
+        <div className={classes.idField}>
+          <span className={classes.idText}>{t("UUID")}:</span>
+          <span className={classes.idValue}>{resellerId}</span>
+        </div>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput label={t("Name")} {...field} {...props} />
+          )}
+        />
+        <Controller
+          name="billingId"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Billing ID")}
+              helper={t("Use only letters and digits")}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+        <Controller
+          name="markup"
+          control={control}
+          render={({ field, ...props }) => (
+            <FormInput
+              label={t("Markup")}
+              helper={t(
+                "Set direct markup for rates plan from selected distributor to reseller",
+              )}
+              {...field}
+              {...props}
+            />
+          )}
+        />
+      </form>
+      <div className={classes.redirectBlockWrapper}>
+        <div>
+          <span className={classes.redirectLabel}>{t("Owner")}:</span>
+          <span className={classes.redirectValue}>
+            {Reseller.specificReseller?.owner?.name}
+          </span>
+        </div>
+        <div>
+          <Next className={classes.redirectArrow} />
+        </div>
       </div>
-      <Controller
-        name="name"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput label={t("Name")} {...field} {...props} />
-        )}
-      />
-      <Controller
-        name="billingId"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Billing ID")}
-            helper={t("Use only letters and digits")}
-            {...field}
-            {...props}
+      <div className={classes.redirectBlockWrapper}>
+        <div>
+          <span className={classes.redirectLabel}>{t("Tenants")}:</span>
+          <span className={classes.redirectValue}>8</span>
+        </div>
+        <div>
+          <Next
+            className={classes.redirectArrow}
+            onClick={() => {
+              history.push(
+                allAvailvableRouting.systemTenants + `?parent=${resellerId}`,
+              );
+            }}
           />
-        )}
-      />
-      <Controller
-        name="markup"
-        control={control}
-        render={({ field, ...props }) => (
-          <FormInput
-            label={t("Markup")}
-            helper={t(
-              "Set direct markup for rates plan from selected distributor to reseller",
-            )}
-            {...field}
-            {...props}
-          />
-        )}
-      />
-    </form>
+        </div>
+      </div>
+    </>
   );
 };
 
