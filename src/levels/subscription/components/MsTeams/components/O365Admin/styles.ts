@@ -141,6 +141,9 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     alignItem: "center",
     gap: theme.spacing(1.15),
+    "& svg": {
+      width: 30,
+    },
   },
   errorNotification: {
     fill: theme.palette.status.error,

@@ -19,6 +19,7 @@ import { getIsLoading } from "utils/functions/getIsLoading";
 import FormInput from "components/common/Form/FormInput";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { Plus, Trash } from "components/Icons";
+import CardWrapper from "components/CardWrapper";
 
 import { useProfileTabStyles } from "./styles";
 
@@ -112,54 +113,65 @@ const Profile: FC = () => {
       <Skeleton variant={"text"} />
     </div>
   ) : (
-    <form className={classes.profileWrapper} onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <span className={classes.boldLabel}>{t("Billing ID")}: </span>
-        {currentProfile?.billingId}
-      </div>
-      <div className={classes.labelContainer}>
-        {currentProfile?.suspensionProfileId ? (
-          <div className={classes.redLabel}>
-            {currentProfile.suspensionProfileId}
+    <CardWrapper
+      width={450}
+      children={
+        <form
+          className={classes.profileWrapper}
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div>
+            <span className={classes.boldLabel}>{t("Billing ID")}: </span>
+            {currentProfile?.billingId}
           </div>
-        ) : (
-          <div className={classes.greenLabel}>{t("Active")}</div>
-        )}
-      </div>
-      <div className={classes.fieldWithButtonWrapper}>
-        <Controller
-          name="name"
-          control={control}
-          render={({ field, ...props }) => (
-            <FormInput label={t("Name")} {...field} {...props} />
+          <div className={classes.labelContainer}>
+            {currentProfile?.suspensionProfileId ? (
+              <div className={classes.redLabel}>
+                {currentProfile.suspensionProfileId}
+              </div>
+            ) : (
+              <div className={classes.greenLabel}>{t("Active")}</div>
+            )}
+          </div>
+          <div className={classes.fieldWithButtonWrapper}>
+            <Controller
+              name="name"
+              control={control}
+              render={({ field, ...props }) => (
+                <FormInput label={t("Name")} {...field} {...props} />
+              )}
+            />
+            {subscriptionRights.find(
+              ({ name }: { name: string }) =>
+                name === "tenants.instance.subscriptions.instance.edit",
+            ) && (
+              <ButtonWithIcon icon={Plus} title={t("save")} type={"submit"} />
+            )}
+          </div>
+          <div>
+            {t("Amount of numbers")}: {currentProfile?.phoneNumbers.total}
+          </div>
+          <div>
+            {t("Amount of MS Teams users")}:{" "}
+            {currentProfile?.licenses.msTeamsUsers}
+          </div>
+          <div>
+            {t("Amount of sip Trunk Channels")}:{" "}
+            {currentProfile?.licenses.sipTrunkChannels}
+          </div>
+          {currentProfile?.isDeletable && (
+            <div className={classes.textWithButtonWrapper}>
+              {t("You can delete this subscription")}
+              <ButtonWithIcon
+                icon={Trash}
+                title={t("Delete")}
+                onClick={handleDelete}
+              />
+            </div>
           )}
-        />
-        {subscriptionRights.find(
-          ({ name }: { name: string }) =>
-            name === "tenants.instance.subscriptions.instance.edit",
-        ) && <ButtonWithIcon icon={Plus} title={t("save")} type={"submit"} />}
-      </div>
-      <div>
-        {t("Amount of numbers")}: {currentProfile?.phoneNumbers.total}
-      </div>
-      <div>
-        {t("Amount of MS Teams users")}: {currentProfile?.licenses.msTeamsUsers}
-      </div>
-      <div>
-        {t("Amount of sip Trunk Channels")}:{" "}
-        {currentProfile?.licenses.sipTrunkChannels}
-      </div>
-      {currentProfile?.isDeletable && (
-        <div className={classes.textWithButtonWrapper}>
-          {t("You can delete this subscription")}
-          <ButtonWithIcon
-            icon={Trash}
-            title={t("Delete")}
-            onClick={handleDelete}
-          />
-        </div>
-      )}
-    </form>
+        </form>
+      }
+    />
   );
 };
 
