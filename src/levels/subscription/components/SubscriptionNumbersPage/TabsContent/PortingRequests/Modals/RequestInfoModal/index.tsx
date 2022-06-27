@@ -109,7 +109,7 @@ const PortingRequestInfo: React.FC<TAddTenantFormProps> = ({
     getIsLoading("@cancelPortRequest", PendingQueries.byFetchType);
   return (
     <>
-      <Modal title={t("")} handleCancel={handleCancel}>
+      <Modal title={t("")} handleCancel={handleCancel} styleWithSideBar>
         {isLoading || !Object.values(currentPortingRequest).length ? (
           <TabsSkeleton tabsAmount={3} />
         ) : (

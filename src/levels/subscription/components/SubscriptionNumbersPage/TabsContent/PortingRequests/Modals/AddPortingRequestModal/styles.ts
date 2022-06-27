@@ -21,7 +21,7 @@ export const countryStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   countryDescription: {
     maxWidth: 400,
-    color:theme.body.general.textStyle.brown,
+    color: theme.body.general.textStyle.brown,
     fontSize: "1.4rem",
     lineHeight: "1.6rem",
     marginBottom: 24,
@@ -71,7 +71,7 @@ export const numbersStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   numbersDescription: {
     fontSize: "1.2rem",
     lineHeight: "1.4rem",
-    color:theme.body.general.textStyle.brown,
+    color: theme.body.general.textStyle.brown,
   },
 }));
 
@@ -91,7 +91,7 @@ export const modalStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   closeIcon: {
     position: "absolute",
     zIndex: 1500,
-    top: theme.spacing(-1),
+    top: 72,
     right: theme.spacing(4),
     padding: 0,
     "& svg": {

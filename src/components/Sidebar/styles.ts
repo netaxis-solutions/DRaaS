@@ -5,6 +5,7 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   sidebarContainer: {
     background: theme.side_bar.backgroundColor,
+    zIndex: 2,
     fontFamily: theme.side_bar.fontFamily,
     minHeight: "calc(100vh - 52px)",
     maxHeight: "100%",
