@@ -145,7 +145,7 @@ const O365Admin: FC = () => {
                 name="msUsername"
                 control={control}
                 render={({ field, ...props }) => (
-                  <FormInput label={"User Name"} {...field} {...props} />
+                  <FormInput label={t("User Name")} {...field} {...props} />
                 )}
               />
               <Controller
@@ -164,14 +164,14 @@ const O365Admin: FC = () => {
               <div className={classes.multiSubmitGroupRoot}>
                 <ButtonWithIcon
                   onClick={() => setModalToOpen("delete")}
-                  title="delete"
+                  title={t("Delete")}
                   icon={Trash}
                   cancel
                   className={classes.deleteButton}
                   disabled={isDisabledButton}
                 />
                 <ButtonWithIcon
-                  title="update"
+                  title={t("Update")}
                   icon={MsTeamLimk}
                   type="submit"
                   className={classes.buttonConfirm}
@@ -257,7 +257,7 @@ const O365Admin: FC = () => {
               <div>
                 <ButtonWithIcon
                   className={classes.buttonConfirm}
-                  title="confirm"
+                  title={t("Confirm")}
                   icon={MsTeamLimk}
                   type="submit"
                   disabled={checkboxValidation}

@@ -19,16 +19,6 @@ const ResourceAccount = lazy(() => import("./components/ResourceAccount"));
 
 const tabs = [
   {
-    name: t("Users"),
-    id: "msTeamsUsers",
-    component: () => <MsTeamsUsers />,
-  },
-  {
-    name: t("Resource accounts"),
-    id: "resourceAccounts",
-    component: () => <ResourceAccount />,
-  },
-  {
     name: t("O365 Tenant"),
     id: "o365tenant",
     component: () => <O365Tenant />,
@@ -37,6 +27,16 @@ const tabs = [
     name: t("Admin account"),
     id: "o365admin",
     component: () => <O365Admin />,
+  },
+  {
+    name: t("Users"),
+    id: "msTeamsUsers",
+    component: () => <MsTeamsUsers />,
+  },
+  {
+    name: t("Resource accounts"),
+    id: "resourceAccounts",
+    component: () => <ResourceAccount />,
   },
 ];
 

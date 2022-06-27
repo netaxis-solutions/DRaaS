@@ -1,9 +1,10 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import Paper from "@mui/material/Paper";
+
 import CardWrapperStyles from "./styles";
 
 const CardWrapper: FC<{
-  children: JSX.Element | React.ReactNode;
+  children: JSX.Element;
   width?: number;
   boxShadow?: number;
   borderRadius?: number;

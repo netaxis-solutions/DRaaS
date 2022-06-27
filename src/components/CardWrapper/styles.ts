@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core";
+
 import { ThemeDefaultOptions } from "utils/types/themeConfig";
 
 const CardWrapperStyles = makeStyles((theme: ThemeDefaultOptions) => ({
