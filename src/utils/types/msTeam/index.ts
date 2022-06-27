@@ -46,6 +46,7 @@ export type TMsTeamAdmins = {
 export type TMsTeamCheck = {
   msTenantId: string;
   status: string;
+  mode: string;
   powershell: {
     msUserName: string;
     active: boolean;
