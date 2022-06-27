@@ -178,6 +178,10 @@
         }
       }
     },
+    "newCardWrapper":{
+      "border":"#DDE7FF",
+      "background":"#FFFFFF"
+    },
     "stepper": {
       "stepsCircle": {
         "active": "#484CBA",

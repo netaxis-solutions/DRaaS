@@ -15,6 +15,7 @@ import { MsTeamLimk } from "components/Icons";
 import InfoPage from "./InfoPage";
 import Stepper from "./StepperMsTeam/Stepper";
 import O365TenantSkeleton from "./O365TenantSkeleton";
+import CardWrapper from "components/CardWrapper";
 
 import { O365Styles } from "./styles";
 
@@ -101,7 +102,7 @@ const O365Tenant: FC = () => {
     <>
       {checkMsTeamAdmin?.status === "already_linked" && alredyLinkedText}
       {checkMsTeamAdmin?.status === "onboarded" ? (
-        <InfoPage />
+        <CardWrapper width={500} children={<InfoPage />} />
       ) : (
         !isRunning &&
         checkMsTeamAdmin?.status === "not_initiated" && (
