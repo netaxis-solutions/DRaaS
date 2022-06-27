@@ -145,7 +145,7 @@
       "tableRowCard": {
         "background": "#fff",
         "borderColor": "#fff",
-        "borderHoverColor": "#fff",
+        "borderHoverColor": "#3664F7",
         "actions": {
           "actionsMenuButton": { "imageFill": "#3664F7" },
           "tableActionsWrapper": {

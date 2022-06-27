@@ -1,13 +1,15 @@
 import InfiniteScroll from "react-infinite-scroll-component";
+import { CircularProgress } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
 
 import TableInfiniteScroll from "storage/singletons/TableInfiniteScroll";
 
 import { CardBasedTableBodyType } from "utils/types/tableConfig";
 
-import { useTableBodyStyles } from "./styles";
 import TableRowCard from "./TableRowCard";
-import { observer } from "mobx-react-lite";
+
+import { useTableBodyStyles } from "./styles";
 
 const CardBasedTableBody: React.FC<CardBasedTableBodyType> = ({
   page,
@@ -24,9 +26,14 @@ const CardBasedTableBody: React.FC<CardBasedTableBodyType> = ({
         dataLength={page.length}
         next={() => getNewTableData(handleLoadNext)}
         hasMore={Boolean(currentToken) || currentToken === null}
-        loader={<div>Loading...</div>}
+        loader={
+          <div className={classes.loaderWrapper}>
+            <CircularProgress />
+          </div>
+        }
         scrollableTarget={"cardBasedTableBody"}
         scrollThreshold={1}
+        style={{ overflow: "none" }}
       >
         {page.map(row => {
           prepareRow(row);

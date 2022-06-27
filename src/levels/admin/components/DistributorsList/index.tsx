@@ -168,14 +168,16 @@ const Distributors: FC = () => {
             customActions={[
               {
                 actionName: "edit",
-                iconComponent: <>Edit</>,
+                iconComponent: <>{t("Edit")}</>,
                 isShown: true,
                 disabled: false,
                 onClick: handleEditItem,
               },
               {
                 actionName: "delete",
-                iconComponent: <div style={{ color: "red" }}>Delete</div>,
+                iconComponent: (
+                  <div style={{ color: "red" }}>{t("Delete")}</div>
+                ),
                 isShown: true,
                 disabled: false,
                 onClick: handleDeleteItem,

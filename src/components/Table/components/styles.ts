@@ -195,6 +195,13 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       },
     },
   },
+  loaderWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    "&&": {
+      width: "100%",
+    },
+  },
 }));
 
 export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({

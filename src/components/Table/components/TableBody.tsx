@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import MTableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
@@ -8,8 +10,6 @@ import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import { TableBodyType } from "utils/types/tableConfig";
 
 import { useTableBodyStyles } from "./styles";
-import { useEffect } from "react";
-import { observer } from "mobx-react-lite";
 
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,

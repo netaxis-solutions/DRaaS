@@ -13,6 +13,7 @@ import {
 import MaUTable from "@material-ui/core/Table";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { CircularProgress } from "@material-ui/core";
 import clsx from "clsx";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
@@ -496,10 +497,15 @@ const Table: FC<TableProps> = ({
         <InfiniteScroll
           dataLength={page.length}
           next={() => handleLoadNext && getNewTableData(handleLoadNext)}
-          loader={<div>Loading...</div>}
+          loader={
+            <div className={classes.loaderWrapper}>
+              <CircularProgress />
+            </div>
+          }
           scrollThreshold={1}
           hasMore={Boolean(currentToken) || currentToken === null}
           hasChildren={true}
+          style={{ overflow: "none" }}
         >
           <div className={classes.tableBody}>
             <Toolbar

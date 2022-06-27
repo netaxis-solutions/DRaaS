@@ -12,6 +12,7 @@ export type ResellersDataType = {
   page: number;
   pages: number;
   results: number;
+  next: string;
 };
 
 export type TAddResellerValues = {

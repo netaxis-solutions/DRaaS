@@ -1,14 +1,15 @@
 import { observer } from "mobx-react-lite";
+import clsx from "clsx";
+
+import TableSearch from "storage/singletons/TableSearch";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { ToolbarType } from "utils/types/tableConfig";
-import TablePagination from "storage/singletons/TablePagination";
-import TableSearch from "storage/singletons/TableSearch";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import SearchInput from "components/common/SearchInput";
 
 import { useToolbarStyles } from "./styles";
-import clsx from "clsx";
 
 const Toolbar: React.FC<ToolbarType> = ({
   toolbarActions,

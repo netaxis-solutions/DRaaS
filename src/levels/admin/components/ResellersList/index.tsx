@@ -35,8 +35,9 @@ const ResellersList: FC = () => {
 
   const {
     getResellersData,
-    resellers,
     deleteResellers,
+    getMoreResellers,
+    resellers,
     isResellersCreatable,
     isResellersDeletable,
     isResellersEditable,
@@ -148,9 +149,10 @@ const ResellersList: FC = () => {
         <Table
           title={t("Resellers")}
           columns={columns}
-          data={resellers}
+          data={Resellers.resellers}
           cardBasedLayout
-          handleLoadNext={() => {}}
+          infiniteScroll
+          handleLoadNext={getMoreResellers}
           toolbarActions={toolbarActions}
           setModalToOpen={setModalToOpen}
           customActions={[

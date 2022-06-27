@@ -134,4 +134,5 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  loaderWrapper: { display: "flex", justifyContent: "center" },
 }));
