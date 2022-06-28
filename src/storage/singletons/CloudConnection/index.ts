@@ -1,10 +1,9 @@
 import { action, makeObservable, observable, runInAction } from "mobx";
-// import { AxiosResponse } from "axios";
 
 import MsTeamsAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
-import { request } from "services/api";
 import Login from "../Login";
 import configStore from "../Config";
+import { request } from "services/api";
 
 class CloudConnection {
   isError: boolean = false;
