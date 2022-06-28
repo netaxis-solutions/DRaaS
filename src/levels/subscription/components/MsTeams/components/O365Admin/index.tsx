@@ -117,6 +117,7 @@ const O365Admin: FC = () => {
     <O365AdminSkeleton />
   ) : (
     <CardWrapper
+      width={600}
       children={
         <div>
           {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (

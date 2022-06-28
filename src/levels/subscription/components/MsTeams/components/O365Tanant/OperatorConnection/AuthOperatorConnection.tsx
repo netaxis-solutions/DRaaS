@@ -36,7 +36,11 @@ const AuthOperatorConnection: FC = () => {
   const { byFetchType } = PendingQueries;
   const classes = OperatorConnectionStyle();
 
-  const { startOperatorConnectionOnboarding, setError } = CloudConnection;
+  const {
+    startOperatorConnectionOnboarding,
+    setError,
+    setUncorrectInputData,
+  } = CloudConnection;
 
   const [value, setValue] = useState("email");
 
@@ -59,6 +63,7 @@ const AuthOperatorConnection: FC = () => {
     startOperatorConnectionOnboarding(tenantID, subscriptionID, {
       [value]: payload[value],
     });
+    setUncorrectInputData(payload[value]);
   };
 
   const isLoading = getIsLoading(

@@ -135,7 +135,7 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
         backgroundColor: "#F5F7FF !important",
         color: defaultPalette?.body?.general?.textStyle?.brown,
         "& svg": {
-          fill: `${defaultPalette.icon.main} !important`,
+          fill: `${defaultPalette?.icon?.main} !important`,
         },
       },
     },
@@ -155,10 +155,10 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
       textTransform: "capitalize",
     },
     outlined: {
-      borderColor: defaultPalette.icon.main,
+      borderColor: defaultPalette?.icon?.main,
       color: defaultPalette?.body?.general?.textStyle?.brown,
       "& svg": {
-        fill: `${defaultPalette.icon.main} !important`,
+        fill: `${defaultPalette?.icon?.main} !important`,
       },
     },
   },
@@ -171,7 +171,7 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
         position: "absolute",
         top: "100%",
         fontSize: "1.2rem",
-        color: `${defaultPalette.status.error} !important`,
+        color: `${defaultPalette?.status?.error} !important`,
       },
     },
   },
@@ -203,7 +203,7 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
       },
       "& .link": {
         "&:hover": {
-          color: defaultPalette.menuLink.main,
+          color: defaultPalette?.menuLink?.main,
         },
       },
     },
@@ -222,7 +222,7 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
   },
   MuiCheckbox: {
     root: {
-      color: defaultPalette.input.border,
+      color: defaultPalette?.input?.border,
     },
   },
 });

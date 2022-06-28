@@ -29,6 +29,7 @@ import {
   StrokeSuccessCircle,
   StrokeLoader,
 } from "components/Icons";
+import CardWrapper from "components/CardWrapper";
 import ReloadButton from "./components/ReloadButton";
 import TableSkeleton from "components/Table/Skeleton";
 
@@ -191,9 +192,10 @@ const MsTeamsUsers: FC = () => {
     getIsLoading("@getMsTeamUsers", byFetchType) ||
     getIsLoading("@getMsTeamNumber", byFetchType) ||
     getIsLoading("@getFreeNumbers", byFetchType);
+
   return isLoading ? (
     <TableSkeleton title={t("Users")} columns={columns} actions={[true]} />
-  ) : (
+  ) : CreateDeleteAdmin?.checkMsTeamAdmin?.msGraph.active ? (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Table
         title={
@@ -230,6 +232,18 @@ const MsTeamsUsers: FC = () => {
         isEditable
       />
     </form>
+  ) : (
+    <CardWrapper
+      children={
+        <span>
+          {`${t("We are sorry")}. ${t(
+            "Our graph integration is currently not active",
+          )}. ${t(
+            "Please enable the integration if you want to able to assign numbers to your users",
+          )}.`}
+        </span>
+      }
+    />
   );
 };
 

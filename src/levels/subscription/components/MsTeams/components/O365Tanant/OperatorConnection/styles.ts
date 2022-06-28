@@ -94,5 +94,33 @@ export const OperatorConnectionStyle = makeStyles(
       color: theme.rightSideModal.cancelButtonText,
       marginLeft: 10,
     },
+    userStatusInfoPage: {
+      display: "flex",
+      flexDirection: "column",
+      gap: theme.spacing(2.5),
+    },
+    adminIntegrationWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      gap: theme.spacing(3),
+    },
+    adminIntegrationStatusWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 20,
+      height: "100%",
+    },
+    adminIntegrationTextWithIcon: {
+      display: "flex",
+      gap: 15,
+      "& svg": {
+        width: 20,
+        height: 20,
+      },
+    },
+    twoStepText: {
+      display: "flex",
+      flexDirection: "column",
+    },
   }),
 );

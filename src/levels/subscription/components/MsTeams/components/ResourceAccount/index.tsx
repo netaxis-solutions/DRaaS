@@ -22,6 +22,7 @@ import PendingQueries from "storage/singletons/PendingQueries";
 import TablePagination from "storage/singletons/TablePagination";
 import NumbersStore from "storage/singletons/Numbers";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
+import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
 import AddResourceAccount from "./AddResourceAccount";
 import Flag from "components/common/Flag";
@@ -36,6 +37,7 @@ import Table from "components/Table";
 import AssignedNumber from "../MsTeamsUsers/components/AssignedNumber";
 import FormSelectWithFlags from "components/common/Form/FormSelect/FormSelectWithFlags";
 import CardWithButton from "components/CardForEmptyTable";
+import CardWrapper from "components/CardWrapper";
 
 import useStyles from "../MsTeamsUsers/styles";
 
@@ -362,41 +364,58 @@ const ResourceAccount: FC = () => {
           columns={columns}
           actions={[true, true]}
         />
-      ) : resourceAccountsData.length > 0 ? (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Table
-            title={
-              <div className={classes.tableTitle}>
-                {t("Resource accounts")}
-                <div
-                  className={clsx(classes.icon, classes.reloadButton)}
-                  onClick={() => {
-                    getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
-                    getFreeNumbers(tenantID, subscriptionID);
-                  }}
-                >
-                  <Reload />
+      ) : CreateDeleteAdmin?.checkMsTeamAdmin?.msGraph.active ? (
+        resourceAccountsData.length > 0 ? (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Table
+              title={
+                <div className={classes.tableTitle}>
+                  {t("Resource accounts")}
+                  <div
+                    className={clsx(classes.icon, classes.reloadButton)}
+                    onClick={() => {
+                      getCompleteMsTeamResourceAccounts(
+                        tenantID,
+                        subscriptionID,
+                      );
+                      getFreeNumbers(tenantID, subscriptionID);
+                    }}
+                  >
+                    <Reload />
+                  </div>
                 </div>
-              </div>
-            }
-            columns={columns}
-            data={resourceAccountsData}
-            setDefaultValues={setDefaultValues}
-            toolbarActions={toolbarActions}
-            handleDeleteItem={handleDeleteItem}
-            isEditable
-            isRemovable
-          />
-        </form>
+              }
+              columns={columns}
+              data={resourceAccountsData}
+              setDefaultValues={setDefaultValues}
+              toolbarActions={toolbarActions}
+              handleDeleteItem={handleDeleteItem}
+              isEditable
+              isRemovable
+            />
+          </form>
+        ) : (
+          <div className={classes.cardWrapper}>
+            <CardWithButton
+              content={t("You have no Resource Accounts added yet")}
+              customEvent={() => setModalToOpen("add")}
+              buttonName={t("Add new Account")}
+              icon={Plus}
+            />
+          </div>
+        )
       ) : (
-        <div className={classes.cardWrapper}>
-          <CardWithButton
-            content={t("You have no Resource Accounts added yet")}
-            customEvent={() => setModalToOpen("add")}
-            buttonName={t("Add new Account")}
-            icon={Plus}
-          />
-        </div>
+        <CardWrapper
+          children={
+            <span>
+              {`${t("We are sorry")}. ${t(
+                "Our graph integration is currently not active",
+              )}. ${t(
+                "Please enable the integration if you want to able to assign numbers to your users",
+              )}.`}
+            </span>
+          }
+        />
       )}
       {modalToOpen === "delete" && (
         <DeleteResourceAccount
