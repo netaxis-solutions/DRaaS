@@ -9,5 +9,14 @@ export const addSubscriptionSchema = (t: TFunction) =>
         message: t("Use only letters and digits"),
         excludeEmptyString: true,
       }),
-    billingId: string(),
+    billingId: string()
+      .max(100)
+      .required()
+      .test(
+        "billingIdTest",
+        t("Double quotes isn't allowed"),
+        (value?: string) => {
+          return !value?.includes('"');
+        },
+      ),
   });

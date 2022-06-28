@@ -9,7 +9,6 @@ export const addTenantSchema = (t: TFunction, isDirect?: boolean) =>
         message: t("Use only letters and digits"),
         excludeEmptyString: true,
       }),
-    billingId: string(),
     isDirectTenant: boolean(),
     owner: object().shape({
       label: string(),
@@ -19,11 +18,27 @@ export const addTenantSchema = (t: TFunction, isDirect?: boolean) =>
         otherwise: string(),
       }),
     }),
-    markup: string().matches(
-      /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
-      {
-        message: t("Only numbers from 0 to 100 allowed"),
-        excludeEmptyString: true,
+    billingId: string()
+      .max(100)
+      .required()
+      .test(
+        "billingIdTest",
+        t("Double quotes isn't allowed"),
+        (value?: string) => {
+          return !value?.includes('"');
+        },
+      ),
+    markup: string().test(
+      "markupTest",
+      t("Only numbers from 0 to 1000 allowed"),
+      (value?: string) => {
+        return (
+          value === "" ||
+          (value !== undefined &&
+            Boolean(parseFloat(value)) &&
+            Number(value) >= 0 &&
+            Number(value) <= 1000)
+        );
       },
     ),
   });
@@ -31,12 +46,27 @@ export const addTenantSchema = (t: TFunction, isDirect?: boolean) =>
 export const editTenantSchema = (t: TFunction) =>
   object().shape({
     name: string().required(),
-    billingId: string(),
-    markup: string().matches(
-      /^([0-9]\.[0-9]{1}|[0-9]\.[0-9]{2}|\.[0-9]{2}|[1-9][0-9]\.[0-9]{1}|[1-9][0-9]\.[0-9]{2}|[0-9][0-9]|[1-9][0-9]\.[0-9]{2})$|^([0-9]|[0-9][0-9]|[0-99])$|^100$/,
-      {
-        message: t("Only numbers from 0 to 100 allowed"),
-        excludeEmptyString: true,
+    billingId: string()
+      .max(100)
+      .required()
+      .test(
+        "billingIdTest",
+        t("Double quotes isn't allowed"),
+        (value?: string) => {
+          return !value?.includes('"');
+        },
+      ),
+    markup: string().test(
+      "markupTest",
+      t("Only numbers from 0 to 1000 allowed"),
+      (value?: string) => {
+        return (
+          value === "" ||
+          (value !== undefined &&
+            Boolean(parseFloat(value)) &&
+            Number(value) >= 0 &&
+            Number(value) <= 1000)
+        );
       },
     ),
   });
