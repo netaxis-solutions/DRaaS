@@ -75,6 +75,7 @@ const AddPortingRequestModal: React.FC<TAddTenantFormProps> = ({
         handleCancel={handleCancel}
         steps={steps}
         activeStep={activeStep}
+        styleWithSideBar
       >
         {stepContent}
       </Modal>
