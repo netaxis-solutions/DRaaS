@@ -4,7 +4,6 @@ export type ResellerItemType = {
   uuid: string;
   name: string;
   billingId: string;
-  markup: string;
   [key: string]: string | number;
 };
 
@@ -13,6 +12,7 @@ export type ResellersDataType = {
   page: number;
   pages: number;
   results: number;
+  next: string;
 };
 
 export type TAddResellerValues = {
@@ -55,4 +55,13 @@ export type TOwners = {
   name: string;
   uuid: string;
   type: string;
+};
+
+export type SpecificResellerType = {
+  uuid: string;
+  name: string;
+  billingId: string;
+  status?: string;
+  markups?: Array<{ markup: number; startDate: string }>;
+  owner: { name: string; type: string; uuid: string };
 };

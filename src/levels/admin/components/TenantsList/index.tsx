@@ -144,15 +144,15 @@ const TenantsList: FC = () => {
   );
 
   useEffect(() => {
+    return () => clearPaginationData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     getTenantsData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tablePageCounter, tablePageSize, search]);
-
-  useEffect(() => {
-    return () => clearPaginationData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const toolbarActions = useMemo(() => {
     const actions = [];

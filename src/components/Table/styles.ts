@@ -51,11 +51,15 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     color: theme.body.table.title,
     fontWeight: theme.body.table.fontWeight,
     fontSize: theme.body.table.fontSize,
+    lineHeight: "3rem",
     textTransform: theme.body.table.textTransform,
     fontVariant: "small-caps slashed-zero",
     display: "block",
     marginBottom: "20px",
     marginLeft: theme.spacing(0.5),
+  },
+  cardBasedTableTitle: {
+    marginBottom: 0,
   },
   actionsHeader: {
     textAlign: "end",
@@ -130,4 +134,5 @@ export const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  loaderWrapper: { display: "flex", justifyContent: "center" },
 }));

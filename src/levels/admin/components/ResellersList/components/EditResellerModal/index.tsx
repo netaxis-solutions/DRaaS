@@ -5,48 +5,46 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { Skeleton } from "@mui/material";
 
-import Distributor from "storage/singletons/Distributor";
 import RightSideModal from "storage/singletons/RightSideModal";
+import Reseller from "storage/singletons/Reseller";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 
-import {
-  TEditDistributorPayload,
-  DistributorItemType,
-} from "utils/types/distributors";
-import { editDistributorSchema } from "utils/schemas/distributors";
 import { filterFalsyValues } from "utils/functions/objectFilters";
+import { editResellerSchema } from "utils/schemas/resellers";
+import { TEditResellerPayload, ResellerItemType } from "utils/types/resellers";
 
 import FormInput from "components/common/Form/FormInput";
 import { Next } from "components/Icons";
 
 import useEditDistributorStyles from "./styles";
 
-const EditDistributorModal: React.FC<{
-  originalDistributorValues: DistributorItemType;
+const EditResellerModal: React.FC<{
+  originalResellerValues: ResellerItemType;
   formId: string;
 }> = ({
-  originalDistributorValues: { uuid: distributorId, ...defaultValues },
+  originalResellerValues: { uuid: resellerId, ...defaultValues },
   formId,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const classes = useEditDistributorStyles();
-  const { control, handleSubmit, setValue } = useForm<TEditDistributorPayload>({
-    resolver: yupResolver(editDistributorSchema(t)),
+
+  const { control, setValue, handleSubmit } = useForm<TEditResellerPayload>({
+    resolver: yupResolver(editResellerSchema(t)),
     defaultValues,
   });
 
   const { history, allAvailvableRouting } = RoutingConfig;
   const { currentDelayedModalCloseAction, setSubmitPending } = RightSideModal;
-  const { editDistributor, getSpecificDistributor } = Distributor;
+  const { getSpecificReseller, editReseller } = Reseller;
 
   useEffect(() => {
     setIsLoading(true);
-    getSpecificDistributor(distributorId, () => {
+    getSpecificReseller(resellerId, () => {
       setValue(
         "markup",
         String(
-          Distributor.specificDistributor?.markups?.reduce(
+          Reseller.specificReseller?.markups?.reduce(
             (currMax: { markup: null | number; startDate: string }, curr) =>
               Date.parse(currMax.startDate) > Date.parse(curr.startDate)
                 ? currMax
@@ -62,12 +60,12 @@ const EditDistributorModal: React.FC<{
   }, []);
 
   // After successfully passed validation this function
-  // sends a put request for modifying current distributor
-  const onSubmit = (values: TEditDistributorPayload) => {
+  // sends a put request for modifying current reseller
+  const onSubmit = (values: TEditResellerPayload) => {
     if (!RightSideModal.isSubmitPending) {
       setSubmitPending();
-      editDistributor({
-        distributorId,
+      editReseller({
+        resellerId,
         payload: filterFalsyValues(values),
         callback: () => {
           currentDelayedModalCloseAction(() => {
@@ -94,7 +92,7 @@ const EditDistributorModal: React.FC<{
       >
         <div className={classes.idField}>
           <span className={classes.idText}>{t("UUID")}:</span>
-          <span className={classes.idValue}>{distributorId}</span>
+          <span className={classes.idValue}>{resellerId}</span>
         </div>
         <Controller
           name="name"
@@ -132,48 +130,33 @@ const EditDistributorModal: React.FC<{
       </form>
       <div className={classes.redirectBlockWrapper}>
         <div>
-          <span className={classes.redirectLabel}>{t("Resellers")}:</span>
-          <span className={classes.redirectValue}>24</span>
-        </div>
-        <div>
-          <Next
-            className={classes.redirectArrow}
-            onClick={() => {
-              history.push(
-                allAvailvableRouting.systemResellers +
-                  `?parent=${distributorId}`,
-              );
-            }}
-          />
-        </div>
-      </div>
-      <div className={classes.redirectBlockWrapper}>
-        <div>
-          <span className={classes.redirectLabel}>{t("Direct tenants")}:</span>
-          <span className={classes.redirectValue}>3</span>
-        </div>
-        <div>
-          <Next
-            className={classes.redirectArrow}
-            onClick={() => {
-              history.push(
-                allAvailvableRouting.systemTenants + `?parent=${distributorId}`,
-              );
-            }}
-          />
-        </div>
-      </div>
-      <div className={classes.redirectBlockWrapper}>
-        <div>
-          <span className={classes.redirectLabel}>{t("Admins")}:</span>
-          <span className={classes.redirectValue}>3</span>
+          <span className={classes.redirectLabel}>{t("Owner")}:</span>
+          <span className={classes.redirectValue}>
+            {Reseller.specificReseller?.owner?.name}
+          </span>
         </div>
         <div>
           <Next className={classes.redirectArrow} />
+        </div>
+      </div>
+      <div className={classes.redirectBlockWrapper}>
+        <div>
+          <span className={classes.redirectLabel}>{t("Tenants")}:</span>
+          <span className={classes.redirectValue}>8</span>
+        </div>
+        <div>
+          <Next
+            className={classes.redirectArrow}
+            onClick={() => {
+              history.push(
+                allAvailvableRouting.systemTenants + `?parent=${resellerId}`,
+              );
+            }}
+          />
         </div>
       </div>
     </>
   );
 };
 
-export default observer(EditDistributorModal);
+export default observer(EditResellerModal);

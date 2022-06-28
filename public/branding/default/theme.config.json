@@ -90,7 +90,7 @@
         "text": "#000000",
         "imageBackground": "transparent",
         "headerBGActionWrap": "#DDE7FF",
-        "borderBottom":"transparent",
+        "borderBottom": "transparent",
         "active": {
           "backgroundHover": "#EAEEFC",
           "backgroundSelected": "#EAEEFC",
@@ -142,6 +142,48 @@
           "clickBackgroundAdd": "#253679"
         }
       },
+      "tableRowCard": {
+        "background": "#fff",
+        "borderColor": "#fff",
+        "borderHoverColor": "#3664F7",
+        "actions": {
+          "actionsMenuButton": { "imageFill": "#3664F7" },
+          "tableActionsWrapper": {
+            "color": "#374151",
+            "elementHoverColor": "#EAEEFC"
+          }
+        }
+      },
+      "distributor": {
+        "edit": {
+          "editModalBody": {
+            "idTextColor": "#323D69",
+            "idValueColor": "#374151",
+            "redirectBlock": {
+              "borderTopColor": "#DDE7FF",
+              "redirectLabelColor": "#323D69",
+              "redirectValueColor": "#0061F1",
+              "redirectArrowFill": "#374151",
+              "redirectArrowHoverFill": "#0061F1"
+            }
+          }
+        }
+      },
+      "reseller": {
+        "edit": {
+          "editModalBody": {
+            "idTextColor": "#323D69",
+            "idValueColor": "#374151",
+            "redirectBlock": {
+              "borderTopColor": "#DDE7FF",
+              "redirectLabelColor": "#323D69",
+              "redirectValueColor": "#0061F1",
+              "redirectArrowFill": "#374151",
+              "redirectArrowHoverFill": "#0061F1"
+            }
+          }
+        }
+      },
       "title": "#323D69",
       "fontWeight": "600",
       "background": "#FFFFFF",
@@ -151,7 +193,7 @@
       "text": "#000000",
       "rowBorder": "1px solid #DDE7FF",
       "bodyBorder": "#EBEBF7",
-      "rowHeight":"46px",
+      "rowHeight": "46px",
       "action": {
         "rowBackground": "#F5F7FF"
       }
@@ -199,32 +241,32 @@
       "border": "#EBEBF7"
     },
     "general": {
-      "textStyle":{
-        "black":"#000000",
-        "white":"#FFFFFF",
-        "link":"#4975E5",
-        "brown":"#828282",
+      "textStyle": {
+        "black": "#000000",
+        "white": "#FFFFFF",
+        "link": "#4975E5",
+        "brown": "#828282",
         "blue": "#484CBA",
         "steel": "#828282"
       },
-      "backgrounds":{
+      "backgrounds": {
         "whiteSmoke": "#F9F9F9",
-        "white":"#FFFFFF",
-        "light":"#EBEBF7",
-        "brown":"#828282",
+        "white": "#FFFFFF",
+        "light": "#EBEBF7",
+        "brown": "#828282",
         "alert": "#FDECEB",
-        "progressBar":"#C4C4C4"
+        "progressBar": "#C4C4C4"
       },
-      "icons":{
-        "blueFill":"#484CBA",
-        "whiteFill":"#FFFFFF",
-        "brownFill":"#828282"
+      "icons": {
+        "blueFill": "#484CBA",
+        "whiteFill": "#FFFFFF",
+        "brownFill": "#828282"
       },
-      "borders":{
-        "light":"#EBEBF7",
+      "borders": {
+        "light": "#EBEBF7",
         "steel": "#828282"
       },
-      "hover":"#F5F7FF"
+      "hover": "#F5F7FF"
     },
     "tooltip": {
       "numbers_rangeSize": "#C0C0C0"
@@ -272,13 +314,13 @@
   },
   "side_bar": {
     "fontFamily": "inherit",
-    "titleColor":"#323D69",
-    "hoverEffect":"#EAEEFC",
-    "activeItem":"#3664F7",
-    "activeItemText":"#3664F7",
-    "backgroundColor":"#FFFFFF",
-    "iconBackground":"#EAEEFC",
-    "iconColor":"#7AA2F8"
+    "titleColor": "#323D69",
+    "hoverEffect": "#EAEEFC",
+    "activeItem": "#3664F7",
+    "activeItemText": "#3664F7",
+    "backgroundColor": "#FFFFFF",
+    "iconBackground": "#EAEEFC",
+    "iconColor": "#7AA2F8"
   },
   "rightSideModal": {
     "underline": "#DDE7FF",

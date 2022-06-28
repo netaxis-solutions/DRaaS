@@ -1,8 +1,10 @@
 import { observer } from "mobx-react-lite";
+import clsx from "clsx";
+
+import TableSearch from "storage/singletons/TableSearch";
+import TablePagination from "storage/singletons/TablePagination";
 
 import { ToolbarType } from "utils/types/tableConfig";
-import TablePagination from "storage/singletons/TablePagination";
-import TableSearch from "storage/singletons/TableSearch";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import SearchInput from "components/common/SearchInput";
@@ -12,6 +14,7 @@ import { useToolbarStyles } from "./styles";
 const Toolbar: React.FC<ToolbarType> = ({
   toolbarActions,
   setGlobalFilter,
+  cardBasedLayout,
   value = "",
   customValue,
 }) => {
@@ -28,8 +31,18 @@ const Toolbar: React.FC<ToolbarType> = ({
   }
 
   return (
-    <div className={classes.tableToolbarWrapper}>
-      <div className={classes.tableToolbarSearchActionWrappper}>
+    <div
+      className={clsx({
+        [classes.tableToolbarWrapper]: !cardBasedLayout,
+        [classes.cardBasedTableToolbarWrapper]: cardBasedLayout,
+      })}
+    >
+      <div
+        className={clsx({
+          [classes.tableToolbarSearchActionWrappper]: true,
+          [classes.cardBasedTableToolbarSearchActionWrappper]: cardBasedLayout,
+        })}
+      >
         {!tableWithOutServerPagination ? (
           <SearchInput
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +60,12 @@ const Toolbar: React.FC<ToolbarType> = ({
           />
         )}
 
-        <div className={classes.tableToolbarButtonsWrapper}>
+        <div
+          className={clsx({
+            [classes.tableToolbarButtonsWrapper]: true,
+            [classes.cardBasedTableToolbarButtonsWrapper]: cardBasedLayout,
+          })}
+        >
           {toolbarActions.map(el => (
             <ButtonWithIcon
               key={el.id}

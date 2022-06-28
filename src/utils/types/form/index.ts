@@ -14,7 +14,7 @@ export type IconWithButtonPropsType = {
 export type IconButtonPropsType = {
   disableRipple: boolean;
   icon: React.FC;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 export type InputPropsType = {

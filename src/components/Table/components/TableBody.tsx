@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import MTableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
+import { observer } from "mobx-react-lite";
 import clsx from "clsx";
 
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
@@ -8,7 +10,6 @@ import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import { TableBodyType } from "utils/types/tableConfig";
 
 import { useTableBodyStyles } from "./styles";
-import { useEffect } from "react";
 
 const TableBody: React.FC<TableBodyType> = ({
   getTableBodyProps,
@@ -32,6 +33,7 @@ const TableBody: React.FC<TableBodyType> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
   return (
     <MTableBody {...getTableBodyProps()}>
       {page.map(row => {
@@ -81,4 +83,4 @@ const TableBody: React.FC<TableBodyType> = ({
   );
 };
 
-export default TableBody;
+export default observer(TableBody);

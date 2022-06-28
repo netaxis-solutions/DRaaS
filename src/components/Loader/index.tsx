@@ -14,7 +14,8 @@ const Loader = ({ children }: { children: any }) => {
           PendingQueries.empty
             ? {
                 width: "100%",
-                padding: 30,
+                height: "100%",
+                padding: `24px 30px 30px 30px`,
               }
             : {
                 opacity: 1,

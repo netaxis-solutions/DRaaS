@@ -1,9 +1,10 @@
-import { makeAutoObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction, toJS } from "mobx";
 import { AxiosResponse } from "axios";
 
 import Login from "../Login";
 import configStore from "../Config";
 import TablePagination from "../TablePagination";
+
 import { t } from "services/Translation";
 import { request } from "services/api";
 import {
@@ -16,6 +17,8 @@ import {
   errorNotification,
 } from "utils/functions/notifications";
 
+import TableInfiniteScroll from "../TableInfiniteScroll";
+
 class ResellersStore {
   resellers: Array<ResellerItemType> = [];
 
@@ -25,35 +28,61 @@ class ResellersStore {
     });
   }
 
-  getResellersData = async ({ id }: TGetResellersList) => {
+  getResellersData = ({ id }: TGetResellersList) => {
     const route = id
       ? `${configStore.config.draasInstance}/resellers?distributor_id=${id}`
       : `${configStore.config.draasInstance}/resellers`;
 
-    try {
-      const data: AxiosResponse<ResellersDataType> = await request({
-        route,
-        payload: {
-          params: {
-            page: TablePagination.tablePageCounter,
-            page_size: TablePagination.tablePageSize,
-            search: TablePagination.search,
-          },
+    request({
+      route,
+      payload: {
+        params: {
+          page_size: 24,
+          search: TablePagination.search,
         },
-        loaderName: "@getResellersData",
+      },
+      loaderName: "@getResellersData",
+    })
+      .then(({ data }: AxiosResponse<ResellersDataType>) => {
+        runInAction(() => {
+          TablePagination.getTableConfig(data);
+          this.resellers = data.resellers;
+        });
+        TableInfiniteScroll.setNewToken(data.next);
+      })
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.resellers = [];
+        });
       });
-      const resellers = data.data.resellers;
+  };
 
-      runInAction(() => {
-        TablePagination.getTableConfig(data?.data);
-        this.resellers = resellers;
-      });
-    } catch (e) {
-      errorNotification(e);
-      runInAction(() => {
+  getMoreResellers = (
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/resellers`,
+      payload: {
+        params: {
+          page_size: 24,
+          next: token,
+        },
+      },
+    })
+      .then(
+        ({ data: { resellers, next } }: AxiosResponse<ResellersDataType>) => {
+          runInAction(() => {
+            this.resellers = toJS(this.resellers).concat(resellers);
+          });
+          setNewToken(next);
+        },
+      )
+      .catch(e => {
+        errorNotification(e);
         this.resellers = [];
       });
-    }
   };
 
   deleteResellers = async (

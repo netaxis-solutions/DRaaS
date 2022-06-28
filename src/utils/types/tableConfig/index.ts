@@ -70,6 +70,12 @@ export type TableProps = {
     text: string;
     filterConditions: (rowData: Row<TableData>) => boolean;
   };
+  cardBasedLayout?: boolean;
+  handleLoadNext?: (
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => void;
+  infiniteScroll?: boolean;
 };
 
 export type ToolbarType = {
@@ -77,6 +83,7 @@ export type ToolbarType = {
   setGlobalFilter: (object: string) => void;
   value: string;
   customValue?: string;
+  cardBasedLayout?: boolean;
 };
 
 export type TableBodyType = {
@@ -86,6 +93,15 @@ export type TableBodyType = {
   page: Row<TableData>[];
   prepareRow: (row: Row<TableData>) => void;
   radioButton?: boolean;
+};
+
+export type CardBasedTableBodyType = {
+  page: Row<TableData>[];
+  prepareRow: (row: Row<TableData>) => void;
+  handleLoadNext: (
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => void;
 };
 
 export type TableHeadType = {
