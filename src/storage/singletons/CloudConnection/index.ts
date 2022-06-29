@@ -3,6 +3,7 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 import MsTeamsAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import Login from "../Login";
 import configStore from "../Config";
+import { IStartOnboardingProccessData } from "utils/types/operatorConnection";
 import { request } from "services/api";
 
 class CloudConnection {
@@ -24,10 +25,10 @@ class CloudConnection {
 
   // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#starting-the-onboarding-process
   // Start onboarding proccess and send Email \ Company \ Tenant
-  startOperatorConnectionOnboarding = async (
+  startOperatorConnectionOnboarding = (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
-    payload: any,
+    payload: IStartOnboardingProccessData,
   ) => {
     runInAction(() => {
       this.isError = false;
@@ -54,7 +55,7 @@ class CloudConnection {
 
   // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#unlinking-an-operator-connect-consent
   // Unlink user from MSteams
-  unlinkOperatorConnection = async (
+  unlinkOperatorConnection = (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ) => {
@@ -77,10 +78,10 @@ class CloudConnection {
 
   // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#sending-the-onboarding-confirmation-code
   // Send short code from user email
-  sendShortCode = async (
+  sendShortCode = (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
-    payload: any,
+    payload: IStartOnboardingProccessData,
   ) => {
     runInAction(() => {
       this.isError = false;

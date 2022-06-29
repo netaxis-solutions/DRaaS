@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import CloudConnection from "storage/singletons/CloudConnection";
 import PendingQueries from "storage/singletons/PendingQueries";
 import { getIsLoading } from "utils/functions/getIsLoading";
+import { IStartOnboardingProccessData } from "utils/types/operatorConnection";
 
 import { StrokeSuccessCircle } from "components/Icons";
 import FormInput from "components/common/Form/FormInput";
@@ -38,7 +39,7 @@ const ConfirmCode: FC = () => {
     defaultValues,
   });
 
-  const onSubmit = (payload: any) => {
+  const onSubmit = (payload: IStartOnboardingProccessData) => {
     sendShortCode(tenantID, subscriptionID, payload);
   };
 
@@ -55,7 +56,7 @@ const ConfirmCode: FC = () => {
         </span>
       </div>
       <div className={classes.shortCodeTextWrapper}>
-        {`${t("To make really sure, we sent a ")}`}
+        {t("To make really sure, we sent a ")}
         <span className={classes.boldText}>{t("confirmation code ")}</span>
         {t("to your e-mail")}
         {". "}

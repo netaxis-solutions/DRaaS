@@ -47,7 +47,7 @@ export const OperatorConnectionStyle = makeStyles(
       gap: theme.spacing(2),
       "& svg": {
         "& path": {
-          stroke: "#FF8800",
+          stroke: theme.palette.icon.alert,
         },
       },
     },
@@ -73,7 +73,7 @@ export const OperatorConnectionStyle = makeStyles(
       "&.MuiSvgIcon-root": {
         border: `1px solid ${theme.palette.icon.active}`,
         borderRadius: "50%",
-        fill: `#fff`,
+        fill: theme.body.button.normal.icon.color,
       },
     },
     radioChecked: {
@@ -90,8 +90,8 @@ export const OperatorConnectionStyle = makeStyles(
       },
     },
     cancelButton: {
-      background: theme.body.general.backgrounds.white,
-      color: theme.rightSideModal.cancelButtonText,
+      background: theme.body.button.cancel.background,
+      color: theme.body.button.cancel.text,
       marginLeft: 10,
     },
     userStatusInfoPage: {
@@ -107,12 +107,12 @@ export const OperatorConnectionStyle = makeStyles(
     adminIntegrationStatusWrapper: {
       display: "flex",
       flexDirection: "column",
-      gap: 20,
+      gap: theme.spacing(2.5),
       height: "100%",
     },
     adminIntegrationTextWithIcon: {
       display: "flex",
-      gap: 15,
+      gap: theme.spacing(1.875),
       "& svg": {
         width: 20,
         height: 20,

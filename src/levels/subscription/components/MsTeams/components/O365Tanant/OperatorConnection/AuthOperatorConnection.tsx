@@ -7,10 +7,12 @@ import { useTranslation } from "react-i18next";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { useParams } from "react-router-dom";
 
 import CloudConnection from "storage/singletons/CloudConnection";
 import PendingQueries from "storage/singletons/PendingQueries";
 import { getIsLoading } from "utils/functions/getIsLoading";
+import { IStartOnboardingProccessData } from "utils/types/operatorConnection";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import HelperText from "./HelperText";
@@ -19,7 +21,6 @@ import RadioButtonIcon from "components/common/Form/FormRadioButton/RadioButtonI
 import RadioButtonCheckedIcon from "components/common/Form/FormRadioButton/RadioButtonCheckedIcon";
 
 import { OperatorConnectionStyle } from "./styles";
-import { useParams } from "react-router-dom";
 
 const defaultValues = {
   email: "",
@@ -48,10 +49,10 @@ const AuthOperatorConnection: FC = () => {
     setValue(event.target.value);
   };
 
-  const { control, handleSubmit } = useForm<any>({
+  const { control, handleSubmit } = useForm({
     resolver: yupResolver(
       object().shape({
-        email: string().email().label("This field"),
+        email: string().email().label(t("This field")),
         msTenantId: string(),
         companyName: string(),
       }),
@@ -59,7 +60,8 @@ const AuthOperatorConnection: FC = () => {
     defaultValues,
   });
 
-  const onSubmit = (payload: any) => {
+  const onSubmit = (payload: IStartOnboardingProccessData) => {
+    console.log(payload);
     startOperatorConnectionOnboarding(tenantID, subscriptionID, {
       [value]: payload[value],
     });

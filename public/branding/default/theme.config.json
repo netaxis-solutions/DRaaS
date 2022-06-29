@@ -30,7 +30,8 @@
     "icon": {
       "hover": "#C2C3E8",
       "active": "#484CBA",
-      "main": "#828282"
+      "main": "#828282",
+      "alert":"#FF8800"
     }
   },
   "body": {
@@ -66,7 +67,7 @@
         }
       },
       "cancel": {
-        "text": "#C0C0C0",
+        "text": "#67748E",
         "background": "#FFFFFF",
         "border": "1px solid #C0C0C0 ",
         "icon": {
