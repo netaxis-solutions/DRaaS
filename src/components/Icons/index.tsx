@@ -27,6 +27,7 @@ export { default as RestoreNumberIcon } from "./RestoreNumberIcon";
 export { default as Save } from "./Save";
 export { default as Search } from "./Search";
 export { default as Sort } from "./Sort";
+export { default as StrokeAlert } from "./StrokeAlert";
 export { default as StrokeAlertCircle } from "./StrokeAlertCircle";
 export { default as StrokeClosedEye } from "./StrokeClosedEye";
 export { default as StrokeLoader } from "./StrokeLoader";

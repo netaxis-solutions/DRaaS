@@ -19,7 +19,7 @@ const ResourceAccount = lazy(() => import("./components/ResourceAccount"));
 
 const tabs = [
   {
-    name: t("O365 Tenant"),
+    name: t("o365 Tenant"),
     id: "o365tenant",
     component: () => <O365Tenant />,
   },

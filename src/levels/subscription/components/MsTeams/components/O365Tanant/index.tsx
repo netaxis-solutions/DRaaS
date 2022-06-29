@@ -16,6 +16,7 @@ import InfoPage from "./InfoPage";
 import Stepper from "./StepperMsTeam/Stepper";
 import O365TenantSkeleton from "./O365TenantSkeleton";
 import CardWrapper from "components/CardWrapper";
+import OperatorConnection from "./OperatorConnection";
 
 import { O365Styles } from "./styles";
 
@@ -98,7 +99,7 @@ const O365Tenant: FC = () => {
 
   return isLoading ? (
     <O365TenantSkeleton />
-  ) : (
+  ) : checkMsTeamAdmin?.mode !== "operator_connect" ? (
     <>
       {checkMsTeamAdmin?.status === "already_linked" && alredyLinkedText}
       {checkMsTeamAdmin?.status === "onboarded" ? (
@@ -174,6 +175,8 @@ const O365Tenant: FC = () => {
         <Stepper />
       ) : null}
     </>
+  ) : (
+    <OperatorConnection />
   );
 };
 
