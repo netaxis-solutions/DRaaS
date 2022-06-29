@@ -61,7 +61,6 @@ const AuthOperatorConnection: FC = () => {
   });
 
   const onSubmit = (payload: IStartOnboardingProccessData) => {
-    console.log(payload);
     startOperatorConnectionOnboarding(tenantID, subscriptionID, {
       [value]: payload[value],
     });
