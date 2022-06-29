@@ -3,7 +3,10 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 import MsTeamsAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import Login from "../Login";
 import configStore from "../Config";
-import { IStartOnboardingProccessData } from "utils/types/operatorConnection";
+import {
+  IStartOnboardingProccessData,
+  IStartOnboardingProccess,
+} from "utils/types/operatorConnection";
 import { request } from "services/api";
 
 class CloudConnection {
@@ -28,7 +31,7 @@ class CloudConnection {
   startOperatorConnectionOnboarding = (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
-    payload: IStartOnboardingProccessData,
+    payload: IStartOnboardingProccess,
   ) => {
     runInAction(() => {
       this.isError = false;

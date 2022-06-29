@@ -12,7 +12,10 @@ import { useParams } from "react-router-dom";
 import CloudConnection from "storage/singletons/CloudConnection";
 import PendingQueries from "storage/singletons/PendingQueries";
 import { getIsLoading } from "utils/functions/getIsLoading";
-import { IStartOnboardingProccessData } from "utils/types/operatorConnection";
+import {
+  IStartOnboardingProccess,
+  IOperatorConnectionStrings,
+} from "utils/types/operatorConnection";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import HelperText from "./HelperText";
@@ -22,7 +25,7 @@ import RadioButtonCheckedIcon from "components/common/Form/FormRadioButton/Radio
 
 import { OperatorConnectionStyle } from "./styles";
 
-const defaultValues = {
+const defaultValues: IStartOnboardingProccess = {
   email: "",
   msTenantId: "",
   companyName: "",
@@ -43,13 +46,13 @@ const AuthOperatorConnection: FC = () => {
     setUncorrectInputData,
   } = CloudConnection;
 
-  const [value, setValue] = useState("email");
+  const [value, setValue] = useState<IOperatorConnectionStrings>("email");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
+    setValue(event.target.value as IOperatorConnectionStrings);
   };
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<IStartOnboardingProccess>({
     resolver: yupResolver(
       object().shape({
         email: string().email().label(t("This field")),
@@ -60,11 +63,11 @@ const AuthOperatorConnection: FC = () => {
     defaultValues,
   });
 
-  const onSubmit = (payload: IStartOnboardingProccessData) => {
+  const onSubmit = (payload: IStartOnboardingProccess) => {
     startOperatorConnectionOnboarding(tenantID, subscriptionID, {
       [value]: payload[value],
     });
-    setUncorrectInputData(payload[value]);
+    setUncorrectInputData(payload[value]!);
   };
 
   const isLoading = getIsLoading(
