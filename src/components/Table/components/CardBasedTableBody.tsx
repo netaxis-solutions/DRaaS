@@ -32,7 +32,7 @@ const CardBasedTableBody: React.FC<CardBasedTableBodyType> = ({
           </div>
         }
         scrollableTarget={"cardBasedTableBody"}
-        scrollThreshold={1}
+        scrollThreshold={0.95}
         style={{ overflow: "none" }}
       >
         {page.map(row => {

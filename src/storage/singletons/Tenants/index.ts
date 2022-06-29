@@ -1,9 +1,11 @@
-import { makeAutoObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction, toJS } from "mobx";
 
 import Login from "../Login";
 import configStore from "../Config";
 import PendingQueries from "../PendingQueries";
 import TablePagination from "../TablePagination";
+import TableInfiniteScroll from "../TableInfiniteScroll";
+
 import { t } from "services/Translation";
 import { request } from "services/api";
 import { TenantItemType } from "utils/types/tenant";
@@ -17,6 +19,7 @@ type TTenantsData = {
   page: number;
   pages: number;
   results: number;
+  next: string;
 };
 
 class TenantsStore {
@@ -35,8 +38,7 @@ class TenantsStore {
       route: `${configStore.config.draasInstance}/tenants`,
       payload: {
         params: {
-          page: TablePagination.tablePageCounter,
-          page_size: TablePagination.tablePageSize,
+          page_size: 24,
           search: TablePagination.search,
         },
       },
@@ -46,6 +48,7 @@ class TenantsStore {
           TablePagination.getTableConfig(data.data);
           this.tenants = data.data.tenants;
         });
+        TableInfiniteScroll.setNewToken(data.data.next);
       })
       .catch(e => {
         errorNotification(e);
@@ -73,6 +76,31 @@ class TenantsStore {
     //   status === "fulfilled" && prev.push(rest["value" as keyof object]);
     //   return prev;
     // }, []);
+  };
+
+  getMoreTenants = (token: string, setNewToken: (newToken: string) => void) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants`,
+      payload: {
+        params: {
+          page_size: 24,
+          next: token,
+        },
+      },
+    })
+      .then((data: { data: TTenantsData }) => {
+        runInAction(() => {
+          TablePagination.getTableConfig(data.data);
+          this.tenants = toJS(this.tenants).concat(data.data.tenants);
+        });
+        setNewToken(data.data.next);
+      })
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.tenants = [];
+        });
+      });
   };
 
   deleteTenants = (selectedTenantsIds: string[], callback?: () => void) => {

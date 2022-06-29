@@ -60,30 +60,27 @@ const MsTeamsUsers: FC = () => {
     msTeamUsersList,
     getMsTeamUsers,
     editMsTeamsUserNumber,
+    getMoreMsTeamUsers,
   } = MsTeamsStore;
   const { byFetchType } = PendingQueries;
   const { getFreeNumbers } = NumbersStore;
 
-  const {
-    clearTablePagesWithoutServerPaginations,
-    clearPaginationData,
-  } = TablePagination;
+  const { search, clearPaginationData } = TablePagination;
 
   useEffect(() => {
-    getMsTeamUsers(tenantID, subscriptionID);
     getFreeNumbers(tenantID, subscriptionID);
 
     return () => {
-      TableSearch.clearTableSearch();
       clearPaginationData();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    clearTablePagesWithoutServerPaginations(msTeamUsersList.length);
+    getMsTeamUsers(tenantID, subscriptionID);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [msTeamUsersList]);
+  }, [search]);
 
   const columns = useMemo(
     () => [
@@ -210,7 +207,6 @@ const MsTeamsUsers: FC = () => {
             </div>
           </div>
         }
-        customSearchValue={TableSearch.searchValue}
         columns={columns}
         data={msTeamUsersList}
         tooltipEditButton={{
@@ -228,6 +224,10 @@ const MsTeamsUsers: FC = () => {
           !CreateDeleteAdmin?.checkMsTeamAdmin?.powershell.active
         }
         isEditable
+        infiniteScroll
+        handleLoadNext={(token, setNewToken) => {
+          getMoreMsTeamUsers(tenantID, subscriptionID, token, setNewToken);
+        }}
       />
     </form>
   );
