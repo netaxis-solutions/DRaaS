@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
 import clsx from "clsx";
 
-import NumbersStore from "storage/singletons/Numbers";
 import MsTeamsStore from "storage/singletons/MsTeams";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import TablePagination from "storage/singletons/TablePagination";
@@ -16,6 +15,7 @@ import PendingQueries from "storage/singletons/PendingQueries";
 import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import TableSearch from "storage/singletons/TableSearch";
+import CloudConnection from "storage/singletons/CloudConnection";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 import { getIsLoading } from "utils/functions/getIsLoading";
@@ -64,12 +64,13 @@ const MsTeamsUsers: FC = () => {
     getMoreMsTeamUsers,
   } = MsTeamsStore;
   const { byFetchType } = PendingQueries;
-  const { getFreeNumbers } = NumbersStore;
+  const { getOcFreeNumbers } = CloudConnection;
 
   const { search, clearPaginationData } = TablePagination;
 
   useEffect(() => {
-    getFreeNumbers(tenantID, subscriptionID);
+    getMsTeamUsers(tenantID, subscriptionID);
+    getOcFreeNumbers(tenantID, subscriptionID);
 
     return () => {
       clearPaginationData();
@@ -109,7 +110,10 @@ const MsTeamsUsers: FC = () => {
                 render={({ field, ...props }) => (
                   <FormSelect
                     label={t("Select")}
-                    options={["Unselect number", ...NumbersStore.freeNumbers]}
+                    options={[
+                      "Unselect number",
+                      ...CloudConnection.freeNumbers,
+                    ]}
                     {...field}
                     {...props}
                     className={classes.selectNumber}
@@ -167,7 +171,7 @@ const MsTeamsUsers: FC = () => {
       values.assignedNumber === "Unselect number"
         ? null
         : values.assignedNumber,
-      () => getFreeNumbers(tenantID, subscriptionID),
+      () => getOcFreeNumbers(tenantID, subscriptionID),
     );
   };
 
@@ -188,7 +192,7 @@ const MsTeamsUsers: FC = () => {
   const isLoading =
     getIsLoading("@getMsTeamUsers", byFetchType) ||
     getIsLoading("@getMsTeamNumber", byFetchType) ||
-    getIsLoading("@getFreeNumbers", byFetchType);
+    getIsLoading("@getOcFreeNumbers", byFetchType);
 
   return isLoading ? (
     <TableSkeleton title={t("Users")} columns={columns} actions={[true]} />

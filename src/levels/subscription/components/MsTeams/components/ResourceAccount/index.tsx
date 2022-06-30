@@ -20,9 +20,9 @@ import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import ResourceAccountStorage from "storage/singletons/MsTeams/resourceAccount";
 import PendingQueries from "storage/singletons/PendingQueries";
 import TablePagination from "storage/singletons/TablePagination";
-import NumbersStore from "storage/singletons/Numbers";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import CloudConnection from "storage/singletons/CloudConnection";
 
 import AddResourceAccount from "./AddResourceAccount";
 import Flag from "components/common/Flag";
@@ -66,9 +66,10 @@ const ResourceAccount: FC = () => {
     getVerifiedDomains,
   } = ResourceAccountStorage;
 
+  const { getOcFreeNumbers } = CloudConnection;
+
   const { setSelectedRows } = TableSelectedRowsStore;
 
-  const { getFreeNumbers } = NumbersStore;
   const {
     clearTablePagesWithoutServerPaginations,
     clearPaginationData,
@@ -99,7 +100,7 @@ const ResourceAccount: FC = () => {
   // After unmount we deleting table pagination
   useEffect(() => {
     getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
-    getFreeNumbers(tenantID, subscriptionID);
+    getOcFreeNumbers(tenantID, subscriptionID);
     getCountryCode();
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -203,7 +204,10 @@ const ResourceAccount: FC = () => {
                 render={({ field, ...props }) => (
                   <FormSelect
                     label={t("Select")}
-                    options={["Unselect number", ...NumbersStore.freeNumbers]}
+                    options={[
+                      "Unselect number",
+                      ...CloudConnection.freeNumbers,
+                    ]}
                     {...field}
                     {...props}
                     className={classes.selectNumber}
@@ -280,7 +284,7 @@ const ResourceAccount: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
-        getFreeNumbers(tenantID, subscriptionID);
+        getOcFreeNumbers(tenantID, subscriptionID);
         getVerifiedDomains(tenantID, subscriptionID);
       },
     },
@@ -378,7 +382,7 @@ const ResourceAccount: FC = () => {
                         tenantID,
                         subscriptionID,
                       );
-                      getFreeNumbers(tenantID, subscriptionID);
+                      getOcFreeNumbers(tenantID, subscriptionID);
                     }}
                   >
                     <Reload />

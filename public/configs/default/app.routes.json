@@ -50,7 +50,10 @@
       "enabled": true,
       "tabs": {
         "o365tenant": true,
-        "o365admin": true
+        "o365admin": true,
+        "msTeamsUsers":true,
+        "resourceAccounts":true,
+        "numbers":true
       }
     },
     "subscriptionSIPTrunks": { "enabled": true },
