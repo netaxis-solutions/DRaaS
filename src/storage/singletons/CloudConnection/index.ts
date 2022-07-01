@@ -157,6 +157,8 @@ class CloudConnection {
       });
   };
 
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#get-the-list-of-phone-numbers-added-to-an-operator-connect-consent
+  // get Numbers for Numbers table and option for Infinity Scroll
   getMoreOCNumbers = (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
