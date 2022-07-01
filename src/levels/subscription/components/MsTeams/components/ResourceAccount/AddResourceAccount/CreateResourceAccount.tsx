@@ -11,8 +11,9 @@ import omit from "lodash/omit";
 
 import ResourceAccountStorage from "storage/singletons/MsTeams/resourceAccount";
 import PendingQueries from "storage/singletons/PendingQueries";
-import NumbersStore from "storage/singletons/Numbers";
 import SubscriptionLicensesStore from "storage/singletons/Licenses";
+import CloudConnection from "storage/singletons/CloudConnection";
+
 import {
   TCreateResourceAccount,
   TCreateResourceAccountPayloadStorage,
@@ -134,7 +135,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
   const isLoading =
     getIsLoading("@createMsTeamResourceAccount", byFetchType) ||
     getIsLoading("@getVerifiedDomains", byFetchType) ||
-    getIsLoading("@getFreeNumbers", byFetchType);
+    getIsLoading("@getOcFreeNumbers", byFetchType);
 
   return isLoading ? (
     <Stack>
@@ -220,7 +221,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
                 SubscriptionLicensesStore.licenses[0].assigned
               }
               label={t("Phone number")}
-              options={["Unselect number", ...NumbersStore.freeNumbers]}
+              options={["Unselect number", ...CloudConnection.freeNumbers]}
               {...field}
               {...props}
               className={classes.selectNumber}

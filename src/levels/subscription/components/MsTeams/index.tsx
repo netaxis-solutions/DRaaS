@@ -16,6 +16,7 @@ const O365Tenant = lazy(() => import("./components/O365Tanant"));
 const O365Admin = lazy(() => import("./components/O365Admin"));
 const MsTeamsUsers = lazy(() => import("./components/MsTeamsUsers"));
 const ResourceAccount = lazy(() => import("./components/ResourceAccount"));
+const Numbers = lazy(() => import("./components/Numbers"));
 
 const tabs = [
   {
@@ -27,6 +28,11 @@ const tabs = [
     name: t("Admin account"),
     id: "o365admin",
     component: () => <O365Admin />,
+  },
+  {
+    name: t("Numbers"),
+    id: "ocNumbers",
+    component: () => <Numbers />,
   },
   {
     name: t("Users"),

@@ -1,28 +1,44 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
+import { action, makeObservable, observable, runInAction, toJS } from "mobx";
+import { AxiosResponse } from "axios";
 
 import MsTeamsAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import TableInfiniteScroll from "../TableInfiniteScroll";
+import TablePagination from "../TablePagination";
 import Login from "../Login";
 import configStore from "../Config";
 import {
   IStartOnboardingProccessData,
   IStartOnboardingProccess,
+  IDeleteNumbers,
+  IOcNumbers,
 } from "utils/types/operatorConnection";
+import {
+  errorNotification,
+  deleteNotification,
+} from "utils/functions/notifications";
 import { request } from "services/api";
+import { t } from "services/Translation";
 
 class CloudConnection {
   isError: boolean = false;
   uncorrectInputData: string = "";
+  numbers: IOcNumbers[] = [];
+  freeNumbers: Array<string> = [];
 
   constructor() {
     makeObservable(this, {
       isError: observable,
       uncorrectInputData: observable,
+      numbers: observable,
+      freeNumbers: observable,
 
       startOperatorConnectionOnboarding: action,
       unlinkOperatorConnection: action,
       sendShortCode: action,
       setUncorrectInputData: action,
       setError: action,
+      getOcNumbers: action,
+      getOcFreeNumbers: action,
     });
   }
 
@@ -52,7 +68,7 @@ class CloudConnection {
         runInAction(() => {
           this.isError = true;
         });
-        console.error(e);
+        errorNotification(e);
       });
   };
 
@@ -75,7 +91,7 @@ class CloudConnection {
       })
       .catch(e => {
         MsTeamsAdminStorage.getCheckMsTeamAdmin(tenantID, subscriptionID);
-        console.error(e);
+        errorNotification(e);
       });
   };
 
@@ -101,11 +117,128 @@ class CloudConnection {
           this.isError = false;
         });
       })
-      .catch(e => {
+      .catch(() => {
         runInAction(() => {
           this.isError = true;
         });
-        console.error(e);
+      });
+  };
+
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#get-the-list-of-phone-numbers-added-to-an-operator-connect-consent
+  // get Numbers for Numbers table
+  getOcNumbers = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
+    const params = TablePagination.search
+      ? {
+          page_size: 24,
+          search: TablePagination.search,
+        }
+      : { page_size: 24 };
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/numbers`,
+      loaderName: "@getOcNumbers",
+      payload: {
+        params,
+      },
+    })
+      .then(
+        ({ data }: AxiosResponse<{ numbers: IOcNumbers[]; next: string }>) => {
+          runInAction(() => {
+            this.numbers = data.numbers;
+          });
+          TableInfiniteScroll.setNewToken(data.next);
+        },
+      )
+      .catch(e => {
+        errorNotification(e);
+        this.numbers = [];
+      });
+  };
+
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#get-the-list-of-phone-numbers-added-to-an-operator-connect-consent
+  // get Numbers for Numbers table and option for Infinity Scroll
+  getMoreOCNumbers = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => {
+    const params = TablePagination.search
+      ? {
+          page_size: 24,
+          next: token,
+          search: TablePagination.search,
+        }
+      : {
+          page_size: 24,
+          next: token,
+        };
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/numbers`,
+      payload: {
+        params,
+      },
+    })
+      .then(
+        ({ data }: AxiosResponse<{ numbers: IOcNumbers[]; next: string }>) => {
+          runInAction(() => {
+            this.numbers = toJS(this.numbers).concat(data.numbers);
+          });
+          setNewToken(data.next);
+        },
+      )
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.numbers = [];
+        });
+      });
+  };
+
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#get-the-list-of-free-phone-numbers-for-an-operator-connect-consent
+  // get free numbers for Tabs - Users, Resource Account and Numbers
+  getOcFreeNumbers = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/free_numbers`,
+      loaderName: "@getOcFreeNumbers",
+    })
+      .then(({ data }: AxiosResponse<{ freeNumbers: Array<string> }>) => {
+        runInAction(() => {
+          this.freeNumbers = data.freeNumbers;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#removing-phone-numbers-from-an-operator-connect-consent
+  // Delete phone numbers
+  deleteNumbers = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    payload: IDeleteNumbers[],
+  ) => {
+    runInAction(() => {
+      this.isError = false;
+    });
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/numbers`,
+      loaderName: "@deleteNumbers",
+      method: "delete",
+      payload: { numbers: payload },
+    })
+      .then(() => {
+        deleteNotification(t("Number(s) and range(s) successfully deleted"));
+        this.getOcNumbers(tenantID, subscriptionID);
+      })
+      .catch(e => {
+        errorNotification(e);
       });
   };
 
