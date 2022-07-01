@@ -10,11 +10,18 @@ class TableSelectedRows {
   radioButtonValueInRow: RadioSelectRowType = {};
   selectedRowsValues: Array<{ [key: string]: any }> = [];
   isChecked: boolean = false;
+
+  firstSelectedValue: any | null = null;
+
   constructor() {
     makeAutoObservable(this, {
       selectedRowsValues: observable.ref,
     });
   }
+
+  setFirstSelectedValue = (val: any | null) => {
+    this.firstSelectedValue = val;
+  };
 
   setSelectedRows = (selectedRows: Record<string, boolean>) => {
     this.selectedRows = selectedRows;
