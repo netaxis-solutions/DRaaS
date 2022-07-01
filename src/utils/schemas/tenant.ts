@@ -4,10 +4,10 @@ import { string, object, boolean } from "yup";
 export const addTenantSchema = (t: TFunction, isDirect?: boolean) =>
   object().shape({
     name: string()
-      .required(t("Please fill this field"))
-      .matches(/^[aA-zZ0-9\s]+$/, {
-        message: t("Use only letters and digits"),
-        excludeEmptyString: true,
+      .max(100)
+      .required()
+      .test("nameTest", t("Double quotes isn't allowed"), (value?: string) => {
+        return !value?.includes('"');
       }),
     isDirectTenant: boolean(),
     owner: object().shape({
@@ -45,7 +45,12 @@ export const addTenantSchema = (t: TFunction, isDirect?: boolean) =>
 
 export const editTenantSchema = (t: TFunction) =>
   object().shape({
-    name: string().required(),
+    name: string()
+      .max(100)
+      .required()
+      .test("nameTest", t("Double quotes isn't allowed"), (value?: string) => {
+        return !value?.includes('"');
+      }),
     billingId: string()
       .max(100)
       .required()
