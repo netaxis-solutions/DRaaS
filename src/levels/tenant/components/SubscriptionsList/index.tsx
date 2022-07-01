@@ -49,9 +49,10 @@ const SubscriptionsList: FC = () => {
 
   const {
     subscriptions,
-    getSubscriptionsData,
     isSubscriptionsCreatable,
     cleanSubscriptionHistory,
+    getSubscriptionsData,
+    getMoreSubscriptions,
     // isSubscriptionsEditable,
   } = Subscriptions;
 
@@ -131,6 +132,10 @@ const SubscriptionsList: FC = () => {
           columns={columns}
           data={subscriptions}
           toolbarActions={toolbarActions}
+          infiniteScroll
+          handleLoadNext={(token, setNewToken) => {
+            getMoreSubscriptions(tenantId, token, setNewToken);
+          }}
           // isEditable={isSubscriptionsEditable}
         />
       ) : (

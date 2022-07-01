@@ -11,6 +11,7 @@ export type SubscriptionsDataType = {
   page: number;
   pages: number;
   results: number;
+  next: string;
 };
 
 export type TCreateSubscriptionPayload = {

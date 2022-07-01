@@ -1,8 +1,10 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable, runInAction, toJS } from "mobx";
 import { AxiosResponse } from "axios";
 
 import configStore from "../Config";
 import Login from "../Login";
+import TableInfiniteScroll from "../TableInfiniteScroll";
+import TablePagination from "../TablePagination";
 
 import { request } from "services/api";
 import { t } from "services/Translation";
@@ -19,14 +21,25 @@ class MsTeam {
     });
   }
 
-  getMsTeamUsers = async (
+  getMsTeamUsers = (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
+
     successCallback?: () => void,
   ) => {
+    const params = TablePagination.search
+      ? {
+          page_size: 24,
+          search: TablePagination.search,
+        }
+      : { page_size: 24 };
+
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users`,
       loaderName: "@getMsTeamUsers",
+      payload: {
+        params,
+      },
     })
       .then((data: AxiosResponse<any>) => {
         const checkMsTeamUsersList = data.data.users;
@@ -35,6 +48,47 @@ class MsTeam {
           this.msTeamUsersList = checkMsTeamUsersList;
         });
         successCallback && successCallback();
+        TableInfiniteScroll.setNewToken(data.data.next);
+      })
+      .catch(e => {
+        console.error(e);
+        this.msTeamUsersList = [];
+      });
+  };
+
+  getMoreMsTeamUsers = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => {
+    const params = TablePagination.search
+      ? {
+          page_size: 24,
+          next: token,
+          search: TablePagination.search,
+        }
+      : {
+          page_size: 24,
+          next: token,
+        };
+
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/users`,
+      payload: {
+        params,
+      },
+    })
+      .then((data: AxiosResponse<any>) => {
+        const checkMsTeamUsersList = data.data.users;
+
+        runInAction(() => {
+          this.msTeamUsersList = toJS(this.msTeamUsersList).concat(
+            checkMsTeamUsersList,
+          );
+        });
+
+        setNewToken(data.data.next);
       })
       .catch(e => {
         console.error(e);

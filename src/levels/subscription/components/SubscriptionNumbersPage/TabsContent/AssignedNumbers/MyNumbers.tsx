@@ -43,6 +43,7 @@ const MyNumbers = () => {
     getNumbersData,
     clearNumbers,
     deassignNumbers,
+    getMoreNumbers,
   } = NumbersStore;
   const {
     availableEntitlementsNumber,
@@ -249,6 +250,10 @@ const MyNumbers = () => {
             isGeneralCheckboxSelected={isGeneralCheckboxSelected}
             checkbox
             isRemovable
+            handleLoadNext={(token, setNewToken) => {
+              getMoreNumbers(tenantID, subscriptionID, token, setNewToken);
+            }}
+            infiniteScroll
           />
         </>
       ) : null}

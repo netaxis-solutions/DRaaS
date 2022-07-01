@@ -1,9 +1,11 @@
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable, runInAction, toJS } from "mobx";
 import { AxiosResponse } from "axios";
+
 import configStore from "../Config";
 import TablePagination from "../TablePagination";
-import { request } from "services/api";
-import { t } from "services/Translation";
+import Login from "../Login";
+import TableInfiniteScroll from "../TableInfiniteScroll";
+
 import {
   errorNotification,
   successNotification,
@@ -17,7 +19,9 @@ import {
   PhoneNumberType,
   InventoryNumber,
 } from "utils/types/numbers";
-import Login from "../Login";
+
+import { request } from "services/api";
+import { t } from "services/Translation";
 
 class NumbersStore {
   numbers: Array<PhoneNumberType> = [];
@@ -40,32 +44,65 @@ class NumbersStore {
     });
   }
 
-  getNumbersData = async (
+  getNumbersData = (
     tenantId: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ) => {
-    try {
-      const data: AxiosResponse<any> = await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/numbers`,
-        loaderName: "@getNumbersData",
-        payload: {
-          params: {
-            page: TablePagination.tablePageCounter,
-            page_size: TablePagination.tablePageSize,
-            search: TablePagination.search,
-          },
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/numbers`,
+      loaderName: "@getNumbersData",
+      payload: {
+        params: {
+          page_size: 24,
+          search: TablePagination.search,
         },
-      });
-      const numbers = data.data.numbers;
+      },
+    })
+      .then(
+        (data: AxiosResponse<{ numbers: PhoneNumberType[]; next: string }>) => {
+          const numbers = data.data.numbers;
 
-      runInAction(() => {
-        TablePagination.getTableConfig(data.data);
-        this.numbers = numbers;
+          runInAction(() => {
+            this.numbers = numbers;
+          });
+          TableInfiniteScroll.setNewToken(data.data.next);
+        },
+      )
+      .catch(e => {
+        this.clearNumbers();
+        errorNotification(e);
       });
-    } catch (e) {
-      this.clearNumbers();
-      errorNotification(e);
-    }
+  };
+
+  getMoreNumbers = (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions/${subscriptionID}/numbers`,
+      payload: {
+        params: {
+          page_size: 24,
+          next: token,
+        },
+      },
+    })
+      .then(
+        (data: AxiosResponse<{ numbers: PhoneNumberType[]; next: string }>) => {
+          const numbers = data.data.numbers;
+
+          runInAction(() => {
+            this.numbers = toJS(this.numbers).concat(numbers);
+          });
+          setNewToken(data.data.next);
+        },
+      )
+      .catch(e => {
+        this.clearNumbers();
+        errorNotification(e);
+      });
   };
 
   getFreeNumbers = (

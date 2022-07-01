@@ -1,9 +1,10 @@
-import { makeAutoObservable, observable, runInAction } from "mobx";
+import { makeAutoObservable, observable, runInAction, toJS } from "mobx";
 import { AxiosResponse } from "axios";
 
 import Login from "../Login";
 import configStore from "../Config";
 import TablePagination from "../TablePagination";
+import TableInfiniteScroll from "../TableInfiniteScroll";
 
 import { t } from "services/Translation";
 import { request } from "services/api";
@@ -35,8 +36,7 @@ class SubscriptionsStore {
       loaderName: "@getSubscriptionsData",
       payload: {
         params: {
-          page: TablePagination.tablePageCounter,
-          page_size: TablePagination.tablePageSize,
+          page_size: 24,
           search: TablePagination.search,
         },
       },
@@ -46,6 +46,37 @@ class SubscriptionsStore {
           TablePagination.getTableConfig(data.data);
           this.subscriptions = data.data.subscriptions;
         });
+        TableInfiniteScroll.setNewToken(data.data.next);
+      })
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.subscriptions = [];
+        });
+      });
+  };
+
+  getMoreSubscriptions = (
+    tenantId: string = Login.getExactLevelReference("tenant"),
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantId}/subscriptions`,
+      payload: {
+        params: {
+          page_size: 24,
+          next: token,
+        },
+      },
+    })
+      .then((data: AxiosResponse<SubscriptionsDataType>) => {
+        runInAction(() => {
+          this.subscriptions = toJS(this.subscriptions).concat(
+            data.data.subscriptions,
+          );
+        });
+        setNewToken(data.data.next);
       })
       .catch(e => {
         errorNotification(e);

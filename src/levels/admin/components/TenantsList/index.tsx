@@ -50,13 +50,14 @@ const TenantsList: FC = () => {
   } = TablePagination;
 
   const {
-    getTenantsData,
     tenants,
-    deleteTenants,
     isTenantsCreatable,
     isTenantsEditable,
     isTenantsDeletable,
     isTenantsReadable,
+    getTenantsData,
+    deleteTenants,
+    getMoreTenants,
   } = TenantsStore;
 
   const {
@@ -237,6 +238,8 @@ const TenantsList: FC = () => {
             handleDeleteItem={handleDeleteItem}
             isEditable={isTenantsEditable}
             handleEditItem={handleEditItem}
+            handleLoadNext={getMoreTenants}
+            infiniteScroll
           />
         )}
       </form>

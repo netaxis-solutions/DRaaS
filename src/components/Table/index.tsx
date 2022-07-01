@@ -502,7 +502,7 @@ const Table: FC<TableProps> = ({
               <CircularProgress />
             </div>
           }
-          scrollThreshold={1}
+          scrollThreshold={0.95}
           hasMore={Boolean(currentToken) || currentToken === null}
           hasChildren={true}
           style={{ overflow: "none" }}
