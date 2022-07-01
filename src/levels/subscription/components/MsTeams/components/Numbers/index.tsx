@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { CellProps, Row } from "react-table";
+import { CellProps } from "react-table";
 import { FC, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,12 @@ const CloudConnectionNumbers: FC = () => {
   }>();
 
   const { byFetchType } = PendingQueries;
-  const { getOcNumbers, numbers, deleteNumbers } = CloudConnection;
+  const {
+    getOcNumbers,
+    numbers,
+    deleteNumbers,
+    getMoreOCNumbers,
+  } = CloudConnection;
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -39,16 +44,12 @@ const CloudConnectionNumbers: FC = () => {
     setSelectedRowsValues,
   } = TableSelectedRowsStore;
 
-  const {
-    clearTablePagesWithoutServerPaginations,
-    clearPaginationData,
-  } = TablePagination;
+  const { search, clearPaginationData } = TablePagination;
 
   useEffect(() => {
     getOcNumbers(tenantID, subscriptionID);
-    clearTablePagesWithoutServerPaginations(numbers.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [numbers.length]);
+  }, [search]);
 
   useEffect(() => {
     return () => clearPaginationData();
@@ -154,28 +155,6 @@ const CloudConnectionNumbers: FC = () => {
     handleCloseModal();
   };
 
-  const isAvailable = (row: Row<TableData>) => {
-    return row.original.draas;
-  };
-
-  // Option for select all checkbox
-  const selectAllCondition = (page: Row<TableData>[]) => {
-    const maxSelectedAmount = page.reduce((prev, row) => {
-      return !row.original.draas ? prev : ++prev;
-    }, 0);
-
-    return (
-      maxSelectedAmount === TableSelectedRowsStore.selectedRowsLength &&
-      TableSelectedRowsStore.selectedRowsLength !== 0
-    );
-  };
-
-  // This function calculates if current row is selectable
-  //Any we have in all to same functions
-  const isRowSelectable = (_: any, row: Row<TableData>) => {
-    return row.original.draas;
-  };
-
   const isLoading =
     getIsLoading("@getOcNumbers", byFetchType) ||
     getIsLoading("@deleteNumbers", byFetchType);
@@ -198,12 +177,10 @@ const CloudConnectionNumbers: FC = () => {
           toolbarActions={toolbarActions}
           isRemovable
           checkbox
-          isCheckboxAvailable={isAvailable}
-          isRowSelectable={isRowSelectable}
-          isGeneralCheckboxSelected={selectAllCondition}
-          deleteDisabledCondition={(row: Row<TableData>) => {
-            return !row.original.draas;
+          handleLoadNext={(token, setNewToken) => {
+            getMoreOCNumbers(tenantID, subscriptionID, token, setNewToken);
           }}
+          infiniteScroll
         />
       )}
       {modalToOpen === "delete" && (

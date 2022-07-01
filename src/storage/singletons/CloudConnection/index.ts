@@ -1,7 +1,9 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
+import { action, makeObservable, observable, runInAction, toJS } from "mobx";
 import { AxiosResponse } from "axios";
 
 import MsTeamsAdminStorage from "storage/singletons/MsTeams/CreateDeleteAdmin";
+import TableInfiniteScroll from "../TableInfiniteScroll";
+import TablePagination from "../TablePagination";
 import Login from "../Login";
 import configStore from "../Config";
 import {
@@ -128,17 +130,68 @@ class CloudConnection {
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
   ) => {
+    const params = TablePagination.search
+      ? {
+          page_size: 24,
+          search: TablePagination.search,
+        }
+      : { page_size: 24 };
     request({
       route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/numbers`,
       loaderName: "@getOcNumbers",
+      payload: {
+        params,
+      },
     })
-      .then(({ data }: AxiosResponse<{ numbers: IOcNumbers[] }>) => {
-        runInAction(() => {
-          this.numbers = data.numbers;
-        });
-      })
+      .then(
+        ({ data }: AxiosResponse<{ numbers: IOcNumbers[]; next: string }>) => {
+          runInAction(() => {
+            this.numbers = data.numbers;
+          });
+          TableInfiniteScroll.setNewToken(data.next);
+        },
+      )
       .catch(e => {
         errorNotification(e);
+        this.numbers = [];
+      });
+  };
+
+  getMoreOCNumbers = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    token: string,
+    setNewToken: (newToken: string) => void,
+  ) => {
+    const params = TablePagination.search
+      ? {
+          page_size: 24,
+          next: token,
+          search: TablePagination.search,
+        }
+      : {
+          page_size: 24,
+          next: token,
+        };
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/numbers`,
+      payload: {
+        params,
+      },
+    })
+      .then(
+        ({ data }: AxiosResponse<{ numbers: IOcNumbers[]; next: string }>) => {
+          runInAction(() => {
+            this.numbers = toJS(this.numbers).concat(data.numbers);
+          });
+          setNewToken(data.next);
+        },
+      )
+      .catch(e => {
+        errorNotification(e);
+        runInAction(() => {
+          this.numbers = [];
+        });
       });
   };
 
