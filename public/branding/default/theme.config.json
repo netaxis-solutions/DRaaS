@@ -339,5 +339,8 @@
       "borderColor": "#FF8800",
       "textColor": "#FF8800"
     }
+  },
+  "modal":{
+    "background": "#F1F2F9"
   }
 }

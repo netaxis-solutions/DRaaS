@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     left: 0,
     right: 0,
     zIndex: 1000,
-    background: theme.body.general.backgrounds.white,
+    background: theme.modal.background,
     overflowY: "auto",
   },
   fixedBackground: {

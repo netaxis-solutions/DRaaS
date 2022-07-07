@@ -31,4 +31,39 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   textWithInput: {
     marginBottom: theme.spacing(1.875),
   },
+  modalWrapper: {
+    zIndex: 500,
+  },
+
+  modalButtonWrapper: {
+    zIndex: 501,
+  },
+  textWithIcon: {
+    display: "flex",
+    justifyContent: "start",
+    gap: theme.spacing(1.5),
+    "& div": {
+      width: 20,
+      height: 20,
+    },
+    "& svg": {
+      width: 20,
+      height: 20,
+    },
+  },
+  boldTextTitle: {
+    fontWeight: 700,
+  },
+  errorTextWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: theme.spacing(3),
+    "& span:first-child": {
+      marginBottom: theme.spacing(2.5),
+    },
+    "& ul": {
+      margin: 0,
+      paddingLeft: 24,
+    },
+  },
 }));

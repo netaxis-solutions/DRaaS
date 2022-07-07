@@ -16,6 +16,7 @@ import Flag from "components/common/Flag";
 import Table from "components/Table";
 import TableSkeleton from "components/Table/Skeleton";
 import DeleteOcNumberModal from "./DeleteOcNumbersModal";
+import MultiStepModal from "./MultiStepModal";
 
 import useStyles from "./styles";
 
@@ -127,7 +128,9 @@ const CloudConnectionNumbers: FC = () => {
     {
       id: "add",
       title: t("Add"),
-      onClick: () => {},
+      onClick: () => {
+        setModalToOpen("add");
+      },
     },
   ];
 
@@ -191,6 +194,9 @@ const CloudConnectionNumbers: FC = () => {
           data={numbers}
           selectedRowsLength={selectedRowsLength}
         />
+      )}
+      {modalToOpen === "add" && (
+        <MultiStepModal handleCancel={handleCloseModal} />
       )}
     </>
   );
