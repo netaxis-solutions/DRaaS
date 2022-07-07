@@ -16,6 +16,7 @@ import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import TableSearch from "storage/singletons/TableSearch";
 import CloudConnection from "storage/singletons/CloudConnection";
+import NumbersStore from "storage/singletons/Numbers";
 
 import { TableData, TableProps } from "utils/types/tableConfig";
 import { getIsLoading } from "utils/functions/getIsLoading";
@@ -65,12 +66,18 @@ const MsTeamsUsers: FC = () => {
   } = MsTeamsStore;
   const { byFetchType } = PendingQueries;
   const { getOcFreeNumbers } = CloudConnection;
+  const { getFreeNumbers } = NumbersStore;
+  const { checkMsTeamAdmin } = CreateDeleteAdmin;
 
   const { search, clearPaginationData } = TablePagination;
 
   useEffect(() => {
     getMsTeamUsers(tenantID, subscriptionID);
-    getOcFreeNumbers(tenantID, subscriptionID);
+    if (checkMsTeamAdmin?.mode === "operator_connect") {
+      getOcFreeNumbers(tenantID, subscriptionID);
+    } else {
+      getFreeNumbers(tenantID, subscriptionID);
+    }
 
     return () => {
       clearPaginationData();
@@ -83,6 +90,11 @@ const MsTeamsUsers: FC = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
+
+  const validPhoneNumbers =
+    checkMsTeamAdmin?.mode === "operator_connect"
+      ? ["Unselect number", ...CloudConnection.freeNumbers]
+      : ["Unselect number", ...NumbersStore.freeNumbers];
 
   const columns = useMemo(
     () => [
@@ -110,10 +122,7 @@ const MsTeamsUsers: FC = () => {
                 render={({ field, ...props }) => (
                   <FormSelect
                     label={t("Select")}
-                    options={[
-                      "Unselect number",
-                      ...CloudConnection.freeNumbers,
-                    ]}
+                    options={validPhoneNumbers}
                     {...field}
                     {...props}
                     className={classes.selectNumber}
