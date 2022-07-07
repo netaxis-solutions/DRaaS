@@ -23,6 +23,7 @@ import TablePagination from "storage/singletons/TablePagination";
 import TableSelectedRowsStore from "storage/singletons/TableSelectedRows";
 import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import CloudConnection from "storage/singletons/CloudConnection";
+import NumbersStore from "storage/singletons/Numbers";
 
 import AddResourceAccount from "./AddResourceAccount";
 import Flag from "components/common/Flag";
@@ -67,8 +68,9 @@ const ResourceAccount: FC = () => {
   } = ResourceAccountStorage;
 
   const { getOcFreeNumbers } = CloudConnection;
-
+  const { getFreeNumbers } = NumbersStore;
   const { setSelectedRows } = TableSelectedRowsStore;
+  const { checkMsTeamAdmin } = CreateDeleteAdmin;
 
   const {
     clearTablePagesWithoutServerPaginations,
@@ -100,8 +102,12 @@ const ResourceAccount: FC = () => {
   // After unmount we deleting table pagination
   useEffect(() => {
     getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
-    getOcFreeNumbers(tenantID, subscriptionID);
     getCountryCode();
+    if (checkMsTeamAdmin?.mode === "operator_connect") {
+      getOcFreeNumbers(tenantID, subscriptionID);
+    } else {
+      getFreeNumbers(tenantID, subscriptionID);
+    }
     return () => clearPaginationData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -111,6 +117,11 @@ const ResourceAccount: FC = () => {
     clearTablePagesWithoutServerPaginations(resourceAccountsData.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resourceAccountsData]);
+
+  const validPhoneNumbers =
+    checkMsTeamAdmin?.mode === "operator_connect"
+      ? ["Unselect number", ...CloudConnection.freeNumbers]
+      : ["Unselect number", ...NumbersStore.freeNumbers];
 
   // Columns to table in Resource Account Table
   const columns = useMemo(
@@ -204,10 +215,7 @@ const ResourceAccount: FC = () => {
                 render={({ field, ...props }) => (
                   <FormSelect
                     label={t("Select")}
-                    options={[
-                      "Unselect number",
-                      ...CloudConnection.freeNumbers,
-                    ]}
+                    options={validPhoneNumbers}
                     {...field}
                     {...props}
                     className={classes.selectNumber}
