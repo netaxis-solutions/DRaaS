@@ -35,7 +35,7 @@ export type InputPropsType = {
 
 export type SearchInputType = {
   onChange: (value: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value?: string;
 };
 
 export type CheckboxType = {

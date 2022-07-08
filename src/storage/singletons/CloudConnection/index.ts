@@ -37,6 +37,7 @@ class CloudConnection {
   civicAddresses: ICivicAddresses[] = [];
   civicError: boolean = false;
   numberRange: NumberRangeArray[] = [];
+  numbersForCreate: any = [];
 
   constructor() {
     makeObservable(this, {
@@ -50,6 +51,7 @@ class CloudConnection {
       civicError: observable,
       savedSecondStepsData: observable,
       numberRange: observable,
+      numbersForCreate: observable,
 
       startOperatorConnectionOnboarding: action,
       unlinkOperatorConnection: action,
@@ -325,6 +327,7 @@ class CloudConnection {
       .then(({ data }: AxiosResponse<any>) => {
         const result = joinRangedNumber(data.freeNumbers);
         runInAction(() => {
+          this.numbersForCreate = data.freeNumbers;
           this.numberRange = result;
         });
       })
