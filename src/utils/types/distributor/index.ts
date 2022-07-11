@@ -22,4 +22,6 @@ export type SpecificDistributorType = {
   billingId: string;
   markups?: Array<{ markup: number; startDate: string }>;
   status?: string;
+  nbOfDirectTenants: number;
+  nbOfResellers: number;
 };

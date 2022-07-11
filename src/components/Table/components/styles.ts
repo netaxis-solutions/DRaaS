@@ -477,7 +477,7 @@ export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   menuStyles: {
     zIndex: "100!important",
-    "& [class*=tableActionsWrapper]": {
+    "&>*>ul>*>*": {
       display: "block",
       textAlign: "center",
       fontSize: "1.4rem",
@@ -487,6 +487,7 @@ export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
       "&>*": {
         height: 26,
         display: "flex",
+        cursor: "pointer",
         justifyContent: "center",
         alignItems: "center",
         padding: `0 ${theme.spacing(2)}px`,

@@ -64,4 +64,5 @@ export type SpecificResellerType = {
   status?: string;
   markups?: Array<{ markup: number; startDate: string }>;
   owner: { name: string; type: string; uuid: string };
+  nbOfTenants: number;
 };
