@@ -45,6 +45,7 @@ const MyNumbers = () => {
     deassignNumbers,
     getMoreNumbers,
   } = NumbersStore;
+
   const {
     availableEntitlementsNumber,
     getEntitlements,
@@ -202,16 +203,51 @@ const MyNumbers = () => {
   };
 
   // This function calculates if current row is available
-  const isAvailable = (row: Row<TableData>) => !row.original.assigned;
+  const isAvailable = (row: Row<TableData>) => {
+    const isItMatchOtherSelectedRows = TableSelectedRowsStore
+      .selectedRowsValues[0]
+      ? TableSelectedRowsStore.selectedRowsValues[0].original.countryCode ===
+          row.original.countryCode &&
+        TableSelectedRowsStore.selectedRowsValues[0].original.source ===
+          row.original.source
+      : true;
+
+    return !row.original.assigned && isItMatchOtherSelectedRows;
+  };
 
   // This function calculates if current row is selectable
-  const isRowSelectable = (_: boolean, row: Row<TableData>) => isAvailable(row);
+  const isRowSelectable = (_: boolean, row: Row<TableData>) => {
+    const isThisTypeOfNumbersSelectable = TableSelectedRowsStore
+      .selectedRowsValues[0]
+      ? TableSelectedRowsStore.selectedRowsValues[0].original.countryCode ===
+          row.original.countryCode &&
+        TableSelectedRowsStore.selectedRowsValues[0].original.source ===
+          row.original.source
+      : TableSelectedRowsStore.firstSelectedValue
+      ? TableSelectedRowsStore.firstSelectedValue?.countryCode ===
+          row.original.countryCode &&
+        TableSelectedRowsStore.firstSelectedValue?.source ===
+          row.original.source
+      : true;
+
+    return isAvailable(row) && isThisTypeOfNumbersSelectable;
+  };
 
   // This function calculates if general checkbox selected
   const isGeneralCheckboxSelected = (page: Row<TableData>[]) =>
     TableSelectedRowsStore.selectedRowsLength ===
-      page.reduce((sum, curr) => (curr.original.assigned ? sum : sum + 1), 0) &&
-    TableSelectedRowsStore.selectedRowsLength !== 0;
+      page.reduce(
+        (sum, curr) =>
+          curr.original.assigned ||
+          curr.original.countryCode !==
+            TableSelectedRowsStore.selectedRowsValues[0]?.original
+              ?.countryCode ||
+          curr.original.source !==
+            TableSelectedRowsStore.selectedRowsValues[0]?.original?.source
+            ? sum
+            : sum + 1,
+        0,
+      ) && TableSelectedRowsStore.selectedRowsLength !== 0;
 
   // This object includes tooltip text and condition when it shown
   const disabledNumberTooltip = {
@@ -223,6 +259,25 @@ const MyNumbers = () => {
 
   // This function calculates if delete button are disabled for current row
   const deleteDisabledCondition = (row: Row<TableData>) => !isAvailable(row);
+
+  const handleGeneralCheckboxSelectionBeforePageParse: (
+    page: Row<TableData>[],
+    isGeneralCheckBoxChecked: boolean,
+  ) => void = (page, isChecked) => {
+    if (!isChecked) {
+      TableSelectedRowsStore.setFirstSelectedValue(page[0].original);
+      console.log(page[0], "page2");
+    }
+  };
+
+  const handleGeneralCheckboxSelectionAfterPageParse: (
+    page: Row<TableData>[],
+    isGeneralCheckBoxChecked: boolean,
+  ) => void = (_, isChecked) => {
+    if (isChecked) {
+      TableSelectedRowsStore.setFirstSelectedValue(null);
+    }
+  };
 
   const isLoading = getIsLoading("@getNumbersData", byFetchType);
 
@@ -248,6 +303,12 @@ const MyNumbers = () => {
             isCheckboxAvailable={isAvailable}
             isRowSelectable={isRowSelectable}
             isGeneralCheckboxSelected={isGeneralCheckboxSelected}
+            handleGeneralCheckboxSelectionBeforePageParse={
+              handleGeneralCheckboxSelectionBeforePageParse
+            }
+            handleGeneralCheckboxSelectionAfterPageParse={
+              handleGeneralCheckboxSelectionAfterPageParse
+            }
             checkbox
             isRemovable
             handleLoadNext={(token, setNewToken) => {

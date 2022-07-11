@@ -61,6 +61,8 @@ const Table: FC<TableProps> = ({
   isCheckboxAvailable,
   isGeneralCheckboxSelected,
   isRowSelectable,
+  handleGeneralCheckboxSelectionBeforePageParse,
+  handleGeneralCheckboxSelectionAfterPageParse,
   editDisabledCondition,
   deleteDisabledCondition,
   handleLoadNext,
@@ -122,6 +124,12 @@ const Table: FC<TableProps> = ({
                       );
 
                       const handleChange = () => {
+                        handleGeneralCheckboxSelectionBeforePageParse &&
+                          handleGeneralCheckboxSelectionBeforePageParse(
+                            page,
+                            TableSelectedRowsStore.isChecked,
+                          );
+
                         page.forEach(row => {
                           isRowSelectable
                             ? isRowSelectable(
@@ -137,6 +145,12 @@ const Table: FC<TableProps> = ({
                                 !TableSelectedRowsStore.isChecked,
                               );
                         });
+
+                        handleGeneralCheckboxSelectionAfterPageParse &&
+                          handleGeneralCheckboxSelectionAfterPageParse(
+                            page,
+                            TableSelectedRowsStore.isChecked,
+                          );
                       };
 
                       return radioButton ? null : (
@@ -197,6 +211,12 @@ const Table: FC<TableProps> = ({
                       );
 
                       const handleChange = () => {
+                        handleGeneralCheckboxSelectionBeforePageParse &&
+                          handleGeneralCheckboxSelectionBeforePageParse(
+                            page,
+                            TableSelectedRowsStore.isChecked,
+                          );
+
                         page.forEach(row => {
                           isRowSelectable
                             ? isRowSelectable(
@@ -212,6 +232,12 @@ const Table: FC<TableProps> = ({
                                 !TableSelectedRowsStore.isChecked,
                               );
                         });
+
+                        handleGeneralCheckboxSelectionAfterPageParse &&
+                          handleGeneralCheckboxSelectionAfterPageParse(
+                            page,
+                            TableSelectedRowsStore.isChecked,
+                          );
                       };
 
                       return radioButton ? null : (

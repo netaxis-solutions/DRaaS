@@ -76,6 +76,14 @@ export type TableProps = {
     setNewToken: (newToken: string) => void,
   ) => void;
   infiniteScroll?: boolean;
+  handleGeneralCheckboxSelectionBeforePageParse?: (
+    page: Row<TableData>[],
+    isGeneralCheckBoxChecked: boolean,
+  ) => void;
+  handleGeneralCheckboxSelectionAfterPageParse?: (
+    page: Row<TableData>[],
+    isGeneralCheckBoxChecked: boolean,
+  ) => void;
 };
 
 export type ToolbarType = {
