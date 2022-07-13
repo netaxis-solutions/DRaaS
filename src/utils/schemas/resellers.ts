@@ -6,10 +6,10 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 export const addResellerSchema = (t: TFunction) =>
   object().shape({
     name: string()
-      .required(t("Please fill this field"))
-      .matches(/^[aA-zZ0-9\s]+$/, {
-        message: t("Use only letters and digits"),
-        excludeEmptyString: true,
+      .max(100)
+      .required()
+      .test("nameTest", t("Double quotes isn't allowed"), (value?: string) => {
+        return !value?.includes('"');
       }),
     distributor: object().shape({
       label: string(),
@@ -46,7 +46,12 @@ export const addResellerSchema = (t: TFunction) =>
 
 export const editResellerSchema = (t: TFunction) =>
   object().shape({
-    name: string().required(),
+    name: string()
+      .max(100)
+      .required()
+      .test("nameTest", t("Double quotes isn't allowed"), (value?: string) => {
+        return !value?.includes('"');
+      }),
     billingId: string()
       .max(100)
       .required()
