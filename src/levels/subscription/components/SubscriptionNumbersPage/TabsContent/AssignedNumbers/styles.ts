@@ -52,4 +52,11 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     width: 20,
     fill: theme.palette.status.alert,
   },
+  countryCodeWrapper: {
+    display: "flex",
+    gap: theme.spacing(1),
+    "&>:first-child": {
+      minWidth: 40,
+    },
+  },
 }));

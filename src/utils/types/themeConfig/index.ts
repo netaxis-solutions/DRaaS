@@ -34,6 +34,7 @@ export type ThemeDefaultOptions = Theme & {
   top_bar: any;
   side_bar: any;
   rightSideModal: any;
+  label: any;
 };
 
 export type DeepCloneThemeType = (

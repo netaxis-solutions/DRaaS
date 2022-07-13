@@ -2,6 +2,12 @@ import { TDeleteModalProps } from "../modal";
 
 export type PhoneNumberType = {
   assigned: boolean;
+  assignedTo?: {
+    type: "ms_teams" | "sip_trunk";
+    subType: "user" | "resource_account" | "operator_connect";
+    to: number;
+  };
+  isoCode: string;
   countryCode: string;
   fullNumber: string;
   nsn: string;
