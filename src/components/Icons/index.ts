@@ -45,3 +45,5 @@ export { default as StrokeWorld } from "./StrokeWorld";
 export { default as ThreeVerticalDots } from "./ThreeVerticalDots";
 export { default as UserDefaultAvatar } from "./UserDefaultAvatar";
 export { default as StrokeAlert } from "./StrokeAlert";
+export { default as StrokeArrowRight } from "./StrokeArrowRight";
+export { default as StrokeArrowLeft } from "./StrokeArrowLeft";

@@ -1,5 +1,6 @@
 import { NumberRangeArray } from "utils/types/operatorConnection";
-
+//wait implement future features
+// create ranges from string[]
 export const joinRangedNumber = (arr: Array<string>) => {
   const sorted = [...arr].sort((a, b) => +a - +b);
   const result = [[sorted[0]]];

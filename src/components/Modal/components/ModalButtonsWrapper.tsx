@@ -3,7 +3,6 @@ import clsx from "clsx";
 
 import { TModalButtonsWrapperProps } from "utils/types/modal";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Cross, Plus } from "components/Icons";
 import { modalButtonsWrapperUseStyles } from "./styles";
 
 const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
@@ -20,8 +19,8 @@ const ModalButtonsWrapper: React.FC<TModalButtonsWrapperProps> = ({
 }) => {
   const { t } = useTranslation();
   const classes = modalButtonsWrapperUseStyles({ top });
-  const IconSubmit = submitIcon ? submitIcon : Plus;
-  const IconCancel = cancelIcon ? cancelIcon : Cross;
+  const IconSubmit = submitIcon ? submitIcon : undefined;
+  const IconCancel = cancelIcon ? cancelIcon : undefined;
 
   return (
     <div

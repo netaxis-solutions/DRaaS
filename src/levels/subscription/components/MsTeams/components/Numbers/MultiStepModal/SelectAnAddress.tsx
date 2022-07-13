@@ -85,7 +85,11 @@ const SelectAnAdress: FC = () => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setSecondStepData(radioButtonValueInRow.country);
+    const payload = {
+      country: radioButtonValueInRow.country || "",
+      id: radioButtonValueInRow.id || "",
+    };
+    setSecondStepData(payload);
     getFreeNumbers(tenantID, subscriptionID);
     goNext();
   };
@@ -118,9 +122,9 @@ const SelectAnAdress: FC = () => {
           )}
         </>
       ) : (
-        <div>
+        <form id={"CreateNumbers"} onSubmit={onSubmit}>
           <SecondStepErrorPage />
-        </div>
+        </form>
       )}
     </>
   );

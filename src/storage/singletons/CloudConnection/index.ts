@@ -17,9 +17,9 @@ import {
 import {
   errorNotification,
   deleteNotification,
+  successNotification,
 } from "utils/functions/notifications";
 import { NumberRangeArray } from "utils/types/operatorConnection";
-import { joinRangedNumber } from "utils/functions/range";
 import { request } from "services/api";
 import { t } from "services/Translation";
 
@@ -33,11 +33,15 @@ class CloudConnection {
     id: "",
     condition: false,
   };
-  savedSecondStepsData: string = "";
+  savedSecondStepsData: { country: string; id: string; code?: string } = {
+    country: "",
+    id: "",
+  };
   civicAddresses: ICivicAddresses[] = [];
   civicError: boolean = false;
   numberRange: NumberRangeArray[] = [];
-  numbersForCreate: any = [];
+  numbersForCreate: string[] = [];
+  checkedLength: number = 0;
 
   constructor() {
     makeObservable(this, {
@@ -52,6 +56,7 @@ class CloudConnection {
       savedSecondStepsData: observable,
       numberRange: observable,
       numbersForCreate: observable,
+      checkedLength: observable,
 
       startOperatorConnectionOnboarding: action,
       unlinkOperatorConnection: action,
@@ -65,6 +70,8 @@ class CloudConnection {
       getCivicAddresses: action,
       setSecondStepData: action,
       getFreeNumbers: action,
+      incrementCheckedLength: action,
+      dicrementCheckedLength: action,
     });
   }
 
@@ -321,19 +328,51 @@ class CloudConnection {
     subscriptionID: string,
   ) => {
     request({
-      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/free_numbers?usage=${this.savedFirstStepsData.id}&country=${this.savedSecondStepsData}`,
-      loaderName: "@getAllowUsages",
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/free_numbers?usage=${this.savedFirstStepsData.id}&country=${this.savedSecondStepsData.country}`,
+      loaderName: "@getAllFreeNumbersLastStep",
     })
-      .then(({ data }: AxiosResponse<any>) => {
-        const result = joinRangedNumber(data.freeNumbers);
+      .then(({ data }: AxiosResponse<{ freeNumbers: string[] }>) => {
         runInAction(() => {
           this.numbersForCreate = data.freeNumbers;
-          this.numberRange = result;
         });
       })
       .catch(e => {
         errorNotification(e);
         this.allowedUsages = [];
+      });
+  };
+
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#adding-phone-numbers-to-an-operator-connect-consent
+  // Add new numbers to table MsTeams -> Numbers tab
+  addNumbersOperatorConnect = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    payloadData: string[],
+    successCallback?: () => void,
+  ) => {
+    const payload = this.savedSecondStepsData.id
+      ? {
+          civicAddressId: this.savedSecondStepsData.id,
+          usage: this.savedFirstStepsData.id,
+          numbers: payloadData,
+        }
+      : {
+          usage: this.savedFirstStepsData.id,
+          numbers: payloadData,
+        };
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/numbers`,
+      loaderName: "@addNumbersOperatorConnect",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        this.getOcNumbers(tenantID, subscriptionID);
+        successNotification(t("Successfully added numbers range"));
+        successCallback && successCallback();
+      })
+      .catch(e => {
+        errorNotification(e);
       });
   };
 
@@ -343,7 +382,7 @@ class CloudConnection {
   };
 
   // Function for save Steps Data , this data will be use in request
-  setSecondStepData = (payload: string) => {
+  setSecondStepData = (payload: { country: string; id: string }) => {
     this.savedSecondStepsData = payload;
   };
 
@@ -352,9 +391,25 @@ class CloudConnection {
     this.uncorrectInputData = payload;
   };
 
+  // helper function
+  incrementCheckedLength = (payload: number) => {
+    this.checkedLength = this.checkedLength + payload;
+  };
+
+  // helper function
+  dicrementCheckedLength = (payload: number) => {
+    this.checkedLength = this.checkedLength - payload;
+  };
+
   // Option for open error page
   setError = () => {
     this.isError = false;
+  };
+
+  // Clear Storage
+  clearStorage = () => {
+    this.isError = false;
+    this.checkedLength = 0;
   };
 }
 

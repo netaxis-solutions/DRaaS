@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 
 class TableSearch {
   searchValue: string = "";
+  searchValueRightTransfer: string = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -13,9 +14,16 @@ class TableSearch {
     });
   };
 
+  setSearchValueRightTransfer = (newValue: string) => {
+    runInAction(() => {
+      this.searchValueRightTransfer = newValue;
+    });
+  };
+
   clearTableSearch = () => {
     runInAction(() => {
       this.searchValue = "";
+      this.searchValueRightTransfer = "";
     });
   };
 }

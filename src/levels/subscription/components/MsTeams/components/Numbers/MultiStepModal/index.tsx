@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import TablePagination from "storage/singletons/TablePagination";
 import MultiStepForm from "storage/singletons/MultiStepForm";
 import PendingQueries from "storage/singletons/PendingQueries";
+import CloudConnection from "storage/singletons/CloudConnection";
 
 import { TAddTenantFormProps } from "utils/types/tenant";
 import { getIsLoading } from "utils/functions/getIsLoading";
 
 import ModalButtonsWrapper from "components/Modal/components/ModalButtonsWrapper";
 import Modal from "components/Modal";
-import { Back, Next } from "components/Icons";
 import SelectAnUsage from "./SelectAnUsage";
 import SelectAnAdress from "./SelectAnAddress";
 import SelectNumbers from "./SelectNumbers";
@@ -42,7 +42,10 @@ const AddNewOCNumber: FC<TAddTenantFormProps> = ({ handleCancel }) => {
         component: <SelectAnUsage />,
       },
       { title: t("Select an address"), component: <SelectAnAdress /> },
-      { title: t("Select numbers"), component: <SelectNumbers /> },
+      {
+        title: t("Select numbers"),
+        component: <SelectNumbers handleCancel={handleCancel} />,
+      },
     ]);
     return () => {
       clearMultiStep();
@@ -62,7 +65,10 @@ const AddNewOCNumber: FC<TAddTenantFormProps> = ({ handleCancel }) => {
 
   const isDisabledSubmitButton =
     getIsLoading("@getCivicAddresses", byFetchType) ||
-    getIsLoading("@getAllowUsages", byFetchType);
+    getIsLoading("@getAllowUsages", byFetchType) ||
+    getIsLoading("@addNumbersOperatorConnect", byFetchType) ||
+    (activeStep === 2 && CloudConnection.checkedLength > 10) ||
+    (activeStep === 2 && CloudConnection.checkedLength === 0);
 
   return (
     <>
@@ -82,8 +88,6 @@ const AddNewOCNumber: FC<TAddTenantFormProps> = ({ handleCancel }) => {
         submitButtonTitle={
           activeStep === steps.length - 1 ? t("Add") : t("Next")
         }
-        submitIcon={activeStep === steps.length - 1 ? undefined : Next}
-        cancelIcon={activeStep === 0 ? undefined : Back}
         handleCancel={handlePrevious}
         top={122}
         formId={"CreateNumbers"}
