@@ -78,6 +78,24 @@ const EditDistributorModal: React.FC<{
     }
   };
 
+  const navigateToChildTenants = () => {
+    history.push(
+      allAvailvableRouting.systemTenants + `?parent=${distributorId}`,
+    );
+  };
+
+  const navigateToChildResellers = () => {
+    history.push(
+      allAvailvableRouting.systemResellers + `?parent=${distributorId}`,
+    );
+  };
+
+  const navigateToDistributorAdmins = () => {
+    history.push(
+      allAvailvableRouting.systemAdmins + `?distributorId=${distributorId}`,
+    );
+  };
+
   return isLoading ? (
     <div className={classes.skeletonsWrapper}>
       <Skeleton />
@@ -133,43 +151,52 @@ const EditDistributorModal: React.FC<{
       <div className={classes.redirectBlockWrapper}>
         <div>
           <span className={classes.redirectLabel}>{t("Resellers")}:</span>
-          <span className={classes.redirectValue}>24</span>
+          <span
+            className={classes.redirectValue}
+            onClick={navigateToChildResellers}
+          >
+            {Distributor.specificDistributor?.nbOfResellers}
+          </span>
         </div>
         <div>
           <Next
             className={classes.redirectArrow}
-            onClick={() => {
-              history.push(
-                allAvailvableRouting.systemResellers +
-                  `?parent=${distributorId}`,
-              );
-            }}
+            onClick={navigateToChildResellers}
           />
         </div>
       </div>
       <div className={classes.redirectBlockWrapper}>
         <div>
           <span className={classes.redirectLabel}>{t("Direct tenants")}:</span>
-          <span className={classes.redirectValue}>3</span>
+          <span
+            className={classes.redirectValue}
+            onClick={navigateToChildTenants}
+          >
+            {Distributor.specificDistributor?.nbOfDirectTenants}
+          </span>
         </div>
         <div>
           <Next
             className={classes.redirectArrow}
-            onClick={() => {
-              history.push(
-                allAvailvableRouting.systemTenants + `?parent=${distributorId}`,
-              );
-            }}
+            onClick={navigateToChildTenants}
           />
         </div>
       </div>
       <div className={classes.redirectBlockWrapper}>
         <div>
           <span className={classes.redirectLabel}>{t("Admins")}:</span>
-          <span className={classes.redirectValue}>3</span>
+          <span
+            className={classes.redirectValue}
+            onClick={navigateToDistributorAdmins}
+          >
+            0
+          </span>
         </div>
         <div>
-          <Next className={classes.redirectArrow} />
+          <Next
+            className={classes.redirectArrow}
+            onClick={navigateToDistributorAdmins}
+          />
         </div>
       </div>
     </>

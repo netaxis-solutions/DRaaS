@@ -45,6 +45,7 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
         .redirectValueColor,
     "&:hover": {
       textDecoration: "underline",
+      cursor: "pointer",
     },
   },
   redirectArrow: {

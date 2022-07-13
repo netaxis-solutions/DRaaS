@@ -76,6 +76,17 @@ const EditResellerModal: React.FC<{
     }
   };
 
+  const navigateToParentDistributor = () => {
+    history.push(
+      allAvailvableRouting.systemDistributors +
+        `?id=${Reseller.specificReseller?.owner.uuid}`,
+    );
+  };
+
+  const navigateToOwnedTenants = () => {
+    history.push(allAvailvableRouting.systemTenants + `?parent=${resellerId}`);
+  };
+
   return isLoading ? (
     <div className={classes.skeletonsWrapper}>
       <Skeleton />
@@ -131,27 +142,34 @@ const EditResellerModal: React.FC<{
       <div className={classes.redirectBlockWrapper}>
         <div>
           <span className={classes.redirectLabel}>{t("Owner")}:</span>
-          <span className={classes.redirectValue}>
+          <span
+            className={classes.redirectValue}
+            onClick={navigateToParentDistributor}
+          >
             {Reseller.specificReseller?.owner?.name}
           </span>
         </div>
         <div>
-          <Next className={classes.redirectArrow} />
+          <Next
+            className={classes.redirectArrow}
+            onClick={navigateToParentDistributor}
+          />
         </div>
       </div>
       <div className={classes.redirectBlockWrapper}>
         <div>
           <span className={classes.redirectLabel}>{t("Tenants")}:</span>
-          <span className={classes.redirectValue}>8</span>
+          <span
+            className={classes.redirectValue}
+            onClick={navigateToOwnedTenants}
+          >
+            {Reseller.specificReseller?.nbOfTenants}
+          </span>
         </div>
         <div>
           <Next
             className={classes.redirectArrow}
-            onClick={() => {
-              history.push(
-                allAvailvableRouting.systemTenants + `?parent=${resellerId}`,
-              );
-            }}
+            onClick={navigateToOwnedTenants}
           />
         </div>
       </div>

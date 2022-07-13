@@ -40,6 +40,7 @@ const useEditDistributorStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   redirectValue: {
     fontSize: "1.6rem",
     lineHeight: "2rem",
+    cursor: "pointer",
     color:
       theme.body.table.distributor.edit.editModalBody.redirectBlock
         .redirectValueColor,
