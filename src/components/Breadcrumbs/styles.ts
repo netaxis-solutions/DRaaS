@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     "& a": {
       cursor: "pointer",
       fontSize: "1.4rem",
+      lineHeight: "1.7rem",
+      fontFamily: `"Font","Roboto","sans-serif"`,
       color: theme.body.breadcrumbs.text,
       textDecoration: "none",
     },
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     cursor: "inherit !important",
     fontSize: "1.4rem",
     color: theme.body.breadcrumbs.text,
-    fontWeight: "bold" as "bold",
+    fontWeight: 750,
     textDecoration: "none",
   },
 }));

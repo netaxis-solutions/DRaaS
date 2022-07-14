@@ -57,6 +57,7 @@ export const createTheme = (
       },
     },
     typography: {
+      fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
       body1: {
         fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
       },
@@ -69,7 +70,9 @@ export const createTheme = (
       caption: {
         fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
       },
-      fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
+      inherit: {
+        fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
+      },
     },
     palette: deepClone(defaultPalette, palette),
     overrides: overrides(palette),

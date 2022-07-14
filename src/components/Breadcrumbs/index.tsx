@@ -46,7 +46,6 @@ const Breadcrumbs: FC = () => {
           <MUIBreadcrumbs
             separator={separator}
             className={classes.breadcrumbsWrapper}
-            aria-label="breadcrumb"
           >
             {customerLevels.map((item, index) => {
               const indexModifier =
