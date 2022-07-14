@@ -13,6 +13,7 @@ import {
   IOcNumbers,
   IUsages,
   ICivicAddresses,
+  INumberForCrate,
 } from "utils/types/operatorConnection";
 import {
   errorNotification,
@@ -40,8 +41,8 @@ class CloudConnection {
   civicAddresses: ICivicAddresses[] = [];
   civicError: boolean = false;
   numberRange: NumberRangeArray[] = [];
-  numbersForCreate: string[] = [];
   checkedLength: number = 0;
+  numbersForCreate: INumberForCrate[] = [];
 
   constructor() {
     makeObservable(this, {
@@ -332,8 +333,16 @@ class CloudConnection {
       loaderName: "@getAllFreeNumbersLastStep",
     })
       .then(({ data }: AxiosResponse<{ freeNumbers: string[] }>) => {
+        const formattedData = data.freeNumbers.map(
+          (el: string, index: number) => {
+            return {
+              number: el,
+              type: index % 5 ? (index % 4 ? "tollfree" : "geo") : "voip",
+            };
+          },
+        );
         runInAction(() => {
-          this.numbersForCreate = data.freeNumbers;
+          this.numbersForCreate = formattedData;
         });
       })
       .catch(e => {

@@ -267,6 +267,9 @@
         "light": "#EBEBF7",
         "steel": "#828282"
       },
+      "checkbox":{
+        "border":"#B4BDC2"
+      },
       "hover": "#F5F7FF"
     },
     "tooltip": {

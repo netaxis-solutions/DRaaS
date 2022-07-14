@@ -51,7 +51,7 @@ const SelectAnUsage: FC = () => {
         Header: t("Address required?"),
         accessor: "addressRequired",
         Cell: ({ cell }: CellProps<TableData>) => {
-          return <div>{cell.value ? "Yes" : "No"}</div>;
+          return <div>{cell.value ? t("Yes") : t("No")}</div>;
         },
       },
       {
@@ -60,7 +60,7 @@ const SelectAnUsage: FC = () => {
         Cell: ({ cell }: CellProps<TableData>) => {
           return (
             <div>
-              {cell.value.map((numberType: any, i: number) => {
+              {cell.value.map((numberType: string, i: number) => {
                 return i === cell.value.length - 1 ? (
                   <span key={numberType + i}> {numberType.toLowerCase()}</span>
                 ) : (

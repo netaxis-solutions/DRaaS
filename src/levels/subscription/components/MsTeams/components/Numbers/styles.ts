@@ -68,22 +68,26 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
   },
 
   listWrapper: {
-    background: "#fff",
+    background: theme.body.general.backgrounds.white,
     borderRadius: theme.spacing(1),
   },
   listHeaderWrapper: {
     paddingLeft: theme.spacing(2),
     display: "flex",
     alignItems: "center",
-    gap: theme.spacing(2.5),
+    gap: theme.spacing(1),
     "& span": {
-      display: "block",
+      display: "flex",
     },
   },
   listHeaderColumns: {
     display: "flex",
     width: "100%",
-    gap: theme.spacing(12.5),
+    alignItems: "center",
+    "& span": {
+      display: "block",
+      width: "100%",
+    },
   },
   listTitle: {
     borderRadius: 8,
@@ -126,8 +130,8 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     fontSize: "1.6rem",
   },
   checkbox: {
-    stroke: "#B4BDC2",
-    fill: "#fff",
+    stroke: theme.body.general.checkbox.border,
+    fill: theme.body.general.backgrounds.white,
   },
   checkboxChecked: {},
   listItems: {
@@ -137,6 +141,15 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     paddingTop: theme.spacing(0.5),
     paddingLeft: theme.spacing(2),
     alignItems: "center",
+  },
+  listElementText: {
+    width: "100%",
+    display: "flex",
+    "& span": {
+      display: "block",
+      width: "100%",
+      paddingLeft: theme.spacing(0.5),
+    },
   },
   styleCancel: {
     color: `${theme.body.button.cancel.text} !important`,

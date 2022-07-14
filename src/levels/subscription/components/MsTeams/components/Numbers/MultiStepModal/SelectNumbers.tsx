@@ -15,6 +15,7 @@ import PendingQueries from "storage/singletons/PendingQueries";
 import TableSearch from "storage/singletons/TableSearch";
 
 import { getIsLoading } from "utils/functions/getIsLoading";
+import { INumberForCrate } from "utils/types/operatorConnection";
 
 import SearchInput from "components/common/SearchInput";
 import CheckboxCheckedIcon from "components/common/Form/FormCheckbox/CheckboxCheckedIcon";
@@ -25,17 +26,17 @@ import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import useStyles from "../styles";
 
 // remove duplicate and selected data
-const not = (a: string[], b: string[]) => {
+const not = (a: INumberForCrate[], b: INumberForCrate[]) => {
   return a.filter(value => b.indexOf(value) === -1);
 };
 
 // helper func for filter data
-const intersection = (a: string[], b: string[]) => {
+const intersection = (a: INumberForCrate[], b: INumberForCrate[]) => {
   return a.filter(value => b.indexOf(value) !== -1);
 };
 
 // use in select all. Filtered data
-const union = (a: string[], b: string[]) => {
+const union = (a: INumberForCrate[], b: INumberForCrate[]) => {
   return [...a, ...not(b, a)];
 };
 
@@ -56,9 +57,9 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
     addNumbersOperatorConnect,
   } = CloudConnection;
   const { clearTableSearch } = TableSearch;
-  const [checked, setChecked] = useState<string[]>([]);
-  const [left, setLeft] = useState<string[]>(numbersForCreate);
-  const [right, setRight] = useState<string[]>([]);
+  const [checked, setChecked] = useState<INumberForCrate[]>([]);
+  const [left, setLeft] = useState<INumberForCrate[]>(numbersForCreate);
+  const [right, setRight] = useState<INumberForCrate[]>([]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -75,7 +76,7 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
   }, [numbersForCreate.length]);
 
   // select checkbox logic
-  const handleToggle = (value: string) => () => {
+  const handleToggle = (value: INumberForCrate) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -89,11 +90,11 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
   };
 
   // counter for select checkboxes
-  const numberOfChecked = (items: string[]) =>
+  const numberOfChecked = (items: INumberForCrate[]) =>
     intersection(checked, items).length;
 
   // select all checkboxes (rows)
-  const handleToggleAll = (items: string[]) => () => {
+  const handleToggleAll = (items: INumberForCrate[]) => () => {
     if (numberOfChecked(items) === items.length) {
       setChecked(not(checked, items));
     } else {
@@ -119,19 +120,20 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
 
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addNumbersOperatorConnect(tenantID, subscriptionID, right, () =>
+    const data = right.map(el => el.number);
+    addNumbersOperatorConnect(tenantID, subscriptionID, data, () =>
       handleCancel(),
     );
   };
 
   const leftMemo = useMemo(() => {
-    return left.filter(el => el.includes(TableSearch.searchValue));
+    return left.filter(el => el.number.includes(TableSearch.searchValue));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [TableSearch.searchValue, left.length, numbersForCreate.length]);
 
   const RightMemo = useMemo(() => {
     return right.filter(el =>
-      el.includes(TableSearch.searchValueRightTransfer),
+      el.number.includes(TableSearch.searchValueRightTransfer),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [TableSearch.searchValueRightTransfer, right.length]);
@@ -160,7 +162,10 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
             }
           />
         </div>
-        <div>{leftMemo[index]}</div>
+        <div className={classes.listElementText}>
+          <span>{leftMemo[index].number}</span>
+          <span>{leftMemo[index].type}</span>
+        </div>
       </div>
     );
   };
@@ -185,14 +190,17 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
             }
           />
         </div>
-        <div>{RightMemo[index]}</div>
+        <div className={classes.listElementText}>
+          <span>{RightMemo[index].number}</span>
+          <span>{RightMemo[index].type}</span>
+        </div>
       </div>
     );
   };
 
   const customList = (
     side: string,
-    items: string[],
+    items: INumberForCrate[],
     title: string,
     search: JSX.Element,
   ) => (
@@ -207,26 +215,26 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
         {side === "right" ? (
           <Checkbox
             onClick={handleToggleAll(
-              items.filter((el: string) =>
-                el.includes(TableSearch.searchValueRightTransfer),
+              items.filter(el =>
+                el.number.includes(TableSearch.searchValueRightTransfer),
               ),
             )}
             checked={
               numberOfChecked(
                 items.filter(el =>
-                  el.includes(TableSearch.searchValueRightTransfer),
+                  el.number.includes(TableSearch.searchValueRightTransfer),
                 ),
               ) === items.length && items.length !== 0
             }
             indeterminate={
               numberOfChecked(
                 items.filter(el =>
-                  el.includes(TableSearch.searchValueRightTransfer),
+                  el.number.includes(TableSearch.searchValueRightTransfer),
                 ),
               ) !== items.length &&
               numberOfChecked(
                 items.filter(el =>
-                  el.includes(TableSearch.searchValueRightTransfer),
+                  el.number.includes(TableSearch.searchValueRightTransfer),
                 ),
               ) !== 0
             }
@@ -245,19 +253,19 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
         ) : (
           <Checkbox
             onClick={handleToggleAll(
-              items.filter(el => el.includes(TableSearch.searchValue)),
+              items.filter(el => el.number.includes(TableSearch.searchValue)),
             )}
             checked={
               numberOfChecked(
-                items.filter(el => el.includes(TableSearch.searchValue)),
+                items.filter(el => el.number.includes(TableSearch.searchValue)),
               ) === items.length && items.length !== 0
             }
             indeterminate={
               numberOfChecked(
-                items.filter(el => el.includes(TableSearch.searchValue)),
+                items.filter(el => el.number.includes(TableSearch.searchValue)),
               ) !== items.length &&
               numberOfChecked(
-                items.filter(el => el.includes(TableSearch.searchValue)),
+                items.filter(el => el.number.includes(TableSearch.searchValue)),
               ) !== 0
             }
             disabled={items.length === 0}
@@ -325,8 +333,9 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
         <div className={classes.topTextWrapper}>
           <span>
             {t("Select the numbers you would like to route to Microsoft Teams")}
+            .
           </span>
-          <span>.{`   max 10, selected ${checkedLength}`}</span>
+          <span>{` max 10, selected ${checkedLength}`}</span>
         </div>
       )}
       <Grid
@@ -374,19 +383,38 @@ const TransferList: FC<{ handleCancel: () => void }> = ({ handleCancel }) => {
         )}
         <Grid item>
           <Grid container direction="column" alignItems="center" gap={4}>
-            <ButtonWithIcon
-              onClick={handleCheckedRight}
-              disabled={leftChecked.length === 0}
-              icon={StrokeArrowRight}
-              title={""}
-            />
-            <ButtonWithIcon
-              onClick={handleCheckedLeft}
-              disabled={rightChecked.length === 0}
-              icon={StrokeArrowLeft}
-              title={""}
-              className={classes.styleCancel}
-            />
+            {isLoading ? (
+              <>
+                <Skeleton
+                  variant="rectangular"
+                  width={64}
+                  height={36}
+                  sx={{ marginRight: 2 }}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width={64}
+                  height={36}
+                  sx={{ marginRight: 2 }}
+                />
+              </>
+            ) : (
+              <>
+                <ButtonWithIcon
+                  onClick={handleCheckedRight}
+                  disabled={leftChecked.length === 0}
+                  icon={StrokeArrowRight}
+                  title={""}
+                />
+                <ButtonWithIcon
+                  onClick={handleCheckedLeft}
+                  disabled={rightChecked.length === 0}
+                  icon={StrokeArrowLeft}
+                  title={""}
+                  className={classes.styleCancel}
+                />
+              </>
+            )}
           </Grid>
         </Grid>
         {isLoading ? (

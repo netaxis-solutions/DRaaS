@@ -5,8 +5,8 @@ export const joinRangedNumber = (arr: Array<string>) => {
   const sorted = [...arr].sort((a, b) => +a - +b);
   const result = [[sorted[0]]];
 
-  for (let j = 1, v, current = result[0]; j < sorted.length; j++) {
-    v = sorted[j];
+  for (let i = 1, v, current = result[0]; i < sorted.length; i++) {
+    v = sorted[i];
     if (+v - +current[current.length - 1] === 1) {
       current.push(v);
     } else {

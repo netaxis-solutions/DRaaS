@@ -23,6 +23,7 @@ const AddNewOCNumber: FC<TAddTenantFormProps> = ({ handleCancel }) => {
 
   const { clearPaginationData } = TablePagination;
   const { byFetchType } = PendingQueries;
+  const { civicError, savedFirstStepsData } = CloudConnection;
 
   const {
     stepContent,
@@ -64,11 +65,13 @@ const AddNewOCNumber: FC<TAddTenantFormProps> = ({ handleCancel }) => {
   };
 
   const isDisabledSubmitButton =
-    getIsLoading("@getCivicAddresses", byFetchType) ||
+    (getIsLoading("@getCivicAddresses", byFetchType) &&
+      savedFirstStepsData.condition) ||
     getIsLoading("@getAllowUsages", byFetchType) ||
     getIsLoading("@addNumbersOperatorConnect", byFetchType) ||
     (activeStep === 2 && CloudConnection.checkedLength > 10) ||
-    (activeStep === 2 && CloudConnection.checkedLength === 0);
+    (activeStep === 2 && CloudConnection.checkedLength === 0) ||
+    (activeStep === 1 && civicError && savedFirstStepsData.condition);
 
   return (
     <>

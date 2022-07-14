@@ -76,3 +76,8 @@ export type NumberRangeArray = {
   endRange: string;
   range: Array<string>;
 };
+
+export type INumberForCrate = {
+  number: string;
+  type: string;
+};
