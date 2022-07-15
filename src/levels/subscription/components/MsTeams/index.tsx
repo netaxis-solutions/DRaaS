@@ -59,7 +59,11 @@ const MSTeams: FC = () => {
 
   const filteredTabs = useMemo(() => {
     return checkMsTeamAdmin?.status === "onboarded"
-      ? tabs
+      ? tabs.filter(tab =>
+          checkMsTeamAdmin.mode === "operator_connect"
+            ? tab
+            : tab.id !== "ocNumbers",
+        )
       : tabs.filter(el => el.id === "o365tenant" || el.id === "o365admin");
   }, [checkMsTeamAdmin]);
 
