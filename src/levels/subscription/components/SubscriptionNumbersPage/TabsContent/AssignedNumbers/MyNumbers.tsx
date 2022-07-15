@@ -30,9 +30,9 @@ import Table from "components/Table";
 import TableSkeleton from "components/Table/Skeleton";
 import DeleteNumberModal from "./components/DeleteModal";
 import Flag from "components/common/Flag";
+import Label from "components/Label";
 
 import styles from "./styles";
-import Label from "components/Label";
 
 const formatTabName = (unformattedTabName: string): string => {
   switch (unformattedTabName) {
