@@ -7,7 +7,8 @@ import { Toolbar } from "components/MaterialTable/components";
 
 import { Box } from "@mui/material";
 
-import { Search } from "components/Icons";
+import { Search, Sort } from "components/Icons";
+//import CodeIcon from "@mui/icons-material/Code";
 
 import {
   // RadioSelectRowType,
@@ -57,6 +58,9 @@ const Table: FC<MaterialTableProps> = ({
         }}
         icons={{
           Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+          SortArrow: forwardRef((props, ref) => (
+            <Sort {...props} ref={ref} width="16px" height="16px" />
+          )),
         }}
         {...props}
       />
