@@ -10,7 +10,7 @@ const TopBar: React.FC = memo(() => {
   return (
     <div className={classes.topbarContainer}>
       <img
-        src="/branding/default/img/TopBarLogo.svg"
+        src="/branding/default/img/Logo.svg"
         className={classes.topBarLogoImage}
         alt="logo"
       />
