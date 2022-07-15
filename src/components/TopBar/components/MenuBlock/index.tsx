@@ -1,18 +1,20 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 import menuStore from "storage/singletons/Menu";
 import RoutingConfig from "storage/singletons/RoutingConfig";
 import { MenuElement } from "utils/types/routingConfig";
 
 import MenuEl from "../MenuEl";
 
-const MenuBlock: React.FC = () => {
+const MenuBlock: React.FC = memo(() => {
   const { topMenu } = menuStore;
   const { setCurrentLevel, loggedInUserLevel } = RoutingConfig;
 
-  if (!topMenu) return <></>;
+  const TopMenuList = useMemo(() => topMenu, [topMenu]);
+
+  if (!TopMenuList) return <></>;
   return (
     <>
-      {topMenu.map((menuEl: MenuElement, i: number) => (
+      {TopMenuList.map((menuEl: MenuElement, i: number) => (
         <MenuEl
           key={i}
           menuEl={menuEl}
@@ -21,6 +23,6 @@ const MenuBlock: React.FC = () => {
       ))}
     </>
   );
-};
+});
 
 export default MenuBlock;
