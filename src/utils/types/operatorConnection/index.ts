@@ -42,3 +42,42 @@ export type IOcNumbers = {
 export type TDeleteOcNumbersModal = TDeleteModalProps & {
   data: IOcNumbers[];
 };
+
+export type IUsages = {
+  addressRequired: boolean;
+  allowedNumberTypes: Array<string>;
+  capabilities: Array<string>;
+  description: string;
+  id: string;
+  serviceType: string;
+};
+
+type ICivicAddressesLocations = {
+  default: boolean;
+  description?: string;
+  id: string;
+};
+
+export type ICivicAddresses = {
+  city: string;
+  companyName: string;
+  country: string;
+  description: string;
+  id: string;
+  locations: ICivicAddressesLocations[];
+  number: string;
+  postalCode: string;
+  state: string;
+  street: string;
+};
+
+export type NumberRangeArray = {
+  startRange: string;
+  endRange: string;
+  range: Array<string>;
+};
+
+export type INumberForCrate = {
+  number: string;
+  type: string;
+};

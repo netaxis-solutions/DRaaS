@@ -11,11 +11,16 @@ import {
   IStartOnboardingProccess,
   IDeleteNumbers,
   IOcNumbers,
+  IUsages,
+  ICivicAddresses,
+  INumberForCrate,
 } from "utils/types/operatorConnection";
 import {
   errorNotification,
   deleteNotification,
+  successNotification,
 } from "utils/functions/notifications";
+import { NumberRangeArray } from "utils/types/operatorConnection";
 import { request } from "services/api";
 import { t } from "services/Translation";
 
@@ -24,6 +29,20 @@ class CloudConnection {
   uncorrectInputData: string = "";
   numbers: IOcNumbers[] = [];
   freeNumbers: Array<string> = [];
+  allowedUsages: IUsages[] = [];
+  savedFirstStepsData: { id: string; condition: boolean } = {
+    id: "",
+    condition: false,
+  };
+  savedSecondStepsData: { country: string; id: string; code?: string } = {
+    country: "",
+    id: "",
+  };
+  civicAddresses: ICivicAddresses[] = [];
+  civicError: boolean = false;
+  numberRange: NumberRangeArray[] = [];
+  checkedLength: number = 0;
+  numbersForCreate: INumberForCrate[] = [];
 
   constructor() {
     makeObservable(this, {
@@ -31,6 +50,14 @@ class CloudConnection {
       uncorrectInputData: observable,
       numbers: observable,
       freeNumbers: observable,
+      allowedUsages: observable,
+      savedFirstStepsData: observable,
+      civicAddresses: observable,
+      civicError: observable,
+      savedSecondStepsData: observable,
+      numberRange: observable,
+      numbersForCreate: observable,
+      checkedLength: observable,
 
       startOperatorConnectionOnboarding: action,
       unlinkOperatorConnection: action,
@@ -39,6 +66,13 @@ class CloudConnection {
       setError: action,
       getOcNumbers: action,
       getOcFreeNumbers: action,
+      getAllowUsages: action,
+      setFirstStepsData: action,
+      getCivicAddresses: action,
+      setSecondStepData: action,
+      getFreeNumbers: action,
+      incrementCheckedLength: action,
+      dicrementCheckedLength: action,
     });
   }
 
@@ -217,6 +251,33 @@ class CloudConnection {
       });
   };
 
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#get-operator-connect-civic-addresses
+  getCivicAddresses = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
+    runInAction(() => {
+      this.civicError = false;
+    });
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/civic_addresses`,
+      loaderName: "@getCivicAddresses",
+    })
+      .then(
+        ({ data }: AxiosResponse<{ civicAddresses: ICivicAddresses[] }>) => {
+          runInAction(() => {
+            this.civicAddresses = data.civicAddresses;
+            this.civicError = false;
+          });
+        },
+      )
+      .catch(() => {
+        runInAction(() => {
+          this.civicError = true;
+        });
+      });
+  };
+
   // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#removing-phone-numbers-from-an-operator-connect-consent
   // Delete phone numbers
   deleteNumbers = (
@@ -242,14 +303,122 @@ class CloudConnection {
       });
   };
 
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#get-operator-connect-allowed-usages
+  getAllowUsages = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/allowed_usages`,
+      loaderName: "@getAllowUsages",
+    })
+      .then(({ data }: AxiosResponse<{ usages: IUsages[] }>) => {
+        runInAction(() => {
+          this.allowedUsages = data.usages;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
+        this.allowedUsages = [];
+      });
+  };
+
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#get-operator-connect-allowed-usages
+  getFreeNumbers = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+  ) => {
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/free_numbers?usage=${this.savedFirstStepsData.id}&country=${this.savedSecondStepsData.country}`,
+      loaderName: "@getAllFreeNumbersLastStep",
+    })
+      .then(({ data }: AxiosResponse<{ freeNumbers: string[] }>) => {
+        const formattedData = data.freeNumbers.map(
+          (el: string, index: number) => {
+            return {
+              number: el,
+              type: index % 5 ? (index % 4 ? "tollfree" : "geo") : "voip",
+            };
+          },
+        );
+        runInAction(() => {
+          this.numbersForCreate = formattedData;
+        });
+      })
+      .catch(e => {
+        errorNotification(e);
+        this.allowedUsages = [];
+      });
+  };
+
+  // https://docs.netaxis.solutions/draas/provisioning/api/94_operator_connect.html#adding-phone-numbers-to-an-operator-connect-consent
+  // Add new numbers to table MsTeams -> Numbers tab
+  addNumbersOperatorConnect = (
+    tenantID: string = Login.getExactLevelReference("tenant"),
+    subscriptionID: string,
+    payloadData: string[],
+    successCallback?: () => void,
+  ) => {
+    const payload = this.savedSecondStepsData.id
+      ? {
+          civicAddressId: this.savedSecondStepsData.id,
+          usage: this.savedFirstStepsData.id,
+          numbers: payloadData,
+        }
+      : {
+          usage: this.savedFirstStepsData.id,
+          numbers: payloadData,
+        };
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/oc/numbers`,
+      loaderName: "@addNumbersOperatorConnect",
+      method: "post",
+      payload,
+    })
+      .then(() => {
+        this.getOcNumbers(tenantID, subscriptionID);
+        successNotification(t("Successfully added numbers range"));
+        successCallback && successCallback();
+      })
+      .catch(e => {
+        errorNotification(e);
+      });
+  };
+
+  // Function for save Steps Data , this data will be use in request
+  setFirstStepsData = (payload: { id: string; condition: boolean }) => {
+    this.savedFirstStepsData = payload;
+  };
+
+  // Function for save Steps Data , this data will be use in request
+  setSecondStepData = (payload: { country: string; id: string }) => {
+    this.savedSecondStepsData = payload;
+  };
+
   // Save input data for error page
   setUncorrectInputData = (payload: string) => {
     this.uncorrectInputData = payload;
   };
 
+  // helper function
+  incrementCheckedLength = (payload: number) => {
+    this.checkedLength = this.checkedLength + payload;
+  };
+
+  // helper function
+  dicrementCheckedLength = (payload: number) => {
+    this.checkedLength = this.checkedLength - payload;
+  };
+
   // Option for open error page
   setError = () => {
     this.isError = false;
+  };
+
+  // Clear Storage
+  clearStorage = () => {
+    this.isError = false;
+    this.checkedLength = 0;
   };
 }
 

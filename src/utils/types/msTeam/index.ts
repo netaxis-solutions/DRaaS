@@ -46,7 +46,7 @@ export type TMsTeamAdmins = {
 export type TMsTeamCheck = {
   msTenantId: string;
   status: string;
-  mode: string;
+  mode: "operator_connect" | "direct_routing";
   powershell: {
     msUserName: string;
     active: boolean;

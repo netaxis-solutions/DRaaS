@@ -267,6 +267,9 @@
         "light": "#EBEBF7",
         "steel": "#828282"
       },
+      "checkbox":{
+        "border":"#B4BDC2"
+      },
       "hover": "#F5F7FF"
     },
     "tooltip": {
@@ -339,5 +342,8 @@
       "borderColor": "#FF8800",
       "textColor": "#FF8800"
     }
+  },
+  "modal":{
+    "background": "#F1F2F9"
   }
 }
