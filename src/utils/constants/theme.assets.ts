@@ -175,6 +175,21 @@ export const overrides = (defaultPalette: PaletteDefaultOptionsType) => ({
       },
     },
   },
+  MuiLink: {
+    root: {
+      fontFamily: "Font",
+    },
+  },
+  MuiTypography: {
+    root: {
+      fontFamily: "Font",
+    },
+  },
+  MuiBreadcrumbs: {
+    root: {
+      fontFamily: "Font",
+    },
+  },
   MuiOutlinedInput: {
     root: {
       borderRadius: 6,

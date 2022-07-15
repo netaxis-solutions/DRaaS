@@ -5,8 +5,8 @@ import { ThemeDefaultOptions } from "utils/types/themeConfig";
 const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   topbarContainer: {
     width: "100%",
-    height: theme.top_bar.height,
-    background: theme.top_bar.background,
+    height: theme.top_bar?.height,
+    background: theme.top_bar?.background,
     display: "flex",
     alignItems: "center",
     fontFamily: theme.top_bar.fontFamily,
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     fontWeight: theme.top_bar.fontWeight,
     borderBottom: `1px solid ${theme.top_bar.borderBottom}`,
     textTransform: theme.top_bar.textTransform,
-    fontVariant:"small-caps slashed-zero",
+    fontVariant: "small-caps slashed-zero",
   },
   topBarLogoImage: {
     margin:
