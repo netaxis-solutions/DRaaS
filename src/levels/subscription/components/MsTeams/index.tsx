@@ -83,7 +83,10 @@ const MSTeams: FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!filteredTabs.some(({ id }) => id === params.tabID)) {
+    if (
+      !filteredTabs.some(({ id }) => id === params.tabID) &&
+      checkMsTeamAdmin
+    ) {
       const url = createLink({
         url: `${allAvailvableRouting.subscriptionMSTeams}/:tabID?`,
         params: {
@@ -94,7 +97,7 @@ const MSTeams: FC = () => {
       history.replace(url);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabs, params]);
+  }, [tabs, params, checkMsTeamAdmin]);
 
   return (
     <>

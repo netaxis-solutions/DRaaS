@@ -12,17 +12,41 @@ import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
 
 import { getIsLoading } from "utils/functions/getIsLoading";
+import { PhoneNumberType } from "utils/types/numbers";
 import { TableData } from "utils/types/tableConfig";
+import createLink from "services/createLink";
 
 import SelectFromInventory from "./components/MultistepModal";
-import { InfoIcon, Plus, Trash } from "components/Icons";
+import {
+  InfoIcon,
+  Plus,
+  StrokeAlertCircle,
+  StrokeSuccessCircle,
+  Trash,
+} from "components/Icons";
 import Tooltip from "components/Tooltip";
 import CardWithButton from "components/CardForEmptyTable";
 import Table from "components/Table";
 import TableSkeleton from "components/Table/Skeleton";
 import DeleteNumberModal from "./components/DeleteModal";
+import Flag from "components/common/Flag";
+import Label from "components/Label";
 
 import styles from "./styles";
+
+const formatTabName = (unformattedTabName: string): string => {
+  switch (unformattedTabName) {
+    case "user":
+      return "msTeamsUsers";
+    case "resource_account":
+      return "resourceAccounts";
+    case "operator_connect":
+      return "ocNumbers";
+
+    default:
+      return "";
+  }
+};
 
 const MyNumbers = () => {
   const { t } = useTranslation();
@@ -36,7 +60,7 @@ const MyNumbers = () => {
 
   const classes = styles();
 
-  const { history } = RoutingConfig;
+  const { history, allAvailvableRouting } = RoutingConfig;
 
   const {
     numbers,
@@ -134,10 +158,39 @@ const MyNumbers = () => {
       {
         Header: t("Country code"),
         accessor: "countryCode",
+        Cell: ({ row, value }: CellProps<PhoneNumberType>) => {
+          return (
+            <div className={classes.countryCodeWrapper}>
+              <span>{value}</span>
+              <Flag countryCode={row.original.isoCode} />
+            </div>
+          );
+        },
       },
       {
         Header: t("Number"),
-        accessor: "nsn",
+        accessor: "fullNumber",
+        Cell: ({ row, value }: CellProps<PhoneNumberType>) => {
+          return row.original.assignedTo ? (
+            <Link
+              to={createLink({
+                url:
+                  row.original.assignedTo.type === "ms_teams"
+                    ? allAvailvableRouting.subscriptionMSTeams +
+                      `/${formatTabName(row.original.assignedTo.subType)}`
+                    : allAvailvableRouting.subscriptionSIPTrunks,
+                params: {
+                  tenantID: tenantID,
+                  subscriptionID: subscriptionID,
+                },
+              })}
+            >
+              {value}
+            </Link>
+          ) : (
+            value
+          );
+        },
       },
       {
         Header: t("Number type"),
@@ -152,12 +205,25 @@ const MyNumbers = () => {
       },
       {
         Header: t("Status"),
+        accessor: "status",
+        Cell: ({ value }: CellProps<TableProps>) => {
+          return <Label labelText={value} status={value} />;
+        },
+      },
+      {
+        Header: t("Available"),
         accessor: "assigned",
         Cell: ({ value }: CellProps<TableProps>) => {
-          return value ? "connected" : "free";
+          return value ? (
+            <StrokeAlertCircle height="16" />
+          ) : (
+            <StrokeSuccessCircle height="16" />
+          );
         },
       },
     ],
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t],
   );
 

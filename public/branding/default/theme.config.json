@@ -31,7 +31,7 @@
       "hover": "#C2C3E8",
       "active": "#484CBA",
       "main": "#828282",
-      "alert":"#FF8800"
+      "alert": "#FF8800"
     }
   },
   "body": {
@@ -221,9 +221,9 @@
         }
       }
     },
-    "newCardWrapper":{
-      "border":"#DDE7FF",
-      "background":"#FFFFFF"
+    "newCardWrapper": {
+      "border": "#DDE7FF",
+      "background": "#FFFFFF"
     },
     "stepper": {
       "stepsCircle": {
@@ -327,5 +327,17 @@
     "underline": "#DDE7FF",
     "title": "#323D69",
     "cancelButtonText": "#67748E"
+  },
+  "label": {
+    "active": {
+      "background": "#EDFFCA",
+      "borderColor": "#8BB439",
+      "textColor": "#8BB439"
+    },
+    "preActive": {
+      "background": "#FFE3C5",
+      "borderColor": "#FF8800",
+      "textColor": "#FF8800"
+    }
   }
 }
