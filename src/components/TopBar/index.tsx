@@ -1,9 +1,10 @@
+import { memo } from "react";
 import IconsBar from "./components/IconsBar";
 import MenuBlock from "./components/MenuBlock";
 
 import useStyles from "./styles";
 
-const TopBar: React.FC = () => {
+const TopBar: React.FC = memo(() => {
   const classes = useStyles();
 
   return (
@@ -17,6 +18,6 @@ const TopBar: React.FC = () => {
       <IconsBar />
     </div>
   );
-};
+});
 
 export default TopBar;
