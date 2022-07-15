@@ -1,20 +1,21 @@
-import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router";
 import clsx from "clsx";
 
 import useStyles from "./styles";
 import { MenuElement } from "utils/types/routingConfig";
+import { memo, useMemo } from "react";
 
 type MenuELType = {
   menuEl: MenuElement;
   onClick: () => void;
 };
 
-const MenuEl: React.FC<MenuELType> = ({ menuEl, onClick }) => {
+const MenuEl: React.FC<MenuELType> = memo(({ menuEl, onClick }) => {
   const classes = useStyles();
   const location = useLocation();
-  const isActive = location.pathname === menuEl.path;
+
+  const isActive = useMemo(() => location.pathname === menuEl.path, [location]);
 
   return menuEl?.path ? (
     <div
@@ -33,6 +34,6 @@ const MenuEl: React.FC<MenuELType> = ({ menuEl, onClick }) => {
       <div className={classes.activeMenu} />
     </div>
   ) : null;
-};
+});
 
-export default observer(MenuEl);
+export default MenuEl;

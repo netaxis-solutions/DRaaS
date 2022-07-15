@@ -9,20 +9,20 @@ const MenuBlock: React.FC = memo(() => {
   const { topMenu } = menuStore;
   const { setCurrentLevel, loggedInUserLevel } = RoutingConfig;
 
-  const TopMenuList = useMemo(() => topMenu, [topMenu]);
-
-  if (!TopMenuList) return <></>;
-  return (
-    <>
-      {TopMenuList.map((menuEl: MenuElement, i: number) => (
+  const renderList = useMemo(
+    () =>
+      topMenu.map((menuEl: MenuElement, i: number) => (
         <MenuEl
           key={i}
           menuEl={menuEl}
           onClick={() => setCurrentLevel(loggedInUserLevel)}
         />
-      ))}
-    </>
+      )),
+    [topMenu],
   );
+
+  if (!topMenu) return <></>;
+  return <>{renderList}</>;
 });
 
 export default MenuBlock;
