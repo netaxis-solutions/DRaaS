@@ -122,6 +122,12 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     maxWidth: "500px",
     marginTop: theme.spacing(3.75),
   },
+  mainWrapper: {
+    display: "flex",
+    gap: theme.spacing(3.1),
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   multiSubmitGroupRoot: {
     maxWidth: 500,
     display: "flex",
@@ -142,14 +148,20 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItem: "center",
     gap: theme.spacing(1.15),
     "& svg": {
-      width: 30,
+      width: 16,
+      height: 16,
     },
   },
+  adminWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(1.45),
+  },
+
   errorNotification: {
     fill: theme.palette.status.error,
-    transform: "rotate(180deg)",
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
   },
 }));
 

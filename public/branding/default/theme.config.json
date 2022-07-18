@@ -67,11 +67,11 @@
         }
       },
       "cancel": {
-        "text": "#67748E",
+        "text": "#3664F7",
         "background": "#FFFFFF",
-        "border": "1px solid #C0C0C0 ",
+        "border": "1px solid #DDE7FF",
         "icon": {
-          "color": "#C0C0C0"
+          "color": "#DDE7FF"
         }
       },
       "error": {

@@ -19,6 +19,12 @@ export const OperatorConnectionStyle = makeStyles(
     boldText: {
       fontWeight: 700,
     },
+    integrationData: {
+      textOverflow: "ellipsis ",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      width: 390,
+    },
     shortCodeTextWrapper: {
       marginTop: 24,
       maxWidth: 450,

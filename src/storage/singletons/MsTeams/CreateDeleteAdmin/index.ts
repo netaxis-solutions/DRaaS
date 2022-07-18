@@ -4,12 +4,14 @@ import { AxiosResponse } from "axios";
 import configStore from "../../Config";
 import Login from "storage/singletons/Login";
 
+import { t } from "services/Translation";
 import { request } from "services/api";
 import {
   TMsTeamAdmins,
   TMsTeamCheck,
   TMsTeamUserList,
 } from "utils/types/msTeam";
+import { successNotification } from "utils/functions/notifications";
 
 class MsTeamAdmin {
   msTeamAdmin: TMsTeamAdmins = { id: null, msUsername: "" };
@@ -92,26 +94,30 @@ class MsTeamAdmin {
       });
   };
 
-  createMsTeamAdmin = async (
+  createMsTeamAdmin = (
     tenantID: string = Login.getExactLevelReference("tenant"),
     subscriptionID: string,
     payload: any,
+    successCallback?: () => void,
   ) => {
-    try {
-      await request({
-        route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/admins`,
-        loaderName: "@getMsTeamAdmin",
-        method: "post",
-        payload: {
-          msUsername: payload?.msUsername,
-          msPassword: payload?.msPassword,
-        },
+    request({
+      route: `${configStore.config.draasInstance}/tenants/${tenantID}/subscriptions/${subscriptionID}/msteams/admins`,
+      loaderName: "@createOrUpdateMsTeamAdmin",
+      method: "post",
+      payload: {
+        msUsername: payload?.msUsername,
+        msPassword: payload?.msPassword,
+      },
+    })
+      .then(() => {
+        this.getMsTeamAdmin(tenantID, subscriptionID);
+        this.getCheckMsTeamAdmin(tenantID, subscriptionID);
+        successCallback && successCallback();
+        successNotification(t("Successfully update user password"));
+      })
+      .catch(e => {
+        console.error(e);
       });
-      this.getMsTeamAdmin(tenantID, subscriptionID);
-      this.getCheckMsTeamAdmin(tenantID, subscriptionID);
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   deleteMsTeamAdmin = async (

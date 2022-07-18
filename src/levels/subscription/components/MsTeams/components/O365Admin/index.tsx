@@ -17,15 +17,17 @@ import { getIsLoading } from "utils/functions/getIsLoading";
 import MsTeamAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 import PendingQueries from "storage/singletons/PendingQueries";
 
-import { AlertOutline } from "components/Icons";
+import { StrokeAlertCircle } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import FormInput from "components/common/Form/FormInput";
-import { MsTeamLimk, Trash } from "components/Icons";
 import AcceptText from "./components/AcceptText";
 import StartedText from "./components/StartedText";
 import DeleteAdminModal from "./components/DeleteAdminModal";
 import O365AdminSkeleton from "./O365AdminSkeleton";
 import CardWrapper from "components/CardWrapper";
+import AdminIntegrationPage from "../O365Tanant/OperatorConnection/AdminIntegration";
+import RightSideModal from "components/Modal/RightSideModal";
+import PasswordModal from "./components/ChangePasswordModal";
 
 import { EntitlementsStyle } from "./styles";
 
@@ -116,166 +118,162 @@ const O365Admin: FC = () => {
   return isLoading ? (
     <O365AdminSkeleton />
   ) : (
-    <CardWrapper
-      width={600}
-      children={
-        <div>
-          {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (
-            <AcceptText
-              userName={msTeamAdmin.msUsername}
-              confirm={!!checkMsTeamAdmin?.powershell?.active}
-            />
-          ) : checkMsTeamAdmin?.status === "already_linked" ? (
-            <span className={classes.title}>
-              <AlertOutline className={classes.iconTriangleAlert} />
-              <span className={classes.alertTitle}>
-                {t(
-                  "We are sorry! The admin you provided is administrator of a tenant which is already linked to this platform (to another subscription) Please provide an admin of another tenant and try again",
-                )}{" "}
+    <div className={classes.adminWrapper}>
+      <CardWrapper
+        width={835}
+        children={
+          <div className={clsx({ [classes.mainWrapper]: msTeamAdmin.id })}>
+            {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (
+              <AcceptText
+                userName={msTeamAdmin.msUsername}
+                confirm={!!checkMsTeamAdmin?.powershell?.active}
+              />
+            ) : checkMsTeamAdmin?.status === "already_linked" ? (
+              <span className={classes.title}>
+                <StrokeAlertCircle className={classes.iconTriangleAlert} />
+                <span className={classes.alertTitle}>
+                  {t(
+                    "We are sorry! The admin you provided is administrator of a tenant which is already linked to this platform (to another subscription) Please provide an admin of another tenant and try again",
+                  )}{" "}
+                </span>
               </span>
-            </span>
-          ) : (
-            <StartedText />
-          )}
-          {msTeamAdmin.id ? (
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className={classes.multiFormRoot}
-            >
-              <Controller
-                name="msUsername"
-                control={control}
-                render={({ field, ...props }) => (
-                  <FormInput label={t("User Name")} {...field} {...props} />
-                )}
-              />
-              <Controller
-                name="msPassword"
-                control={control}
-                render={({ field, ...props }) => (
-                  <FormInput
-                    label={t("Password")}
-                    type={"password"}
-                    {...field}
-                    {...props}
+            ) : (
+              <StartedText />
+            )}
+            {msTeamAdmin.id ? (
+              <>
+                <div className={classes.multiSubmitGroupRoot}>
+                  <ButtonWithIcon
+                    onClick={() => setModalToOpen("edit")}
+                    title={t("Edit")}
+                    className={classes.buttonConfirm}
+                    disabled={isDisabledButton}
                   />
-                )}
-              />
-
-              <div className={classes.multiSubmitGroupRoot}>
-                <ButtonWithIcon
-                  onClick={() => setModalToOpen("delete")}
-                  title={t("Delete")}
-                  icon={Trash}
-                  cancel
-                  className={classes.deleteButton}
-                  disabled={isDisabledButton}
-                />
-                <ButtonWithIcon
-                  title={t("Update")}
-                  icon={MsTeamLimk}
-                  type="submit"
-                  className={classes.buttonConfirm}
-                  disabled={isDisabledButton}
-                />
-              </div>
-            </form>
-          ) : (
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className={classes.formRoot}
-            >
-              <Controller
-                name="msUsername"
-                control={control}
-                render={({ field, ...props }) => (
-                  <FormInput label={t("Email")} {...field} {...props} />
-                )}
-              />
-              <Controller
-                name="msPassword"
-                control={control}
-                render={({ field, ...props }) => (
-                  <FormInput
-                    label={t("Password")}
-                    type={"password"}
-                    {...field}
-                    {...props}
+                  <ButtonWithIcon
+                    onClick={() => setModalToOpen("delete")}
+                    title={t("Delete")}
+                    cancel
+                    className={classes.deleteButton}
+                    disabled={isDisabledButton}
                   />
-                )}
-              />
-
-              <div
-                className={clsx(classes.formCheckbox, {
-                  [classes.errorBorderCheckbox]: checkboxValidation,
-                })}
+                </div>
+              </>
+            ) : (
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className={classes.formRoot}
               >
-                <FormControl
-                  required
-                  error={checkboxValidation}
-                  component="fieldset"
-                  variant="standard"
-                >
-                  <Controller
-                    name="agree"
-                    control={control}
-                    render={({ ...props }) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={agree}
-                            onChange={handleChange}
-                            name="agree"
-                            disableRipple
-                            {...props}
-                          />
-                        }
-                        label={agreeLabelCheckbox}
-                      />
-                    )}
-                  />
-                  <Controller
-                    name="privacy"
-                    control={control}
-                    render={({ ...props }) => (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={privacy}
-                            onChange={handleChange}
-                            name="privacy"
-                            disableRipple
-                            {...props}
-                          />
-                        }
-                        label={privacyPolicy}
-                      />
-                    )}
-                  />
-                </FormControl>
-              </div>
-
-              <div>
-                <ButtonWithIcon
-                  className={classes.buttonConfirm}
-                  title={t("Confirm")}
-                  icon={MsTeamLimk}
-                  type="submit"
-                  disabled={checkboxValidation}
+                <Controller
+                  name="msUsername"
+                  control={control}
+                  render={({ field, ...props }) => (
+                    <FormInput label={t("Email")} {...field} {...props} />
+                  )}
                 />
-              </div>
-            </form>
-          )}
-          {modalToOpen === "delete" && (
-            <DeleteAdminModal
-              handleCloseModal={handleCloseModal}
-              handleDelete={handleDelete}
-              admin={msTeamAdmin}
-            />
-          )}
-        </div>
-      }
-    />
+                <Controller
+                  name="msPassword"
+                  control={control}
+                  render={({ field, ...props }) => (
+                    <FormInput
+                      label={t("Password")}
+                      type={"password"}
+                      {...field}
+                      {...props}
+                    />
+                  )}
+                />
+
+                <div
+                  className={clsx(classes.formCheckbox, {
+                    [classes.errorBorderCheckbox]: checkboxValidation,
+                  })}
+                >
+                  <FormControl
+                    required
+                    error={checkboxValidation}
+                    component="fieldset"
+                    variant="standard"
+                  >
+                    <Controller
+                      name="agree"
+                      control={control}
+                      render={({ ...props }) => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={agree}
+                              onChange={handleChange}
+                              name="agree"
+                              disableRipple
+                              {...props}
+                            />
+                          }
+                          label={agreeLabelCheckbox}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name="privacy"
+                      control={control}
+                      render={({ ...props }) => (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={privacy}
+                              onChange={handleChange}
+                              name="privacy"
+                              disableRipple
+                              {...props}
+                            />
+                          }
+                          label={privacyPolicy}
+                        />
+                      )}
+                    />
+                  </FormControl>
+                </div>
+
+                <div>
+                  <ButtonWithIcon
+                    className={classes.buttonConfirm}
+                    title={t("Confirm")}
+                    type="submit"
+                    disabled={checkboxValidation}
+                  />
+                </div>
+              </form>
+            )}
+            {modalToOpen === "delete" && (
+              <DeleteAdminModal
+                handleCloseModal={handleCloseModal}
+                handleDelete={handleDelete}
+                admin={msTeamAdmin}
+              />
+            )}
+          </div>
+        }
+      />
+      {MsTeamAdmin.checkMsTeamAdmin?.status === "onboarded" &&
+        msTeamAdmin.id && (
+          <CardWrapper
+            width={835}
+            children={
+              <AdminIntegrationPage data={MsTeamAdmin.checkMsTeamAdmin} />
+            }
+          />
+        )}
+      {modalToOpen === "edit" && (
+        <RightSideModal
+          handleCancel={() => setModalToOpen("")}
+          title={t("Update password")}
+          children={<PasswordModal formId={"changePasswordMsAdmins"} />}
+          submitButton={{
+            formId: "changePasswordMsAdmins",
+            type: "submit",
+          }}
+        />
+      )}
+    </div>
   );
 };
 

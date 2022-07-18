@@ -7,7 +7,6 @@ import AuthOperatorConnection from "./AuthOperatorConnection";
 import CardWrapper from "components/CardWrapper";
 import StatusPage from "./StatusPage";
 import HelperText from "./HelperText";
-import AdminIntegrationPage from "./AdminIntegration";
 
 import { OperatorConnectionStyle } from "./styles";
 
@@ -29,14 +28,6 @@ const OperatorConnection: FC = () => {
             width={537}
             children={
               <StatusPage data={MsTeamsAdminStorage.checkMsTeamAdmin} />
-            }
-          />
-          <CardWrapper
-            width={537}
-            children={
-              <AdminIntegrationPage
-                data={MsTeamsAdminStorage.checkMsTeamAdmin}
-              />
             }
           />
         </div>

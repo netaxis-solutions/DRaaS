@@ -35,7 +35,7 @@ const AdminIntegrationPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
                 <span className={classes.boldText}>
                   {t("Powershell integration")}
                 </span>
-                <span>
+                <span className={classes.integrationData}>
                   {data.powershell.active === true
                     ? data.powershell.msUserName
                     : t("Disable")}
