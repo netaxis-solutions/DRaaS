@@ -13,6 +13,8 @@ import ResourceAccountStorage from "storage/singletons/MsTeams/resourceAccount";
 import PendingQueries from "storage/singletons/PendingQueries";
 import SubscriptionLicensesStore from "storage/singletons/Licenses";
 import CloudConnection from "storage/singletons/CloudConnection";
+import NumbersStore from "storage/singletons/Numbers";
+import CreateDeleteAdmin from "storage/singletons/MsTeams/CreateDeleteAdmin";
 
 import {
   TCreateResourceAccount,
@@ -56,6 +58,12 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
     subscriptionID: string;
   }>();
   const { byFetchType } = PendingQueries;
+  const { checkMsTeamAdmin } = CreateDeleteAdmin;
+
+  const validPhoneNumbers =
+    checkMsTeamAdmin?.mode === "operator_connect"
+      ? ["Unselect number", ...CloudConnection.freeNumbers]
+      : ["Unselect number", ...NumbersStore.freeNumbers];
 
   // Formatting CountryCode to Autocomplete format
   const countries = ResourceAccountStorage.countryCode.map(requirement => {
@@ -132,10 +140,16 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
     );
   };
 
+  console.log(
+    "ResourceAccountStorage.verifiedDomains",
+    ResourceAccountStorage.verifiedDomains,
+  );
+
   const isLoading =
     getIsLoading("@createMsTeamResourceAccount", byFetchType) ||
     getIsLoading("@getVerifiedDomains", byFetchType) ||
-    getIsLoading("@getOcFreeNumbers", byFetchType);
+    getIsLoading("@getOcFreeNumbers", byFetchType) ||
+    getIsLoading("@getFreeNumbers", byFetchType);
 
   return isLoading ? (
     <Stack>
@@ -195,7 +209,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
             />
           )}
         />
-        {ResourceAccountStorage.verifiedDomains.length > 0 && (
+        {ResourceAccountStorage.verifiedDomains.length >= 0 && (
           <Controller
             name="validDomains"
             control={control}
@@ -221,7 +235,7 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
                 SubscriptionLicensesStore.licenses[0].assigned
               }
               label={t("Phone number")}
-              options={["Unselect number", ...CloudConnection.freeNumbers]}
+              options={validPhoneNumbers}
               {...field}
               {...props}
               className={classes.selectNumber}

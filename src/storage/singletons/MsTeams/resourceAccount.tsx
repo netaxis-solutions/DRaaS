@@ -206,6 +206,13 @@ class ResourceAccount {
         errorNotification(e);
       });
   };
+
+  // Clear storage
+  clearStorage = () => {
+    this.resourceAccountsData = [];
+    this.countryCode = [];
+    this.verifiedDomains = [];
+  };
 }
 
 export default new ResourceAccount();
