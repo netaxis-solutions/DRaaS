@@ -16,4 +16,7 @@ export default makeStyles((theme: ThemeDefaultOptions) => ({
     gap: theme.spacing(1),
     textTransform: "uppercase",
   },
+  setupHeader: { width: 120, paddingLeft: 20 },
+  perMinuteHeader: { width: 140, paddingLeft: 20 },
+  subColumnsCell: { paddingLeft: 20 },
 }));
