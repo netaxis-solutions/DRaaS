@@ -99,16 +99,17 @@ const ResourceAccount: FC = () => {
     defaultValues,
   });
 
+  const validFreeNumbers = () =>
+    checkMsTeamAdmin?.mode === "operator_connect"
+      ? getOcFreeNumbers(tenantID, subscriptionID)
+      : getFreeNumbers(tenantID, subscriptionID);
+
   // Get ResourceAccount Data , CountryCode Data and FreeNumbers Data
   // After unmount we deleting table pagination
   useEffect(() => {
     getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
     getCountryCode();
-    if (checkMsTeamAdmin?.mode === "operator_connect") {
-      getOcFreeNumbers(tenantID, subscriptionID);
-    } else {
-      getFreeNumbers(tenantID, subscriptionID);
-    }
+    validFreeNumbers();
     return () => {
       clearPaginationData();
       clearStorage();
@@ -296,11 +297,7 @@ const ResourceAccount: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
-        if (checkMsTeamAdmin?.mode === "operator_connect") {
-          getOcFreeNumbers(tenantID, subscriptionID);
-        } else {
-          getFreeNumbers(tenantID, subscriptionID);
-        }
+        validFreeNumbers();
         getVerifiedDomains(tenantID, subscriptionID);
       },
     },
@@ -308,11 +305,7 @@ const ResourceAccount: FC = () => {
 
   const openModalOnEmptyTable = () => {
     setModalToOpen("add");
-    if (checkMsTeamAdmin?.mode === "operator_connect") {
-      getOcFreeNumbers(tenantID, subscriptionID);
-    } else {
-      getFreeNumbers(tenantID, subscriptionID);
-    }
+    validFreeNumbers();
     getVerifiedDomains(tenantID, subscriptionID);
   };
 

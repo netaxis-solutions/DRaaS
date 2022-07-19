@@ -140,11 +140,6 @@ const CreateResourceAccount: FC<{ handleCancel: () => void }> = ({
     );
   };
 
-  console.log(
-    "ResourceAccountStorage.verifiedDomains",
-    ResourceAccountStorage.verifiedDomains,
-  );
-
   const isLoading =
     getIsLoading("@createMsTeamResourceAccount", byFetchType) ||
     getIsLoading("@getVerifiedDomains", byFetchType) ||
