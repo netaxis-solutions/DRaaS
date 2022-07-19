@@ -165,44 +165,69 @@ export const useTableBodyStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
   },
-  tableBodyCardsWrapper: {
-    maxHeight: "calc((95vh - 187px) )",
-    overflowY: "auto",
+}));
 
-    "&>*>*": {
-      background: "none",
-      boxSizing: "border-box",
+export const useCardBasedBodyLayout = makeStyles(
+  (theme: ThemeDefaultOptions) => ({
+    tableBodyCardsWrapper: ({
+      pageWithSidebarLayout,
+    }: {
+      pageWithSidebarLayout?: boolean;
+    }) => ({
+      maxHeight: "calc((95vh - 187px) )",
+      overflowY: "auto",
+
+      "&>*>*": {
+        background: "none",
+        boxSizing: "border-box",
+        display: "flex",
+        gap: theme.spacing(1),
+        flexDirection: "row",
+        flexWrap: "wrap",
+        minWidth: "100%",
+
+        "&>div": pageWithSidebarLayout
+          ? {
+              "@media screen and (min-width:1650px)": {
+                width: "calc(25% - 6px)",
+              },
+              "@media screen and (min-width:1300px) and (max-width:1650px)": {
+                width: "calc(33.3% - 5.4px)",
+              },
+
+              "@media screen and (min-width:980px) and (max-width:1300px)": {
+                width: "calc(50% - 4px)",
+              },
+              "@media screen and (min-width:620px) and (max-width:980px)": {
+                width: "100%",
+              },
+            }
+          : {
+              "@media screen and (min-width:1430px)": {
+                width: "calc(25% - 6px)",
+              },
+              "@media screen and (min-width:1080px) and (max-width:1430px)": {
+                width: "calc(33.3% - 5.4px)",
+              },
+
+              "@media screen and (min-width:760px) and (max-width:1080px)": {
+                width: "calc(50% - 4px)",
+              },
+              "@media screen and (min-width:400px) and (max-width:760px)": {
+                width: "100%",
+              },
+            },
+      },
+    }),
+    loaderWrapper: {
       display: "flex",
-      gap: theme.spacing(1),
-      flexDirection: "row",
-      flexWrap: "wrap",
-      minWidth: "100%",
-
-      "&>div": {
-        "@media screen and (min-width:1420px)": {
-          width: "calc(25% - 6px)",
-        },
-        "@media screen and (min-width:1080px) and (max-width:1420px)": {
-          width: "calc(33.3% - 5.4px)",
-        },
-
-        "@media screen and (min-width:760px) and (max-width:1080px)": {
-          width: "calc(50% - 4px)",
-        },
-        "@media screen and (min-width:400px) and (max-width:760px)": {
-          width: "100%",
-        },
+      justifyContent: "center",
+      "&&": {
+        width: "100%",
       },
     },
-  },
-  loaderWrapper: {
-    display: "flex",
-    justifyContent: "center",
-    "&&": {
-      width: "100%",
-    },
-  },
-}));
+  }),
+);
 
 export const useToolbarStyles = makeStyles((theme: ThemeDefaultOptions) => ({
   tableToolbarWrapper: {

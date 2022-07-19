@@ -1,7 +1,6 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
-import { TFunction } from "i18next";
 import { CellProps } from "react-table";
 import { useParams, Link } from "react-router-dom";
 
@@ -9,6 +8,7 @@ import RoutingConfig from "storage/singletons/RoutingConfig";
 import Subscriptions from "storage/singletons/Subscriptions";
 import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
+import Login from "storage/singletons/Login";
 
 import createLink from "services/createLink";
 import { SubscriptionItemType } from "utils/types/subscriptions";
@@ -21,14 +21,6 @@ import TableSkeleton from "components/Table/Skeleton";
 import CardWithButton from "components/CardForEmptyTable";
 
 import useStyles from "./styles";
-import Login from "storage/singletons/Login";
-
-const getTranslatedColumns = (t: TFunction) => [
-  {
-    Header: t("Billing ID"),
-    accessor: "billingId",
-  },
-];
 
 const SubscriptionsList: FC = () => {
   const { t } = useTranslation();
@@ -73,14 +65,21 @@ const SubscriptionsList: FC = () => {
                   subscriptionID: original.id,
                 },
               })}
+              className={classes.link}
             >
               {original.name}
             </Link>
           );
         },
       },
-      ...getTranslatedColumns(t),
+      {
+        Header: t("Billing ID"),
+        accessor: "billingId",
+        Cell: ({ value }) => <div className={classes.billingId}>{value}</div>,
+      },
     ],
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [t, allAvailvableRouting, tenantId],
   );
 
@@ -132,7 +131,9 @@ const SubscriptionsList: FC = () => {
           columns={columns}
           data={subscriptions}
           toolbarActions={toolbarActions}
+          pageWithSidebarLayout
           infiniteScroll
+          cardBasedLayout
           handleLoadNext={(token, setNewToken) => {
             getMoreSubscriptions(tenantId, token, setNewToken);
           }}

@@ -54,6 +54,7 @@ const Table: FC<TableProps> = ({
   tooltipTrashButton,
   tooltipEditButton,
   customSearchValue,
+  pageWithSidebarLayout = false,
   // NOTE: Card-like layout wouldn't be enabled until
   // you pass the "handleLoadNext" function
   cardBasedLayout = false,
@@ -517,6 +518,7 @@ const Table: FC<TableProps> = ({
             prepareRow={prepareRow}
             page={page}
             handleLoadNext={handleLoadNext}
+            pageWithSidebarLayout={pageWithSidebarLayout}
           />
         </>
       ) : infiniteScroll ? (

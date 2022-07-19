@@ -147,6 +147,8 @@
         "background": "#fff",
         "borderColor": "#fff",
         "borderHoverColor": "#3664F7",
+        "linkColor": "#3664F7",
+        "textColor": "#374151",
         "actions": {
           "actionsMenuButton": { "imageFill": "#3664F7" },
           "tableActionsWrapper": {
@@ -267,8 +269,8 @@
         "light": "#EBEBF7",
         "steel": "#828282"
       },
-      "checkbox":{
-        "border":"#B4BDC2"
+      "checkbox": {
+        "border": "#B4BDC2"
       },
       "hover": "#F5F7FF"
     },
@@ -343,7 +345,7 @@
       "textColor": "#FF8800"
     }
   },
-  "modal":{
+  "modal": {
     "background": "#F1F2F9"
   }
 }
