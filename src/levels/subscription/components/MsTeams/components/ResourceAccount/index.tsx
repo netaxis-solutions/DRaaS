@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useState } from "react";
-import { CellProps } from "react-table";
+import { CellProps, Row } from "react-table";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { object, string } from "yup";
@@ -404,6 +404,9 @@ const ResourceAccount: FC = () => {
               handleDeleteItem={handleDeleteItem}
               isEditable
               isRemovable
+              deleteDisabledCondition={(row: Row<TableData>) => {
+                return !row.original.draas;
+              }}
             />
           </form>
         ) : (
