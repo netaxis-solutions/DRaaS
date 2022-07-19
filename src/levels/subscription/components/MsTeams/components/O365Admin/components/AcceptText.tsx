@@ -16,7 +16,7 @@ const AcceptText: FC<TAcceptText> = ({ userName, confirm }) => {
   const { t } = useTranslation();
   return (
     <div className={classes.successLogin}>
-      <div>
+      <div className={classes.iconWrapper}>
         {confirm ? (
           <StrokeSuccessCircle />
         ) : (

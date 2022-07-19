@@ -16,13 +16,15 @@ const AdminIntegrationPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
   const classes = OperatorConnectionStyle();
   return (
     <div className={classes.adminIntegrationWrapper}>
-      <span className={classes.boldText}>{t("o365 Admin Account")}</span>
+      <span className={classes.boldTextAdminAccount}>
+        {t("o365 Admin Account")}
+      </span>
       <span>{`${t(
         "If you want to be able to link your numbers directly to your O365 users from this portal,  we need an admin account in your O365 Tenant",
       )}. 
       ${t("You can remove it at any time")}!`}</span>
       <CardWrapper
-        width={474}
+        width={577}
         children={
           <div className={classes.adminIntegrationStatusWrapper}>
             <div className={classes.adminIntegrationTextWithIcon}>
@@ -32,7 +34,7 @@ const AdminIntegrationPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
                 <StrokeAlert />
               )}
               <div className={classes.twoStepText}>
-                <span className={classes.boldText}>
+                <span className={classes.boldTitle}>
                   {t("Powershell integration")}
                 </span>
                 <span className={classes.integrationData}>
@@ -49,10 +51,10 @@ const AdminIntegrationPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
                 <StrokeAlert />
               )}
               <div className={classes.twoStepText}>
-                <span className={classes.boldText}>
+                <span className={classes.boldTitle}>
                   {t("Microsoft graph integration")}
                 </span>
-                <span>
+                <span className={classes.disabledText}>
                   {data.msGraph.active === true
                     ? data.msGraph.msApplicationId
                     : t("Disable")}
@@ -68,7 +70,7 @@ const AdminIntegrationPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
         /* <div className={classes.buttonWrapper}>
         <ButtonWithIcon
           title={t("Enable integrations")}
-          onClick={() => console.log("GG")}
+          onClick={}
         />
       </div> */
       }

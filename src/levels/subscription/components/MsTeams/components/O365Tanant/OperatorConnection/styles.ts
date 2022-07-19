@@ -12,18 +12,35 @@ export const OperatorConnectionStyle = makeStyles(
         height: 20,
       },
       "& svg": {
-        width: 20,
-        height: 20,
+        width: 16,
+        height: 16,
       },
     },
     boldText: {
       fontWeight: 700,
     },
+    boldTextAdminAccount: {
+      fontWeight: 750,
+      fontSize: "1.6rem",
+      lineHeight: "2rem",
+    },
+    boldTitle: {
+      fontWeight: 750,
+      color: theme.body.general.textStyle.titleColor,
+    },
+    disabledText: {
+      color: theme.body.general.textStyle.disabledColor,
+    },
+    textAdminAccount: {
+      fontSize: "1.6rem",
+      lineHeight: "2.4rem",
+    },
     integrationData: {
       textOverflow: "ellipsis ",
       whiteSpace: "nowrap",
       overflow: "hidden",
-      width: 390,
+      width: 460,
+      color: theme.body.general.textStyle.disabledColor,
     },
     shortCodeTextWrapper: {
       marginTop: 24,
@@ -120,8 +137,8 @@ export const OperatorConnectionStyle = makeStyles(
       display: "flex",
       gap: theme.spacing(1.875),
       "& svg": {
-        width: 20,
-        height: 20,
+        width: 16,
+        height: 16,
       },
     },
     twoStepText: {

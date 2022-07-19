@@ -9,7 +9,8 @@ const CardWrapper: FC<{
   boxShadow?: number;
   borderRadius?: number;
   border?: string;
-}> = ({ children, width, boxShadow, borderRadius, border }) => {
+  padding?: string;
+}> = ({ children, width, boxShadow, borderRadius, border, padding }) => {
   const classes = CardWrapperStyles({ width });
 
   const defaultBoxShadow = boxShadow ? boxShadow : 0;
@@ -19,6 +20,7 @@ const CardWrapper: FC<{
       sx={{
         borderRadius: borderRadius || 3,
         border: border,
+        padding: padding || "28px",
       }}
       elevation={defaultBoxShadow}
       className={classes.root}

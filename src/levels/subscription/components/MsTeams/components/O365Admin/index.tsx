@@ -121,6 +121,7 @@ const O365Admin: FC = () => {
     <div className={classes.adminWrapper}>
       <CardWrapper
         width={835}
+        padding="14px 28px"
         children={
           <div className={clsx({ [classes.mainWrapper]: msTeamAdmin.id })}>
             {msTeamAdmin.id && checkMsTeamAdmin?.status !== "already_linked" ? (

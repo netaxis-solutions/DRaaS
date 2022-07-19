@@ -26,6 +26,10 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
       color: theme.body.general.textStyle.link,
     },
   },
+  iconWrapper: {
+    display: "flex",
+    alignItems: "center",
+  },
   deleteButton: {
     background: theme.body.button.cancel.background,
     color: theme.body.button.cancel.text,
