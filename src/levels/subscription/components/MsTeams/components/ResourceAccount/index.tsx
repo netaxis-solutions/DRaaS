@@ -65,6 +65,7 @@ const ResourceAccount: FC = () => {
     getCountryCode,
     deleteResourceAccount,
     getVerifiedDomains,
+    clearStorage,
   } = ResourceAccountStorage;
 
   const { getOcFreeNumbers } = CloudConnection;
@@ -98,17 +99,24 @@ const ResourceAccount: FC = () => {
     defaultValues,
   });
 
+  const validFreeNumbers = () => {
+    if (checkMsTeamAdmin!.mode === "operator_connect") {
+      getOcFreeNumbers(tenantID, subscriptionID);
+    } else {
+      getFreeNumbers(tenantID, subscriptionID);
+    }
+  };
+
   // Get ResourceAccount Data , CountryCode Data and FreeNumbers Data
   // After unmount we deleting table pagination
   useEffect(() => {
     getCompleteMsTeamResourceAccounts(tenantID, subscriptionID);
     getCountryCode();
-    if (checkMsTeamAdmin?.mode === "operator_connect") {
-      getOcFreeNumbers(tenantID, subscriptionID);
-    } else {
-      getFreeNumbers(tenantID, subscriptionID);
-    }
-    return () => clearPaginationData();
+    validFreeNumbers();
+    return () => {
+      clearPaginationData();
+      clearStorage();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -292,11 +300,17 @@ const ResourceAccount: FC = () => {
       icon: Plus,
       onClick: () => {
         setModalToOpen("add");
-        getOcFreeNumbers(tenantID, subscriptionID);
+        validFreeNumbers();
         getVerifiedDomains(tenantID, subscriptionID);
       },
     },
   ];
+
+  const openModalOnEmptyTable = () => {
+    setModalToOpen("add");
+    validFreeNumbers();
+    getVerifiedDomains(tenantID, subscriptionID);
+  };
 
   // Update Resoutce Account with data from all fields
   const onSubmit = (value: TModifyResourceAccount) => {
@@ -366,6 +380,7 @@ const ResourceAccount: FC = () => {
   const isLoading =
     getIsLoading("@getMsTeamResourceAccount", byFetchType) ||
     getIsLoading("@getFreeNumbers", byFetchType) ||
+    getIsLoading("@getOcFreeNumbers", byFetchType) ||
     getIsLoading("@modifyMsTeamResourceAccount", byFetchType);
 
   return (
@@ -390,7 +405,11 @@ const ResourceAccount: FC = () => {
                         tenantID,
                         subscriptionID,
                       );
-                      getOcFreeNumbers(tenantID, subscriptionID);
+                      if (checkMsTeamAdmin?.mode === "operator_connect") {
+                        getOcFreeNumbers(tenantID, subscriptionID);
+                      } else {
+                        getFreeNumbers(tenantID, subscriptionID);
+                      }
                     }}
                   >
                     <Reload />
@@ -410,7 +429,7 @@ const ResourceAccount: FC = () => {
           <div className={classes.cardWrapper}>
             <CardWithButton
               content={t("You have no Resource Accounts added yet")}
-              customEvent={() => setModalToOpen("add")}
+              customEvent={() => openModalOnEmptyTable()}
               buttonName={t("Add new Account")}
               icon={Plus}
             />
