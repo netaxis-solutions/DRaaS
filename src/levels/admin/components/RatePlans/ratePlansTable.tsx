@@ -1,11 +1,13 @@
 import { FC, useEffect, useMemo } from "react";
-import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
+import { observer } from "mobx-react-lite";
+import { CellProps } from "react-table";
 
 import TablePagination from "storage/singletons/TablePagination";
 import PendingQueries from "storage/singletons/PendingQueries";
 
 import { getIsLoading } from "utils/functions/getIsLoading";
+import { TableData } from "utils/types/tableConfig";
 
 import Table from "components/Table";
 import TableSkeleton from "components/Table/Skeleton";
@@ -28,6 +30,7 @@ const RatePlansList: FC = () => {
       {
         Header: t("Destination"),
         accessor: "destination",
+        disableSortBy: true,
       },
       {
         Header: (
@@ -43,10 +46,27 @@ const RatePlansList: FC = () => {
         ),
         id: "international",
         columns: [
-          { Header: t("Setup cost, €"), accessor: "international.setup" },
           {
-            Header: t("Cost per minute, €"),
+            Header: (
+              <div className={classes.setupHeader}>{t("Setup cost, €")}</div>
+            ),
+            accessor: "international.setup",
+            disableSortBy: true,
+            Cell: ({ value }: CellProps<TableData>) => (
+              <div className={classes.subColumnsCell}>{value}</div>
+            ),
+          },
+          {
+            Header: (
+              <div className={classes.perMinuteHeader}>
+                {t("Cost per minute, €")}
+              </div>
+            ),
             accessor: "international.duration",
+            disableSortBy: true,
+            Cell: ({ value }: CellProps<TableData>) => (
+              <div className={classes.subColumnsCell}>{value}</div>
+            ),
           },
         ],
       },
@@ -66,20 +86,39 @@ const RatePlansList: FC = () => {
         ),
         id: "national",
         columns: [
-          { Header: t("Setup cost, €"), accessor: "national.setup" },
           {
-            Header: t("Cost per minute, €"),
+            Header: (
+              <div className={classes.setupHeader}>{t("Setup cost, €")}</div>
+            ),
+            accessor: "national.setup",
+            disableSortBy: true,
+            Cell: ({ value }: CellProps<TableData>) => (
+              <div className={classes.subColumnsCell}>{value}</div>
+            ),
+          },
+          {
+            Header: (
+              <div className={classes.perMinuteHeader}>
+                {t("Cost per minute, €")}
+              </div>
+            ),
             accessor: "national.duration",
+            disableSortBy: true,
+            Cell: ({ value }: CellProps<TableData>) => (
+              <div className={classes.subColumnsCell}>{value}</div>
+            ),
           },
         ],
       },
       {
         Header: t("Activation date"),
         accessor: "activeSince",
+        disableSortBy: true,
       },
       {
         Header: t("Next update"),
         accessor: "nextUpdate",
+        disableSortBy: true,
       },
     ],
 
