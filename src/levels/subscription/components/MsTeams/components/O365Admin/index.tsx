@@ -94,10 +94,7 @@ const O365Admin: FC = () => {
 
   const privacyPolicy = (
     <span className={classes.checkboxStyling}>
-      {" "}
-      {t("I agree to the Direct routing ")}{" "}
-      <Link to="#"> {t("Terms and Policies")} </Link> {t("and")}{" "}
-      <Link to="#">{t("Privacy Policy")}</Link>{" "}
+      {t("I agree to the")} <Link to="#"> {t("Terms and Conditions")} </Link>
     </span>
   );
 
@@ -107,6 +104,8 @@ const O365Admin: FC = () => {
       [event.target.name]: event.target.checked,
     });
   };
+
+  const wrapperWidth = msTeamAdmin.id ? 835 : 749;
 
   const isDisabledButton =
     checkMsTeamAdmin?.status !== "onboarded" &&
@@ -120,7 +119,7 @@ const O365Admin: FC = () => {
   ) : (
     <div className={classes.adminWrapper}>
       <CardWrapper
-        width={835}
+        width={wrapperWidth}
         padding="14px 28px"
         children={
           <div className={clsx({ [classes.mainWrapper]: msTeamAdmin.id })}>
@@ -147,7 +146,6 @@ const O365Admin: FC = () => {
                   <ButtonWithIcon
                     onClick={() => setModalToOpen("edit")}
                     title={t("Edit")}
-                    className={classes.buttonConfirm}
                     disabled={isDisabledButton}
                   />
                   <ButtonWithIcon
@@ -236,8 +234,7 @@ const O365Admin: FC = () => {
 
                 <div>
                   <ButtonWithIcon
-                    className={classes.buttonConfirm}
-                    title={t("Confirm")}
+                    title={t("Save account")}
                     type="submit"
                     disabled={checkboxValidation}
                   />

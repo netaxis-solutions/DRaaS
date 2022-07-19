@@ -7,7 +7,12 @@ import { EntitlementsStyle } from "../styles";
 const StartedText: FC = () => {
   const { t } = useTranslation();
   const classes = EntitlementsStyle();
-  const appropriateRightsList = ["right1", "right2", "right3"];
+  const appropriateRightsList = [
+    "Domain name administrator",
+    "Privileged role administrator",
+    "Teams administrator",
+    "User administrator",
+  ];
   const credentialsList = [
     t(
       "launch powershell commands to do MS Teams provisioning and configuration",
@@ -21,7 +26,7 @@ const StartedText: FC = () => {
   ];
 
   return (
-    <div>
+    <div className={classes.starterTextLoginScreenWrapper}>
       <div className={classes.adminBody}>
         <span>
           {t(
@@ -30,17 +35,21 @@ const StartedText: FC = () => {
           <Link to="#">{` ${t("appropriate rights")} `}</Link>
           {t("within your tenant")}:
         </span>
-        <ul>
+        <ul className={classes.startTextItemUl}>
           {appropriateRightsList.map((el: string) => (
-            <li key={el}>{el}</li>
+            <li className={classes.startTextItemLi} key={el}>
+              {el}
+            </li>
           ))}
         </ul>
       </div>
       <div className={classes.adminBody}>
         <span>{t("We use these credentials to")}: </span>
-        <ul>
+        <ul className={classes.startTextItemUl}>
           {credentialsList.map((el: string) => (
-            <li key={el}>{el}</li>
+            <li className={classes.startTextItemLi} key={el}>
+              {el}
+            </li>
           ))}
         </ul>
       </div>

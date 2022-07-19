@@ -23,8 +23,9 @@ const AcceptText: FC<TAcceptText> = ({ userName, confirm }) => {
           <StrokeAlert className={classes.errorNotification} />
         )}
       </div>
-      <span>
-        {t("Admin account")} <strong> {userName} </strong>{" "}
+      <span className={classes.successTextLogedStep}>
+        {t("Admin account")}{" "}
+        <span className={classes.successTextLogedStepBold}> {userName} </span>{" "}
         {t("linked to this tenant")}
       </span>
     </div>

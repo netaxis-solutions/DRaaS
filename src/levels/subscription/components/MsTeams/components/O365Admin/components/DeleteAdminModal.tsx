@@ -26,7 +26,7 @@ const DeleteTenantModal: FC<TDeleteAdminModalProps> = ({
         <div>
           <span className={classes.boldText}>
             {t("Are you sure you want to delete your O365 admin account")}{" "}
-            <strong>{admin?.msUsername}</strong> ?{" "}
+            <strong>{admin?.msUsername}</strong>?{" "}
             {t(
               "When you delete it, we will not be able to make additional changes to your MS Teams phone system",
             )}{" "}
