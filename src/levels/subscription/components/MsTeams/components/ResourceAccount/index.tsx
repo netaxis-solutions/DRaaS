@@ -99,10 +99,13 @@ const ResourceAccount: FC = () => {
     defaultValues,
   });
 
-  const validFreeNumbers = () =>
-    checkMsTeamAdmin?.mode === "operator_connect"
-      ? getOcFreeNumbers(tenantID, subscriptionID)
-      : getFreeNumbers(tenantID, subscriptionID);
+  const validFreeNumbers = () => {
+    if (checkMsTeamAdmin!.mode === "operator_connect") {
+      getOcFreeNumbers(tenantID, subscriptionID);
+    } else {
+      getFreeNumbers(tenantID, subscriptionID);
+    }
+  };
 
   // Get ResourceAccount Data , CountryCode Data and FreeNumbers Data
   // After unmount we deleting table pagination
