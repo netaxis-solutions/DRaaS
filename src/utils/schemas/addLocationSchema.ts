@@ -15,14 +15,14 @@ export const addLocationSchema = (t: TFunction) =>
       .required(t("This field is mandatory")),
     number: string()
       .matches(/^[0-9\s]+$/, {
-        message: t("Use only letters and digits"),
+        message: t("Use only digits"),
         excludeEmptyString: true,
       })
       .max(30)
       .required(t("This field is mandatory")),
     postbox: string()
       .matches(/^[aA-zZ0-9\s]+$/, {
-        message: t("Use only digits"),
+        message: t("Use only letters and digits"),
         excludeEmptyString: true,
       })
       .max(100),
