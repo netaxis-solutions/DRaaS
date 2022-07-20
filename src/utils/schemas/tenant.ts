@@ -35,7 +35,7 @@ export const addTenantSchema = (t: TFunction, isDirect?: boolean) =>
         return (
           value === "" ||
           (value !== undefined &&
-            Boolean(parseFloat(value)) &&
+            Boolean(parseFloat(value) || parseFloat(value) === 0) &&
             Number(value) >= 0 &&
             Number(value) <= 1000)
         );
@@ -68,7 +68,7 @@ export const editTenantSchema = (t: TFunction) =>
         return (
           value === "" ||
           (value !== undefined &&
-            Boolean(parseFloat(value)) &&
+            Boolean(parseFloat(value) || parseFloat(value) === 0) &&
             Number(value) >= 0 &&
             Number(value) <= 1000)
         );

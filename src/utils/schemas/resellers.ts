@@ -36,7 +36,7 @@ export const addResellerSchema = (t: TFunction) =>
         return (
           value === "" ||
           (value !== undefined &&
-            Boolean(parseFloat(value)) &&
+            Boolean(parseFloat(value) || parseFloat(value) === 0) &&
             Number(value) >= 0 &&
             Number(value) <= 1000)
         );
@@ -69,7 +69,7 @@ export const editResellerSchema = (t: TFunction) =>
         return (
           value === "" ||
           (value !== undefined &&
-            Boolean(parseFloat(value)) &&
+            Boolean(parseFloat(value) || parseFloat(value) === 0) &&
             Number(value) >= 0 &&
             Number(value) <= 1000)
         );
