@@ -456,6 +456,13 @@ export const useTableRowStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     flexDirection: "column",
     gap: theme.spacing(1.5),
     alignItems: "center",
+    "& div": {
+      width: "100%",
+      textOverflow: "ellipsis ",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textAlign: "center",
+    },
   },
   actionsMenuButton: {
     position: "absolute",
