@@ -255,7 +255,10 @@ const MyNumbers = () => {
     const numbersToDeassign = selectedRowsValues.reduce(
       (num: Array<{ countryCode: string; nsn: number }>, row) => [
         ...num,
-        { countryCode: row.values.countryCode, nsn: Number(row.values.nsn) },
+        {
+          countryCode: row.original.countryCode,
+          nsn: Number(row.original.nsn),
+        },
       ],
       [],
     );
