@@ -113,7 +113,7 @@ class MsTeamAdmin {
         this.getMsTeamAdmin(tenantID, subscriptionID);
         this.getCheckMsTeamAdmin(tenantID, subscriptionID);
         successCallback && successCallback();
-        successNotification(t("Successfully update user password"));
+        successNotification(t("Password was successfully updated"));
       })
       .catch(e => {
         console.error(e);

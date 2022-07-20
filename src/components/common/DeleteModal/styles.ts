@@ -29,13 +29,13 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     zIndex: 1299,
   },
   cancelButton: {
-    color: `${theme.body.button.cancel.text} `,
-    background: `${theme.body.button.cancel.background} `,
-    border: `${theme.body.button.cancel.border} `,
+    color: theme.body.button.cancel.text,
+    background: theme.body.button.cancel.background,
+    border: theme.body.button.cancel.border,
     "& svg": {
       "& path": {
-        fill: `${theme.body.button.cancel.icon.color} `,
-        stroke: `${theme.body.button.cancel.icon.color}`,
+        fill: theme.body.button.cancel.icon.color,
+        stroke: theme.body.button.cancel.icon.color,
       },
     },
     marginRight: theme.spacing(1.875),

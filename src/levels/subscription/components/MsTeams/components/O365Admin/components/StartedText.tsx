@@ -8,10 +8,10 @@ const StartedText: FC = () => {
   const { t } = useTranslation();
   const classes = EntitlementsStyle();
   const appropriateRightsList = [
-    "Domain name administrator",
-    "Privileged role administrator",
-    "Teams administrator",
-    "User administrator",
+    t("Domain name administrator"),
+    t("Privileged role administrator"),
+    t("Teams administrator"),
+    t("User administrator"),
   ];
   const credentialsList = [
     t(
