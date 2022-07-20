@@ -19,7 +19,7 @@ const AdminIntegrationPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
       <span className={classes.boldTextAdminAccount}>
         {t("o365 Admin Account")}
       </span>
-      <span>{`${t(
+      <span className={classes.adminIntegrationTitle}>{`${t(
         "If you want to be able to link your numbers directly to your O365 users from this portal,  we need an admin account in your O365 Tenant",
       )}. 
       ${t("You can remove it at any time")}!`}</span>

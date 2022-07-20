@@ -30,10 +30,17 @@ export const OperatorConnectionStyle = makeStyles(
     },
     disabledText: {
       color: theme.body.general.textStyle.disabledColor,
+      fontSize: "1.4rem",
+      lineHeight: "1.7rem",
     },
     textAdminAccount: {
       fontSize: "1.6rem",
       lineHeight: "2.4rem",
+    },
+    adminIntegrationTitle: {
+      fontSize: "1.6rem",
+      lineHeight: "2.4rem",
+      fontWeight: 400,
     },
     integrationData: {
       textOverflow: "ellipsis ",
@@ -41,6 +48,8 @@ export const OperatorConnectionStyle = makeStyles(
       overflow: "hidden",
       width: 460,
       color: theme.body.general.textStyle.disabledColor,
+      fontSize: "1.4rem",
+      lineHeight: "1.7rem",
     },
     shortCodeTextWrapper: {
       marginTop: 24,
