@@ -19,7 +19,9 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   checkboxStyling: {
+    fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
     fontSize: "1.4rem",
+    lineHeight: "1.7rem",
     color: theme.body.general.textStyle.newTextColor,
     "& a": {
       textDecoration: "none",

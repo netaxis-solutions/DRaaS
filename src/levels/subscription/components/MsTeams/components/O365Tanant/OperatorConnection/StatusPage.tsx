@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 
 import CloudConnection from "storage/singletons/CloudConnection";
 import PendingQueries from "storage/singletons/PendingQueries";
@@ -26,7 +27,7 @@ const StatusPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
   const isLoading = getIsLoading("@unlinkOperatorConnection", byFetchType);
 
   return (
-    <div>
+    <Typography variant="subtitle1">
       <div className={classes.textWithIcon}>
         <StrokeSuccessCircle />
         <span className={classes.boldText}>{t("Your tenant is linked")}</span>
@@ -54,7 +55,7 @@ const StatusPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
           onClick={() => unlinkOperatorConnection(tenantID, subscriptionID)}
         />
       </div>
-    </div>
+    </Typography>
   );
 };
 

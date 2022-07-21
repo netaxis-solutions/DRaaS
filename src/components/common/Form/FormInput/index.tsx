@@ -147,12 +147,6 @@ export const Input: React.FC<InputPropsType> = ({
           classes: inputClasses,
           ...InputProps,
         }}
-        inputProps={{
-          autoComplete: "new-password",
-          form: {
-            autocomplete: "off",
-          },
-        }}
         InputLabelProps={{ classes: labelClasses, shrink: labelShrink }}
         type={typeOption}
         data-type={type}

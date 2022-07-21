@@ -166,7 +166,17 @@ const O365Admin: FC = () => {
                   name="msUsername"
                   control={control}
                   render={({ field, ...props }) => (
-                    <FormInput label={t("Email")} {...field} {...props} />
+                    <FormInput
+                      label={t("Email")}
+                      inputProps={{
+                        autoComplete: "new-password",
+                        form: {
+                          autocomplete: "off",
+                        },
+                      }}
+                      {...field}
+                      {...props}
+                    />
                   )}
                 />
                 <Controller

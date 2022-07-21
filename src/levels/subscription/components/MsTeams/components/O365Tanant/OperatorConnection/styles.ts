@@ -86,6 +86,7 @@ export const OperatorConnectionStyle = makeStyles(
     buttonWrapper: {
       display: "flex",
       justifyContent: "end",
+      marginTop: theme.spacing(3.5),
     },
     radioGroupWrapper: {
       maxWidth: 420,

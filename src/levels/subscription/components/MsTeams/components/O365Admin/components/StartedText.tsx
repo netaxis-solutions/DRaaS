@@ -1,5 +1,4 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { EntitlementsStyle } from "../styles";
@@ -29,11 +28,9 @@ const StartedText: FC = () => {
     <div className={classes.starterTextLoginScreenWrapper}>
       <div className={classes.adminBody}>
         <span>
-          {t(
-            "Please provide the credentials of a tenant administrator that has the",
-          )}
-          <Link to="#">{` ${t("appropriate rights")} `}</Link>
-          {t("within your tenant")}:
+          {`${t(
+            "Please provide the credentials of a tenant administrator",
+          )}. ${t("The admin needs to have at least these rights")}:`}
         </span>
         <ul className={classes.startTextItemUl}>
           {appropriateRightsList.map((el: string) => (
