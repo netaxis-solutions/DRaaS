@@ -33,7 +33,10 @@ const PasswordModal: FC<{ formId: string }> = ({ formId }) => {
     confirmPassword: "",
   };
 
-  const { control, handleSubmit } = useForm<any>({
+  const { control, handleSubmit } = useForm<{
+    confirmPassword: string;
+    password: string;
+  }>({
     resolver: yupResolver(
       object().shape({
         password: string().label(t("Password")).min(8),

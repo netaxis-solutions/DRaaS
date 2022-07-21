@@ -6,8 +6,6 @@ import { TMsTeamCheck } from "utils/types/msTeam";
 import CardWrapper from "components/CardWrapper";
 import { StrokeAlert } from "components/Icons";
 import { StrokeSuccessCircle } from "components/Icons";
-// Wait Backend implementation
-// import ButtonWithIcon from "components/common/Form/ButtonWithIcon";x
 
 import { OperatorConnectionStyle } from "./styles";
 
@@ -64,16 +62,6 @@ const AdminIntegrationPage: FC<{ data: TMsTeamCheck }> = ({ data }) => {
           </div>
         }
       />
-
-      {
-        // Wait Backend implementation
-        /* <div className={classes.buttonWrapper}>
-        <ButtonWithIcon
-          title={t("Enable integrations")}
-          onClick={}
-        />
-      </div> */
-      }
     </div>
   );
 };
