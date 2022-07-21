@@ -250,7 +250,8 @@
         "blue": "#484CBA",
         "steel": "#828282",
         "titleColor":"#323D69",
-        "disabledColor":"#B4BDC2"
+        "disabledColor":"#B4BDC2",
+        "newTextColor":" #374151"
       },
       "backgrounds": {
         "whiteSmoke": "#F9F9F9",

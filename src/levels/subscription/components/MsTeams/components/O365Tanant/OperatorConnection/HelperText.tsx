@@ -9,6 +9,7 @@ import { StrokeAlert } from "components/Icons";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 
 import { OperatorConnectionStyle } from "./styles";
+import { Typography } from "@material-ui/core";
 
 const HelperText: FC<{
   error: boolean;
@@ -24,7 +25,7 @@ const HelperText: FC<{
   const { unlinkOperatorConnection } = CloudConnection;
 
   return (
-    <div className={classes.helperTextWrapper}>
+    <Typography variant="subtitle1" className={classes.helperTextWrapper}>
       {error && (
         <div className={classes.textWithIcon}>
           <div>
@@ -94,7 +95,7 @@ const HelperText: FC<{
           />
         </div>
       )}
-    </div>
+    </Typography>
   );
 };
 

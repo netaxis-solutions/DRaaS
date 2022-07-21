@@ -12,8 +12,8 @@ export const OperatorConnectionStyle = makeStyles(
         height: 20,
       },
       "& svg": {
-        width: 16,
-        height: 16,
+        width: 19.5,
+        height: 18.5,
       },
     },
     boldText: {
@@ -126,6 +126,7 @@ export const OperatorConnectionStyle = makeStyles(
       color: theme.body.button.cancel.text,
       marginLeft: 10,
     },
+
     userStatusInfoPage: {
       display: "flex",
       flexDirection: "column",
@@ -153,6 +154,7 @@ export const OperatorConnectionStyle = makeStyles(
     twoStepText: {
       display: "flex",
       flexDirection: "column",
+      gap: theme.spacing(1),
     },
   }),
 );

@@ -19,8 +19,8 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   checkboxStyling: {
-    color: `${theme.body.checkbox.label.text} !important`,
     fontSize: "1.4rem",
+    color: theme.body.general.textStyle.newTextColor,
     "& a": {
       textDecoration: "none",
       color: theme.body.general.textStyle.link,
@@ -65,6 +65,11 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   },
   starterTextLoginScreenWrapper: {
     paddingTop: theme.spacing(1.85),
+    "& span, ul": {
+      fontSize: "1.6rem",
+      lineHeight: "2rem",
+      color: theme.body.general.textStyle.newTextColor,
+    },
   },
   startTextItemUl: {
     marginLeft: theme.spacing(2.5),
