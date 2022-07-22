@@ -12,6 +12,10 @@ const SubscriptionNumbersPage = lazy(
 );
 const Licenses = lazy(() => import("./components/Licenses"));
 const MsTeams = lazy(() => import("./components/MsTeams"));
+const SipTrunks = lazy(() => import("./components/SipTrunks"));
+const SipTrunkAdd = lazy(
+  () => import("./components/SipTrunks/components/SipTrunkDetail"),
+);
 const SubscriptionProfile = lazy(
   () => import("./components/SubscriptionProfile"),
 );
@@ -89,8 +93,13 @@ const Subscription = () => {
       />
       <Route
         exact
-        path={allAvailvableRouting.subscriptionSIPTrunks}
-        component={() => <div>subscriptionSIPTrunks</div>}
+        path={`${allAvailvableRouting.subscriptionSIPTrunks}`}
+        component={() => <SipTrunks />}
+      />
+      <Route
+        exact
+        path={`${allAvailvableRouting.subscriptionSIPTrunks}/:sipID/:tabID?`}
+        component={() => <SipTrunkAdd />}
       />
       <Route
         exact

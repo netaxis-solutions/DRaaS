@@ -71,7 +71,8 @@
         "background": "#FFFFFF",
         "border": "1px solid #C0C0C0 ",
         "icon": {
-          "color": "#C0C0C0"
+          "color": "#C0C0C0",
+          "iconButtonArrow":"#3664F7"
         }
       },
       "error": {
