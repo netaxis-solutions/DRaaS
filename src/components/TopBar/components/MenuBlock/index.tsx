@@ -18,6 +18,7 @@ const MenuBlock: React.FC = memo(() => {
           onClick={() => setCurrentLevel(loggedInUserLevel)}
         />
       )),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [topMenu],
   );
 

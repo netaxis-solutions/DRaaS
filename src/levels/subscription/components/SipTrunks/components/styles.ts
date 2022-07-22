@@ -11,6 +11,11 @@ export const SipTrunksListStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItems: "center",
     gap: theme.spacing(3.85),
   },
+  sipTrunksListWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(2),
+  },
 }));
 
 export const SipTrunksDetails = makeStyles((theme: ThemeDefaultOptions) => ({

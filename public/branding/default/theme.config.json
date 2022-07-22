@@ -220,6 +220,14 @@
           "error": "#FF0000",
           "attention": "#FF8800"
         }
+      },
+      "sipTrunkCard":{
+        "background": "#FFFFFF",
+        "text": "#374151",
+        "border":"transparent",
+        "icon":{
+          "trash":"#67748E"
+        }
       }
     },
     "newCardWrapper": {

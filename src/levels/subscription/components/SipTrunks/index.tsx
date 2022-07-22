@@ -1,4 +1,3 @@
-import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
 import { observer } from "mobx-react-lite";
 import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,11 +8,15 @@ import SipTrunksStore from "storage/singletons/SipTrunks";
 import createLink from "services/createLink";
 
 import SipTrunkEmptyList from "./components/SipTrunksList/SipTrunkEmptyList";
+import ListItemWithRouting from "components/ListItemWithRouting";
+
+import { SipTrunksListStyles } from "./components/styles";
 
 const SipTrunks: FC = () => {
   const { t } = useTranslation();
 
   const { allAvailvableRouting, history } = RoutingConfig;
+  const classes = SipTrunksListStyles();
 
   const { tenantID, subscriptionID } = useParams<{
     tenantID: string;
@@ -22,19 +25,25 @@ const SipTrunks: FC = () => {
 
   const { getSipTrunksGroup, sipTrunksGroup } = SipTrunksStore;
 
-  useEffect(() => {
-    getSipTrunksGroup(tenantID, subscriptionID);
-  }, []);
+  useEffect(
+    () => getSipTrunksGroup(tenantID, subscriptionID),
+    // eslint-disable-next-line react-hooks/exhaustive-deps,
+    [],
+  );
 
-  const goTo2 = () => {
+  const goToSipTrunk = (id: number) => {
     const url = createLink({
-      url: `${allAvailvableRouting.subscriptionSIPTrunks}/${2}`,
+      url: `${allAvailvableRouting.subscriptionSIPTrunks}/${id}`,
       params: {
         tenantID,
         subscriptionID,
       },
     });
     history.push(url);
+  };
+
+  const deleteTrunk = (id: number) => {
+    console.log("DELETE", id);
   };
 
   return (
@@ -48,19 +57,18 @@ const SipTrunks: FC = () => {
       {sipTrunksGroup.length === 0 ? (
         <SipTrunkEmptyList t={t} />
       ) : (
-        <div>
-          {sipTrunksGroup.map((el: any) => (
-            <div>
-              <br />
-              <span>
-                {el.name} {"&"} {el.id}
-              </span>
-            </div>
+        <div className={classes.sipTrunksListWrapper}>
+          {sipTrunksGroup.map((el: any, index: number) => (
+            <ListItemWithRouting
+              name={el.name}
+              index={index}
+              key={el.name + el.id}
+              routeTo={() => goToSipTrunk(el.id)}
+              deleteTrunk={() => deleteTrunk(el.id)}
+            />
           ))}
         </div>
       )}
-
-      <ButtonWithIcon title="GO TO ABOBA" onClick={() => goTo2()} />
     </div>
   );
 };

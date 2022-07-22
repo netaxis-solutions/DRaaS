@@ -13,44 +13,46 @@ import { StrokeArrowLeft } from "components/Icons";
 import IconButton from "components/common/Form/IconButton";
 import Tabs from "components/Tabs";
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
+import DetailsAndSettings from "./components/DetailsAndSettings";
+import Loader from "components/Loader/Loader";
 
 import { SipTrunksDetails } from "../styles";
 
-const tabs = [
+const tabs: Tab[] = [
   {
     name: t("Details and settings"),
     id: "details",
-    component: () => <div>GGG</div>,
+    component: () => <DetailsAndSettings />,
   },
   {
     name: t("Capacity"),
     id: "capacity",
-    component: () => <div>AAA</div>,
+    component: () => <div>Capacity</div>,
   },
   {
     name: t("DIDs"),
     id: "dids",
-    component: () => <div>BBB</div>,
+    component: () => <div>DIDs</div>,
   },
   {
     name: t("Call forwarding"),
-    id: "call-forwarding",
-    component: () => <div>CCC</div>,
+    id: "callForwarding",
+    component: () => <div>Call forwarding</div>,
   },
   {
     name: t("Access details"),
-    id: "access-details",
-    component: () => <div>DDD</div>,
+    id: "accessDetails",
+    component: () => <div>Access details</div>,
   },
 ];
 
 const SipTrunkDetail: FC = () => {
   const history = useHistory();
   const classes = SipTrunksDetails();
-  const { tenantID, subscriptionID, tabID, sipID } = useParams<{
+  const params = useParams<{
     tenantID: string;
     subscriptionID: string;
-    tabID?: string;
+    tabID: string;
     sipID: string;
   }>();
   const { getSpecificSipTrunk, specificSipTrunk } = SipTrunks;
@@ -58,48 +60,45 @@ const SipTrunkDetail: FC = () => {
 
   const handleTabClick = (tabID: string) => {
     const url = createLink({
-      url: `${allAvailvableRouting.subscriptionSIPTrunks}/${sipID}/:tabID?`,
+      url: `${allAvailvableRouting.subscriptionSIPTrunks}/:sipID/:tabID?`,
       params: {
-        tenantID,
-        subscriptionID,
+        ...params,
         tabID,
-        sipID,
       },
     });
     history.push(url);
   };
 
   useEffect(() => {
-    getSpecificSipTrunk(tenantID, subscriptionID, sipID);
+    getSpecificSipTrunk(params.tenantID, params.subscriptionID, params.sipID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (!tabs.some(({ id }) => id === tabID)) {
+    if (!tabs.some(({ id }) => id === params.tabID)) {
       const url = createLink({
-        url: `${allAvailvableRouting.subscriptionSIPTrunks}/${sipID}/:tabID?`,
+        url: `${allAvailvableRouting.subscriptionSIPTrunks}/:sipID/:tabID?`,
         params: {
-          tenantID,
-          subscriptionID,
-          sipID,
+          ...params,
           tabID: tabs[0].id,
         },
       });
       history.replace(url);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabs, sipID, specificSipTrunk]);
+  }, [tabs, params.sipID]);
 
   const goBack = () => {
     const url = createLink({
       url: `${allAvailvableRouting.subscriptionSIPTrunks}`,
       params: {
-        tenantID,
-        subscriptionID,
+        ...params,
       },
     });
     history.push(url);
   };
 
+  if (params.tabID === ":tabID") return <Loader />;
   return (
     <div>
       <div className={classes.headerWrapper}>
@@ -116,17 +115,17 @@ const SipTrunkDetail: FC = () => {
 
       <Tabs
         tabs={tabs}
-        url={`${allAvailvableRouting.subscriptionSIPTrunks}/${sipID}`}
+        url={`${allAvailvableRouting.subscriptionSIPTrunks}/:sipID`}
         onTabChange={handleTabClick}
-        active={tabID}
+        active={params.tabID}
       />
       <Switch>
-        {tabs.map(({ id, component: Component }: Tab) => {
+        {tabs.map(({ id, component: Component }: any) => {
           return (
             <Route
               exact
               key={id}
-              path={`${allAvailvableRouting.subscriptionMSTeams}/${sipID}/${id}`}
+              path={`${allAvailvableRouting.subscriptionSIPTrunks}/:sipID/${id}`}
             >
               <Component />
             </Route>

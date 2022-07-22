@@ -47,3 +47,4 @@ export { default as UserDefaultAvatar } from "./UserDefaultAvatar";
 export { default as StrokeAlert } from "./StrokeAlert";
 export { default as StrokeArrowRight } from "./StrokeArrowRight";
 export { default as StrokeArrowLeft } from "./StrokeArrowLeft";
+export { default as SipTrunkingListItem } from "./SipTrunkingListItem";
