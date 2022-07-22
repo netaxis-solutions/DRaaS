@@ -15,7 +15,11 @@ const MenuEl: React.FC<MenuELType> = memo(({ menuEl, onClick }) => {
   const classes = useStyles();
   const location = useLocation();
 
-  const isActive = useMemo(() => location.pathname === menuEl.path, [location]);
+  const isActive = useMemo(
+    () => location.pathname === menuEl.path,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location],
+  );
 
   return menuEl?.path ? (
     <div

@@ -19,12 +19,18 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   checkboxStyling: {
-    color: `${theme.body.checkbox.label.text} !important`,
+    fontFamily: ['"Font"', '"Roboto"', "sans-serif"].join(","),
     fontSize: "1.4rem",
+    lineHeight: "1.7rem",
+    color: theme.body.general.textStyle.newTextColor,
     "& a": {
       textDecoration: "none",
       color: theme.body.general.textStyle.link,
     },
+  },
+  iconWrapper: {
+    display: "flex",
+    alignItems: "center",
   },
   deleteButton: {
     background: theme.body.button.cancel.background,
@@ -47,23 +53,39 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     },
   },
   formRoot: {
-    marginTop: theme.spacing(3.75),
-    maxWidth: "690px",
+    marginTop: theme.spacing(1),
+    maxWidth: "749px",
     "& > div": {
       maxWidth: "500px",
     },
     "& > div:last-child": {
-      maxWidth: "600px",
+      maxWidth: "749px",
       display: "flex",
       justifyContent: "end",
-      marginTop: theme.spacing(3.75),
+      marginTop: theme.spacing(3),
     },
+  },
+  starterTextLoginScreenWrapper: {
+    paddingTop: theme.spacing(1.85),
+    "& span, ul": {
+      fontSize: "1.6rem",
+      lineHeight: "2rem",
+      color: theme.body.general.textStyle.newTextColor,
+    },
+  },
+  startTextItemUl: {
+    marginLeft: theme.spacing(2.5),
+  },
+  startTextItemLi: {
+    padding: `${theme.spacing(0.8)}px 0`,
+  },
+  buttonWrapperLoginStep: {
+    display: "flex",
   },
   formCheckbox: {
     display: "flex",
     flexDirection: "column",
     padding: theme.spacing(1.25),
-    height: 110,
     "& label": {
       height: 30,
       "& svg": {
@@ -99,28 +121,23 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
   errorNotificationCheckbox: {
     fontSize: "1.4rem !important",
   },
-  buttonConfirm: {
-    width: 136,
-    "& span": {
-      width: "90%",
-      "& span:first-child": {
-        padding: 0,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      },
-      "& svg": {
-        fill: `${theme.body.general.icons.whiteFill} !important`,
-        width: "65%",
-
-        height: "20px",
-        paddingTop: 1,
-      },
-    },
-  },
   multiFormRoot: {
     maxWidth: "500px",
     marginTop: theme.spacing(3.75),
+  },
+  mainWrapper: {
+    display: "flex",
+    gap: theme.spacing(3.1),
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  successTextLogedStep: {
+    fontSize: "1.6rem",
+    lineHeight: "2rem",
+  },
+  successTextLogedStepBold: {
+    fontWeight: 750,
+    color: theme.body.general.textStyle.titleColor,
   },
   multiSubmitGroupRoot: {
     maxWidth: 500,
@@ -142,14 +159,20 @@ export const EntitlementsStyle = makeStyles((theme: ThemeDefaultOptions) => ({
     alignItem: "center",
     gap: theme.spacing(1.15),
     "& svg": {
-      width: 30,
+      width: 16,
+      height: 16,
     },
   },
+  adminWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: theme.spacing(1.45),
+  },
+
   errorNotification: {
     fill: theme.palette.status.error,
-    transform: "rotate(180deg)",
-    width: 20,
-    height: 20,
+    width: 16,
+    height: 16,
   },
 }));
 

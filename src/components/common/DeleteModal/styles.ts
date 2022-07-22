@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme: ThemeDefaultOptions) => ({
     zIndex: 1299,
   },
   cancelButton: {
+    color: theme.body.button.cancel.text,
+    background: theme.body.button.cancel.background,
+    border: `${theme.body.button.cancel.border} !important`,
     marginRight: theme.spacing(1.875),
     "&& svg": {
       width: 10,

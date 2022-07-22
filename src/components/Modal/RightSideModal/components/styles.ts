@@ -8,7 +8,7 @@ export const modalHeaderUseStyles = makeStyles(
       "& svg": {
         width: 7,
         height: 12,
-        fill:  theme.body.general.icons.blueFill,
+        fill: theme.body.general.icons.blueFill,
       },
       position: "sticky",
       top: 0,
@@ -27,7 +27,10 @@ export const modalHeaderUseStyles = makeStyles(
     modalHeaderTitle: {
       fontSize: "2.4rem",
       color: theme.rightSideModal.title,
-      margin: `0 ${theme.spacing(1.75)}px`,
+      lineHeight: "3rem",
+      textTransform: "lowercase",
+      fontVariant: "small-caps slashed-zero",
+      fontWeight: 750,
     },
     modalHeaderTitleWrapper: {
       display: "flex",

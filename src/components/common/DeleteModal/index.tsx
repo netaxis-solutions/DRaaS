@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TablePagination from "storage/singletons/TablePagination";
 
 import ButtonWithIcon from "components/common/Form/ButtonWithIcon";
-import { Cross, Trash } from "components/Icons";
+import { Cross } from "components/Icons";
 import SingleDeleteForm from "./components/SingleDeleteForm";
 import useStyles from "./styles";
 
@@ -27,7 +27,6 @@ const DeleteModal: React.FC<Props> = ({
   selectedElementName,
   deleteTitle,
   cancelTitle,
-  deleteIcon,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -63,7 +62,6 @@ const DeleteModal: React.FC<Props> = ({
           <div>
             <ButtonWithIcon
               onClick={handleCancel}
-              icon={Cross}
               title={cancelTitle || t("Cancel")}
               className={classes.cancelButton}
             />
@@ -75,7 +73,6 @@ const DeleteModal: React.FC<Props> = ({
                 handleCancel();
                 resetCurrentPage();
               }}
-              icon={deleteIcon || Trash}
               title={deleteTitle || t("Delete")}
               variant="contained"
             />

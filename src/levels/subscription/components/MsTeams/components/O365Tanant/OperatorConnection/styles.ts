@@ -12,12 +12,44 @@ export const OperatorConnectionStyle = makeStyles(
         height: 20,
       },
       "& svg": {
-        width: 20,
-        height: 20,
+        width: 19.5,
+        height: 18.5,
       },
     },
     boldText: {
       fontWeight: 700,
+    },
+    boldTextAdminAccount: {
+      fontWeight: 750,
+      fontSize: "1.6rem",
+      lineHeight: "2rem",
+    },
+    boldTitle: {
+      fontWeight: 750,
+      color: theme.body.general.textStyle.titleColor,
+    },
+    disabledText: {
+      color: theme.body.general.textStyle.disabledColor,
+      fontSize: "1.4rem",
+      lineHeight: "1.7rem",
+    },
+    textAdminAccount: {
+      fontSize: "1.6rem",
+      lineHeight: "2.4rem",
+    },
+    adminIntegrationTitle: {
+      fontSize: "1.6rem",
+      lineHeight: "2.4rem",
+      fontWeight: 400,
+    },
+    integrationData: {
+      textOverflow: "ellipsis ",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      width: 460,
+      color: theme.body.general.textStyle.disabledColor,
+      fontSize: "1.4rem",
+      lineHeight: "1.7rem",
     },
     shortCodeTextWrapper: {
       marginTop: 24,
@@ -54,6 +86,7 @@ export const OperatorConnectionStyle = makeStyles(
     buttonWrapper: {
       display: "flex",
       justifyContent: "end",
+      marginTop: theme.spacing(3.5),
     },
     radioGroupWrapper: {
       maxWidth: 420,
@@ -94,6 +127,7 @@ export const OperatorConnectionStyle = makeStyles(
       color: theme.body.button.cancel.text,
       marginLeft: 10,
     },
+
     userStatusInfoPage: {
       display: "flex",
       flexDirection: "column",
@@ -114,13 +148,14 @@ export const OperatorConnectionStyle = makeStyles(
       display: "flex",
       gap: theme.spacing(1.875),
       "& svg": {
-        width: 20,
-        height: 20,
+        width: 16,
+        height: 16,
       },
     },
     twoStepText: {
       display: "flex",
       flexDirection: "column",
+      gap: theme.spacing(1),
     },
   }),
 );
