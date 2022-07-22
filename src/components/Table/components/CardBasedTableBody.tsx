@@ -9,14 +9,15 @@ import { CardBasedTableBodyType } from "utils/types/tableConfig";
 
 import TableRowCard from "./TableRowCard";
 
-import { useTableBodyStyles } from "./styles";
+import { useCardBasedBodyLayout } from "./styles";
 
 const CardBasedTableBody: React.FC<CardBasedTableBodyType> = ({
   page,
+  pageWithSidebarLayout = false,
   prepareRow,
   handleLoadNext,
 }) => {
-  const classes = useTableBodyStyles();
+  const classes = useCardBasedBodyLayout({ pageWithSidebarLayout });
   const { t } = useTranslation();
   const { currentToken, getNewTableData } = TableInfiniteScroll;
 

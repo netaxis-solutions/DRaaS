@@ -71,6 +71,7 @@ export type TableProps = {
     filterConditions: (rowData: Row<TableData>) => boolean;
   };
   cardBasedLayout?: boolean;
+  pageWithSidebarLayout?: boolean;
   handleLoadNext?: (
     token: string,
     setNewToken: (newToken: string) => void,
@@ -105,6 +106,7 @@ export type TableBodyType = {
 
 export type CardBasedTableBodyType = {
   page: Row<TableData>[];
+  pageWithSidebarLayout?: boolean;
   prepareRow: (row: Row<TableData>) => void;
   handleLoadNext: (
     token: string,

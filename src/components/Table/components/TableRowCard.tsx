@@ -34,19 +34,21 @@ const TableRowCard: React.FC<{
       <div className={classes.userAvatar}>
         <UserDefaultAvatar />
       </div>
-      <div className={classes.actionsMenuButton}>
-        <div onClick={handleMenu}>
-          <ThreeVerticalDots />
+      {actions && (
+        <div className={classes.actionsMenuButton}>
+          <div onClick={handleMenu}>
+            <ThreeVerticalDots />
+          </div>
+          <AppMenu
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            onClose={handleCloseMenu}
+            className={classes.menuStyles}
+          >
+            <div onClick={handleCloseMenu}>{actions?.render("Cell")}</div>
+          </AppMenu>
         </div>
-        <AppMenu
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-          onClose={handleCloseMenu}
-          className={classes.menuStyles}
-        >
-          <div onClick={handleCloseMenu}>{actions?.render("Cell")}</div>
-        </AppMenu>
-      </div>
+      )}
       <div>{selection?.render("Cell")}</div>
       <div className={classes.cellsWrapper}>
         {cellToRender.map(cell => {
